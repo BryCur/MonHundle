@@ -1,0 +1,22 @@
+{{NavigationHabitats}}
+
+Savannas are large fields of grass with some trees that are found in hot and dry regions. It is a rare environment in the Monster Hunter series, as only couple areas can be described as savannas, and those environments also tend to have desert areas to them.<!-- I do not think the ancestral steppe should count as a savanna, it is a steppe. so I did not include it (I do think perhaps a grassland environment category would be good to include?)
+also FYI the descriptions of the environments are coped and pasted from the desert page. there's not a real reason to write a new description. -->
+
+== [[Sixth Generation]] ==
+
+=== [[Windward Plains]] ===
+A vast locale that is both desert and savanna. The locale contains two gigantic open areas, one featuring a savanna environment with yellow grass and trees that has a river flowing through; the other area is a barren stretch of sand dunes. Between the two areas are a number of smaller cave-like zones. The locale also has a giant ring-like structure, and many pillar-like structures that function as lightning rods. Inside of the Windward Plains lies the village of [[Kunafa]], which produces cheese and works with [[Seikret|Seikrets]].
+
+During the Fallow period, the area features a desaturated color palette and yellowed, dehydrated flora. During the Inclemency period, a giant thundering sandstorm sweeps across the area, during which the apex [[Rey Dau]] becomes active. The plains are buffeted by sand and constant lightning strikes. The giant ring-like structure also lights up due to the ore around its base. During the Plenty period, color returns to the plains as the area becomes vibrant and lush.
+
+== [[Third Generation]] ==
+
+=== [[Sandy Plains]] ===
+The Sandy Plains is mainly a savannah region, with a couple large desert areas. As a savannah, the locale has light vegetation. There is also an area with a mud pit. In the distance of some areas, a giant tree can be seen, though it cannot be visited. The edge of the area has some desert environments. Ruins are dotted throughout the plains.
+
+The area returns in [[Monster Hunter Rise]]. It is largely the same, though some areas have received some changes, and some new areas have been added, such as a second muddy area. The giant tree is less prominent, however the ruins in this locale have become more prominent.
+
+In the third generation, Areas 8, 9, and 10 require cool drinks during the day, and hot drinks during the night.
+
+[[Category:Habitats]]

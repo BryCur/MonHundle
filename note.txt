@@ -1,0 +1,17 @@
+Need to find: monster name-------------
+
+7 indices sur loldle: genre, role, espèce, ressource, type de portée, region, année sortie
+
+indice pour MH: 5-6 
+- habitat: forêt, désert, volcan, plaine, marais, jungle
+- Ordre: temnocera, flying wyv., brute wyv, ... ------------------------
+- generation: 1-6 (1: MH, MH dos, 2: MHF, MHFU, 3: MHtri, ...)
+	- première & dernière apparition? --------------------------
+	- extension comme titre à part entière
+- Element/affliction infligée: eau, feu, ..., para, poison, ...
+- faiblesse: pareil qu'au dessus
+- threat level?
+- régime alimentaire? poisson / viande / plantes / omni / charogne
+
+
+comment gérer les risen? on les compte comme mob à part?

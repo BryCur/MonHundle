@@ -1,0 +1,77 @@
+{{NavigationHabitats}}
+
+Ruins are the remains of ancient civilizations that ended long before the Monster Hunter series takes place. As these places are no longer inhabited by people, nature has taken over, and monsters roam once more. Ruins are littered throughout many locales, but ruin locales are areas that consist for a large part of ruins. [[The New World]] notably lacks any ancient ruins.
+
+== [[Sixth Generation]] ==
+
+=== [[Scarlet Forest]] ===
+The Scarlet Forest is a lush forest full of ruined buildings that have been inhabited by the [[Wudwud]].
+
+=== [[Oilwell Basin]] ===
+The Oilwell Basin is a deep cavern where as its name suggests, oil wells up from the ground and accumulates in deep pools of oilsilt. Most notably, there are multitudes of ancient, giant pipes and tubes that may have once connected.
+
+=== [[Iceshard Cliffs]] ===
+
+=== [[Spoiler Locale 1]] ===
+
+== [[Fifth Generation]] ==
+
+=== [[Shrine Ruins]] ===
+The Shrine Ruins is a forested mountain region, consisting of grasslands, forests, and rivers. A land of greenery brimming with impressive biodiversity, its most notable feature is the remnants of an old village where the ancestors of the people of [[Kamura]] used to live.<!-- You could make a point for shrine ruins not containing enough ruins to be considered a ruins map, but since it has ruins in the name, I'm counting it -->
+
+=== [[Coral Palace]] ===
+The Nesting place of [[Thunder Serpent Narwa]] and [[Wind Serpent Ibushi]], this is the ruins of a Japanese styled palace surrounded by coral, similar to the coral highlands. Among the ruins lie functioning siege equipment, which are lifted up by the Storm Serpents during combat. There is also a splitting wyvernshot. [[Narwa the Allmother]] is fought in the cave below the locale.
+
+=== [[Citadel]] ===
+The citadel is a very diverse locale. Aside from the central neutral areas, it is separated into 3 sections: the castle ruins, the icy mountains, and the forested region.
+
+The castle ruins are very barren, with very little plant life, but is notable for the large castle that stands here. This section is the home of [[Malzeno]].
+
+The icy mountains is cold and snowy, allowing for ice monsters to inhabit this region. It also has a frozen cave, and has a few ruins. It is the home of [[Lunagaron]].
+
+The forest is lush area, filled with plant life. There is some water, and one are in particular that's covered in tree sap. It is the home of [[Garangolm]].
+
+=== [[Yawning Abyss]] ===
+The home of [[Gaismagorm]], this is a cavern located below a set of ruins outside the Citadel. The cave itself has ruins and waterfalls.
+
+== [[Fourth Generation]] ==
+
+=== [[Ancestral Steppe]] ===
+The Ancestral steppe is a large grassy valley filled with ruins with have blended into the landscape, with much of the grass being carried by the wind. The grass in this region is yellow, and the ruins as well as the rock in a number of areas is red. Two areas are somewhat forested, one having foliage to stand on and the other having tall, orange-leafed trees far above. Going further north takes one to several rocky cliff-side areas. Far in the distance, tall mountains can be seen.
+
+=== [[Heaven's Mount]] ===
+Heaven's mount is a region high in the mountains, consisting of ancient ruins precariously suspended up high. Various vines, ropes and rocks keep the area from collapsing, but rubble can constantly be seen falling. Most of the area is relatively barren, but it does have one forested area. One area is notable for the perpetual lightning storm.
+
+=== [[Sanctuary]] ===
+The place where [[Shagaru Magala]] is fought, it consists of one area which is a field surrounded by ruins just outside Heaven's Mount. Its basecamp is the same as the one in Heaven's Mount, except you enter the opposite way. In the middle of the field is a large rock, which can be used to take cover from monsters. In certain quests, monsters other than Shagaru magala can be fought here.
+
+=== [[Ruined Pinnacle]] ===
+The Ruined Pinnacle is a mountain abundant in plantlife, containing ancient ruins, some of which are even underwater. The locale has many caves and impressive waterfalls. Its most distinct feature is the giant tower brimming with dragon energy found at its peak, which stretches far above the clouds, and is the home of [[Valstrax]].
+
+=== [[Forlorn Citadel]] ===
+The Forlorn Citadel consists of a single area and is only inhabited by [[Ahtal-Ka]]. The area is the ruins of a large fortress. As the hunt progresses, the walls of the citadel become covered in silk. After Ahtal-Ka is slain, the ruins come crumbling down to reveal a vast, open desert.
+
+== [[Third Generation]] ==
+
+=== [[Underwater Ruin]] ===
+The Underwater Ruin is the place where [[Ceadeus]] is fought. It consists of 3 cavernous underwater areas filled with ruins. The area is very linear, due to the goal of dealing enough damage to Ceadeus to initiate the final phase. The third area especially is very large, both vertically and horizontally, and contains ballistae and a dragonator. This is also the only place where [[Abyssal Lagiacrus]] is fought.
+
+== [[Second Generation]] ==
+
+=== [[Tower 1]] ===
+The tower is the ruins of an ancient tower, and is an extremely unique area in the Monster Hunter series. Although it is a special locale, it has as many areas as a normal locale as well as small monsters. What sets it apart is the fact that its areas are laid out in a completely linear order, and certain large monsters never leave the top of the tower. The tower mainly serves as a place to fight powerful monsters such as [[Rare Species|rare species]] and certain [[Elder Dragon|elder dragons]]. The tower has 3 variations, with [[Tower 2]] being the place [[Yama Tsukami]] can be fought, with the top being a ring-like structure, and [[Tower 3]] being a large arena.
+
+Tower 1 would later return in the fourth generation as [[Tower Summit]], including only the top of the tower. Tower 3 would return in the third, fourth and fifth generations, with the latter renaming it to [[Forlorn Arena (MHRS)|Forlorn Arena]].
+
+== [[First Generation]] ==
+
+=== [[Castle Schrade]] ===
+This abandoned castle serves as the location for the fight against [[Fatalis]]. It has appeared in the first, second, fourth and fifth generations, and its appearance differs greatly in the fourth and fifth generations.
+
+In the first generation, it consists of two large grassy fields surrounded by castle walls. Although these are two fields, it is one area. The sky is red, and beyond the castle walls is more grassy fields.
+
+In the fourth generation, the castle is completely different in appearance, and you no longer fight on grassy fields, instead fighting on a platform in front of the castle. The sky is now dark blue, with there being a vortex where the sun would be. The castle now also has ballistae, cannons and dragonators, one of which is red. [[White Fatalis]] is also fought here, as opposed to the tower.
+
+In the fifth generation, castle schrade looks somewhat similar to its previous iteration, although the sky is now orange, and the platform you fight on is much larger and has a different layout. Along with the previous siege equipment, there is now a roaming ballista, as well as cover and a gate to hide from Fatalis' fire.
+
+[[Category:Habitats]]

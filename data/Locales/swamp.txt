@@ -1,0 +1,29 @@
+{{NavigationHabitats}}
+
+Swamps are wetlands that are typically somewhat forested. Due to it being forested, there is a large amount of overlap between swamps, jungles and forests in terms of the monsters that inhabit these regions, and it is very common for other regions to have swamp-like aspects to them, such as the [[Shrine Ruins]] and [[Primal Forest]].
+
+== [[Fifth Generation]] ==
+
+=== [[Citadel]] ===
+The citadel is very diverse. Aside from the neutral central areas, it is separated into 3 sections: the castle ruins, the icy mountains, and the forested swamp. The castle ruins are  barren, with very little plant life, and is notable for the large castle that stands here. This section is the home of [[Malzeno]]. The icy mountains are cold and snowy, allowing ice monsters to inhabit this region. It also has a frozen cave and a few ruins. It is the home of [[Lunagaron]]. The forested swamp is lush and filled with plant life. There is some water, and one area is covered in tree sap. It is the home of [[Garangolm]].<!-- I personally wouldn't put the citadel here, but its page lists it as a swamp, which appears to predate the wiki being public. so I will include it here, and will describe the forested area as a swamp. if someone disagrees enough to remove it, please ensure this description is put on another page so it doesn't need to be rewritten. -->
+
+== [[Third Generation]] ==
+
+=== [[Flooded Forest]] ===
+The Flooded Forest is a thick, forested wetland, featuring elements from both jungles and swamps. Much of the terrain here is covered in puddles and deep lakes. An ancient structure, seemingly a temple, rises from the far reaches of the locale. In [[Monster Hunter 3]] and [[Monster Hunter 3 Ultimate|3 Ultimate]], several areas are flooded, allowing hunters to swim in them. However, as swimming is not present in [[Monster Hunter Portable 3rd]] and [[Monster Hunter Rise|Rise]], these areas are shallow.
+
+== [[Second Generation]] ==
+
+=== [[Swamp]] ===
+The swamp, also known as the Marshlands, is extremely similar to its first generation counterpart, including the exact same areas with a different layout and some changes in fog. In the second generation, however, poison pools up at night inflicting unwary hunters who step in them with poison. In addition, it rains in this locale in the second generation.
+
+Hot drinks are required in the cave areas of this locale.
+
+== [[First Generation]] ==
+
+=== [[Old Swamp]] ===
+The old swamp is a forested wetland. The southern areas are forested, and covered in a thick layer of fog. North of that are a number of watery areas, filled with plants that thrive in watery terrain. Northeast is a large, open field of yellow grass. Connected to several areas are small, cold caves filled with glowing crystals.
+
+Hot drinks are required in the caves of this locale.
+
+[[Category:Habitats]]

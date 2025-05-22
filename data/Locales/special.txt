@@ -1,0 +1,143 @@
+{{NavigationHabitats}}
+
+Special Locales are areas reserved for a select few hunts against very powerful monsters, and often only have one Area. Special Locales are typically made with a specific monster in mind, but it's common for these locales to be inhabited by other monsters as well, especially in the fourth generation. There are also a number of Special Locales not made for any particular monster, but instead as an arena to fight many kinds of powerful monsters.
+
+== [[Sixth Generation]] ==
+
+=== [[Spoiler Locale 2]] ===
+
+=== [[Spoiler Locale 3]] ===
+
+== [[Fifth Generation]] ==
+
+=== [[Great Ravine]] ===
+The Great Ravine is the stage of the first battle against [[Zorah Magdaros]]. The area consists of a number of ledges and a large wooden barricade. All of these have cannons and ballistae. Other than Zorah Magdaros, this locale is also inhabited by [[Barnos]]. [[Nergigante]] also temporarily appears.
+
+Uniquely, there is another version of the Great Ravine that is visited after the Zorah Magdaros hunt. This version of the locale is significantly smaller and is mostly a straight path with some characters to talk to.
+
+Unlike most locales, the Great Ravine cannot be revisited normally. The version from the hunt can be revisited by joining someone else's quest, but the second version can only be seen once per save file.
+
+=== [[Everstream]] ===
+The Everstream is an enormous cavern bordering lava and the ocean. It is filled with stalactites and stalagmites, large and small. The large ones are rigged with explosives. Much like the Great Ravine, there is a wooden barricade with siege equipment.  Unlike the Great Ravine however, this locale has a boat with a dragonator.
+
+=== [[Confluence of Fates]] ===
+This locale is the home and place of birth of [[Xeno'jiiva|Xeno'Jiiva]]. It is located within the [[Elder's Recess]], and can be seen from that Locale. The locale is made out of glowing crystals, and the base camp is has a river. There are two areas where you fight Xeno'jiiva, and you move automatically to the second once Xeno'jiiva is hurt enough.
+
+=== [[Caverns of El Dorado]] ===
+This locale is the home of [[Kulve Taroth]]. The Caverns of El Dorado are covered entirely in gold. The walls, ceiling, floors and all life here is covered in gold. Deeper in the caverns is also a volcanic area. These caverns also have a large number of exclusive [[endemic life]]. Unlike most Special Locales, these caverns consist of multiple areas. But unlike normal locales, these are laid out in an entirely linear order, which you go through as you hunt Kulve Taroth. 
+
+The volcanic area of the Caverns of El Dorado requires [[cool drinks]].
+
+=== [[Seliana Supply Cache]] ===
+This area is the stage of the defence against [[Velkhana]]. It is snowy and is located in [[Seliana]] (though it cannot be accesses from the town). It contains a fence like the Arena, and some siege equipment like the Special Arena, although without a dragonator. The area does have a roaming ballista, and a unique siege weapon called the [[dragonrazer]].
+
+After the defence against Velkhana, the only way to revisit this area besides joining another's quest is via certain [[event quests]].
+
+This area requires hot drinks.
+
+=== [[Origin Isle]] ===
+This locale is the nest of [[Shara Ishvalda]]. Origin Isle is a barren island made entirely out of rock, with no plantlife anywhere. It is in the shape of a lotus. The sky in this locale is perpetually red. It has two versions: one for the hunt against [[Ruiner Nergigante]], the other for the hunt against Shara Ishvalda. The former can only be revisited via an event quest. As the hunt against Shara ishvalda progresses, the area changes appearance: first the walls are destroyed when Shara Ishvalda removes its rock armor. After that, the large petal-shaped rocks start collapsing as Shara Ishvalda moves closer to death.
+
+=== [[Secluded Valley]] ===
+This is the nest of [[Safi'jiiva]], and is located deep within the [[Guiding Lands]]. It is a completely lifeless place. A notable feature is the large amount of shed Xeno'jiiva hide in the area. The bottom of the valley also has explosive environmental traps, though these are not present when hunting [[Alatreon]].
+
+=== [[Red Stronghold]] ===
+The Red Stronghold is a large fortress protecting [[Kamura Village]]. It is the only area where [[rampage]] quests can be undertaken, and as such features a unique mechanic of being able to place siege equipment, and large monsters attack in large groups. Other than the siege equipment you can place, the Red Stronghold also has a dragonator and a splitting wyvernshot. The stronghold features two gates that monsters aim to attack.
+
+=== [[Coral Palace]] ===
+The Nesting place of [[Thunder Serpent Narwa]] and [[Wind Serpent Ibushi]], this is the ruins of a Japanese styled palace surrounded by coral, similar to the coral highlands. Among the ruins lie functioning siege equipment, which are lifted up by the Storm Serpents during combat. There is also a splitting wyvernshot. [[Narwa the Allmother]] is fought in the cave below the locale.
+
+=== [[Infernal Springs]] ===
+The ruins of a Japanese style palace in the mountains, and a spring of hot water. The water in this area is red, and the colour of the sky changed drastically from day to night. This locale is not tied to any specific monster, but in Monster Hunter Rise, it is the only place where [[Violet Mizutsune]] and [[Amatsu]] can be fought.
+
+=== [[Yawning Abyss]] ===
+The home of [[Gaismagorm]], this is a cavern located below a set of ruins outside the [[Citadel]].  The cave itself has ruins and waterfalls.
+
+== Fourth Generation ==
+
+=== [[Sanctuary]] ===
+The place where [[Shagaru Magala]] is fought, it is a field surrounded by ruins just outside [[Heaven's Mount]]. Its basecamp is the same as the one in Heaven's Mount, except you enter the opposite way. In the middle of the field is a large rock, which can be used to take cover from monsters. In certain quests, monsters other than Shagaru magala can be fought here.
+
+=== [[Speartip Crag]] ===
+The location where [[Dalamadur]] is fought, the Speartip Crag is a small cliff standing against a giant spiralling pillar-like rock. A notable feature of this locale is the acid at the bottom.
+
+=== [[Ingle Isle]] ===
+This volcanic island is the home of many powerful monsters such as [[Akantor]] and [[Crimson Fatalis]]. It functions as an equivalent to similar special locales in previous generations. Parts of the ground can be lowered by monster attacks. 
+
+This locale required cool drinks.
+
+=== [[Great Sea]] ===
+The Great Sea is a rarely used locale, you can only visit it once during the story in a non-repeatable quest, and in one event quest. It consists of the Arluq on a stormy ocean, and is extremely similar to the Great Desert. The ship has cannons, ballistae, and a dragonator. 
+
+=== [[Battlequarters]] ===
+The Battlequarters is an updated version of Town from the second generation. it is located within [[Dundorma]]. In fact, the base camp is the same location as Dundorma in [[Monster Hunter 4 Ultimate]]. The area has a mobile cannon, ballistae, dragonators and a large cannon known as [[the demolisher]]. This area is most notably the place where [[Rusted Kushala Daora]] and [[Gogmazios]] are fought, but certain other elder dragons can also appear. Unlike most special locales, the Battlequarters consists of 3 Areas, two of which certain monsters can move between.
+
+=== [[Wyvern's End]] ===
+Wyvern's End is the nest of [[Nakarkos]], and is a giant water cave filled with bones. The bones can become a hazard when inflicted with the [[mucus]] status, and Nakarkos is also able to pull skulls out of the floor to use in combat. When Nakarkos is enraged, the area will glow blue, and when it is slain, it blasts a hole in the ceiling.
+
+=== [[Forlorn Citadel]] ===
+The Forlorn Citadel consists of a single area and is only inhabited by [[Ahtal-Ka]]. The area is the ruins of a large fortress. As the hunt progresses, the walls of the citadel become covered in silk. After Ahtal-Ka is slain, the ruins come crumbling down to reveal a vast, open desert.
+
+== [[Third Generation]] ==
+
+=== [[Underwater Ruin]] ===
+The Underwater Ruin is the place where [[Ceadeus]] is fought. It consists of 3 cavernous underwater areas filled with ruins. The area is very linear, due to the goal of dealing enough damage to Ceadeus to initiate the final phase. The third area especially is very large, both vertically and horizontally, and contains ballistae and a dragonator. This is also the only place where [[Abyssal Lagiacrus]] is fought.
+
+=== [[Great Desert]] ===
+The Great Desert is the location where [[Jhen Mohran]] and [[Dah'ren Mohran]] are fought. The desert itself is featureless, other than its sheer size. For the first phase of both fights, you are on a ship, and cannot stand on the sand. During the second phase, the ship stops and you are able to walk on the sand. This area is also inhabited by [[Delex]]. The ship has Ballistae, a gong, cannons and a dragonator.
+
+=== [[Sacred Land]] ===
+The Sacred Land is a lava-filled volcanic area, and is exclusively inhabited by Alatreon. It has waterfalls of lava, two lava lakes. In monster hunter 3 Ultimate, it also has Ballistae.
+
+Cool drinks are required for this area.
+
+=== [[Sacred pinnacle|Sacred Pinnacle]] ===
+A mountaintop near [[Yukumo]], this serves as the arena to fight Amatsu in the third and fourth generation. It has some grass and trees. The sky is perpetually red, even if Amatsu isn't in the area, but the sky clears up after Amatsu's death. In [[Monster Hunter Generations Ultimate]], a number of deviants can also be fought here, such as [[Redhelm Arzuros]].
+
+=== [[Lava Canyon]] ===
+This locale serves as the arena for Akantor in [[Monster Hunter Portable 3rd]]. It has similarities to similar locales such as the Sacred Land or Ingle Isle, but stands out by having the ruins of an ancient city in the background.
+
+Cool drinks are required for this locale.
+
+=== [[Polar Field]] ===
+This icy arena was first introduced in portable 3rd, where it was exclusively inhabited by [[Ukanlos]]. In this game the locale is always set at night and features the aurora. Polar Field returned in Monster Hunter 4 Ultimate and [[Monster Hunter Generations|Generations]], where hunts on in this area now take place during the day. A number of other special monsters such as Rusted Kushala Daora and [[Elderfrost Gammoth]] now inhabit this region.
+
+Hot drinks are required for this locale.
+
+=== [[Tainted Sea]] ===
+The Tainted sea consists of a beach and a sea, and is the place where [[Dire Miralis]] is fought. Both the water and sky in this area are red, and there is the wreckage of a ship, which still has a functioning dragonator. [[Port Tanzia]] can be seen in the background.
+
+== [[Second Generation]] ==
+
+=== [[Tower]] ===
+The tower is the ruins of an ancient tower, and is an extremely unique area in the Monster Hunter series. Although it is a special locale, it has as many areas as a normal locale as well as small monsters. What sets it apart is the fact that its areas are laid out in a completely linear order, and certain large monsters never leave the top of the tower. The tower mainly serves as a place to fight powerful monsters such as [[Rare Species]] and certain [[Elder Dragon|Elder Dragons]]. The tower has 3 variations, with tower 2 being the place [[Yama Tsukami]] can be fought, with the top being a ring-like structure, and tower 3 being the a large arena.
+
+Tower 1 would later return in the fourth generation as [[Tower Summit]], including only the top of the tower. Tower 3 would return in the third, fourth and fifth generations, with the latter renaming it to [[Forlorn Arena (MHRS)|Forlorn Arena]].
+
+=== [[Town]] ===
+The town in question is Dundorma. This area serves as a place to fight off certain elder dragons and [[Shen Gaoren]], who are attacking Dundorma. It has three areas, and the town has ballistae, cannons and a dragonator.
+
+=== [[Snowy Mountains Peak]] ===
+This special locale consists of one snowy area, with a crack in the middle that hunters cannot traverse. It serves as the arena in which Ukanlos is fought.
+
+Hot drinks are required for this area.
+
+== [[First Generation]] ==
+
+=== [[Castle Schrade]] ===
+This abandoned castle serves as the location for the fight against [[Fatalis]]. It has appeared in the first, second, fourth and fifth generations, and its appearance differs greatly in the fourth and fifth generations.
+
+In the first generation, it consists of two large grassy fields surrounded by castle walls. Although these are two fields, it is one area. The sky is red, and beyond the castle walls is more grassy fields.
+
+In the fourth generation, the castle is completely different in appearance, and you no longer fight on grassy fields, instead fighting a platform in front of the castle. The sky is now dark blue, with there being a vortex where the sun would be. The castle now also has ballistae, cannons and dragonators, one of which is red. [[White Fatalis]] is also fought here, as opposed to the tower.
+
+In the fifth generation, castle schrade looks somewhat similar to its previous iteration, although the sky is now orange, and the platform you fight on is much larger and has a different layout. Along with the previous siege equipment, there is now a roaming ballista, as well as cover and a gate to hide from Fatalis' fire.
+
+=== [[Fortress]] ===
+Fortress is located in the mountains and is build to stop monsters such as Lao-Shan Lung and Shen Gaoren from continuing on their path. It consists of multiple areas in which you hinder the giant monsters, until the final area which has a dragonator, where you must stop the monster from breaking through. The area also has cannons and ballistae, and in the fourth generation, it has a mobile cannon as well.
+
+=== [[Battleground]] ===
+The battleground is a volcanic area with lava rivers that serves as an arena for Crimson Fatalis and Akantor. It required cool drinks.
+
+[[Category:Habitats]]
+

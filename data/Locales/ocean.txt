@@ -1,0 +1,18 @@
+{{NavigationHabitats}}
+
+Oceans are vast bodies of water home to many aquatic species. Although oceans are a common sight, ocean locales are extremely rare in the Monster Hunter series, due to very few games in the series featuring underwater combat.
+
+== [[Fourth Generation]] ==
+
+=== [[Great Sea]] ===
+The Great Sea is a rarely used locale, you can only visit it once during the story in a non-repeatable quest, and in one event quest. It consists of the Arluq on a stormy ocean, and is extremely similar to the [[Great Desert]]. The ship has cannons, ballistae, and a dragonator.
+
+== [[Third Generation]] ==
+
+=== [[Deserted Island]] ===
+The Deserted Island is a grassland with some forests. Many leviathans inhabit this place, as it is directly connected to the ocean. In [[Monster Hunter 3]] and its [[Monster Hunter 3 Ultimate|expansion]], it is possible to dive into said ocean, and fight monsters within it. The [[Underwater Ruin]] is found in the depths, while the village of [[Moga]] floats on its coast. If travelled to via the gate in Moga, it will be known as the [[Moga Woods]], and monsters that don't normally inhabit the region such as [[Diablos]] will roam the area. Hunting monsters in the Moga Woods earns you points.
+
+=== [[Underwater Ruin]] ===
+The Underwater Ruin is the place where [[Ceadeus]] is fought. It consists of 3 cavernous underwater areas filled with ruins. The area is very linear, due to the goal of dealing enough damage to Ceadeus to initiate the final phase. The third area especially is very large, both vertically and horizontally, and contains ballistae and a dragonator. This is also the only place where [[Abyssal Lagiacrus]] is fought.
+
+[[Category:Habitats]]

@@ -1,0 +1,20 @@
+{{NavigationHabitats}}
+
+(description)<!-- the maps I've considered for highlands, coral highlands and ancestral steppe, share no commonalities. nor does the frontier map called highlands. so what general description do you even give?
+frankly, I think that highlands is a fairly unnecessary category given how few maps fit the description, and with how both maps with highlands in the name could go into other categories. meanwhile, I think we're sorely missing a grasslands category, or something similar.
+
+(as for frontier maps, I may add those at a later time, but main series stuff goes first. where should they go though, at the bottom?) -->
+
+== [[Fifth Generation]] ==
+
+=== [[Coral Highlands]] ===
+The coral highlands is a mountainous region filled with all kinds of coral, seashells, and other aquatic scenery. Despite what the coral and scenery may suggest, there isn't an especially large amount of water in this region, and it doesn't usually rain. The soil and rock in this area is blue, and the clouds in the sky are reminiscent of the surface of the ocean.
+
+Along with monsters that have adapted to this region such as [[Paolumu]] and [[Namielle]], monsters that have adapted to mountainous regions also inhabit the Coral Highlands, such as [[Zinogre]] and [[Kirin]].
+
+== [[Fourth Generation]] ==
+
+=== [[Ancestral Steppe]] ===
+The Ancestral steppe is a large grassy valley filled with ruins with have blended into the landscape, with much of the grass being carried by the wind. The grass in this region is yellow, and the ruins as well as the rock in a number of areas is red. Two areas are somewhat forested, one having foliage to stand on and the other having tall, orange-leafed trees far above. Going further north takes one to several rocky cliff-side areas. Far in the distance, tall mountains can be seen.<!-- After looking at images of real life highlands, besides ruins this is the environment type that fits ancestral steppe, in the absence of a grasslands category. an arguement could be made for mountains, but I think the mountains are too small of an aspect of the map, and you don't travel high enough to consider it, not to mention typical mountain monsters like zinogre and nargacuga don't go here. -->
+
+[[Category:Habitats]]

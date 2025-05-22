@@ -1,0 +1,567 @@
+[
+	{
+		"name": "Oilwell Basin",
+		"generation": 6,
+		"type": "cave"
+	},
+	{
+		"name": "Rotten Vale",
+		"generation": 5,
+		"type": "cave"
+	},
+	{
+		"name": "Lava Caverns",
+		"generation": 5,
+		"type": "cave"
+	},
+	{
+		"name": "Yawning Abyss",
+		"generation": 5,
+		"type": "cave"
+	},
+	{
+		"name": "Sunken Hollow",
+		"generation": 4,
+		"type": "cave"
+	},
+	{
+		"name": "Volcanic Hollow",
+		"generation": 4,
+		"type": "cave"
+	},
+	{
+		"name": "Windward Plains",
+		"generation": 6,
+		"type": "desert"
+	},
+	{
+		"name": "Wildspire Waste",
+		"generation": 5,
+		"type": "desert"
+	},
+	{
+		"name": "Dunes",
+		"generation": 4,
+		"type": "desert"
+	},
+	{
+		"name": "Forlorn Citadel",
+		"generation": 4,
+		"type": "desert"
+	},
+	{
+		"name": "Sandy Plains",
+		"generation": 3,
+		"type": "desert"
+	},
+	{
+		"name": "Desert",
+		"generation": 2,
+		"type": "desert"
+	},
+	{
+		"name": "Old Desert",
+		"generation": 1,
+		"type": "desert"
+	},
+	{
+		"name": "Scarlet Forest",
+		"generation": 6,
+		"type": "forest"
+	},
+	{
+		"name": "Jurassic Frontier",
+		"generation": 6,
+		"type": "forest"
+	},
+	{
+		"name": "Coral Highlands",
+		"generation": 5,
+		"type": "highland"
+	},
+	{
+		"name": "Ancestral Steppe",
+		"generation": 4,
+		"type": "highland"
+	},
+	{
+		"name": "Scarlet Forest",
+		"generation": 6,
+		"type": "jungle"
+	},
+	{
+		"name": "Ancient Forest",
+		"generation": 5,
+		"type": "jungle"
+	},
+	{
+		"name": "Primal Forest",
+		"generation": 4,
+		"type": "jungle"
+	},
+	{
+		"name": "Flooded Forest",
+		"generation": 3,
+		"type": "jungle"
+	},
+	{
+		"name": "Jungle",
+		"generation": 2,
+		"type": "jungle"
+	},
+	{
+		"name": "Great Forest",
+		"generation": 2,
+		"type": "jungle"
+	},
+	{
+		"name": "Old Jungle",
+		"generation": 1,
+		"type": "jungle"
+	},
+	{
+		"name": "Coral Highlands",
+		"generation": 5,
+		"type": "mountain"
+	},
+	{
+		"name": "Hoarfrost Reach",
+		"generation": 5,
+		"type": "mountain"
+	},
+	{
+		"name": "Shrine Ruins",
+		"generation": 5,
+		"type": "mountain"
+	},
+	{
+		"name": "Infernal Springs",
+		"generation": 5,
+		"type": "mountain"
+	},
+	{
+		"name": "Citadel",
+		"generation": 5,
+		"type": "mountain"
+	},
+	{
+		"name": "Heaven's Mount",
+		"generation": 4,
+		"type": "mountain"
+	},
+	{
+		"name": "Sanctuary",
+		"generation": 4,
+		"type": "mountain"
+	},
+	{
+		"name": "Speartip Crag",
+		"generation": 4,
+		"type": "mountain"
+	},
+	{
+		"name": "Ruined Pinnacle",
+		"generation": 4,
+		"type": "mountain"
+	},
+	{
+		"name": "Misty Peaks",
+		"generation": 3,
+		"type": "mountain"
+	},
+	{
+		"name": "Sacred pinnacle",
+		"generation": 3,
+		"type": "mountain"
+	},
+	{
+		"name": "Snowy mountains",
+		"generation": 2,
+		"type": "mountain"
+	},
+	{
+		"name": "Snowy Mountains Peak",
+		"generation": 2,
+		"type": "mountain"
+	},
+	{
+		"name": "Great Sea",
+		"generation": 4,
+		"type": "ocean"
+	},
+	{
+		"name": "Deserted Island",
+		"generation": 3,
+		"type": "ocean"
+	},
+	{
+		"name": "Underwater Ruin",
+		"generation": 3,
+		"type": "ocean"
+	},
+	{
+		"name": "Scarlet Forest",
+		"generation": 6,
+		"type": "ruin"
+	},
+	{
+		"name": "Oilwell Basin",
+		"generation": 6,
+		"type": "ruin"
+	},
+	{
+		"name": "Iceshard Cliffs",
+		"generation": 6,
+		"type": "ruin"
+	},
+	{
+		"name": "Spoiler Locale 1",
+		"generation": 6,
+		"type": "ruin"
+	},
+	{
+		"name": "Shrine Ruins",
+		"generation": 5,
+		"type": "ruin"
+	},
+	{
+		"name": "Coral Palace",
+		"generation": 5,
+		"type": "ruin"
+	},
+	{
+		"name": "Citadel",
+		"generation": 5,
+		"type": "ruin"
+	},
+	{
+		"name": "Yawning Abyss",
+		"generation": 5,
+		"type": "ruin"
+	},
+	{
+		"name": "Ancestral Steppe",
+		"generation": 4,
+		"type": "ruin"
+	},
+	{
+		"name": "Heaven's Mount",
+		"generation": 4,
+		"type": "ruin"
+	},
+	{
+		"name": "Sanctuary",
+		"generation": 4,
+		"type": "ruin"
+	},
+	{
+		"name": "Ruined Pinnacle",
+		"generation": 4,
+		"type": "ruin"
+	},
+	{
+		"name": "Forlorn Citadel",
+		"generation": 4,
+		"type": "ruin"
+	},
+	{
+		"name": "Underwater Ruin",
+		"generation": 3,
+		"type": "ruin"
+	},
+	{
+		"name": "Tower 1",
+		"generation": 2,
+		"type": "ruin"
+	},
+	{
+		"name": "Castle Schrade",
+		"generation": 1,
+		"type": "ruin"
+	},
+	{
+		"name": "Windward Plains",
+		"generation": 6,
+		"type": "savanna"
+	},
+	{
+		"name": "Sandy Plains",
+		"generation": 3,
+		"type": "savanna"
+	},
+	{
+		"name": "Hoarfrost Reach",
+		"generation": 5,
+		"type": "snowfield"
+	},
+	{
+		"name": "Frost Islands",
+		"generation": 5,
+		"type": "snowfield"
+	},
+	{
+		"name": "Frozen Seaway",
+		"generation": 4,
+		"type": "snowfield"
+	},
+	{
+		"name": "Tundra",
+		"generation": 3,
+		"type": "snowfield"
+	},
+	{
+		"name": "Polar Field",
+		"generation": 3,
+		"type": "snowfield"
+	},
+	{
+		"name": "Snowy Mountains",
+		"generation": 2,
+		"type": "snowfield"
+	},
+	{
+		"name": "Snowy Mountains Peak",
+		"generation": 2,
+		"type": "snowfield"
+	},
+	{
+		"name": "Spoiler Locale 2",
+		"generation": 6,
+		"type": "special"
+	},
+	{
+		"name": "Spoiler Locale 3",
+		"generation": 6,
+		"type": "special"
+	},
+	{
+		"name": "Great Ravine",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Everstream",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Confluence of Fates",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Caverns of El Dorado",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Seliana Supply Cache",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Origin Isle",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Secluded Valley",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Red Stronghold",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Coral Palace",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Infernal Springs",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Yawning Abyss",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Sanctuary",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Speartip Crag",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Ingle Isle",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Great Sea",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Battlequarters",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Wyvern's End",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Forlorn Citadel",
+		"generation": 5,
+		"type": "special"
+	},
+	{
+		"name": "Underwater Ruin",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Great Desert",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Sacred Land",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Sacred pinnacle",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Lava Canyon",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Polar Field",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Tainted Sea",
+		"generation": 3,
+		"type": "special"
+	},
+	{
+		"name": "Tower",
+		"generation": 2,
+		"type": "special"
+	},
+	{
+		"name": "Town",
+		"generation": 2,
+		"type": "special"
+	},
+	{
+		"name": "Snowy Mountains Peak",
+		"generation": 2,
+		"type": "special"
+	},
+	{
+		"name": "Castle Schrade",
+		"generation": 1,
+		"type": "special"
+	},
+	{
+		"name": "Fortress",
+		"generation": 1,
+		"type": "special"
+	},
+	{
+		"name": "Battleground",
+		"generation": 1,
+		"type": "special"
+	},
+	{
+		"name": "Citadel",
+		"generation": 5,
+		"type": "swamp"
+	},
+	{
+		"name": "Flooded Forest",
+		"generation": 3,
+		"type": "swamp"
+	},
+	{
+		"name": "Swamp",
+		"generation": 2,
+		"type": "swamp"
+	},
+	{
+		"name": "Old Swamp",
+		"generation": 1,
+		"type": "swamp"
+	},
+	{
+		"name": "Oilwell Basin",
+		"generation": 6,
+		"type": "volcano"
+	},
+	{
+		"name": "Elder's Recess",
+		"generation": 5,
+		"type": "volcano"
+	},
+	{
+		"name": "Lava Caverns",
+		"generation": 5,
+		"type": "volcano"
+	},
+	{
+		"name": "Volcanic Hollow",
+		"generation": 4,
+		"type": "volcano"
+	},
+	{
+		"name": "Ingle Isle",
+		"generation": 4,
+		"type": "volcano"
+	},
+	{
+		"name": "Volcano (MH3)",
+		"generation": 3,
+		"type": "volcano"
+	},
+	{
+		"name": "Sacred Land",
+		"generation": 3,
+		"type": "volcano"
+	},
+	{
+		"name": "Lava Canyon",
+		"generation": 3,
+		"type": "volcano"
+	},
+	{
+		"name": "Volcano",
+		"generation": 2,
+		"type": "volcano"
+	},
+	{
+		"name": "Old Volcano",
+		"generation": 1,
+		"type": "volcano"
+	},
+	{
+		"name": "Battleground",
+		"generation": 1,
+		"type": "volcano"
+	}
+]

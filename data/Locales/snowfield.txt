@@ -1,0 +1,53 @@
+{{NavigationHabitats}}
+
+Snowfields are a common environment across the Monster Hunter series. As the name suggests, these locales feature a freezing climate, and in turn are the homes of many ice monsters, which are usually not seen in other environments. Snowfields commonly feature many caves, which are often time covered in ice. [[Hot Drink|Hot drinks]] are required for these locales in any game that has them.
+
+<!-- I am counting all snow maps as snowfields. even though snowy mountains and frozen seaway don't contain any fields (that are covered in snow), the pages for blangonga and zamtrios both say they inhabit snowfields, which means these maps would count. a change of name could be considered.
+
+I'm not certain if the citadel or the guiding lands should be included, but seeing as the forest page (which was added first) doesn't include either, I'll follow the pattern it started. -->
+== [[Fifth generation|Fifth Generation]] ==
+
+=== [[Hoarfrost Reach]] ===
+The Hoarfrost Reach is a large snow-covered locale with a number of frigid environments. The southernmost areas are forested. The central area is a large field, with some seaside areas to its north, close to which is a whirlpool similar to the one in the frozen seaway. The northern areas are somewhat mountainous. The locale also features a number of caves, some of which are much warmer than the rest of the locale. One notable feature of the reach are its hot springs, which provide buffs for hunters. A number of areas also contain deep snow, hampering movement. The north-most area is uniquely made out of ore and is [[Velkhana]]'s nest. The shed carapace of a [[Kushala Daora]] can also be found within this locale.
+
+When Velkhana is on the map there will be an aurora in the sky during a certain time at night.
+
+Most areas of this locale require Hot Drinks to traverse.
+
+=== [[Frost Islands]] ===
+The Frost Islands is a snowy location with many water-covered areas. Some areas in this locale have trees, but for the most part is fairly barren.  Distinct features include the remains of stranded boats and the skull of a [[Zorah Magdaros]]. Due to its proximity to the sea, this locale is home to a number aquatic monsters that are not seen in other ice regions, such as [[Mizutsune]].
+
+This locale does not require any Hot Drinks, as this feature is not present in [[Monster Hunter Rise]].
+
+== [[Fourth generation|Fourth Generation]] ==
+
+=== [[Frozen Seaway]] ===
+The Frozen Seaway is a seaside ice region. Much of the locale appears to be completely made of ice, resulting in an extremely barren locale. Still, there are some rocky areas, and the [[Felyne]]'s hideout in this locale does have a number of trees. Area 4 is perpetually stormy and features the shed carapace of a Kushala daora. Outside of area 1 is a gigantic whirlpool that continuously sucks in blocks of ice. Area 2 appears to be a layer of ice floating on the sea. This area also features an aurora, and appears to be a different time of day than the rest of the locale. In certain areas, the base camp can also be spotted at a distance.
+
+This locale requires Hot Drinks to traverse.
+
+== [[Third generation|Third Generation]] ==
+
+=== [[Tundra]] ===
+The Tundra is a snowy region with flat elevation, lacking hills, slopes, and mountains. Some areas contain a large number of trees, but most of it is barren. Much of this area consists of caves, some of which are dark in Monster Hunter Tri, although this mechanic was removed in subsequent re-releases. Areas 8 and 9 can only be accessed when the following monsters ([[Deviljho]], [[Jade Barroth]], [[Brachydios]], and [[Stygian Zinogre]]) break through a hidden path in Area 1.
+
+This locale requires Hot Drinks.
+
+=== [[Polar Field]] ===
+This locale is a special arena with only one Area. It was first introduced in [[Monster Hunter Portable 3rd|Portable 3rd]], where it was exclusively inhabited by Ukanlos. In this game it is always night and features an aurora. Polar Field returned in [[Monster Hunter 4 Ultimate]] and [[Monster Hunter Generations|Generations]], where hunts in this area now take place during the day. A number of other special monsters such as [[Rusted Kushala Daora]] and [[Elderfrost Gammoth]] now inhabit this region.
+
+Hot Drinks are required for this locale.
+
+== [[Second generation|Second Generation]] ==
+
+=== [[Snowy Mountains]] ===
+Also known as the Arctic Ridge in the fourth generation, this locale's name is an accurate description. Lower areas have less snow, being instead covered in green grass. Once you climb the mountain, however, it becomes much snowier. Between the snow-covered mountaintops and the grassy lower regions lie a couple frozen caves. Large monsters mostly inhabit the mountaintops of this locale. As a result, hunting this locale is like climbing a mountain each time.
+
+The mountaintops and caves in this locale require Hot Drinks.
+
+=== [[Snowy Mountains Peak]] ===
+This special locale consists of one snowy area, with a crack in the middle that hunters cannot traverse. It serves as the arena in which Ukanlos is fought.
+
+Hot drinks are required for this area.
+
+[[Category:Habitats]]

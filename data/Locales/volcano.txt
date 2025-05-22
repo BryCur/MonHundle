@@ -1,0 +1,68 @@
+{{NavigationHabitats}}
+
+Volcanoes are fiery locales filled with lava, known for their extreme heat. Volcanoes are extremely common in the Monster Hunter series, likely due to its extreme conditions resulting in a lot of monsters that exclusively inhabit volcanoes. Volcano locales are frequently the last one unlocked in each game. In all Monster Hunter games that feature them, [[Cool Drink|Cool Drinks]] are required to traverse volcano areas.
+
+== [[Sixth Generation]] ==
+
+=== [[Oilwell Basin]] ===
+The Oilwell Basin is a large cavern filled with oil. It appears to be the ruins of a large forge or factory, featuring pipes for oil to seep through, vents for the heat to escape out of, as well as devices that may have been used for construction. Like other locales in [[Monster Hunter Wilds]], it is characterized by its three phases. During the fallow, oil flows, resulting in drab colors. During the inclemency, fire rages. During the plenty, the oil hardens and rusts, bringing some colour to the area.<!-- once more information is known about the oilwell basin, this description should be updated. -->
+
+== [[Fifth Generation]] ==
+
+=== [[Elder's Recess]] ===
+The Elder's Recess is a volcanic area filled with crystals, and is the home to many elder dragons and powerful monsters. A large portion of the locale is not volcanic, instead being a largely dark-grey rocky environment with little plant-life, and crystals in some areas. The volcanic areas of the locale feature a very large amount of lava seen in the distance. From much of the Elder's Recess, the [[Confluence of Fates]] can be seen in the distance.
+
+The volcanic areas in this locale require Cool Drinks.
+
+=== [[Lava Caverns]] ===
+The Lava Caverns is a region characterized by its contrast, in the scorching, red fiery volcano areas, and the cool, blue water-filled caves. At the base of the volcano is a beach. These areas aren't home to much grass, but there are several trees that grow here. Leading into the caves is a marsh-like area, home to mangroves. The caves themselves have bioluminescence, glowing bright blue at night. They are also home to a large skeleton of [[Thunder Serpent Narwa]]. In certain areas, the water and lava meet. The volcanic areas are filled with large lakes and waterfalls of lava, and much of the earth below has fiery cracks in it. Due to the locale featuring caves and marsh-like areas, monsters that inhabit such regions also inhabit the Lava Caverns, such as [[Khezu]] and [[Tetranadon]].
+
+As [[Monster Hunter Rise]] does not feature temperature mechanics, Cool Drinks are not required in this locale's volcanic areas.
+
+== [[Fourth Generation]] ==
+
+=== [[Volcanic Hollow]] ===
+The Volcanic Hollow is a fiery version of the [[Sunken Hollow]]. It is a giant cavern filled with lava. Most areas feature the same layout, although some changes have been made. The large web in one area has been burnt away, and some areas have less terrain to stand on due to the lava.
+
+This locale requires Cool Drinks.
+
+=== [[Ingle Isle]] ===
+This volcanic island is the home of many powerful monsters such as [[Akantor]] and [[Crimson Fatalis]]. It consists of only a single area, and functions as an equivalent to similar special locales in previous generations. Parts of the ground can be lowered by monster attacks.
+
+This locale requires Cool Drinks.
+
+== [[Third Generation]] ==
+
+=== [[Volcano (MH3)]] ===
+The Volcano, despite its name, is unrelated to the locale of the same name from the second generation. There is abundant plant-life near the base camp, even featuring a forest. The flora disappears as you approach the volcano, however. The sky is dark regardless of the time of day, but meteor can be seen raining down during the day, whereas the moon, red in color, can be seen at night. The volcanic areas feature a massive amount of lava, and one of them has a low ceiling, which is notably utilized by [[Agnaktor]]. Another area has a large hill which [[Uragaan]] uses to gain momentum for an attack.
+
+Cool Drinks are required for traversing this locale.
+
+=== [[Sacred Land]] ===
+The Sacred Land is a lava-filled volcanic area consisting of one area, and is exclusively inhabited by Alatreon. It has waterfalls of lava, two lava lakes. In Monster Hunter 3 Ultimate, it also has Ballistae.
+
+Cool Drinks are required for this area.
+
+=== [[Lava Canyon]] ===
+This locale serves as the arena for Akantor in [[Monster Hunter Portable 3rd]]. It has similarities to similar locales such as the Sacred Land or Ingle Isle, but stands out by having the ruins of an ancient city in the background.
+
+Cool Drinks are required for this locale.
+
+== [[Second Generation]] ==
+
+=== [[Volcano]] ===
+The Volcano is similar to the Old Volcano in the theming of its areas, but there are some differences. This volcano is located near the ocean, with base camp being by the beach. Areas away from the volcano are similar to the ones in the first generation, grey and rocky. The volcanic areas, too, are very similar, having lava caves and lava-filled outside areas. The arches in one area are not present, however. In Monster Hunter Freedom Unite, this locale was expanded, receiving two additional areas: both feature earth with fiery cracks in them, and a lake of lava to the side. At night, the volcano erupts, changing the appearance and layout of the locale somewhat.
+
+Cool Drinks are required in this locale.
+
+== [[First Generation]] ==
+
+=== [[Old Volcano]] ===
+The Old Volcano is a volcanic region. Areas further away from the volcano are barren, grey and rocky. Closer to the volcano are volcanic caves, lit by lava. there are also outside areas, filled with rivers of lava. One in particular is notable for its distinct arches. The summit of the volcano is perpetually erupting with a gigantic pillar of flames.
+
+Cool Drinks are required when traversing this locale.
+
+=== [[Battleground]] ===
+The Battleground is a volcanic area that consists of one area. It has lava rivers. This locale serves as an arena for Crimson Fatalis and Akantor. It requires Cool Drinks.
+
+[[Category:Habitats]]

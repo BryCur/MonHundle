@@ -1,0 +1,513 @@
+==[[Large Monster]]==
+===[[Amphibian]]===
+{{MonsterListElem2|MHWilds|Chatacabra|ext=webp|Title=Binding Frog|Desc=Amphibians that use their long tongues to seize and devour prey such as Bulaqchi. Their evolved forelimbs store a sticky mucus-like substance. When agitated, Chatacabra rub their forelimbs against the ground to collect stone and ore, widening the range and destructiveness of their blows.|Game=[[MHWilds]]|Last=[[MHWilds]]|Spinoff=[[MHNow]]}}
+
+
+{{MonsterListElem2|MHRS|Tetranadon|Title=Kappa Frog|Desc=An amphibious monster resembling a frog. Its appetite is infinite, and if it sees anything moving, it will gobble it up, dirt and all. It's theorized that the dirt it consumes builds up in its stomach and aids in digestion. If it eats something that it cannot digest, it will throw it back up. The cranial disc protecting its tender head is said to harden and become a more brilliant blue over time.|Game=[[MHRise]]|Last=[[MHRS]]|Spinoff=[[MHPuzzles]]}}
+
+{{MonsterListElem2|MHST2|Tetsucabra|Title=Oni Frog|Desc=Amphibians with powerful hind legs allowing them to leap up even the steepest of slopes. The terrifying tusks on their enormous jaws allow them to excavate deep trenches, effectively trapping their prey.|Game=[[MH4]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|10th|Berserk Tetsucabra|Title=Rough Oni Frog|Desc=An amphibious monster known for its distinctive markings resembling a painted face. These beasts dig up and hurl boulders in the same way as a standard Tetsucabra does, but the stones thrown by this Berserk variety explode upon impact.|Game=[[MH4U]]|Last=[[MH4U]]}}
+
+{{MonsterListElem2|10th|Drilltusk Tetsucabra|Title=Rock Piercer|Desc=An exceptionally large Tetsucabra with tusks that can drill through earth, or even metal. If the Drilltusk weren't constantly shattering boulders on its enemies or trying to crush them with its weight, one could almost appreciate the masterful way it digs. Requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHST2|Zamtrios|Title=Transforming Shark|Desc=Amphibian monsters known for the astonishing changes that occur when they coat their bodies in icy armor. They are able to create this armor by spraying themselves with a special liquid that builds up in their bodies.|Game=[[MH4]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|10th|Tigerstripe Zamtrios|Title=Tiger Shark|Desc=Unlike its standard counterpart, this distinctively-striped Zamtrios subspecies dwells primarily in desert climes, and can employ its ability to expand and contract its body even while in motion, making it an even more formidable adversary.|Game=[[MH4U]]|Last=[[MH4U]]}}
+
+===[[Bird Wyvern]]===
+{{MonsterListElem2|MHNow|Aknosom|Title=Parasol Bird|Desc=Tending to stand on one leg, this monster somewhat resembles an umbrella. The Aknosom is highly territorial; it will spread out its wings and show off its characteristic comb to scare off threats. It also bears flammable venom that burns fiercely and lingers on the ground when lit. Draw the beast to water for an easier fight.|Game=[[MHRise]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Gendrome|Desc=The alpha monster that leads a Genprey pack. They are larger and have more prominent crest. Found in the desert, they can paralyze prey using their fangs and claws.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|2ndGen|Giadrome|Desc=The alpha leader of a pack of Giaprey, the Giadrome sports a beautiful crest. Larger than a Giaprey, any hunter silly enough to encroach on its turf will be frozen in a hail of ice.|Game=[[MHF2]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHRS|Great Baggi|Title=Sleep Dog Wyvern|Desc=A carnivorous bird wyvern. Noted for their projecting cranial crests and bluish-white skin that's adapted to snowy climates. Great Baggi craftily command other Baggi to surround their prey and stun them with a tranquilizing fluid.|Game=[[MH3]]|Last=[[MHRS]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Great Izuchi|Title=Kamaitachi Wyvern|Desc=The alpha Izuchi of its pack, identified by its larger build, upended white fur and scythe-like tail. A Great Izuchi forms a herd of many smaller Izuchi and selects two from the group to accompany it on territory patrols. Once it spots prey or senses danger, the Great Izuchi issues commands to their fellow Izuchi, and coordinates their movements. Take care that you don't get overwhelmed.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH4U|Great Jaggi|Title=Dog Wyvern|Desc=Alpha monsters that lead packs of Jaggi. At a certain age, males leave the pack to live on their own before returning to fight for the right to become leader. They have a very commanding presence. It has been said they can call and give complex orders to their pack with their howls and barks.|Game=[[MH3]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHGU|Great Maccao|Title=Leaping Dog Wyvern|Desc=Leader of the pack-hunting Maccao, the Great Maccao is easily spotted by its large size and feather-like yellow crest. It can balance on its tail and spring forward for a deadly strike, but when weakened, its lesser Maccao cousins are quick to turn tail and run.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHRS|Great Wroggi|Title=Poison Dog Wyvern|Desc=Wroggi are bird wyverns that travel in packs that are led by largest and most toxic member. Be careful when one raises its head and its poison sac expands—that signals that it's about to spit a cloud of poisonous mist.|Game=[[MHP3]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Gypceros|ext=webp|Desc=Wyverns that can stun enemies by striking their prominent crests to produce powerful flashes of light. Their stretchy, rubbery hide resists blunt impacts and reduces the effectiveness of shock traps. A smart hunter knows to maneuver carefully around the poisonous filth they spew, which drips from ceilings or down slopes.|Game=[[MH1]]|Last=[[MHWilds]]|Spinoff=[[MHST2]]|Title=Poison Strange Bird}}
+
+{{MonsterListElem2|MHST2|Purple Gypceros|Desc=A purple-skinned subspecies of Gypceros. When enraged, they become more violent than their standard cousins, stomping wildly over anything that crosses their path. Not only is their venom more potent, but they also store a greater amount of it, making them a much deadlier foe.|Game=[[MHG]]|Last=[[MH4U]]|Spinoff=[[MHST2]]|Title=Purple Poison Bird}}
+
+{{MonsterListElem2|2ndGen|Hypnocatrice|Title=Sleep Bird|Desc=A rust-colored bird wyvern with beautiful tail feathers found mainly in forests. A highly pacifistic wyvern by nature, it breathes sleeping gas on its enemies and prey alike. Its strong, developed legs pack a serious punch, so be careful!|Game=[[MHFrontier]]|Last=[[MHFU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHST2|Iodrome|Desc=The alpha monster that leads an Ioprey pack. They are larger and have a more prominent crest. Found in subtropical zones, they spit a poison that can sap the life force of prey.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Kulu-Ya-Ku|Title=Scratching Bird|Desc=A bird wyvern that has developed limbs capable of carrying objects. It has been spotted stealing eggs from the nests. If attacked while carrying an egg, it will drop the egg in fright and flee. When enraged, a Kulu-Ya-Ku will dig up a small boulder to shield itself against threats or use it in its attacks.|Game=[[MHWorld]]|Last=[[MHRS]]|spinoff=[[MHOutlanders]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHGU|Malfestio|Title=Nocturnal Bird|Desc=A bird wyvern which is most at home in the dark. It catches prey with its wings and talons. Its pivoting neck is characteristic, and it's worth a look to see it turned completely around to look behind itself. Scales in its wings can scatter a pollen that can cause confuse its foes.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHGU|Nightcloak Malfestio|Title=Hidden Haze|Desc=This huge bird wyvern with its twilight-colored wings uses special scales to refract light and hide itself from its prey. This is why it's also known as "Nightcloak". Whoever or whatever sees it, be they monster or human, stands no chance of survival. Requires special permission to hunt.|Game=[[MHGU]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHNow|Pukei-Pukei|Title=Poison Bewitching Bird|Desc=A bird wyvern whose body contains a poisonous fluid. It ensnares its prey by brandishing its whiplike tongue, which can be expanded and contracted at will. By mixing the berries and plants it consumes with the venom in its body, it can release a devastating poison breath attack.|Game=[[MHWorld]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHNow|Coral Pukei-Pukei|Title=Water Bewitching Bird|Desc=A type of bird wyvern that stores large quantities of water in its body. It launches powerful water attacks from its mouth and tail. Considered a subspecies of Pukei-Pukei.|Game=[[MHWI]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Qurupeco|Title=Colorful Bird|Desc=Bird Wyverns with colorful plumage. Using thoracic vocal organs, they imitate the calls of other monsters. When threatened, they mimic the cries of Flying Wyverns, utilizing their presence as a distraction to flee.|Game=[[MH3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Crimson Qurupeco|Title=Crimson Colorful Bird|Desc=A subspecies of Qurupeco, with vibrant red plumage. Skilled in mimicry and dancing. The flints in their wings generate electricity, which can be discharged as either shocking jolts or intense flashes of light.|Game=[[MHP3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Tzitzi-Ya-Ku|Title=Dazzling Bird|Desc=A monster that spreads its luminous pulsing organs when it spots prey or natural enemies, blinding them with a flash of light in order to create an opening. They make use of their astonishing leg power in order to finish off helpless prey.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Velocidrome|Desc=The alpha monster that leads a Velociprey pack. They are larger and have a more prominent crest. Highly territorial, but will retreat to a safe place when injured to recover.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Yian Garuga|Title=Black Wolf Bird|Desc=A short-tempered bird wyvern marked by its hard, black scales and impressive mane. It strikes with its distinctive beak.|Game=[[MHFU]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Scarred Yian Garuga|Title=Black Wolf Bird|Desc=A tempered Yian Garuga that has survived a grueling battle with just a scar on its head. Be careful of its successive breath attacks.|Game=[[MHF1]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHGU|Deadeye Yian Garuga|Desc=The "Deadeye" is a battle-scarred veteran of countless duels to the death. Its one-eyed gaze burns with the fervor of a thousand victorious fights. A famous hunter once said: "That's the only feller with a better HR than me!" Requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHWilds|Yian Kut-Ku|ext=webp|Title=Strange Bird|Desc=Bird wyverns with impressive beaks and large ears. They tend to be skittish but will sometimes initiate attacks on a perceived threat. Yian Kut-Ku arrive in large groups during the season of Plenty in the Scarlet Forest. The absence of eggs or young suggests that the purpose of this is not to breed, but rather to seek out mates and nourishment.|Game=[[MH1]]|Last=[[MHWilds]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Blue Yian Kut-Ku|Title=Blue Strange Bird|Desc=A subspecies of Yian Kut-Ku. Their blue coloration and physical prowess set them apart from their pink kin. Unlike their cowardly cousins, they become increasingly dangerous when angered, and should not be underestimated.|Game=[[MHG]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+===[[Brute Wyvern]]===
+
+{{MonsterListElem2|MHWI|Anjanath|Title=Savage Jaw Wyvern|Desc=Infamous for its belligerence, this brute wyvern indiscriminately attacks all without hesitation. The large membrane extending from its waist to the base of its tail fans out when it becomes agitated. This fan-like membrane is thought to be used not only for intimidation, but also as a mode of body temperature control. This is attributed to the fact that when Anjanath expels flames from its mouth, the membrane has been spotted expanding in tandem, releasing excess heat.|Game=[[MHWorld]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Fulgur Anjanath|Title=Thunder Jaw Wyvern|Desc=An extremely adaptable subspecies of Anjanath that electrifies its jaws and dorsal membrane with every blow rendering them even stronger.|Game=[[MHWI]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Banbaro|Title=Ferocious Bull Wyvern|Desc=A monster recognizable by the pair of gigantic horns atop its head. It rushes forward while scraping the ground with its horns, with nearby trees sometimes even getting caught up in its headlong attacks.|Game=[[MHWI]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Barroth|Title=Earth Sand Wyvern|Desc=Barroth usually remain beneath the mud, perhaps to shield themselves from heat; they are even known to attack by flinging mud. They will charge in a frenzy at anything that disturbs their bogs.|Game=[[MH3]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHST2|Jade Barroth|Title=Ice Crushing Wyvern|Desc=A subspecies of Barroth found in colder climates that coat themselves in ice an snow for protection. They are also known for bashing their overgrown crowns into the ice, and subsist primarily on Bnahabra.|Game=[[MHP3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Brachydios|Title=Crushing Wyvern|Desc=Brute Wyverns coated in a volatile, green substance. Their saliva can be used to ignite this coating, with explosive results. Few monsters possess this peculiar ability or aggressive temperament. They can deliver staggering blunt-force attacks with their strong, quick-moving forelegs.|Game=[[MH3U]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Raging Brachydios|Title=Crushing Wyvern|Desc=A Brachydios variant that is much larger than the normal species. The slime on its body will activate over time and detonate.|Game=[[MH4U]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHWI|Deviljho|Title=Terrible Violent Wyvern|Desc=The dreaded, nomadic Deviljho have no specific territory of their own. Their muscles swell if provoked, revealing old wounds. They need to feed constantly due to high body heat and can hunt nearby animals to extinction.|Game=[[MH3]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Savage Deviljho|Title=Terrible Violent Wyvern|Desc=A mutated Deviljho variant, driven mad by its overpowering hunger. It will attempt to feed on all it sees.|Game=[[MH3U]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MH3U|Duramboros|Title=Tail Hammer Wyvern|Desc=Their hammer-like tails are great at both self-defense and felling the trees that primarily subsist on. Despite their gentle temperament, their strong frame and incredible power should not be underestimated.|Game=[[MHP3]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MH3U|Rust Duramboros|Title=Tail Axe Wyvern|Desc=A reddish-brown subspecies of Duramboros with an axe-shaped tail. The tail is especially well-suited to desert life, as it scatters sand each time it is swung. Despite the desert heat, these creatures can remain active for long periods of time.|Game=[[MH3U]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHWI|Glavenus|Title=Slashing Wyvern|Desc=Brute Wyverns with long, sword-like tails, sharpened on their fearsome fangs. Their well-developed hind legs allow them to effortlessly chase down prey, which they then slash at with their monstrous tails.|Game=[[MHGen]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Acidic Glavenus|Title=Sulfur Slashing Wyvern|Desc=A subspecies of Glavenus found in the Rotten Vale. A corrosive fluid has crystallized on its tail, spraying acid with each swing.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHST2|Hellblade Glavenus|Title=Incinerating Blade|Desc=A Glavenus whose intense heat is akin to an active volcano. It can blast apart stone with a single breath, and incinerate mountains with a single swipe of its red-hot tail. The "Hellblade" requires a special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Radobaan|Title=Bone Hammer Wyvern|Desc=A brute wyvern that feeds on the bones of corpses, adorning them all over its body. They have been sighted curling their bodies up into a ball and rolling around in order to attack foes.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWilds|Rompopolo|ext=webp|Title=Swamp Spouting Wyvern|Desc=Dappled brute wyverns that prowl Oilwell Basin. They use their tails to inject gas into the ground and detonate it, then feed on the small creatures that are unearthed. The toxic gas they spray from their tongues serve to weaken prey, which they then finish off with the blasts. Rompopolo are extremely territorial and will readily engage their own kind.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHWilds|Quematrice|ext=webp|Title=Flame Tail Wyvern|Desc=Brute Wyverns with disproportionately long tails. They spread a flammable substance which vaporizes quickly, then it ignite it by dragging their tails along the ground. By nature, Quematrice rarely hunt their own prey, and instead scavenge herbivore carrion left behind by other predators. This often leads to confrontations with other, smaller carnivores.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHWI|Uragaan|Title=Explosive Hammer Wyvern|Desc=Brute Wyverns with mighty jaws. The vibration from their bodies send the stones and ore stuck to them flying in all directions in deadly explosive attacks. They can also detonate Powderstones by striking them with incredible force with their chins.|Game=[[MH3]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MH3U|Steel Uragaan|Title=Steel Hammer Wyvern|Desc=A metallic subspecies of Uragaan with an unusual diet that allows it to create a powerful, noxious gas. The gas permeates the rocks on its body, which then emit foul fumes when scattered. Like regular Uragaan, they can travel quickly by rolling.|Game=[[MHP3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHGU|Crystalbeard Uragaan|Title=Treasure Clad|Desc=A living treasure trove of precious jewels, famous in the lore of miners and said to bring good fortune should you manage to even lay your eyes upon it. Some have tried to slay the "Crystalbeard" for its treasure, only to be crushed by its glittering fury. Requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+===[[Carapaceon]]===
+{{MonsterListElem2|MHRS|Daimyo Hermitaur|Title=Shield Crab|Desc=Large Carapaceons that live in coastal regions and sandy soil. Daimyo Hermitaurs use their massive claws to guard themselves against enemy attacks. These creatures wear wyvern skulls on their backs, unlike the shells carried in their infancy. These shells serve not only as protection, but also as a method for attacking prey. They are highly valued for their materials—their brains in particular.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Plum Daimyo Hermitaur|Title=Shield Crab|Desc=Armored Carapaceons that approach their prey with blinding speed, then strike using their powerful claws. Considerably more aggressive than their standard cousins. Upon their back is the skull of a monster adorned with two massive horns.|Game=[[MHFU]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHGU|Stonefist Hermitaur|Desc=The "Stonefist" is a Hermitaur with an enlarged left pincer which doubles as a sturdy black shield. Its armor causes blades to shatter, and for shots to bounce off, filling the Hunter with holes instead. Requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|2ndGen|Shen Gaoren|Title=Fortress Crab|Desc=A giant Carapaceon with an equally giant monster's skull on its back. Prone to roaming and fiercely territorial, any intruders will be met with opposition, so nearby forts or towns must be warned of its presence.|Game=[[MH2]]|Last=[[MHFU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHRS|Shogun Ceanataur|Title=Sickle Crab|Desc=These large Carapaceons can be found around volcanoes and in the Flooded Forest. Shogun Ceanataur wield long, developed claws that are usually folded away, but unfurl into terrifying blades when enraged. Shogun Ceanataur, like the Daimyo Hermitaur, are also known to use wyvern skulls as shells. Specimens that do, have been observed using a water jet-like attack.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|2ndGen|Terra Shogun Ceanataur|Title=Sickle Crab|Desc=A large Carapaceon with a giant monster's skull on its back. Its long, sharp pincers allow it to pierce volcanic bedrock and travel along ceilings. Sometimes, a precious and valuable pearl can be found inside its shell.|Game=[[MHFU]]|Last=[[MHFU]]}}
+
+{{MonsterListElem2|MHGU|Rustrazor Ceanataur|Desc=The Rustrazor Ceanataur uses its huge pincers and the shell on its back to attack any assailants. From its Gravios shell it shoots jets of water that drill into the ground, and its Glavenus-shaped pincers can shear through steel. This two-sided nature makes it a force to be reckoned with, and earned it the name "Rustrazor". Requires special permission to hunt.|Game=[[MHGU]]|Last=[[MHGU]]}}
+
+===[[Cephalopod]]===
+{{MonsterListElem2|MHWilds|Nu Udra|ext=webp |Title=Hell Flame Octopus|Desc=The cephalopod that reigns supreme over Oilwell Basin's ecosystem. Usually, when sighted, Nu Udra is covered in oilsilt, but when enraged it will ignite the coating, transfiguring itself into a horror of flame. The oculi that appear on its body and many arms are presumed to be sensory organs, but the truth is still being investigated.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+===[[Construct]]===
+{{MonsterListElem2|MHWilds|Zoh Shia|ext=webp|Title=White Seraph Dragon|Desc=A massive Guardian that has been feeding off the Dragontorch's energy. Its body is encased in crystallized Wyvern Milk, allowing it to regenerate. Zoh Shia, like other Guardians, excels at energy attacks and can produce repeated explosions to crystallize the whole area. Beneath its white Guardian coat, its body pulses with dark recollection - which you may see, should it reveal its full power from the days of yore.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+===[[Demi Elder]]===
+{{MonsterListElem2|MHWilds|Gore Magala|ext=webp|Title=Black Eclipse Wyvern|Desc=Monsters that drape themselves in their great wings, like a black overcoat. They have no eye sensory organs, so instead they use a scattering of fine scales from their wings to locate prey. When their sensory capacity increases, antennae appear on their heads and they unfurl their wings, entering the aggressive Frenzy State. Their black scales can Frenzy other creatures as well, making them fearsome adversaries.|Game=[[MH4]]|Last=[[MHWilds]]|Spinoff=[[MHFrontier]]}}
+
+===[[Elder Dragon]]===
+{{MonsterListElem2|MHWI|Alatreon|Title=Blazing Black Dragon|Desc=Blazing black dragons, so named for resembling both lightning and darkness. They mercilessly tear apart whoever touches their sharp scales. Elementally unstable, their actions can affect the very weather. Living natural disasters.|Game=[[MH3]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHRS|Amatsu|Title=Storm Dragon|Desc=Elder dragons that can manipulate the weather and are able to conjure up unrelenting gales. Amatsu glide through the air on currents they create using their wing membrane, making it look as if they're dancing in the sky. The storms they summon are extremely destructive and can lay entire cities to waste, thus they are known as the "Looming Calamity." When enraged, their storms become even more violent, enveloping the area with unrelenting lighting strikes.|Game=[[MHP3]]|Last=[[MHRS]]|Spinoff=[[MHOnline]]}}
+
+{{MonsterListElem2|MHWI|Behemoth|Title=Demon Beast|Desc=A powerful beast from another world. Its large horns and muscular frame defy nature. Unique strategies are required to battle it.|Game=[[MHWorld]]*|Last=[[MHWorld]]*|Spinoff=}}
+
+{{MonsterListElem2|MH3U|Ceadeus|Title=Ocean Dragon|Desc=Legendary elder dragons known as both "shining giants of the depths" and "great sea dragons." Not confirmed to exist until recently. The Moga quakes were due to a Ceadeus butting its abnormally long horns into the earth.|Game=[[MH3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MH3U|Goldbeard Ceadeus|Title=Emperor Ocean Dragon|Desc=A rarely-seen subspecies of [[Ceadeus]] confirmed to exist deep within ocean ruins. The golden light they cast in the dark depths befits a creature of such legendary status. Sadly, little is known about their relationship to the standard Ceadeus.|Game=[[MH3U]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHRS|Chameleos|Title=Mist Dragon|Desc=Precious few sightings of this elder dragon have been recorded, leading to claims it can vanish into its environment like a chameleon -- hence its name. Witnesses report attacks can come out of nowhere, but that Smoke Bombs keep the beast visible.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHRS|Risen Chameleos|Title=Mist Dragon|Desc=Risen Chameleos are elder dragons that have found a way to overcome their affliction. By suppressing the [[Qurio]] virus, they have gained great strength and new abilities. They now boast superior poison and physicality, sending you off into a toxic nightmare if you lose sight of them. When their anger reaches its peak, they'll enter into their Risen state and their body will begin to glow.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH4U|Dah'ren Mohran|Title=Huge Mountain Dragon|Desc=Colossal elder dragons that swim through the Great Desert, smashing obstacles with their spiral horns. Their unique color comes from the thick layer of oxidized metals and other rare minerals that lodge in their hides over their long lives.|Game=[[MH4]]|Last=[[MH4U]]}}
+
+{{MonsterListElem2|MH4U|Dalamadur|Title=Serpent King Dragon|Desc=A huge elder dragon, massive beyond human comprehension. The only mention of its existence is found in fairy tales, which claim it can warp the very surface of the world and level mountains with a single twitch.|Game=[[MH4]]|Last=[[MH4U]]}}
+
+{{MonsterListElem2|MH4U|Shah Dalamadur|Title=Serpent Emperor Dragon|Desc=A Dalamadur subspecies easily identified by the red spines lining its back. Though they were once thought to exist only in legend, multiple sightings in the past few years have led many to fear Shah Dalamadur as an omen of grave things to come.|Game=[[MH4U]]|Last=[[MH4U]]}}
+
+{{MonsterListElem2|MHFrontier|Dire Miralis|Question Mark|Dire Miralis|Title=Molten Black Dragon|Desc=Some legends consider this great dragon to be the devil fated to destroy the world, while others claim it is the giant who birthed creation. Is there any way for mere humans to quell its unending rage?|Game=[[MH3U]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHWI|Fatalis|Title=Black Dragon|Desc=A legendary black dragon known only as Fatalis. Rumored to have destroyed a kingdom in a single night, and has taken its castle for a roost.|Game=[[MH1]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHFrontier|Crimson Fatalis|Question Mark|Crimson Fatalis|Title=Crimson Dragon|Desc=???|Game=[[MHG]]|Last=[[MHGU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHFrontier|Old Fatalis|Question Mark|Old Fatalis|Title=Ancestral Dragon|Desc=???|Game=[[MH2]]|Last=[[MHGU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHRS|Gaismagorm|Title=Dark Abyss Dragon|Desc=A gargantuan monster living in the darkest depths since ancient times. Gaismagorm's rock-like forearms boast tenacious strength which allows it to burrow underground. It has a symbiotic relationship with the [[Qurio]], and feeds on their life force for energy. Once it has chosen a place to nest, it collapses the surrounding rock bed to create an opening to the surface. The opening forms a massive crater in which it releases the Qurio through.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH4U|Gogmazios|Question Mark|Title=Giant Halberd Dragon|Desc=Coated in a thick, sticky fluid, this massive elder dragon appears unhindered by the Dragonator lodged in its back. Eyewitness reports suggest that, despite its massive size, this mysterious behemoth is indeed capable of flight.|Game=[[MH4U]]|Last=[[MH4U]]|Gogmazios|Gogmazios}}
+
+{{MonsterListElem2|MH3U|Jhen Mohran|Title=Peak Mountain Dragon|Desc=Rare ore can be mined from these enormous dragons' backs; thus they are considered prosperity symbols. They swallow vast amounts of organic material and are always surrounded by scavenging Delex, which sailors use to locate them.|Game=[[MH3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MH3U|Hallowed Jhen Mohran|Title=Sacred Mountain Dragon|Desc=A subspecies of Jhen Mohran whose appearance has been likened to a crystal shimmering in the darkness. It inspires such awe and wonder that news of a sighting draws a stampede of hunters from across the land.|Game=[[MH3U]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHWI|Kirin|Title=Phantom Beast|Desc=Lightning-wielding mystical creatures. Said to cause lightning strikes with their unbridled howls to the sky. Classified as Elder Dragons, but due to the sheer lack of any reported sightings, their true nature remains a mystery.|Game=[[MH1]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MH4U|Oroshi Kirin|Title=Phantom Beast|Desc=Mythical beasts that very few have encountered. Unlike their cousins, their bodies are colored an ebony-black. According to the scarce reports available, it is said that the temperatures around them plummet below zero, creating a frozen veil of mystery.|Game=[[MH4]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Kulve Taroth|Title=Glorious Dragon|Desc=Elder Dragons that protect themselves with a glittering coat of metal over their scales. Some of the precious metal comes from the weapons of defeated Hunters who once tried to slay them.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Kushala Daora|Title=Steel Dragon|Desc=Giant Elder Dragons clad in metal plating. Enrobed in gale-strength winds, they whip up storms wherever they go. When enraged, they unleash devastating vortexes that send foes flying. Getting close to one is no mean feat.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Risen Kushala Daora|Title=Steel Dragon|Desc=Risen Kushala Daora are elder dragons that have found a way to overcome their affliction. By suppressing the Qurio virus, they have gained great strength and new abilities. They command destructive storms easily cornering their prey with a more varied arsenal of attacks than their regular counterparts. When their anger reaches its peak, they'll enter into their Risen state and their body will begin to glow.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH4U|Rusted Kushala Daora|Title=Steel Dragon|Desc=A metal plated dragon known as the tempest of wind. Eyewitnesses report violent storms alongside the dragon, and its wide range means towns may be attacked.|Game=[[MH2]]|Last=[[MH4U]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHGU|Lao-Shan Lung|Title=Old Mountain Dragon|Desc=A giant dragon that has only been rarely sighted. It periodically prowls close to inhabited areas, and the damage it causes is comparable to that wreaked by a natural disaster. Its habits are a mystery, and no one knows why it occasionally wanders. The Guild has built defensive barricades where they appear, but to what effect.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|2ndGen|Ashen Lao-Shan Lung|Title=Rock Mountain Dragon|Desc=A giant dragon few have seen and lived to tell the tale. When on the rampage it wreaks havoc on all in its path. The guild has built a fortress to repel the beast, but will it hold?|Game=[[MHG]]|Last=[[MHFU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHWI|Lunastra|Title=Flame Queen Dragon|Desc=A brutal female Elder Dragon with breath of flame and expert control over fire. It is said that this control comes from the crown-like horns on its head, but this has not been confirmed.|Game=[[MH2]]|Last=[[MHWI]]|spinoff=[[MHOutlanders]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHRS|Malzeno|Title=Silver Duke Dragon|Desc=A dragon covered with elegant silver scales. It uses the Qurio to drain the life energy of other living creatures, creeping around at night and attacking its prey from behind. It appears almost regal to start with, but after draining enough energy it can turn a violent, fresh-blood crimson. This form is known as the "Bloodening" and is widely feared.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Primordial Malzeno|Title=Silver Duke Dragon|Desc=Malzeno's original form before it was tainted by the Qurio. Ordinarily, it uses its wings and tail with the elegance of a knight, but under the Qurio's influence, it uses underhanded means of cornering its prey, and in its "Bloodlust" state it wields tremendous power. Because of the explosive energy corrupting its body, it sometimes shows behavior as if its struggling against an overwhelming force. |Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHGU|Nakarkos|Title=Corpse Dragon|Desc=Frighteningly little is known about this elder dragon whose appetite can devastate surrounding ecosystems. After covering its prey in a repulsive mucus, it has been seen dragging them back to feast in its macabre nest of bones and undulating darkness known as Wyvern's End.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHWI|Namielle|Title=Abyssal Dragon|Desc=An elder dragon coated in water and able to freely control lightning. A unique organ allows it to pump electricity into the pools of water it creates, causing massive bursts of steam.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHWI|Nergigante|Title=Extinction Dragon|Desc=Large Elder Dragons bristling with sharp spikes, single-minded in spreading destruction. They possess an astonishing regenerative power, recovering from wounds almost instantly.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Ruiner Nergigante|Title=Extinction Dragon|Desc=Countless battles have only hardened this [[Nergigante]] variant. In addition to healing, its spikes grow tougher as it loses health.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHWI|Safi'jiiva|Title=Red Dragon|Desc=The fully-grown form of [[Xeno'jiiva]]. It absorbs energy from its environment to heal itself and change the ecosystem.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHRS|Shagaru Magala|Title=Heavenly Revolving Dragon|Desc=The form taken by [[Gore Magala]] once they mature and molt. Gorgeous, glittering scales cover Shagaru Magala, and their divine wings are large enough to wrap around their entire body. According to records, one was once said to have scattered its black scales over an area the size of a mountain, annihilating any and all lifeforms inhabiting that region.|Game=[[MH4]]|Last=[[MHRS]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHRS|Risen Shagaru Magala|Title=Heavenly Revolving Dragon|Desc=Risen Shagaru Magala are elder dragons that have found a way to overcome their affliction. By suppressing the [[Qurio]] virus, they have gained great strength and new abilities. They release larger quantities of the [[Frenzy Virus|Frenzy virus]], resulting in viral explosions with increased radius. Anything that gets in their way will fall prey to their powerful wingarms. When their anger reaches its peak, they'll enter into their Risen state and their body will begin to glow.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Shara Ishvalda|Title=Earth Singing Dragon|Desc=A mysterious elder dragon able to manipulate the earth itself. Vibrations from its wingtips reshape the earth, denying hunters footing.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHRS|Teostra|Title=Flame King Dragon|Desc=Wreathed in flame, they wield blistering breath attacks. Easily angered, any who stand against them face their unyielding molten judgement. The Guild monitors their movements and moods due to the threat they pose.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Risen Teostra|Title=Flame King Dragon|Desc=Risen Teostra are elder dragons that have found a way to overcome their affliction. By suppressing the [[Qurio]] virus, they have gained great strength and new abilities. While clad in flame, Risen Teostra unleash more dust creating a non-stop barrage of explosions until everything in the vicinity has been turned to ashes. When their anger reaches its peak, they'll enter into their Risen state and their body will begin to glow.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Thunder Serpent Narwa|Title=Thunder God Dragon|Desc=An elder dragon and [[Wind Serpent Ibushi|Wind Serpent Ibushi’s]] "queen." Its thundersacs glow with accumulated electrical charge; it is thought that these organs therefore generate the powerful magnetic field that lifts the creature and anything around it high into the air.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Narwa the Allmother|Title=Thunder God Dragon|Desc=Having absorbed the lifeforce of her "king", Narwa has transformed and become imbued with new power. She now possesses [[Wind Serpent Ibushi|Ibushi]]’s mastery over wind as well as her own control over thunder, and lusts for utter annihilation.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Vaal Hazak|Title=Corpse Coat Dragon|Desc=A grotesque Elder Dragon, that inhabits the deepest part of the [[Rotten Vale]]. It uses the fatal vapor of the vale in what appears to be a symbiotic relationship.|Game=[[MHWorld]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHWI|Blackveil Vaal Hazak|Title=Corpse Coat Dragon|Desc= A [[Vaal Hazak]] variant encrusted with spores that spew a torrent of toxic effluvium at any who draw close.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHGU|Valstrax|Title=Sky Comet Dragon|Desc=An elder dragon that soars at very high altitudes far from human habitation. Its flaming red wings are often the only visible sign of it, giving rise to its nickname, the Argent Comet. Those wings aren't just for flying, though, and are easily used to stab, rend and blow away its enemies. Occasionally, one can find the scorched shells it has left behind.|Game=[[MHGU]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHRS|Crimson Glow Valstrax|Title=Sky Comet Dragon|Desc=A mutant [[Valstrax]] fearsomely dubbed the "Crimson Glow". This elder dragon typically secludes itself in the upper atmosphere, but it has been driven mad by its own rampant energy, causing to lash out at anything in its sight. Once it sights its prey, it swoops down, trampling them beneath its shifting wingblades. Several have been sighted all over, so be prepared to encounter one at any time.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Risen Crimson Glow Valstrax バルファルク|Title=Sky Comet Dragon|Desc=Risen Crimson Glow Valstrax are elder dragons that have found a way to overcome their affliction. By suppressing the [[Qurio]] virus, they have gained great strength and new abilities. Their abundance of dragon energy has granted them greater agility, and even more devastating explosive powers. Very few will be able to withstand their ferocious attacks. When their anger reaches its peak, they'll enter into their Risen state and their body will begin to glow.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Velkhana|Title=Ice Dragon|Desc=Known as the "Ice Dragons that Freeze All" or the "Iceborne Wyvern," few records of Velkhana exist, as such, they remain shrouded in mystery. Their icy breath is so cold that it can form massive spires and walls of ice out of nowhere, and it is even powerful enough to freeze other monsters. Some reports indicate that Velkhana will freeze their rivals in order to establish their domain.|Game=[[MHWI]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Wind Serpent Ibushi|Title=Wind God Dragon|Desc=A male elder dragon that exhibits inexplicable behaviors such as floating upside down midair. Research indicates that the emission of a special gas from all over its body, and the modulation of this gas, is what allows it to move freely. It shoots air from gills on its arms and tail to fly, creating its own turbulence and soaring to great heights.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Xeno'jiiva|Title=Dark Light Dragon|Desc=A new species discovered in the depths of the [[Elder's Recess]]. Its relationship to the other elder dragons is unclear, as is its ecology.|Game=[[MHWorld]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|2ndGen|Yama Tsukami|Title=Floating Mountain Dragon|Desc=An Elder Dragon that floats through the sky. A bite of earth, a drink of forest, it’s a veritable god of the sky made of the richest soil. Ancient trees grow thick on its back like on a mountain. It’s rumored to live near a forlorn, remote tower.|Game=[[MH2]]|Last=[[MHFU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHWI|Zorah Magdaros|Title=Scorching Mountain Dragon|Desc=An elder dragon that rises from the earth like a volcano. Where it's headed, and why, the Research Commission has yet to figure out.|Game=[[MHWorld]]|Last=[[MHWI]]}}
+
+
+===[[Fanged Beast]]===
+{{MonsterListElem2|MHWilds|Ajarakan|ext=webp|Title=Glowing Monkey Beast|Desc=Characteristic by their highly developed carapaces, Ajarakan wrap themselves in molten metal that they rub together to heat up and create explosions. Presumably due to the friction of the metal, they can reach high enough temperatures to melt even the ground or bullets. They can also use their strong limbs to grip onto the ceiling and move around freely, so a hunter must watch out from every angle, including above.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHRS|Arzuros|Title=Blue Bear Beast|Desc=Bear-like monsters found in warm, damp environments. They attack with their powerful front paws, which are armored with thick shell and equipped with razor-sharp claws. If they are not enjoying their favorite meal of honey, they will be found by a river fishing for a snack.|Game=[[MHP3]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Apex Arzuros|Title=Blue Bear Beast|Desc=An Arzuros so mighty, it was crowned an Apex. It is eternally possessed by wrath and terror, possibly due to the myriad wounds that cover its body. Its forelegs are massive, deft removers of any who'd stand in their way. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHGU|Redhelm Arzuros|Title=Crimson Bear|Desc=A ruffian known for its wild, red mane of hair. Unrivaled in its cruelty, sightings of a Redhelm near human settlements is a serious call for alarm, though very few can handle hunting it. As it's far more likely for a would-be hunter to end up as its lunch, it requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHRS|Bishaten|Title=Tengu Beast|Desc=A monster with a distinctive tail. While it is omnivorous, it has a preference for fruit, and keeps various fruits with all kinds of effects in its belly pouch. An incredibly curious beast, it enjoys playing tricks on people, and has been seen to bat fruit at its prey using its tail.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Blood Orange Bishaten|Title=Scarlet Tengu Beast|Desc=A subspecies named for their auburn fur. Inquisitive by nature, Blood Orange Bishaten can even appear near human habitats. Their belly pouch is stuffed with combustible pinecones, and this subspecies has a distinct and focused fire breath. The breath itself isn't as dangerous as the pinecones it ignites. Reports indicate that it's possible to topple these monsters while they balance on their tails.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Blangonga|ext=webp|Title=Snow Lion|Desc=Large, white fanged beasts that rule over other Blango, attacking intruders as a pack. Its muscularity and mobility allows it to strike swiftly, even on fresh snow, and pounce from long distances - so hunters with long-range weapons still need to stay on guard. Large tusks are the mark of a powerful leader.|Game=[[MH2]]|Last=[[MHWilds]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|2ndGen|Copper Blangonga|Title=Sand Lion|Desc=???|Game=[[MHFU]]|Last=[[MHFU]]}}
+
+{{MonsterListElem2|MHST2|Bulldrome|Title=Great Boar|Desc=Powerful alpha monsters that lead Bullfango herds. They mow down their prey with their sturdy tusks. Not only are they more aggressive than a regular Bullfango, but also far more alert.|Game=[[MH2]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWilds|Congalala|ext=webp|Title=Pink Fur Beast|Desc=Large fanged beasts with pink fur and a distinct crest, which the males sculpt with plant oils and juices as a sign of virility. Congalala are common in temperate forests and are therefore well researched. They're big eaters and love mushrooms, which they absorb and then exhale as a variety of potent breaths that inflict poison, blast, paralysis, and more.|Game=[[MH2]]|Last=[[MHWilds]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Emerald Congalala|Title=Green Fur Beast|Desc=A green-furred subspecies of Congalala. The decorative fur on their heads is particularly flamboyant. More ravenous than ordinary Congalala, they can store a greater amount of gas in their bodies, which means they can produce a wider-reaching flatulence when threatened or provoked.|Game=[[MHFU]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWilds|Doshaguma|ext=webp|Title=Pioneer Beast|Desc=Fanged beasts that are sometimes seen traveling in packs. Ruggedly built and extremely aggressive, Doshaguma won't hesitate to throw everything they've got at enemies - even other small monsters. They have been known to take prey back to their dens, which sometimes leads to violent disputes.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHST2|Gammoth|Title=Giant Beast|Desc=These massive beasts with piercing tusks are native to polar regions. Fiercely protective of their territories, they attack trespassers with their strong trunks or simply crush them under their weight.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Elderfrost Gammoth|Title=World's Greatest Peak|Desc=These Gammoth Deviants have grown so immense that their silvery backs could be mistaken for the foot of a mountain. Vast plains frost over where they tread, and blizzards follow in their wake. The superstitious believe they are mountains themselves that have come alive.|Game=[[MHGU]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Garangolm|Title=Sturdy Clad Beast|Desc=A monster characterized by its massive and rigid body. Garangolm are generally placid, living in regions with fertile soil. Their sap-like fluids can promote plant growth, forging a symbiotic relationship with flora that grows in their bodies. They can also use that sap to harden plants or the surrounding soil, outfitting their bodies and enhancing their attacks.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Goss Harag|Title=Snow Oni Beast|Desc=A monster native to ice-cold climates. Covered in fur so thick it keeps out the harsh frost, it roams the snowy plains in search of prey. It can inhale the cold air to freeze its own bodily fluids and then spit them out to create icy blades on its arms. When riled up, the Goss Harag turns red and becomes exceedingly dangerous.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHST2|Kecha Wacha|Title=Strange Monkey Fox|Desc=Fanged Beasts with limbs well adapted to swinging through the treetops. Curious by nature, they will drop down and attack any passersby, making them quite the nuisance. When provoked, they shield their faces with giant ears, blocking out any loud noises or bright light.|Game=[[MH4]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Ash Kecha Wacha|Title=White Monkey Fox|Desc=This subspecies has pale, multicolored fur. Able to spit combustible fluids from their nose, they cover their faces with their hardened ears to form a protective mask. They make sport of their prey with their cunning attacks.|Game=[[MH4U]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Lagombi|Title=White Rabbit Beast|Desc=White Fanged Beasts with acute hearing and warm pelts adapted to cold climates. They slide around at high speeds without making any noise, allowing them to catch unsuspecting prey. Able to launch blocks of snow at enemies from afar.|Game=[[MHP3]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHGU|Snowbaron Lagombi|Title=Heavy Snow Lord|Desc=The outlaw of the frozen wasteland, the "Snowbaron" can be found jauntily sliding around any territory that it has claimed as its own. Its playful antics, however, can mean one more village buried under an avalanche. A dangerous foe that requires special permission to hunt.|Game=[[MHGen]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHNow|Rajang|Title=Gold Lion|Desc=The lack of confirmed sightings of these ultra-aggressive Fanged Beasts is a testament to their power, and also the reason why so little is known about their natural habitat. Widely regarded as the pinnacle of physical prowess.|Game=[[MH2]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Furious Rajang|Title=Gold Lion|Desc=Furious Rajang are Rajang variants that are covered in golden fur. Normally Rajang return to their black-furred state after being agitated for a time to conserve energy, but these beasts have lost their ability to curb their anger. Outclassing the standard Rajang's attack power, they assault with seething rage. At the apex of their fury they become enraged and turn into destructive demons with electrified manes.|Game=[[MHFU]]|Last=[[MHWI]]|Spinoff=[[MHOnline]]}}
+
+{{MonsterListElem2|MHNow|Volvidon|Title=Red Shell Beast|Desc=Fanged beasts with thick red carapaces that are resistant to lava. Their rounded bodies are perfect for rolling across hot surfaces, and their long tongues are ideal for capturing insect prey. Their saliva emits a paralyzing toxin that should be avoided.|Game=[[MHP3]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+===[[Fanged Wyvern]]===
+{{MonsterListElem2|MHWI|Dodogama|Title=Rock Bandit Wyvern|Desc=A monster that devours rock as its primary diet. The Crystals it devours mix with its saliva to produce explosive minerals that it can spit at its enemies.|Game=[[MHWorld]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHNow|Great Girros|Title=Paralyzing Bandit Wyvern|Desc=This carnivorous monster prowls its territory, seeking out prey. It takes down its target using the paralytic toxins secreted from its large fangs.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHNow|Great Jagras|Title=Bandit Wyvern|Desc=The leader of a pack of Jagras. Renowned for their voracious appetite, they will mercilessly assault even monsters higher up in the food chain. The sight of it devouring its prey whole is one to behold.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHRS|Lunagaron|Title=Icy Wolf Wyvern|Desc=Lunagaron have an organ that chills the air they inhale, circulating it throughout their body in a unique form of thermoregulation. They can travel long distances and endure environmental changes, allowing them to occupy a wide range of habitats. They usually walk on all fours, but can stand on two legs by shutting down their cooling mechanism, spiking their body temp to expand their muscles.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHNow|Magnamalo|Title=Malice Tiger Wyvern|Desc=A monster covered in an armour-like carapace. Feeding on the bones of corpses, it accumulates gas in its body that, when emitted, resembles ghostly flames parading around it. if struck by an attack while it is covered in this gas, you will be inflicted with hellfireblight, causing you to explode after a certain period of time.|Game=[[MHRise]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Scorned Magnamalo|Title=Malice Tiger Wyvern|Desc=A Magnamalo variant that achieves an even more twisted, malevolent form. Filled with hatred, they are known as "Scorned Magnamalo." Shrouded in Hellfire at all times, they also boast larger arm blades and harder armor plating. During battles, they have been spotted focusing their Hellfire and swinging it like a blade.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHNow|Odogaron|Title=Cruel Claw Wyvern|Desc=A fanged wyvern that roams about in search of carcasses. They have a habit of dragging their captured prey and hunks of meat back to their nest.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Ebony Odogaron|Title=Wicked Claw Wyvern|Desc=This Odogaron subspecies is forever on the prowl for its next meal, and is often seen carrying fresh kills in its mouth. Reports indicate it goes into a frenzy upon eating.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHNow|Tobi-Kadachi|Title=Flying Thunder Wyvern|Desc=Fanged Wyverns inhabiting forest habitats. Sharp claws allow them to climb up tree trunks with ease, building up static electricity within their fur as they rub against the bark. They can also glide through the air, thanks to the membrane stretching between their front and hind legs.|Game=[[MHWorld]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Viper Tobi-Kadachi|Title=Flying Poison Wyvern|Desc=The tail of this subspecies secretes a toxin while its fangs paralyze prey. It can also glide without climbing trees.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHNow|Zinogre|Title=Thunder Wolf Wyvern|Desc=Fanged Wyverns that bear a mantle of electricity with razor-sharp claws and sturdy limbs. Found in unforgiving mountain ranges, where they gather countless Thunderbugs to store their electrical energy. Their electrical attacks are said to rival even lightning strikes.|Game=[[MHP3]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Apex Zinogre|Title=Thunder Wolf Wyvern|Desc=A Zinogre so mighty, it was crowned an Apex. Its body is covered in scars and wounds as if it had been caught in a storm, and it's seemingly always dominated by wrath and terror. Its forelegs - and their every strike - brim with ferocious sparks. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Stygian Zinogre|Title=Hell Wolf Wyvern|Desc=Feeding on Dracophage Bugs has given this subspecies of Zinogre extraordinary brute strength. They have a dark crimson hue, and are far more hostile than regular Zinogre. Their fierce attacks are enough to make their foes shriek in fright.|Game=[[MH3U]]|Last=[[MHWI]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHGU|Thunderlord Zinogre|Title=True Awakening|Desc=These Zinogre Deviants glimmer with electric sparks. "With one howl, the heavens loose a thousand flashes, and ten thousand peals of thunder. Approach it not, anger it not-for the wrath of the 'Thunderlord' shows no mercy."|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+===[[Flying Wyvern]]===
+{{MonsterListElem2|MHGU|Akantor|Title=Supremacy Wyvern|Desc=A wyvern shrouded in mystery and known by many names -- "the black god" to some, "the tyrant of fire" to others, but usually called "Akantor" by the Guild. Its giant spines and tusks make for a fearsome sight in the volcanic areas it frequents.|Game=[[MHF2]]|Last=[[MHGU]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHWilds|Arkveld|ext=webp |Title=Chain Blade Wyvern|Desc=A flying wyvern that was considered extinct according to documents left behind by the Guild. Their wings have a unique, chain-like blade that can extend and retract freely to reap their prey. They feed on elemental energy absorbed through these chainblades, and are able to convert the energy to unleash dragon element attacks.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHRS|Astalos|Title=Electric Wyvern|Desc=Large Flying Wyverns with crest-shaped organs that let them control vast amounts of electricity. Astalos vibrate these organs on their head, forked tail, and brilliant wings to charge the respective body part with electricity, yielding tremendous strength and an amplified attack range. Violent to a fault, witnesses have observed them using all their might to drive intruders from their territory.|Game=[[MHGen]]|Last=[[MHRS]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Boltreaver Astalos|Title=Lightning Revolt|Desc=These Astalos Deviants unleash electric bolts as blue as the clear sky. Their highly developed shockshells produce electromagnetic spheres to trap prey, which all but disappears among the crackling streaks of blue.|Game=[[MHGU]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Barioth|Title=Ice Tusk Wyvern|Desc=Flying Wyverns that rule the frozen wastes, armed with characteristic giant tusks and sharp spikes. Their spikey scaled wings and tail allow them to run effortlessly across the ice, making them difficult to keep up with.|Game=[[MH3]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Frostfang Barioth|Title=Ice Fang Wyvern|Desc=A Barioth variant capable of spewing a sub-zero breath attack that it uses to slow down prey. Be careful, as this attack can freeze you as well.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHST2|Sand Barioth|Title=Wind Fang Wyvern|Desc=A subspecies of Barioth. Their breath is strong enough to generate tornados, which they then use to travel at high speeds across the desert sands. Their yellow carapaces are tinted red, and their stained fangs shine deep blue when polished clean.|Game=[[MHP3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Basarios|Title=Rock Wyvern|Desc=The juvenile form of Gravios, their most distinctive feature is the rock-hard carapace on their backs. Spend most of their time buried underground pretending to be boulders.|Game=[[MH1]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Ruby Basarios|Title=Peach Rock Wyvern|Desc=This subspecies of Basarios coat their carapace with rare ore, which they scatter with great force during battle. Unlike regular Basarios, they can discharge both noxious poison and a sleep-inducing gas.|Game=[[MH4]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Bazelgeuse|Title=Explosive Scale Wyvern|Desc=Flying Wyverns that travel the world in search of prey. They scatter explosive scales over a wide area to prey on whatever gets caught in the blast.|Game=[[MHWorld]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Seething Bazelgeuse|Title=Explosive Scale Wyvern|Desc=A Bazelgeuse variant whose body seems to smolder, like it could go critical at any moment. The heat of their explosive scales have grown, their pale blue glow worthy of the "Seething" moniker. Their scales are blisteringly hot in this state, capable of scorching the very earth with their volatile force.|Game=[[MHWI]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHNow|Diablos|Title=Horned Wyvern|Desc=Feared as tyrants of the desert, these Flying Wyverns attack any who stray into their territory. They use their huge horns in dash attacks to devastating effect. Their diet is comprised mostly of cacti.|Game=[[MH1]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHRS|Apex Diablos|Title=Horned Wyvern|Desc=A Diablos so mighty, it was crowned an Apex. It is eternally possessed by wrath and terror, possibly due to the myriad wounds that cover its body. Its supremely developed horns adds to the lethality of its charge. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWI|Black Diablos|Title=Black Horned Wyvern|Desc=A subspecies of Diablos. Females darken in the mating season so as to warn off other creatures. Even more aggressive than the regular species, they will go out of their way to attack anything they see with their menacing horns.|Game=[[MHG]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Bloodbath Diablos|Title=Massacre Demon|Desc=These Diablos Deviants are easily identified by their broken left horn, which branches out into three points. Their viciousness and terrifying power make all but the most daring flee in despair.|Game=[[MHGU]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Espinas|Title=Thorny Wyvern|Desc=Flying Wyverns known for the red spikes on their tough green frame, forming both a means of attack and defense, thus generally keeping foes at bay. As a result, they are often seen sprawled out and relaxing in their domain. Once they sense danger, however, they expand their blood vessels to turn their hide and wing membranes a bright red, and they will run riot with noteworthy brutality.|Game=[[MHFrontier]]|Last=[[MHRS]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHRS|Flaming Espinas|Title=Brown Thorny Wyvern|Desc=An Espinas subspecies with a slightly more muted body color. The boldness of the standard Espinas remains: run-of-the-mill attacks won't rouse Flaming Espinas from their slumber. Their breath attack contains a powerful poison, and a dense acid that deteriorates armor. Take this attack head-on, and you won't stand a chance...|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH3U|Gigginox|Title=Poison Strange Wyvern|Desc=Wyverns that inhabit the Tundra. Gigginox live in darkness and thus have degraded vision; they detect prey via body heat, then attack with poison. When excited, their color changes and parts of their body harden. Extremely fertile, laying innumerable eggs.|Game=[[MH3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MH3U|Baleful Gigginox |Title=Electric Strange Wyvern|Desc=A subspecies of Gigginox that uses electricity to stun prey. It is believed to be a random mutation, and as such, sightings are relatively rare. It may be possible to weaken its electrical powers by destroying the capacitor organs on its body.|Game=[[MHP3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHWilds|Gravios|ext=webp|Title=Armor Wyvern|Desc=Large wyverns found in Oilwell Basin. They have a developed physique, powerful heat rays, and a host of gases they can emit from their body. Their bony carapaces are famously tough but expose a surprisingly brittle interior once destroyed.|Game=[[MH1]]|Last=[[MHWilds]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Black Gravios|Title=Black Armor Wyvern|Desc=Large wyverns found in Oilwell Basin. They have a developed physique, powerful heat rays, and a host of gases they can emit from their body. Their bony carapaces are famously tough but expose a surprisingly brittle interior once destroyed.|Game=[[MHG]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Khezu|Title=Strange Wyvern|Desc=Loathsome Flying Wyverns that dwell in caves and other dark places. All but blind, Khezu hunt by smell, using electric shocks to paralyze their prey before pouncing on them from the walls or ceiling.|Game=[[MH1]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Red Khezu|Title=Red Strange Wyvern|Desc=A subspecies of Khezu that has red bodies. Their electrical power is far more advanced than that of normal Khezu, giving them a wider variety of attacks to disable and ensnare prey.|Game=[[MHG]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Legiana|Title=Wind Drifting Wyvern|Desc=Not even the strongest winds can take away from the gracefulness with which Legiana soar high in the skies. These swift, kite-like Flying Wyverns emit a chilling wind from their bodies, which dull their prey's ability to escape.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Shrieking Legiana|Title=Wind Drifting Wyvern|Desc=A Legiana variant shrouded in white frost. It specializes in freezing prey with the powerful chill it emits, then swooping down to strike at them from overhead.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHST2|Monoblos|Title=One Horned Wyvern|Desc=Endowed with an impressive cranial horn. They use this large horn in brutal attacks, screeching ear-splitting war cries. Defeating one is considered a truly heroic feat among Hunters.|Game=[[MH1]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|White Monoblos|Title=White One Horned Wyvern|Desc=	A white-colored subspecies of Monoblos encased in a tough outer shell. They have a fiercer temperament than regular Monoblos, and will hunt down their quarry relentlessly. Sightings of these monsters are incredibly rare.|Game=[[MHG]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Nargacuga|Title=Swift Wyvern|Desc=Flying Wyverns that have evolved to live in thickly wooded areas. These sly beasts stalk their prey from the shadows with ferocious speed and dogged tenacity. Their massive tails are so dexterous as they are deadly, and powerful enough to slay smaller monsters with one strike.|Game=[[MHFU]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHST2|Green Nargacuga|Title=Green Swift Wyvern|Desc=A subspecies of Nargacuga with mottled green fur allowing for excellent camouflage in their habitat. They are extremely agile, and their favored attack is to lash at prey with their long, spiked tails.|Game=[[MHP3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Lucent Nargacuga|Title=Moon Swift Wyvern|Desc=Nargacuga clad in radiant fur and lives in fog-shrouded lands. Lucent Nargacuga hide in the night's fog and moonlight, springing assaults with neither shape nor shadow. Astounding agility and marvelous mobility makes them difficult to capture with the naked eye. The throng of toxic tailspikes they launch makes these wyverns perilous beasts indeed.|Game=[[MH3U]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHST2|Silverwind Nargacuga|Title=Wind Cutting White Shadow|Desc=These Nargacuga Deviants are larger and covered in patterned silvery fur. Unbelievably, they are even more agile than regular Nargacuga. Flashes from a tail cleave the earth, sunder rock, and split the sky.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Paolumu|Title=Floating Sky Wyvern|Desc=Paolumu inflate the sacs in their bodies to float in the air, directing their flight by exhaling this way or that. They can slow down their prey with bursts of compressed air to create an opening for a powerful tail attack.|Game=[[MHWorld]]|Last=[[MHWI]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHNow|Nightshade Paolumu|Title=Floating Sleep Wyvern|Desc=A subspecies of Paolumu, classified as being of the sleep element. Exhaling the air stored in its neck, it emits a sleep-inducing breath in all directions.|Game=[[MHWI]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWilds|Rathalos|ext=webp|Title=Fire Wyvern|Desc=Fearsome male wyverns known as the “Kings of the Skies.” Alongside the Rathian, they stake out a wide territory around their nest, and it is the male’s role to watch from above. Armed with powerful poisonous claws and fiery breath, Rathalos use their aerial prowess to descend on invaders.|Game=[[MH1]]|Last=[[MHWilds]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Azure Rathalos|Title=Azure Fire Wyvern|Desc=An azure-colored subspecies of Rathalos. More mobile than their standard cousins, they locate prey from the air and quickly swoop in for the kill.|Game=[[MHG]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Silver Rathalos|Title=Silver Fire Wyvern|Desc=A rare species of Rathalos covered in shimmering silver scales. Known as the Silver Fire Wyvern, or alternatively the Silver Sun, as inspired by their majestic appearance. These wyverns are known for their fierce breath and even fiercer claws, giving these threatening beasts exceptional combat ability. In battle, their attacks grow only more intense when in their Incandescent state.|Game=[[MHG]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Dreadking Rathalos|Title=Darkness Lord|Desc=These Rathalos Deviants are the king among kings of Flying Wyverns. Their magnificent black wings beat with enormous power to carry these giant monsters through the skies, bursts of their scorching breath threatening to burn all who oppose their rule into a pile of ashes.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Apex Rathalos|Title=Fire Wyvern|Desc=A Rathalos so mighty, it was crowned an Apex. It is eternally possessed by wrath and terror, possibly due to the myriad wounds that cover its body. Its every breath releases flaming jets that singe the very air.. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Rathian|ext=webp|Title=Female Fire Wyvern|Desc=Fire-breathing female wyverns known as the “Queens of the Land.” Their powerful legs and venomous tails make them efficient ground hunters. At times, Rathian and Rathalos can be sighted hunting as a couple. After laying eggs, Rathian are extremely watchful of their nests. Proceed with extra caution, as a mother will move swiftly to protect her young.|Game=[[MH1]]|Last=[[MHWilds]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Pink Rathian|Title=Cherry Blossom Fire Wyvern|Desc=A subspecies of Rathian with vibrant pink scales. They wield their toxic tails more deftly than normal Rathian, weakening prey with poison before finishing them off.|Game=[[MHG]]|Last=[[MHWI]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Gold Rathian|Title=Gold Fire Wyvern|Desc=A rare species of Rathian covered in shimmering golden scales. Known as the Gold Fire Wyvern, or alternatively the Golden Moon, as inspired by their divine appearance. These wyverns are infamous for their strong scales and attacks with their reinforced tails, giving these beasts exceptional combat ability. In battle, their attacks grow only more intense when in their Incandescent state.|Game=[[MHG]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHST2|Dreadqueen Rathian|Title=Deadly Princess|Desc=The bodies of these Rathian Deviants are adorned with spikes full of deadly venom, which they release in noxious pink clouds. Every rose has its thorn.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Apex Rathian|Title=Female Fire Wyvern|Desc=A Rathian so mighty, it was crowned an Apex. It is eternally possessed by wrath and terror, possibly due to the myriad wounds that cover its body. Its tail oozes a venom far deadlier than any of a normal monster. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Rey Dau|ext=webp|Title=Shining Thunder Wyvern|Desc=The flying wyvern that reigns supreme over the Windward Plains' ecosystem. It has adapted to the Sandtide - when it most frequently appears - and is able to store, amplify and discharge the storm's heavy lightning to lethal effect. Rey Dau is highly territorial and will attack any and all intruders on sight. The fulgurite against its carapace emits a sound that puts every monster in the region on guard.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHRS|Seregios|Title=Thousand Blade Wyvern|Desc=Large Flying Wyverns with sharp, blade-like scales covering their body. Seregios are well-known as extremely territorial and belligerent creatures, wielding their aerial mobility and powerful hind leg attacks in intense combat against other large monsters. Reports have confirmed that Seregios have the ability to launch the scales from their body, inflicting their victims with the Bleeding status.|Game=[[MH4U]]|Last=[[MHRS]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHWI|Tigrex|Title=Roaring Wyvern|Desc=Primeval in appearance, these Flying Wyverns possess fearsome limbs, jaws and claws. Capable of unleashing an ear-splitting roar, they will roam to the far reaches of the coldest climates in search of prey.|Game=[[MHF2]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHWI|Brute Tigrex|Title=Black Roaring Wyvern|Desc=A black subspecies of Tigrex. The force and range of their roar is far more fearsome than that of their Tigrex cousins. Extremely vicious with a practically insatiable appetite. Just like regular Tigrex, there have been reports of them traveling incredibly far distances to hunt for prey.|Game=[[MHP3]]|Last=[[MHWI]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Molten Tigrex|Title=Great Roaring Wyvern|Desc=A rare subspecies of Tigrex. While traces of claw marks and footprints thought to belong to this monster have been discovered, its existence is unconfirmed due to the lack of first-hand sightings...|Game=[[MH4]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Grimclaw Tigrex|Title=Ruinous Hook Claw|Desc=The strength of these Tigrex Deviants is truly devastating. Their raw power overwhelms the so-called technological strengths of humans, leaving any who encounter the beasts overcome with fear.|Game=[[MHGen]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHGU|Ukanlos|Title=Avalanche Wyvern|Desc=An enigmatic dragon sighted only deep within the most remote extremes. Its jaws are capable of crushing ice and rock alike. The natives of one region claim its appearance mirrors that of the white god of their legends.|Game=[[MHFU]]|Last=[[MHGU]]}}
+
+===[[Leviathan]]===
+{{MonsterListElem2|MHST2|Agnaktor|Title=Fire Pike Wyvern|Desc=Agnaktor use their tough beaks and powerful muscles to burrow through rock, moving freely through the earth. Their tough armor is actually made of molten magma, which coats their bodies and adheres to them as it cools down.|Game=[[MH3]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Glacial Agnaktor|Title=Frozen Pike Wyvern|Desc=A subspecies of Agnaktor. With their tough scales, even the tundra presents no obstacle with their movements. They burrow into the permafrost and clad themselves in a layer of icy armor to protect themselves. Their frosty breath attacks are chillingly powerful.|Game=[[MHP3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHRS|Almudron|Title=Elderly Mud Wyvern|Desc=As its name implies, Almudron spends a great deal of time lurking in mud - at least until it emerges to smother approaching prey. From its tail oozes a strange golden fluid, which Almudron uses to dissolve the ground beneath its prey, arresting them in a mire so that it can drag them under. When enraged, it produces more fluid, turning the mud golden. When you see gold, watch out!|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Magma Almudron|Title=Melting Elderly Wyvern|Desc=Unlike normal Almudron, Magma Almudron live in the Lava Caverns, and can manipulate magma instead of mud. They secrete a special liquid that melts the ground, allowing them to move freely through the earth. Known for their aggressive nature, they become extremely agitated when trespassers set foot on their turf, attacking them unrelentingly.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Balahara|ext=webp|Title=Sand Sea Wyvern|Desc=Desert-dwelling leviathans that build carapaces out of fulgurite formed by lightning strikes. They use their flexible skeletons and serpentine bodies to create quicksand traps for unwary prey. Inside their mouths are multiple eye-like sensory organs. The mucus they secret contains luminous bacteria and is believed to aid visibility while they are submerged and other low-light conditions like sandstorms.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MH3U|Gobul|Title=Lantern Fish Wyvern|Desc=Monsters with strong camouflage skills and powerful neurotoxins. Poor swimmers, Gobul conceal themselves and lure prey by imitating plants with their barbels. Can reportedly swallow Epioth whole. They love frogs.|Game=[[MH3]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHWilds|Hirabami|ext=webp|Title=Wind Scizzors Wyvern|Desc=Leviathans that inhabit the Iceshard Cliffs. They have sharp, pincer-like tails and peculiar membranes on their necks that catch the wind and keep them aloft. Hirabami can sometimes be sighted nesting in groups along the cliffs, using their scales or foreclaws to cling to walls or ceiling while they sleep.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHWilds|Jin Dahaad|ext=webp|Title=Frozen Peak Wyvern|Desc=A leviathan that sits at the peak of the Iceshard Cliffs' ecosystem. It surrounds its massive form in cold temperatures via ridge-like cooling organs across its body; the frost its limbs produce doubles as a potent weapon and a way to travel along walls and floating rocks.|Game=[[MHWilds]]|Last=[[MHWilds]]}}
+
+{{MonsterListElem2|MHST2|Lagiacrus|Title=Sea Wyvern|Desc=Leviathans atop the aquatic food chain, due in no small part to their ability to deliver nasty electrical shocks. While feared by sailors who traverse the seas, the monster can occasionally be found resting on land as well.|Game=[[MH3]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MH3U|Abyssal Lagiacrus|Title=Dark Sea Wyvern|Desc=A rare species of Lagiacrus known only from an ancient scroll:<br>From the abyss' darkest cave<br>Comes the master of the wave<br>Consumer of the world entire<br>Devil of the sea most dire<br>Fear it as you fear the grave.|Game=[[MH3U]]|Last=[[MH3U]]}}
+
+{{MonsterListElem2|MHST2|Ivory Lagiacrus|Title=White Sea Wyvern|Desc=A subspecies of Lagiacrus adapted to life on land. Their beautiful white carapace belies their vicious nature. Their agility coupled with their dash and breath attacks are nothing short of devastating. The electrical charges they emit when enraged are truly fearsome.|Game=[[MH3U]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Mizutsune|Title=Bubble Fox Wyvern|Desc=These beautiful monsters with white and purple scales exude a magical aura, yet they are far from harmless. They secrete a peculiar fluid that cover their foes in immobilizing bubbles. Once their prey's movement is impaired, it closes in with spry, dance-like movements.|Game=[[MHGen]]|Last=[[MHWilds]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Violet Mizutsune|Title=Flame Fox Wyvern|Desc=Violet Mizutsune are leviathans known for their beautiful lilac-colored fur. They use the fluid they secrete to slide around, targeting their prey with gas-filled bubbles. Though they appear graceful creatures, the facade quickly fades as they envelop themselves in pale flames and bathe their surroundings in a beautiful, but deadly, inferno of white-hot flame.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHST2|Soulseer Mizutsune|Title=Heavenly Eye|Desc=These Mizutsune Deviants lost their eyesight but adapted to use their bubbles as another sense. The malice of an undying grudge burns within their closed eyes.|Game=[[MHGU]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Apex Mizutsune|Title=Bubble Fox Wyvern|Desc=A Mizutsune so mighty it was crowned an Apex. It is eternally possessed by wrath and terror, possibly due to the myriad wounds that cover its body. Its bubbles and huge tail have no trouble sending foes packing. The call of an Apex unleashes its tortured anger on nearby beasts, driving them into a frenzy.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MH3U|Nibelsnarf|Title=Lurking Mouth Wyvern|Desc=Leviathans that have adapted to live in sandy areas. They burrow beneath the desert and locate prey aurally, then suck both the target and any surrounding sand into their maws. The gill-like organs in their mouths are thought to absorb nutrients.|Game=[[MHP3]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHRS|Royal Ludroth|Title=Water Beast|Desc=Royal Ludroth use their sponge-like neck scales to absorb water and keep from drying out on land. Once the sponge loses moisture, they will attempt to re-enter the water to recover. They are also known to spew up mucus to trip up their prey.|Game=[[MH3]]|Last=[[MHRS]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Purple Ludroth|Title=Purple Water Beast|Desc=A subspecies of Royal Ludroth with a spongey purple mane that can both store and disperse a powerful toxin. Moistening this mane seems to revitalize the creature.|Game=[[MHP3]]|Last=[[MH3U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Somnacanth|Title=Mermaid Wyvern|Desc=A formidable aquatic serpent that crests on moonlit nights—likely why it has often been mistaken for a mermaid. It expels an intoxicating sleep powder from its neck gills and tail, knocking out prey before it can resist. Some Somnacanth sightings tell of this species making use of unusual shells, so exercise caution if you catch one swimming towards you with a shell in its claws.|Game=[[MHRise]]|Last=[[MHRS]]|Spinoff=[[MHNow]]}}
+
+{{MonsterListElem2|MHRS|Aurora Somnacanth|Title=Ice Mermaid Wyvern|Desc=Light illuminates the dust scattered around this subspecies, making their fantastical appearance shimmer softly. Aurora Somnacanth sprays icy blasts in place of sleeping powder, attacking all who dare enter their territory. They use the permanent cold emanating from their bodies to freeze the vicinity, and then the frozen surface to move around swiftly.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHWilds|Uth Duna|ext=webp|Title=Wave Dress Wyvern|Desc=The leviathan that reigns supreme over the Scarlet Forest's ecosystem. It has adapted to water-rich environments and is sighted most often during the Downpour. Uth Duna's secretions when combined with water form a protective veil that not only absorbs hostile blows but also adds weight, which it slams down with enough force to sweep away surrounding threats in the resulting wave.|Game=[[MHWilds]]|Last=[[MHWilds]]|Uth Duna|Uth Duna}}
+
+===[[Lynian]]===
+{{MonsterListElem2|2ndGen|King Shakalaka|Title=???|Desc=This Shakalaka chieftain pulls together the Shakalaka's as one, in order to act. Extremely quick to anger when approached, this hot-head can invoke his fiery wrath with emotion alone. Feared by even the most skilled hunters.|Game=[[MH2]]|Last=[[MHFU]]}}
+
+===[[Neopteron]]===
+{{MonsterListElem2|MHGU|Ahtal-Ka|Title=Pavilion Mantis|Desc=The golden empress of praying mantises resides in a huge, ruined castle. She flattens towns and fortresses, and uses the wreckage to build her lair ever larger. It's rumored that the Empress's Throne, as it is known, is strewn with golden cocoons and webbing, which contain stolen treasures.|Game=[[MHGU]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MHGU|Ahtal-Neset|Title=???|Desc=Ascend the Throne! The Empress's Throne may be thrown together from rubble but it boasts impregnability. The gold strands tying it together may be severed, though... Once on top, you'll find unguarded threads. Sever them and you'll find your way to the heart... and the Empress.|Game=[[MHGU]]|Last=[[MHGU]]|Ahtal-Ka|Ahtal-Neset}}
+
+{{MonsterListElem2|MHST2|Seltas|Title=Piercing Beetle|Desc=Swift, agile Neopterons that swoop down and attack their prey from the sky. They can also store a corrosive liquid inside themselves, which they can spray from their stinger-shaped abdomens.|Game=[[MH4]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MH4U|Desert Seltas|Title=Axe Beetle|Desc=A mid-sized Neopteron whose forked horns and broad foreleg- attack range set it apart from its more common cousins. Desert Seltas have also been known to burrow freely through the ground.|Game=[[MH4U]]|Last=[[MH4U]]}}
+
+{{MonsterListElem2|MHST2|Seltas Queen|Title=Heavy Beetle|Desc=These large monsters have shrunk back in the process of evolution, rendering them flightless. They excrete pheromones to attract the male Seltas, and work together with them to hunt down prey.|Game=[[MH4]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Desert Seltas Queen|Title=Cannon Beetle|Desc=A subspecies of Seltas Queen, with a larger, more powerful body. Their specialized pincer-tail is used to grab and pull their unfortunate Seltas out of the sand.|Game=[[MH4U]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|2ndGen|Vespoid Queen|Title=Queen Insect|Desc=A massive thorax and brilliant, gigantic wings mark the Vespoid Queen. It commands its subjects through unique flight patterns, and will stab any intruders with a poisonous stinger that also causes paralysis. It also spits acidic bodily fluid at its prey.|Game=[[MHFU]]|Last=[[MHFU]]}}
+
+===[[Piscine Wyvern]]===
+{{MonsterListElem2|MHWI|Beotodus|Title=Frozen Fish Wyvern|Desc=This piscine monster’s wedge-shaped head allows it to freely swim through the tundra snow. Frequently seen flinging snow at prey.|Game=[[MHWI]]|Last=[[MHWI]]}}
+
+{{MonsterListElem2|MHST2|Cephadrome|Title=Sand Wyvern|Desc=Alpha monsters that lead group of Cephalos. Hardened black scales set them apart from the smaller Cephalos. They have excellent hearing, making them sensitive to loud noises. Their fins also secrete a paralytic agent.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHNow|Jyuratodus|Title=Mud Fish Wyvern|Desc=A piscine wyvern that makes its habitat in muddy swamps. It has a tendency to use mud as a means by which to both camouflage itself and hunt with. It is believed that they coat themselves with mud in order to restore moisture to their scales, which grow brittle and inhibit cutaneous respiration when dehydrated. Exercise caution should you come across the mud which Jyuratodus spits out, as its high viscosity can easily restrict body movement.|Game=[[MHWorld]]|Last=[[MHRS]]|Spinoff=[[MHOutlanders]]}}
+
+{{MonsterListElem2|MHWI|Lavasioth|Title=Lava Wyvern|Desc=Lavasioths utilize molten lava as armor. They are extremely aggressive and will attack without prejudice until the threat has been eliminated.|Game=[[MHFrontier]]|Last=[[MHWI]]|Spinoff=[[MHFrontier]]}}
+
+{{MonsterListElem2|MHST2|Plesioth|Title=Water Wyvern|Desc=Huge beasts active both on land and in water. With wings that have adapted to swimming rather than flight, these monsters leap from the water to snatch prey and drag them down in the depths to feast upon.|Game=[[MH1]]|Last=[[MHGU]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Green Plesioth|Title=Green Water Wyvern|Desc=A subspecies of Plesioth named for their jade-green scales. Astonishingly agile and tenacious, they aggressively pursue their target on land or in water, destroying everything in their path untill they catch their prey.|Game=[[MHG]]|Last=[[MH3U]]|Spinoff=[[MHFrontier]]}}
+
+===[[Relict]]===
+{{MonsterListElem2|MHWI|Leshen|Title=???|Desc=Dwelling deep inside the forest, these creatures use their innate magic to control all flora and fauna within their territory.|Game=[[MHWorld]]*|Last=[[MHWorld]]*}}
+
+{{MonsterListElem2|MHWI|Ancient Leshen|Title=???|Desc=An old Leshen that arrived through a portal to assume control over the Ancient Forest. Sometimes revered as an indigenous deity.|Game=[[MHWorld]]*|Last=[[MHWorld]]*}}
+
+===[[Snake Wyvern]]===
+{{MonsterListElem2|MHGU|Najarala|Title=Constricting Snake Wyvern|Desc=A monster that stuns its prey with vibrations from its scales, then wraps around and constricts its victims. Once a Najarala start to coil around its prey, a quick escape or a mortal blow to it are the only things that will offer a chance at survival.|Game=[[MH4]]|Last=[[MHGU]]}}
+
+{{MonsterListElem2|MH4U|Tidal Najarala|Title=Water Snake Wyvern|Desc=A Najarala subspecies that makes deadly use of its long body. Tidal Najarala respond to threats by spitting a watery substance at targets and have even been known to use their own scales to deflect this liquid bile so that they can snipe at more elusive prey.|Game=[[MH4U]]|Last=[[MH4U]]}}
+
+===[[Temnoceran]]===
+{{MonsterListElem2|MHWilds|Lala Barina|ext=webp|Title=Thorny Flower Spider|Desc=Temnocerans native to the Scarlet Forest with distinctive, pirouette-like movements. Their fluids contain a neuroplegic agent which they mix with water to produce red, petal-like bristles on their abdomens. When agitated, Lala Barina open these bristles like a deadly, blossoming flower and release them as florets that paralyze whatever they come into contact with.|Game=[[MHWilds]]|Last=[[MHWilds]]|Lala Barina|Lala Barina}}
+
+{{MonsterListElem2|MHWilds|Nerscylla|ext=webp|Title=Shadow Spider|Desc=Temnocerans that inhabit the Iceshard Cliffs. They weave vast, sticky webs across their territory, using them and various status ailments to corner prey before utilizing pincer-like jaws to finish it off. Sometimes dead Gypceros can be found in the webs, the hide of which Nerscylla are known to adorn themselves with after devouring the rest of the carcass.|Game=[[MH4]]|Last=[[MHWilds]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHST2|Shrouded Nerscylla|Title=Corpse Spider|Desc=A subspecies of Nerscylla that inhabits arid desert areas. Rather than spinning a web, they lurk beneath the sands in order to ambush unsuspecting prey. Similar to their standard cousins, they have a tendency to wear their prey's skin.|Game=[[MH4U]]|Last=[[MH4U]]|Spinoff=[[MHST2]]}}
+
+{{MonsterListElem2|MHRS|Rakna-Kadaki|Title=Empress Spider|Desc=A Rakna-Kadaki is usually seen covered in sticky webbing. Clinging to its abdomen are its offspring, known as Rachnoid, which it controls using the flammable gas that builds up there. Rachnoid spit fire, capture prey, and support the Rakna-Kadaki's massive body. As their numbers dwindle, the beast will hatch more, at which point it is extremely dangerous.|Game=[[MHRise]]|Last=[[MHRS]]}}
+
+{{MonsterListElem2|MHRS|Pyre Rakna-Kadaki|Title=Blazing Empress Spider|Desc=A subspecies of Rakna-Kadaki filled with explosive material, their bodies are covered in a dark red, explosion- resistant webbing. An advanced chain of command lets them direct their offspring with a special sound-producing organ. On offense, they strike their forelimbs like flints to induce explosions. Connecting special detonation threads to offspring in the area lets them expand the explosive area to their positions.|Game=[[MHRS]]|Last=[[MHRS]]}}
+
+===[[???]]===
+{{MonsterListElem2|MHRS|Chaotic Gore Magala|Title=Black Eclipse Wyvern|Desc=Gore Magala that have fallen into chaos, having been denied their evolution into Shagaru Magala. They maintain their original power, while possessing the potential of Shagaru Magala, making them incredibly unstable. Sometimes this leads them to fall into a state of anguish and violence. When attacking their prey, they repeatedly fold and unfurl their wings, as if to show their internal struggle with their own form.|Game=[[MH4U]]|Last=[[MHRS]]}}

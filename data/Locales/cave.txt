@@ -1,0 +1,32 @@
+{{NavigationHabitats}}
+
+Caves are open spaces within the earth, often underground. Caves locales are somewhat uncommon in the Monster Hunter series due to many other habitats containing caves to help fill the ecological niche. As such, not many monsters require large open caves, such as [[Khezu]], who is able to survive in regions with fewer, smaller caves. Additionally, not all caves fill the same niche as one another.
+
+== [[Sixth Generation]] ==
+
+=== [[Oilwell Basin]] ===
+The Oilwell basin is a large cavern filled with oil. It appears to be the ruins of a large forge or factory, featuring pipes for oil to seep through, vents for the heat to escape out of, as well as devices that may have been used for construction. Like other locales in [[Monster Hunter Wilds]], it is characterized by its three phases. During the fallow, oil flows, resulting in drab colors. During the inclemency, fire rages. During the plenty, the oil hardens and rusts, bringing some colour to the area.<!-- update once there is more information, update on both this page and on the volcano page -->
+
+== [[Fifth Generation]] ==
+
+=== [[Rotten Vale]] ===
+The rotten vale is located below the coral highlands, and is the place where monsters go to die. As a result, it is made almost entirely out of the rotting remains of monsters, which gives rise to many scavengers and monsters that like to cover themselves in remains. Much of the area is within underground caverns, where hazardous [[effluvia]] fills the air. The bottom of the vale has acid, and the region is also prone to acid rain. The region has a giant [[Dalamadur]] skeleton, of which an old meteor can be found near the bottom of the vale.
+
+=== [[Lava Caverns]] ===
+The Lava Caverns is a region characterized by its contrast, in the scorching, red fiery volcano areas, and the cool, blue water-filled caves. At the base of the volcano is a beach. These areas aren't home to much grass, but there are several trees that grow here. Leading into the caves is a marsh-like area, home to mangroves. The caves themselves have bioluminescence, glowing bright blue at night. They are also home to a large skeleton of [[Thunder Serpent Narwa]]. In certain areas, the water and lava meet. The volcanic areas are filled with large lakes and waterfalls of lava, and much of the earth below has fiery cracks in it. Due to the locale featuring caves and marsh-like areas, monsters that inhabit such regions also inhabit the Lava Caverns, such as [[Khezu]] and [[Tetranadon]].
+As [[Monster Hunter Rise]] does not feature temperature mechanics, cool drinks are not required in this locale's volcanic areas
+
+=== [[Yawning Abyss]] ===
+The home of [[Gaismagorm]], this is a cavern located below a set of ruins outside the [[Citadel]]. The cave itself has ruins and waterfalls. It consists of two areas which cannot be freely travelled between.
+
+== [[Fourth Generation]] ==
+
+=== [[Sunken Hollow]] ===
+The Sunken Hollow is a gigantic cavern located under a mountain. It is near [[Harth]], and the flow of lava within the Hollow is reflected in the village. The Hollow's caves are vast and filled with various lifeforms, such as one area illuminated by bioluminescence. Another area is made of pure white crystals. A number of areas are filled with webs, woven by [[Nerscylla]]. Its prey can even be seen hanging in its nest. Despite having few similarities to a forest or jungle, most monsters that inhabit the Sunken Hollow are usually found in said habitats, such as [[Rathian]], [[Gypceros]], [[Kecha Wacha]] and [[Congalala]]. Even the monsters who's main habitat are these caverns can also be found in forests and jungles.
+
+=== [[Volcanic Hollow]] ===
+The Volcanic hollow is a fiery version of the [[Sunken Hollow]]. It is a giant cavern filled with lava. Most areas feature the same layout, although some changes have been made. The large web in one area has been burnt away, and some areas have less terrain to stand on due to the lava.
+
+This locale requires cool drinks.
+
+[[Category:Habitats]]

@@ -1,0 +1,66 @@
+{{NavigationHabitats}}
+
+Mountains are  mountainous regions at a high altitude. They are very common in the Monster Hunter series, partly due to the fact that mountains can overlap with multiple different niches, they can be grassy, forested or covered in snow and ice. As such, various mountain regions may not cover the same niche at all.
+
+== [[Fifth Generation]] ==
+
+=== [[Coral Highlands]] ===
+The coral highlands is a mountainous region filled with all kinds of coral, seashells, and other aquatic scenery. Despite what the coral and scenery may suggest, there isn't an especially large amount of water in this region, and it doesn't usually rain. The soil and rock in this area is blue, and the clouds in the sky are reminiscent of the surface of the ocean.
+
+Along with monsters that have adapted to this region such as [[Paolumu]] and [[Namielle]], monsters that have adapted to mountainous regions also inhabit the Coral Highlands, such as [[Zinogre]] and [[Kirin]].
+
+=== [[Hoarfrost Reach]] ===
+The Hoarfrost Reach is a large snow-covered locale with a number of frigid environments. The southernmost areas are forested. The central area is a large field, with some seaside areas to its north, close to which is a whirlpool similar to the one in the frozen seaway. The northern areas are somewhat mountainous. The locale also features a number of caves, some of which are much warmer than the rest of the locale. One notable feature of the reach are its hot springs, which provide buffs for hunters. A number of areas also contain deep snow, hampering movement. The north-most area is uniquely made out of ore and is [[Velkhana]]'s nest. The shed carapace of a [[Kushala Daora]] can also be found within this locale.
+
+When Velkhana is on the map there will be an aurora in the sky during a certain time at night.
+
+Most areas of this locale require hot drinks to traverse.
+
+=== [[Shrine Ruins]] ===
+The Shrine Ruins is a forested mountain region, consisting of grasslands, forests, and rivers. A land of greenery brimming with impressive biodiversity, its most notable feature is the remnants of an old village where the ancestors of the people of [[Kamura]] used to live.
+
+=== [[Infernal Springs]] ===
+The ruins of a Japanese style palace in the mountains, and a spring of hot water. The water in this area is red, and the colour of the sky changed drastically from day to night. This locale is not tied to any specific monster, but in Monster Hunter Rise, it is the only place where [[Violet Mizutsune]] and [[Amatsu]] can be fought.
+
+=== [[Citadel]] ===
+The citadel is a very diverse locale. Aside from the central neutral areas, it is separated into 3 sections: the castle ruins, the icy mountains, and the forested region.
+
+The castle ruins are very barren, with very little plant life, but is notable for the large castle that stands here. This section is the home of [[Malzeno]].
+
+The icy mountains is cold and snowy, allowing for ice monsters to inhabit this region. It also has a frozen cave, and has a few ruins. It is the home of [[Lunagaron]].
+
+The forest is lush area, filled with plant life. There is some water, and one are in particular that's covered in tree sap. It is the home of [[Garangolm]].
+
+== [[Fourth Generation]] ==
+
+=== [[Heaven's Mount]] ===
+Heaven's mount is a region high in the mountains, consisting of ancient ruins precariously suspended up high. Various vines, ropes and rocks keep the area from collapsing, but rubble can constantly be seen falling. Most of the area is relatively barren, but it does have one forested area. One area is notable for the perpetual lightning storm.
+
+=== [[Sanctuary]] ===
+The place where [[Shagaru Magala]] is fought, it consists of one area which is a field surrounded by ruins just outside [[Heaven's Mount]]. Its basecamp is the same as the one in Heaven's Mount, except you enter the opposite way. In the middle of the field is a large rock, which can be used to take cover from monsters. In certain quests, monsters other than Shagaru magala can be fought here.
+
+=== [[Speartip Crag]] ===
+The location where [[Dalamadur]] is fought, the Speartip Crag is a small cliff standing against a giant spiralling pillar-like rock. A notable feature of this locale is the acid at the bottom.
+
+=== [[Ruined Pinnacle]] ===
+The Ruined Pinnacle is a mountain abundant in plantlife, containing ancient ruins, some of which are even underwater. The locale has many caves and impressive waterfalls. Its most distinct feature is the giant tower brimming with dragon energy found at its peak, which stretches far above the clouds, and is the home of [[Valstrax]].
+
+== [[Third Generation]] ==
+
+=== [[Misty Peaks]] ===
+The Misty Peaks is a locale with tall mountains that reach above the clouds. Wild bamboo grows throughout this area. The locale has areas by the water as well, and one area has a large waterfall. The artisans of [[Yukumo]] get their trademark [[Yukumo Wood]] from the deep forests, and the [[Sacred Pinnacle]] sits deep in the mountains.
+
+=== [[Sacred pinnacle|Sacred Pinnacle]] ===
+A mountaintop near [[Yukumo]], this serves as the arena to fight Amatsu in the third and fourth generation. It has some grass and trees. The sky is perpetually red, even if Amatsu isn't in the area, but the sky clears up after Amatsu's death. In [[Monster Hunter Generations Ultimate]], a number of deviants can also be fought here, such as [[Redhelm Arzuros]].
+
+== [[Second Generation]] ==
+
+=== [[Snowy mountains|Snowy Mountains]] ===
+Also known as the arctic ridge in the fourth generation, this locale's name is an accurate description. Lower areas have less snow, instead being covered in green grass. Once you climb the mountain, however, it becomes much snowier. Between the snow-covered mountaintops and the grassy lower regions lie a couple frozen caves. Large monsters mostly inhabit the mountaintops of this locale. As a result, hunting this locale is like climbing a mountain each time.
+
+The mountaintops and caves in this locale require hot drinks.
+
+=== [[Snowy Mountains Peak]] ===
+This special locale consists of one snowy area, with a crack in the middle that hunters cannot traverse. It serves as the arena in which Ukanlos is fought. Hot drinks are required for this area
+
+[[Category:Habitats]]

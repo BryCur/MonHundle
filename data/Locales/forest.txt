@@ -1,0 +1,37 @@
+{{NavigationHabitats}}
+A forest is a locale that features plenty of trees and verdant nature. They often have other features to help distinguish them; some locales are also considered part of the forest niche while not explicitly representing a proper forest. They are heavily associated with [[Mountains]], [[Swamps]] and [[Jungles]], but some [[Snowfields]] are also heavily forested.
+
+== [[Sixth Generation]] ==
+
+=== [[Scarlet Forest]] ===
+The Scarlet forest is a tropical forest filled with ruins of what appears to be an ancient city. It is located near the Windward Plains. It gets its name from its fallow period, wherein the water in the forest gains a red color. During the inclemency, heavy rain pours down, causing streams to flow rapidly, hindering movement for hunters. The apex [[Uth Duna]] becomes active during this time. During the plenty, the water turns a bright blue color, and the flora in the area becomes much more vibrant as well. A [[Lynian]] tribe known as the [[Wudwud]] resides in this locale.
+
+==[[Fifth Generation]]==
+===[[Ancient Forest]]===
+The Ancient Forest is rife with dense and lush flora that surround the titanic Ancient Tree, bordered by the coast of the [[New World]]. The forest experiences frequent precipitation and could be considered a rainforest. Water from the Ancient Forest flows into the [[Wildspire Waste]]. The settlement of [[Astera]] is directly connected to the Ancient Forest.
+
+===[[Shrine Ruins]]===
+The Shrine Ruins is not a forest, but fills the same niche. It consists of grasslands, forests, rivers and mountains. A land of greenery brimming with impressive biodiversity, its most notable feature is the remnants of an old village where the ancestors of the people of [[Kamura]] used to live.
+==[[Fourth Generation]]==
+===[[Primal Forest]]===
+The Primal Forest is a tropical area featuring impressive grottoes and vibrant flora. The region is filled with many gigantic skeletons across many of its areas. Its vibrant forests are contrasted by area 8, a barren and dreary mountain with the skeleton of a gigantic monster that overlooks much of the landscape.
+
+=== [[Jurassic Frontier]] ===
+The Jurassic Frontier is a prehistoric themed locale. Much the flora here is themed after plants associated with prehistoric forests, and many of the small and large monsters found here are themed after dinosaurs. The locale is lush in plantlife, and features both grassy plains and deep forests, as well as some caves.
+
+==[[Third Generation]]==
+===[[Deserted Island]]===
+The Deserted Island fills the niche of a forest, but is closer to a valley, as the forested areas are off-limits. Many leviathans inhabit this place, as it is directly connected to the ocean. The [[Underwater Ruin]] is found in the depths, while the village of [[Moga]] floats on its coast. If travelled to via the gate in Moga, it will be known as the [[Moga Woods]], and monsters that don't normally inhabit the region such as [[Diablos]] will roam the area. Hunting monsters in the Moga Woods earns you points.
+
+===[[Flooded Forest]]===
+The Flooded Forest is a thick forested wetland, more akin to a swamp than a forest. Much of the terrain here is covered in puddles and deep lakes. An ancient structure, seemingly a temple, rises from the far reaches of the locale. In [[Monster Hunter 3]] and [[Monster Hunter 3 Ultimate|3 Ultimate]], several areas are flooded, allowing hunters to swim in them. However, as this mechanic isn't present in other games, these areas are instead shallow in [[Monster Hunter Portable 3rd]] and [[Monster Hunter Rise|Rise]].
+===[[Misty Peaks]]===
+The Misty Peaks is a locale with tall mountains that reach above the clouds. Wild bamboo grows throughout this area. The locale has areas by the water as well, and one area has a large waterfall. The artisans of [[Yukumo]] get their trademark [[Yukumo Wood]] from the deep forests, and the [[Sacred Pinnacle]] sits deep in the mountains.
+==[[Second Generation]]==
+===[[Great Forest]]===
+The Great Forest is a largely unexplored region consisting of giant trees and crystal clear lakes and rivers. A gigantic hollow tree sits near the center, which many monsters use for nesting.
+==[[First Generation]]==
+===[[Forest and Hills]]===
+The Forest and Hills is a landmark locale where many hunters from [[Schrade]] learn how to hunt. A deep forest that runs parallel to ancient cliffsides, this locale attracts monsters of all kinds, from bottom-feeding scavengers to top predators looking for a nest. The village of [[Kokoto]] is a boat ride away.
+
+[[Category:Habitats]]
