@@ -1,5 +1,6 @@
 ﻿using core_api.Models;
 using core_api.Services;
+using core_api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace core_api.Controllers;
@@ -8,9 +9,9 @@ namespace core_api.Controllers;
 [Route("game")]
 public class GameController : ControllerBase
 {
-    private readonly GameService _gameService;
+    private readonly IGameService _gameService;
     
-    public GameController(GameService gameService){ _gameService = gameService; }
+    public GameController(IGameService gameService){ _gameService = gameService; }
 
     [HttpPost("start")]
     public IActionResult StartGame()

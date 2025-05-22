@@ -1,8 +1,9 @@
 ﻿using core_api.Models;
+using core_api.Services.Interfaces;
 
 namespace core_api.Services;
 
-public class GameService
+public class GameService : IGameService
 {
     private readonly Dictionary<Guid, Game> _games = new Dictionary<Guid, Game>(); // en attendant Redis / DB 
 

@@ -8,4 +8,4 @@ POST {{core_api_HostAddress}}/game/start
 
 
 ### 
-GET {{core_api_HostAddress}}/game/resume/1fae893f-41a8-47e7-9ce6-a206cd31da93
+GET {{core_api_HostAddress}}/game/resume/5d1a9424-4225-442b-8108-cae5064543d8
