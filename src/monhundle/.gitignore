@@ -18,6 +18,7 @@ out/
 
 # Rider logs
 .idea/.idea_modules/
+.idea/.idea.monhundle/
 .idea/.name
 .idea/*.iml
 .idea/modules.xml
@@ -61,3 +62,7 @@ TestResults/
 secrets.json
 appsettings.*.json
 !appsettings.Development.json
+
+
+core-api/obj/
+core-api/bin/
