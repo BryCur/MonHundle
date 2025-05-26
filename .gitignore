@@ -1,0 +1,69 @@
+# Rider project files
+src/monhundle/.idea/
+src/monhundle/*.sln.iml
+
+# Build output
+src/monhundle/bin/
+src/monhundle/obj/
+src/monhundle/out/
+
+# User-specific files
+src/monhundle/*.user
+src/monhundle/*.suo
+src/monhundle/*.userosscache
+src/monhundle/*.sln.docstates
+
+# VS Code settings
+.vscode/
+
+# Rider logs
+src/monhundle/.idea/.idea_modules/
+src/monhundle/.idea/.idea.monhundle/
+src/monhundle/.idea/.name
+src/monhundle/.idea/*.iml
+src/monhundle/.idea/modules.xml
+src/monhundle/.idea/workspace.xml
+src/monhundle/.idea/tasks.xml
+src/monhundle/.idea/usage.statistics.xml
+src/monhundle/.idea/dictionaries
+src/monhundle/.idea/httpRequests
+
+# NuGet packages
+src/monhundle/*.nupkg
+src/monhundle/*.snupkg
+src/monhundle/*.nuspec
+src/monhundle/packages/
+# Include packages.config if you're using legacy NuGet
+!**/packages.config
+
+# Resharper
+_ReSharper*/
+src/monhundle/*.[Rr]e[Ss]harper
+src/monhundle/*.DotSettings.user
+
+# DotCover
+src/monhundle/*.dotCover
+
+# Test results
+src/monhundle/TestResults/
+src/monhundle/*.trx
+src/monhundle/*.coverage
+src/monhundle/*.coveragexml
+
+# Logs
+src/monhundle/*.log
+
+# Temporary files
+src/monhundle/*.tmp
+src/monhundle/*.bak
+src/monhundle/*.swp
+
+# Secrets (si utilisés dans config)
+src/monhundle/secrets.json
+src/monhundle/appsettings.*.json
+src/monhundle/!appsettings.Development.json
+
+
+src/monhundle/core-api/obj/
+src/monhundle/core-api/bin/
+
