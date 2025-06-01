@@ -6,6 +6,16 @@ public class CriteriaNumber(int val) : AbstractCriteria<int, CriteriaNumber>(val
 {
     public override ComparisonResult Compare(CriteriaNumber other)
     {
-        return other.Value == this.Value ? ComparisonResult.Correct : ComparisonResult.Incorrect;
+        if (other.Value == this.Value)
+        {
+            return ComparisonResult.Correct; 
+        } 
+        
+        if (other.Value > this.Value)
+        {
+            return ComparisonResult.Lower;
+        }
+
+        return ComparisonResult.Higher;
     }
 }

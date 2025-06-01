@@ -2,5 +2,5 @@
 
 public enum ComparisonResult
 {
-    Incorrect, Partial, Correct
+    Incorrect, Partial, Correct, Higher, Lower
 }
