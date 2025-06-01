@@ -1,11 +1,11 @@
 # Rider project files
-src/monhundle/.idea/
-src/monhundle/*.sln.iml
+src/**/.idea/
+src/**/*.sln.iml
 
 # Build output
-src/monhundle/bin/
-src/monhundle/obj/
-src/monhundle/out/
+src/**/bin/
+src/**/obj/
+src/**/out/
 
 # User-specific files
 src/monhundle/*.user
@@ -62,8 +62,4 @@ src/monhundle/*.swp
 src/monhundle/secrets.json
 src/monhundle/appsettings.*.json
 src/monhundle/!appsettings.Development.json
-
-
-src/monhundle/core-api/obj/
-src/monhundle/core-api/bin/
 
