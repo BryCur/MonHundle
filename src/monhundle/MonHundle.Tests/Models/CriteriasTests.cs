@@ -1,5 +1,6 @@
 ﻿using core_api.Models;
 using core_api.Models.Criterias;
+using core_api.Models.Criterias.Enums;
 
 namespace MonHundle.Tests.Models;
 
@@ -35,8 +36,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_correct()
     {
-        CriteriaSet<String> crit1 = new CriteriaSet<string>(new HashSet<string> {"test", "test2"});
-        CriteriaSet<String> crit2 = new CriteriaSet<string>(new HashSet<string> {"test", "test2"});
+        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
+        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
 
         Assert.Equal(ComparisonResult.Correct, crit1.Compare(crit2));
     }
@@ -44,8 +45,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_incorrect()
     {
-        CriteriaSet<String> crit1 = new CriteriaSet<string>(new HashSet<string> {"test", "test2"});
-        CriteriaSet<String> crit2 = new CriteriaSet<string>(new HashSet<string> {"test3", "test4"});
+        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
+        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Plains, Habitat.Jungle});
 
         Assert.Equal(ComparisonResult.Incorrect, crit1.Compare(crit2));
     }
@@ -53,8 +54,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_partial()
     {
-        CriteriaSet<String> crit1 = new CriteriaSet<string>(new HashSet<string> {"test", "test2"});
-        CriteriaSet<String> crit2 = new CriteriaSet<string>(new HashSet<string> {"test2", "test3"});
+        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
+        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Swamp});
 
         Assert.Equal(ComparisonResult.Partial, crit1.Compare(crit2));
     }
@@ -63,8 +64,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaObject_should_return_correct()
     {
-        CriteriaObject<String> crit1 = new CriteriaObject<string>("test");
-        CriteriaObject<String> crit2 = new CriteriaObject<string>("test");
+        CriteriaObject<Diet> crit1 = new CriteriaObject<Diet>(Diet.Plant);
+        CriteriaObject<Diet> crit2 = new CriteriaObject<Diet>(Diet.Plant);
 
         Assert.Equal(ComparisonResult.Correct, crit1.Compare(crit2));
     }
@@ -72,8 +73,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaObject_should_return_incorrect()
     {
-        CriteriaObject<String> crit1 = new CriteriaObject<string>("test");
-        CriteriaObject<String> crit2 = new CriteriaObject<string>("test3");
+        CriteriaObject<Diet> crit1 = new CriteriaObject<Diet>(Diet.Plant);
+        CriteriaObject<Diet> crit2 = new CriteriaObject<Diet>(Diet.Meat);
 
         Assert.Equal(ComparisonResult.Incorrect, crit1.Compare(crit2));
     }
