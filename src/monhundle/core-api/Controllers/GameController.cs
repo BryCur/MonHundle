@@ -34,4 +34,18 @@ public class GameController : ControllerBase
         
         return Ok(game);
     }
+
+    [HttpPost("guess")]
+    public IActionResult MakeGuess([FromBody] Guid gameId, [FromBody] Guessable guess)
+    {
+        Game? game = _gameService.GetGame(gameId);
+        if (game == null)
+        {
+            return NotFound();
+        }
+        
+        List<ComparisonResult> results = game.Answer.compareTo(guess);
+        
+        return Ok(results);
+    }
 }

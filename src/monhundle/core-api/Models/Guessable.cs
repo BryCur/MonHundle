@@ -7,4 +7,12 @@ public class Guessable
 {
     private int Id;
     private GameCriteria _criterias;
+
+    public List<ComparisonResult> compareTo(Guessable other)
+    {
+        return _criterias.GetCriterias().Zip(
+            other._criterias.GetCriterias(),
+            (reference, guess) => reference.Compare(guess)
+        ).ToList();
+    }
 }
