@@ -2,7 +2,7 @@
 
 namespace core_api.Models.Criterias.Enums;
 
-public enum Affliction
+public enum Afflictions
 {
     BlastBlight,
     Bleeding,

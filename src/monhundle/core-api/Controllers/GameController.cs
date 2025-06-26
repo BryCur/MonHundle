@@ -1,4 +1,5 @@
 ﻿using core_api.Models;
+using core_api.Models.RequestObjects;
 using core_api.Services;
 using core_api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +11,13 @@ namespace core_api.Controllers;
 public class GameController : ControllerBase
 {
     private readonly IGameService _gameService;
-    
-    public GameController(IGameService gameService){ _gameService = gameService; }
+    private readonly IMonsterService _monsterService;
+
+    public GameController(IGameService gameService, IMonsterService monsterService)
+    {
+        _gameService = gameService;
+        _monsterService = monsterService;
+    }
 
     [HttpPost("start")]
     public IActionResult StartGame()
@@ -36,13 +42,16 @@ public class GameController : ControllerBase
     }
 
     [HttpPost("guess")]
-    public IActionResult MakeGuess([FromBody] Guid gameId, [FromBody] Guessable guess)
+    public IActionResult MakeGuess([FromBody] MakeGuessBody body)
     {
-        Game? game = _gameService.GetGame(gameId);
+        Game? game = _gameService.GetGame(body.gameId);
         if (game == null)
         {
             return NotFound();
         }
+
+        Guessable guess = _monsterService.getMonsterFromId(body.guessId) ??
+                           throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
         List<ComparisonResult> results = game.Answer.compareTo(guess);
         

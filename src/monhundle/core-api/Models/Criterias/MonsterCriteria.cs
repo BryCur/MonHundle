@@ -1,0 +1,32 @@
+﻿using core_api.Models.Criterias.Enums;
+using core_api.Models.Interfaces;
+
+namespace core_api.Models.Criterias;
+
+public record MonsterCriteria(
+    CriteriaNumber Generation,
+    CriteriaNumber ThreatLevel,
+    CriteriaObject<Classifications> Classification,
+    CriteriaSet<Weaknesses> WeaknessesSet,
+    CriteriaSet<Diets> DietSet,
+    CriteriaSet<Afflictions> InflictedAilments,
+    CriteriaSet<Habitats> Habitat
+) {
+    
+    // habitats? 
+    // first appearance? --> gen
+    
+    public ICriteria[] GetCriterias()
+    {
+        return new ICriteria[]
+        {
+            Generation,
+            ThreatLevel,
+            Classification,
+            WeaknessesSet,
+            DietSet,
+            InflictedAilments,
+            Habitat
+        };
+    }
+}

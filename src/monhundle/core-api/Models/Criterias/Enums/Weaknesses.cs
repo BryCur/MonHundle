@@ -1,6 +1,6 @@
 ﻿namespace core_api.Models.Criterias.Enums;
 
-public enum Weakness
+public enum Weaknesses
 {
     Fire,
     Ice,

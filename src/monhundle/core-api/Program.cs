@@ -15,7 +15,9 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
 
+        // define the injectable classes
         builder.Services.AddSingleton<IGameService, GameService>();
+        builder.Services.AddSingleton<IMonsterService, MonsterService>();
 
         var app = builder.Build();
 

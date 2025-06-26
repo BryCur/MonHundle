@@ -1,6 +1,6 @@
 ﻿namespace core_api.Models.Criterias.Enums;
 
-public enum Habitat
+public enum Habitats
 {
     Cave,
     Desert,

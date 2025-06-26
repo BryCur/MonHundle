@@ -1,6 +1,6 @@
 ﻿namespace core_api.Models.Criterias.Enums;
 
-public enum Classification
+public enum Classifications
 {
     Amphibian,
     BirdWyvern,
