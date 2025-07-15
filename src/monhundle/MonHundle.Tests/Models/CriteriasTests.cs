@@ -36,8 +36,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_correct()
     {
-        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
-        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
+        CriteriaSet<Habitats> crit1 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Volcano});
+        CriteriaSet<Habitats> crit2 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Volcano});
 
         Assert.Equal(ComparisonResult.Correct, crit1.Compare(crit2));
     }
@@ -45,8 +45,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_incorrect()
     {
-        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
-        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Savanna, Habitat.Jungle});
+        CriteriaSet<Habitats> crit1 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Volcano});
+        CriteriaSet<Habitats> crit2 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Savanna, Habitats.Jungle});
 
         Assert.Equal(ComparisonResult.Incorrect, crit1.Compare(crit2));
     }
@@ -54,8 +54,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaSet_should_return_partial()
     {
-        CriteriaSet<Habitat> crit1 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Volcano});
-        CriteriaSet<Habitat> crit2 = new CriteriaSet<Habitat>(new HashSet<Habitat> {Habitat.Desert, Habitat.Swamp});
+        CriteriaSet<Habitats> crit1 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Volcano});
+        CriteriaSet<Habitats> crit2 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Swamp});
 
         Assert.Equal(ComparisonResult.Partial, crit1.Compare(crit2));
     }
@@ -64,8 +64,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaObject_should_return_correct()
     {
-        CriteriaObject<Diet> crit1 = new CriteriaObject<Diet>(Diet.Plant);
-        CriteriaObject<Diet> crit2 = new CriteriaObject<Diet>(Diet.Plant);
+        CriteriaObject<Diets> crit1 = new CriteriaObject<Diets>(Diets.Plant);
+        CriteriaObject<Diets> crit2 = new CriteriaObject<Diets>(Diets.Plant);
 
         Assert.Equal(ComparisonResult.Correct, crit1.Compare(crit2));
     }
@@ -73,8 +73,8 @@ public class CriteriasTests
     [Fact]
     public void CriteriaObject_should_return_incorrect()
     {
-        CriteriaObject<Diet> crit1 = new CriteriaObject<Diet>(Diet.Plant);
-        CriteriaObject<Diet> crit2 = new CriteriaObject<Diet>(Diet.Meat);
+        CriteriaObject<Diets> crit1 = new CriteriaObject<Diets>(Diets.Plant);
+        CriteriaObject<Diets> crit2 = new CriteriaObject<Diets>(Diets.Meat);
 
         Assert.Equal(ComparisonResult.Incorrect, crit1.Compare(crit2));
     }

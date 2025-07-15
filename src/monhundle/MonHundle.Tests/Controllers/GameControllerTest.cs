@@ -22,7 +22,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [Fact]
     public async Task GameController_create_game_returns_200_with_id()
     {
-        _gameServiceMock.Setup(g => g.CreateGame()).Returns(new Game() {Id = Guid.NewGuid(), Answer = "ouai"});
+        _gameServiceMock.Setup(g => g.CreateGame()).Returns(new Game() {Id = Guid.NewGuid(), Answer = null});
         var response = await _client.PostAsync("/game/start", null);
         
         response.EnsureSuccessStatusCode();
@@ -42,7 +42,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [Fact]
     public async Task GameController_get_game_returns_game_from_guid()
     {
-        Game game = new Game() {Id = Guid.NewGuid(), Answer = "ouai"};
+        Game game = new Game() {Id = Guid.NewGuid(), Answer = null};
         _gameServiceMock.Setup(g => g.GetGame(game.Id)).Returns(game);
         
         var response = await _client.GetAsync($"/game/resume/{game.Id}");

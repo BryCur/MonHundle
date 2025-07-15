@@ -1,11 +1,20 @@
 ﻿using core_api.Models;
 using core_api.Services;
+using core_api.Services.Interfaces;
+using Moq;
 
 namespace MonHundle.Tests.Services;
 
 
 public class GameServiceTest
 {
+    private readonly Mock<IMonsterService> _monsterServiceMock;
+
+    public GameServiceTest()
+    {
+        _monsterServiceMock = new Mock<IMonsterService>();
+    }
+    
     [Fact]
     public void GameService_should_create_a_new_game()
     {
