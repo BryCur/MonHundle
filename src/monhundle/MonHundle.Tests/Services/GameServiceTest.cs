@@ -18,18 +18,19 @@ public class GameServiceTest
     [Fact]
     public void GameService_should_create_a_new_game()
     {
-        GameService service = new GameService();
+        GameService service = new GameService(_monsterServiceMock.Object);
         
         Game game = service.CreateGame();
         
         Assert.NotNull(game);
         Assert.NotEqual(Guid.Empty, game.Id);
+        _monsterServiceMock.Verify(s => s.getRandomMonster(), Times.Once);
     }
 
     [Fact]
     public void GameService_should_save_the_game()
     {
-        GameService service = new GameService();
+        GameService service = new GameService(_monsterServiceMock.Object);
         Game game = service.CreateGame();
         Assert.NotNull(game);
         
@@ -41,7 +42,7 @@ public class GameServiceTest
     [Fact]
     public void GameService_should_return_null_if_game_does_not_exist()
     {
-        GameService service = new GameService();
+        GameService service = new GameService(_monsterServiceMock.Object);
         Game? fetchedGame = service.GetGame(Guid.NewGuid());
         Assert.Null(fetchedGame);
     }
