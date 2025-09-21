@@ -15,7 +15,7 @@ public class MonsterList
             new CriteriaSet<Weaknesses>(new HashSet<Weaknesses>() { Weaknesses.Thunder, Weaknesses.Poison}),
             new CriteriaSet<Diets>(new HashSet<Diets>(){Diets.Unknown}),
             new CriteriaSet<Afflictions>(new HashSet<Afflictions>()),
-            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Snowfield, Habitats.Desert, Habitats.Jungle })
+            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Snowfield, Habitats.Desert, Habitats.Forest })
             
         )),
         new Guessable("zinogre", new MonsterCriteria(
@@ -25,7 +25,7 @@ public class MonsterList
             new CriteriaSet<Weaknesses>(new HashSet<Weaknesses>() { Weaknesses.Ice }),
             new CriteriaSet<Diets>(new HashSet<Diets>(){Diets.Meat}),
             new CriteriaSet<Afflictions>(new HashSet<Afflictions>() { Afflictions.Thunder }),
-            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Jungle })
+            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Forest })
         )),
         new Guessable("rathalos", new MonsterCriteria(
             new CriteriaNumber(1),
@@ -34,7 +34,7 @@ public class MonsterList
             new CriteriaSet<Weaknesses>(new HashSet<Weaknesses>() { Weaknesses.Thunder, Weaknesses.Dragon }),
             new CriteriaSet<Diets>(new HashSet<Diets>() {Diets.Meat}),
             new CriteriaSet<Afflictions>(new HashSet<Afflictions>() { Afflictions.Poison, Afflictions.Fire }),
-            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Jungle, Habitats.Forest, Habitats.Volcano })
+            new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Forest, Habitats.Volcano })
         )),
         new Guessable("glavenus", new MonsterCriteria(
             new CriteriaNumber(4),

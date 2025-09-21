@@ -46,7 +46,7 @@ public class CriteriasTests
     public void CriteriaSet_should_return_incorrect()
     {
         CriteriaSet<Habitats> crit1 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Desert, Habitats.Volcano});
-        CriteriaSet<Habitats> crit2 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Savanna, Habitats.Jungle});
+        CriteriaSet<Habitats> crit2 = new CriteriaSet<Habitats>(new HashSet<Habitats> {Habitats.Savanna, Habitats.Forest});
 
         Assert.Equal(ComparisonResult.Incorrect, crit1.Compare(crit2));
     }
