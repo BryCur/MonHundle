@@ -5,7 +5,7 @@ drop table if exists classifications;
 
 create table if not exists classifications (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 
@@ -40,7 +40,7 @@ drop table if exists biomes;
 
 create table if not exists biomes (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 
@@ -67,7 +67,7 @@ drop table if exists afflictions;
 
 create table if not exists afflictions (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 
@@ -99,7 +99,7 @@ drop table if exists weaknesses;
 
 create table if not exists weaknesses (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 
@@ -118,15 +118,15 @@ values
 
 ---------------------------- diets ------------------------------
 -- lists the different diets for monsters (e.g. piscivorous, vegetarian, ...)
-drop table if exists weaknesses;
+drop table if exists diets;
 
-create table if not exists weaknesses (
+create table if not exists diets (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 
-insert into weaknesses (id, code)
+insert into diets (id, code)
 values
     (0, 'fish'),
     (1, 'meat'),

@@ -3,7 +3,7 @@ drop table if exists locales;
 
 create table if not exists locales (
     id integer primary key,
-    code text unique
+    code text unique not null 
 );
 
 insert into locales (id, code) 

@@ -2,7 +2,7 @@ drop table if exists games;
 
 create table if not exists games (
     id integer primary key,
-    code varchar(10) unique,
+    code varchar(10) unique not null,
     name varchar(100),
     generation integer,
     release_year integer
