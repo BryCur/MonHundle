@@ -1,4 +1,4 @@
-drop table games;
+drop table if exists games;
 
 create table if not exists games (
     id integer primary key,
