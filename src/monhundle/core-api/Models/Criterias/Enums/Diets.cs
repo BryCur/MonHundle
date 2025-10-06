@@ -2,5 +2,12 @@
 
 public enum Diets
 {
-    Fish, Meat, Plant, Insect, Omnivore, Unknown, Mineral, Carcass
+    Fish, 
+    Meat, 
+    Plant, 
+    Insect, 
+    Omnivore, 
+    Unknown, 
+    Mineral, 
+    Carcass
 }
