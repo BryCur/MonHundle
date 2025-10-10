@@ -12,6 +12,7 @@ public enum Afflictions
     Fatigue,
     Fire,
     FrenzyVirus,
+    FrostBlight,
     HellfireBlight,
     Ice,
     Paralysis,
@@ -23,4 +24,5 @@ public enum Afflictions
     Thunder,
     Water,
     Webbed,
+    
 }

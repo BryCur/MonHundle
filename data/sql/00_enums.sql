@@ -63,7 +63,9 @@ values
 
 ---------------------------- afflictions ------------------------------
 -- lists the ailments a monster can inflict
+drop table if exists monsters_afflictions;
 drop table if exists afflictions;
+
 
 create table if not exists afflictions (
     id integer primary key,
@@ -81,20 +83,22 @@ values
     (5, 'fatigue'),
     (6, 'fire'),
     (7, 'frenzy_virus'),
-    (8, 'hellfire_blight'),
-    (9, 'ice'),
-    (10, 'paralysis'),
-    (11, 'poison'),
-    (12, 'sleep'),
-    (13, 'snowman'),
-    (14, 'stench'),
-    (15, 'stun'),
-    (16, 'thunder'),
-    (17, 'water'),
-    (18, 'webbed');
+    (8, 'frost_blight'),
+    (9, 'hellfire_blight'),
+    (10, 'ice'),
+    (11, 'paralysis'),
+    (12, 'poison'),
+    (13, 'sleep'),
+    (14, 'snowman'),
+    (15, 'stench'),
+    (16, 'stun'),
+    (17, 'thunder'),
+    (18, 'water'),
+    (19, 'webbed');
 
 ---------------------------- weaknesses ------------------------------
 -- lists the elements and status effects that could affect a monster
+drop table if exists monsters_weaknesses;
 drop table if exists weaknesses;
 
 create table if not exists weaknesses (

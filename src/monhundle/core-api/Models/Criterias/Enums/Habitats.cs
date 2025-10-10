@@ -12,7 +12,7 @@ public enum Habitats
     Savanna, // sec, végétation modérée
     Snowfield, // grande quantité de neige, basse température
     Special, // arène réservée pour des monstres uniques
-    Unique,
+    Unique, // feature an ecosystem that can't be reproduced elsewhere (e.g. rotten vale, wyveria, ...)
     Swamp, // aspect toxique, avec de grande quantité d'eau et de végétation
     Volcano // chaud, lave, rocailleux
 }
