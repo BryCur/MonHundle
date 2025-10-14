@@ -107,6 +107,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "MonHundle.domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/MonHundle.domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MonHundle.domain.dll": {}
+        }
       }
     }
   },
@@ -473,11 +483,17 @@
         "swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "MonHundle.domain/1.0.0": {
+      "type": "project",
+      "path": "../MonHundle.domain/MonHundle.domain.csproj",
+      "msbuildProject": "../MonHundle.domain/MonHundle.domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.AspNetCore.OpenApi >= 8.0.8",
+      "MonHundle.domain >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.6.2"
     ]
   },
@@ -509,7 +525,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj": {
+              "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

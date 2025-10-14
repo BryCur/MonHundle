@@ -1,5 +1,5 @@
 using core_api.Services;
-using core_api.Services.Interfaces;
+using MonHundle.domain.Interfaces.Services;
 
 namespace core_api;
 

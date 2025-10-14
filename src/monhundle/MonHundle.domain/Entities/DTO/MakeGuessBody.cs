@@ -1,3 +1,3 @@
-﻿namespace core_api.Models.RequestObjects;
+﻿namespace MonHundle.domain.Entities.DTO;
 
 public record MakeGuessBody(Guid gameId, string guessId);

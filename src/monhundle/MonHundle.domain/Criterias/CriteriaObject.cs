@@ -1,6 +1,6 @@
-﻿using core_api.Models.Interfaces;
+﻿using MonHundle.domain.Entities;
 
-namespace core_api.Models.Criterias;
+namespace MonHundle.domain.Criterias;
 
 public class CriteriaObject<T>(T val) : AbstractCriteria<T, CriteriaObject<T>>(val)
 {

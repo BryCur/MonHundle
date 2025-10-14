@@ -1,4 +1,6 @@
-﻿namespace core_api.Models.Interfaces;
+﻿using MonHundle.domain.Entities;
+
+namespace MonHundle.domain.Interfaces;
 
 public interface ICriteria
 {

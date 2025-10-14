@@ -1,7 +1,7 @@
-﻿using core_api.Models.Criterias;
-using core_api.Models.Interfaces;
+﻿using MonHundle.domain.Criterias;
+using MonHundle.domain.Interfaces;
 
-namespace core_api.Models;
+namespace MonHundle.domain.Entities;
 
 public class Guessable(string id, MonsterCriteria monsterCriteria)
 {

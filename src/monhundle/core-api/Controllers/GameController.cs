@@ -1,8 +1,7 @@
-﻿using core_api.Models;
-using core_api.Models.RequestObjects;
-using core_api.Services;
-using core_api.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MonHundle.domain.Entities;
+using MonHundle.domain.Entities.DTO;
+using MonHundle.domain.Interfaces.Services;
 
 namespace core_api.Controllers;
 

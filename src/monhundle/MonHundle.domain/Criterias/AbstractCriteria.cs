@@ -1,4 +1,7 @@
-﻿namespace core_api.Models.Interfaces;
+﻿using MonHundle.domain.Entities;
+using MonHundle.domain.Interfaces;
+
+namespace MonHundle.domain.Criterias;
 
 public abstract class AbstractCriteria<T, TSelf>(T initialValue) : ICriteria where TSelf : AbstractCriteria<T, TSelf>
 {

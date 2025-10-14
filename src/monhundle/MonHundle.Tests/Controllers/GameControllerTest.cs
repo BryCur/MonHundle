@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using core_api;
-using core_api.Models;
-using core_api.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.Testing;
+using MonHundle.domain.Entities;
+using MonHundle.domain.Interfaces.Services;
 using MonHundle.Tests.Utils;
 using Moq;
 

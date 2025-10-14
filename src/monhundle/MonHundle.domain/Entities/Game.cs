@@ -1,4 +1,4 @@
-﻿namespace core_api.Models;
+﻿namespace MonHundle.domain.Entities;
 
 public class Game
 {

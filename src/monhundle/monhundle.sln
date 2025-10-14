@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core-api", "core-api\core-a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonHundle.Tests", "MonHundle.Tests\MonHundle.Tests.csproj", "{CD6033C7-2363-4DE4-AAF3-34B1CC8B5CEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonHundle.database", "MonHundle.database\MonHundle.database.csproj", "{08E60BAC-DA35-4457-B2FA-828F8C837E4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonHundle.domain", "MonHundle.domain\MonHundle.domain.csproj", "{E4596481-EA4C-4472-9C7F-C1B001EC42AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{CD6033C7-2363-4DE4-AAF3-34B1CC8B5CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD6033C7-2363-4DE4-AAF3-34B1CC8B5CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD6033C7-2363-4DE4-AAF3-34B1CC8B5CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E60BAC-DA35-4457-B2FA-828F8C837E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E60BAC-DA35-4457-B2FA-828F8C837E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E60BAC-DA35-4457-B2FA-828F8C837E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E60BAC-DA35-4457-B2FA-828F8C837E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4596481-EA4C-4472-9C7F-C1B001EC42AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4596481-EA4C-4472-9C7F-C1B001EC42AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4596481-EA4C-4472-9C7F-C1B001EC42AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4596481-EA4C-4472-9C7F-C1B001EC42AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,7 @@
-﻿using core_api.Models;
-using core_api.Services.Interfaces;
+﻿
+
+using MonHundle.domain.Entities;
+using MonHundle.domain.Interfaces.Services;
 
 namespace MonHundle.Tests.Services;
 

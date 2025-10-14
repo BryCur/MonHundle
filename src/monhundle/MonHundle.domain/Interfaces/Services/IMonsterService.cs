@@ -1,6 +1,6 @@
-﻿using core_api.Models;
+﻿using MonHundle.domain.Entities;
 
-namespace core_api.Services.Interfaces;
+namespace MonHundle.domain.Interfaces.Services;
 
 public interface IMonsterService
 {

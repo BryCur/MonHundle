@@ -1,4 +1,4 @@
-﻿namespace core_api.Models.Criterias.Enums;
+﻿namespace MonHundle.domain.Criterias.Enums;
 
 public enum Classifications
 {

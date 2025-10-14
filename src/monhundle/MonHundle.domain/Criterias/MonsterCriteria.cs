@@ -1,7 +1,9 @@
-﻿using core_api.Models.Criterias.Enums;
-using core_api.Models.Interfaces;
+﻿
 
-namespace core_api.Models.Criterias;
+using MonHundle.domain.Criterias.Enums;
+using MonHundle.domain.Interfaces;
+
+namespace MonHundle.domain.Criterias;
 
 public record MonsterCriteria(
     CriteriaNumber Generation,

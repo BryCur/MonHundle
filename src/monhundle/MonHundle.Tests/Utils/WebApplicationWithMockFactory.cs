@@ -1,9 +1,9 @@
 ﻿using core_api;
-using core_api.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MonHundle.domain.Interfaces.Services;
 using Moq;
 
 namespace MonHundle.Tests.Utils;

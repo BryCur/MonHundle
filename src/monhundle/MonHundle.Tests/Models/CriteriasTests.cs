@@ -1,6 +1,8 @@
-﻿using core_api.Models;
-using core_api.Models.Criterias;
-using core_api.Models.Criterias.Enums;
+﻿
+
+using MonHundle.domain.Criterias;
+using MonHundle.domain.Criterias.Enums;
+using MonHundle.domain.Entities;
 
 namespace MonHundle.Tests.Models;
 
