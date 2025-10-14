@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MonHundle.database\MonHundle.database.csproj" />
       <ProjectReference Include="..\MonHundle.domain\MonHundle.domain.csproj" />
     </ItemGroup>
 

@@ -1,8 +1,9 @@
-﻿using core_api.Util.DummyData;
+﻿
+using MonHundle.domain.DummyData;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Interfaces.Services;
 
-namespace core_api.Services;
+namespace MonHundle.domain.Services;
 
 public class MonsterService : IMonsterService
 {

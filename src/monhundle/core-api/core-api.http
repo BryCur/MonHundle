@@ -7,6 +7,9 @@ POST {{core_api_HostAddress}}/game/start
 ### 
 GET {{core_api_HostAddress}}/game/resume/cbde0e13-8a84-4797-9d37-834eead97eb9
 
+### 
+GET {{core_api_HostAddress}}/resources/game-titles
+
 
 ###
 POST {{core_api_HostAddress}}/game/guess

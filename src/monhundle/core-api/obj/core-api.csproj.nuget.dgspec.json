@@ -30,6 +30,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj": {
+                "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj"
+              },
               "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj": {
                 "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj"
               }
@@ -75,6 +78,82 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj",
+        "projectName": "MonHundle.database",
+        "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj",
+        "packagesPath": "C:\\Users\\bryan\\.nuget\\packages\\",
+        "outputPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\obj\\",
+        "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
+        "configFilePaths": [
+          "C:\\projects\\MonHundle\\src\\monhundle\\NuGet.Config",
+          "C:\\Users\\bryan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj": {
+                "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

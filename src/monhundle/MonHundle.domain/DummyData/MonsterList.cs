@@ -2,7 +2,7 @@
 using MonHundle.domain.Criterias.Enums;
 using MonHundle.domain.Entities;
 
-namespace core_api.Util.DummyData;
+namespace MonHundle.domain.DummyData;
 
 public class MonsterList
 {

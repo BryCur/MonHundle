@@ -1,5 +1,8 @@
-using core_api.Services;
+using Microsoft.EntityFrameworkCore;
+using MonHundle.database;
+using MonHundle.domain.Interfaces;
 using MonHundle.domain.Interfaces.Services;
+using MonHundle.domain.Services;
 
 namespace core_api;
 
@@ -8,6 +11,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,6 +23,9 @@ public class Program
         // define the injectable classes
         builder.Services.AddSingleton<IGameService, GameService>();
         builder.Services.AddSingleton<IMonsterService, MonsterService>();
+        
+        builder.Services.AddScoped<IGameTitleService, GameTitleService>();
+        builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
 
         var app = builder.Build();
 
