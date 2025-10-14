@@ -3,6 +3,7 @@ drop table if exists monsters_afflictions;
 drop table if exists monsters_biomes;
 drop table if exists monsters_safflictions;
 drop table if exists monsters_weaknesses;
+drop table if exists monsters_games;
 drop table if exists monsters;
 
 create table if not exists monsters (
@@ -316,7 +317,6 @@ insert into monsters_biomes (biome_id, monster_id)
     select 0 as biome_id, id as monster_id from monsters where code in ('ajarakan', 'balahara', 'chatacabra', 'gravios', 'gypceros', 'hirabami', 'nerscylla', 'nu_udra', 'rompopolo', 'xu_wu') -- Cave
     union all select 1 as biome_id, id as monster_id from monsters where code in ('arkveld', 'balahara', 'chatacabra', 'doshaguma', 'rathian', 'rey_dau', 'seregios') -- Desert
     union all select 2 as biome_id, id as monster_id from monsters where code in ('arkveld', 'congalala', 'lagiacrus', 'lala_barina', 'mizutsune', 'rathalos', 'rathian', 'uth_duna', 'yian_kut_ku') -- Forest
-    union all select 3 as biome_id, id as monster_id from monsters where code in ('') -- Highland
     union all select 4 as biome_id, id as monster_id from monsters where code in ('arkveld', 'blangonga', 'gore_magala', 'hirabami', 'jin_dahaad', 'nerscylla') -- Mountain
     union all select 5 as biome_id, id as monster_id from monsters where code in ('lagiacrus', 'mizutsune', 'uth_duna') -- Aquatic
     union all select 6 as biome_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'guardian_doshaguma', 'gore_magala', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'jin_dahaad', 'guardian_rathalos', 'xu_wu', 'zoh_shia') -- Ruin
@@ -371,11 +371,16 @@ insert into monsters_weaknesses (weakness_id, monster_id)
     union all select 6 as weakness_id, id as monster_id from monsters where code in ('hirabami') -- Sleep
     union all select 7 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'hirabami', 'quematrice', 'xu_wu') -- Poison
     union all select 9 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'lala_barina') -- Stun
-    
-    
-    
-    
-    
+
+--------------------------- games ----------------------------
+create table if not exists monsters_games (
+                                                   monster_id integer not null references monsters(id),
+                                                   game_id integer not null references games(id),
+                                                   primary key(monster_id, game_id)
+);
+
+insert into monsters_games (game_id, monster_id)
+    select 16 as game_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'guardian_arkveld', 'balahara', 'blangonga', 'chatacabra', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gogmazios', 'gore_magala', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'mizutsune', 'nerscylla', 'nu_udra', 'omega_planetes', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'rey_dau', 'rompopolo', 'seregios', 'uth_duna', 'xu_wu', 'yian_kut_ku', 'zoh_shia');
     
     
     
