@@ -4,6 +4,6 @@ namespace MonHundle.domain.Interfaces.Services;
 
 public interface IMonsterService
 {
-    public Guessable getRandomMonster();
-    public Guessable getMonsterFromId(string id);
+    public GuessableMonster getRandomMonster();
+    public GuessableMonster? getMonsterFromId(string id);
 }

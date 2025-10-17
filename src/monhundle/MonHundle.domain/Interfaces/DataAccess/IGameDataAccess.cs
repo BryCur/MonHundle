@@ -1,6 +1,6 @@
 ﻿using MonHundle.domain.Entities;
 
-namespace MonHundle.database.Interfaces;
+namespace MonHundle.database.Interfaces.DataAccess;
 
 public interface IGameDataAccess
 {

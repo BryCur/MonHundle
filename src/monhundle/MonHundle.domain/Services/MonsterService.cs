@@ -1,19 +1,27 @@
 ﻿
 using MonHundle.domain.DummyData;
 using MonHundle.domain.Entities;
+using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 
 namespace MonHundle.domain.Services;
 
-public class MonsterService : IMonsterService
+public class MonsterService(IMonsterDataAccess monsterDataAccess) : IMonsterService
 {
-    public Guessable getRandomMonster()
+    public GuessableMonster getRandomMonster()
     {
-        return MonsterList.monsterList[new Random().Next(0, MonsterList.monsterList.Count)];
+        String forcedGame = "MHWilds"; // until more games are ready
+        var monsterList = monsterDataAccess.GetGuessableMonsterPoolFromGame(forcedGame);
+        
+        if (monsterList is null || monsterList.Count < 1) throw new InvalidDataException("No monster available");
+        
+        var random = new Random();
+        return monsterList[random.Next(monsterList.Count)];
+
     }
 
-    public Guessable? getMonsterFromId(string id)
+    public GuessableMonster? getMonsterFromId(string id)
     {
-        return MonsterList.monsterList.Find(g => g.GetId() == id);
+        return monsterDataAccess.GetGuessableMonsterFromCode(id);
     }
 }

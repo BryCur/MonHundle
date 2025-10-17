@@ -6,9 +6,9 @@ namespace MonHundle.domain.DummyData;
 
 public class MonsterList
 {
-    public static readonly List<Guessable> monsterList = new()
+    public static readonly List<GuessableMonster> monsterList = new()
     {
-        new Guessable("kushala_daora", new MonsterCriteria(
+        new GuessableMonster("kushala_daora", new MonsterCriteria(
             new CriteriaNumber(2),
             new CriteriaNumber(8), 
             new CriteriaObject<Classifications>(Classifications.ElderDragon),
@@ -18,7 +18,7 @@ public class MonsterList
             new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Snowfield, Habitats.Desert, Habitats.Forest })
             
         )),
-        new Guessable("zinogre", new MonsterCriteria(
+        new GuessableMonster("zinogre", new MonsterCriteria(
             new CriteriaNumber(3),
             new CriteriaNumber(6), 
             new CriteriaObject<Classifications>(Classifications.FangedWyvern),
@@ -27,7 +27,7 @@ public class MonsterList
             new CriteriaSet<Afflictions>(new HashSet<Afflictions>() { Afflictions.Thunder }),
             new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Forest })
         )),
-        new Guessable("rathalos", new MonsterCriteria(
+        new GuessableMonster("rathalos", new MonsterCriteria(
             new CriteriaNumber(1),
             new CriteriaNumber(6), 
             new CriteriaObject<Classifications>(Classifications.FlyingWyvern),
@@ -36,7 +36,7 @@ public class MonsterList
             new CriteriaSet<Afflictions>(new HashSet<Afflictions>() { Afflictions.Poison, Afflictions.Fire }),
             new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Forest, Habitats.Volcano })
         )),
-        new Guessable("glavenus", new MonsterCriteria(
+        new GuessableMonster("glavenus", new MonsterCriteria(
             new CriteriaNumber(4),
             new CriteriaNumber(5), 
             new CriteriaObject<Classifications>(Classifications.BruteWyvern),
@@ -46,7 +46,7 @@ public class MonsterList
             new CriteriaSet<Habitats>(new HashSet<Habitats>() { Habitats.Forest, Habitats.Desert, Habitats.Volcano })
 
         )),
-        new Guessable("balahara", new MonsterCriteria(
+        new GuessableMonster("balahara", new MonsterCriteria(
             new CriteriaNumber(6),
             new CriteriaNumber(4), 
             new CriteriaObject<Classifications>(Classifications.Leviathan),

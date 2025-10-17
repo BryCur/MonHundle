@@ -1,4 +1,4 @@
-﻿using MonHundle.domain.Interfaces;
+﻿using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 
 namespace MonHundle.domain.Services;

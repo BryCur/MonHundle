@@ -1,7 +1,6 @@
 drop table if exists monsters_classifications;
 drop table if exists monsters_afflictions;
 drop table if exists monsters_biomes;
-drop table if exists monsters_safflictions;
 drop table if exists monsters_weaknesses;
 drop table if exists monsters_games;
 drop table if exists monsters;
@@ -251,7 +250,7 @@ values
     ('xu_wu', 6, 4),
     ('yama_tsukami', 2, 8),
     ('yian_garuga', 2, 4),
-    ('yian_kut', 1, 2),
+    ('yian_kut_ku', 1, 2),
     ('zamtrios', 4, 2),
     ('zinogre', 3, 5),
     ('zoh_shia', 6, 8),
@@ -384,6 +383,33 @@ insert into monsters_games (game_id, monster_id)
     
     
     
-    
-    
-    
+---------------------------- views -----------------------------
+drop view guessable_monsters_v;
+create view guessable_monsters_v AS
+select
+    monsters.id monster_id,
+    monsters.code monster_code,
+    monsters.generation,
+    threat_level,
+    string_agg( distinct classifications.code, ', ' order by classifications.code) classification_list,
+    string_agg( distinct weaknesses.code, ', ' order by weaknesses.code) weakness_list,
+    string_agg( distinct afflictions.code, ', ' order by afflictions.code) affliction_list,
+    string_agg( distinct biomes.code, ', ' order by biomes.code) habitat_list,
+    string_agg( distinct games.code, ', ' order by games.code) games_list
+from monsters
+         inner join monsters_classifications on monsters.id = monsters_classifications.monster_id
+         inner join classifications on monsters_classifications.classification_id = classifications.id
+
+         left join monsters_weaknesses on monsters.id = monsters_weaknesses.monster_id
+         left join weaknesses on monsters_weaknesses.weakness_id = weaknesses.id
+
+         left join monsters_afflictions on monsters.id = monsters_afflictions.monster_id
+         left join afflictions on monsters_afflictions.affliction_id = afflictions.id
+
+         inner join monsters_biomes on monsters.id = monsters_biomes.monster_id
+         inner join biomes on monsters_biomes.biome_id = biomes.id
+
+         inner join monsters_games on monsters.id = monsters_games.monster_id
+         inner join games on monsters_games.game_id = games.id
+group by monsters.id, monsters.code, monsters.generation, threat_level
+;
