@@ -15,3 +15,14 @@ indice pour MH: 5-6
 
 
 comment gérer les risen? on les compte comme mob à part?
+
+threat level: 
+1 - pack leader? small time monster, like great jagras, velocidrome
+2 - minor monster that can live and operate by itself but also have a sense of community, like chatcabra, kut-ku
+3 - monster that mostly predate and can hunt other large monsters, nerscylla, blangoga despite being 
+4 - Large monster that can fully operate by themselves and hunt prey survive: rathian level
+5 - large monster that shows hostility and possess great destructive power: rathalos, narga, diablos, ...
+6 - large monster that rivals elder dragons
+7 - elders of small/average size
+8 - large elders that reqires a siege
+9 - black dragons.

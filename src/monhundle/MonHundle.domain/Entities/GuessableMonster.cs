@@ -23,28 +23,22 @@ public class GuessableMonster(string code, MonsterCriteria monsterCriteria)
 
     public static GuessableMonster FromData(GuessableMonsterData monsterData)
     {
-        String classificationStr = monsterData.ClassificationList
-            .Split(",")
-            .First() // only primary classification, not sub-species and stuff yet
-            .Trim(); 
-        Classifications classification = (Classifications)Enum.Parse(typeof(Classifications), classificationStr);
+        int classificationId = monsterData.ClassificationList
+            .First(); // only primary classification, not sub-species and stuff yet; 
+        Classifications classification = (Classifications)classificationId;
         
-        HashSet<Weaknesses> weaknesses = monsterData.WeaknessList is not null ? monsterData.WeaknessList
-            .Split(",")
-            .Select(s => s.Trim())
-            .Select(s => (Weaknesses)Enum.Parse(typeof(Weaknesses), s))
-            .ToHashSet() : new HashSet<Weaknesses>();
+        HashSet<Weaknesses> weaknesses = monsterData.WeaknessList
+            .OfType<int>()
+            .Select(w => (Weaknesses)w)
+            .ToHashSet();
         
-        HashSet<Afflictions> affliction = monsterData.AfflictionList is not null ? monsterData.AfflictionList
-            .Split(",")
-            .Select(s => s.Trim())
-            .Select(s => (Afflictions)Enum.Parse(typeof(Afflictions), s))
-            .ToHashSet() : new HashSet<Afflictions>();
+        HashSet<Afflictions> affliction = monsterData.AfflictionList
+            .OfType<int>()
+            .Select(a => (Afflictions)a)
+            .ToHashSet();
         
         HashSet<Habitats> biomes = monsterData.HabitatList
-            .Split(",")
-            .Select(s => s.Trim())
-            .Select(s => (Habitats)Enum.Parse(typeof(Habitats), s))
+            .Select(h => (Habitats)h)
             .ToHashSet();
         
         MonsterCriteria criterion = new MonsterCriteria(

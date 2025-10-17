@@ -391,23 +391,19 @@ select
     monsters.code monster_code,
     monsters.generation,
     threat_level,
-    string_agg( distinct classifications.code, ', ' order by classifications.code) classification_list,
-    string_agg( distinct weaknesses.code, ', ' order by weaknesses.code) weakness_list,
-    string_agg( distinct afflictions.code, ', ' order by afflictions.code) affliction_list,
-    string_agg( distinct biomes.code, ', ' order by biomes.code) habitat_list,
-    string_agg( distinct games.code, ', ' order by games.code) games_list
+    array_agg( distinct m_classifications.classification_id) classification_list,
+    array_agg( distinct m_weaknesses.weakness_id) weakness_list,
+    array_agg( distinct m_afflictions.affliction_id) affliction_list,
+    array_agg( distinct m_biomes.biome_id) habitat_list,
+    array_agg( distinct games.code) games_list
 from monsters
-         inner join monsters_classifications on monsters.id = monsters_classifications.monster_id
-         inner join classifications on monsters_classifications.classification_id = classifications.id
+         inner join monsters_classifications m_classifications on monsters.id = m_classifications.monster_id
 
-         left join monsters_weaknesses on monsters.id = monsters_weaknesses.monster_id
-         left join weaknesses on monsters_weaknesses.weakness_id = weaknesses.id
+         left join monsters_weaknesses m_weaknesses on monsters.id = m_weaknesses.monster_id
 
-         left join monsters_afflictions on monsters.id = monsters_afflictions.monster_id
-         left join afflictions on monsters_afflictions.affliction_id = afflictions.id
+         left join monsters_afflictions m_afflictions on monsters.id = m_afflictions.monster_id
 
-         inner join monsters_biomes on monsters.id = monsters_biomes.monster_id
-         inner join biomes on monsters_biomes.biome_id = biomes.id
+         inner join monsters_biomes m_biomes on monsters.id = m_biomes.monster_id
 
          inner join monsters_games on monsters.id = monsters_games.monster_id
          inner join games on monsters_games.game_id = games.id

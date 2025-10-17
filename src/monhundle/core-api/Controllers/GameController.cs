@@ -46,10 +46,10 @@ public class GameController : ControllerBase
         Game? game = _gameService.GetGame(body.gameId);
         if (game == null)
         {
-            return NotFound();
+            return NotFound("game was not found");
         }
 
-        Guessable guess = _monsterService.getMonsterFromId(body.guessId) ??
+        GuessableMonster guess = _monsterService.getMonsterFromId(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
         List<ComparisonResult> results = game.Answer.compareTo(guess);

@@ -3403,7 +3403,7 @@
 	},
 	{
 		"name": "Rakna-Kadaki",
-		"monster_code": "rakna-kadaki",
+		"monster_code": "rakna_kadaki",
 		"class": ["Temnoceran"],
 		"first_game": "MHRise",
 		"generation": 5,
@@ -3417,7 +3417,7 @@
 	},
 	{
 		"name": "Pyre Rakna-Kadaki",
-		"monster_code": "pyre_rakna-kadaki",
+		"monster_code": "pyre_rakna_kadaki",
 		"class": ["Temnoceran"],
 		"first_game": "MHRS",
 		"generation": 5,

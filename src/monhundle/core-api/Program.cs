@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MonHundle.database;
-using MonHundle.domain.Interfaces;
+using MonHundle.database.DataAccessers;
+using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
 
@@ -21,9 +22,9 @@ public class Program
         builder.Services.AddControllers();
 
         // define the injectable classes
-        builder.Services.AddSingleton<IGameService, GameService>();
-        builder.Services.AddSingleton<IMonsterService, MonsterService>();
-        
+        builder.Services.AddScoped<IGameService, GameService>();
+        builder.Services.AddScoped<IMonsterService, MonsterService>();
+        builder.Services.AddScoped<IMonsterDataAccess, MonsterDataAccess>();
         builder.Services.AddScoped<IGameTitleService, GameTitleService>();
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
 
