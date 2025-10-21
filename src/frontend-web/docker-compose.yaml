@@ -1,0 +1,12 @@
+services: # pour entrer dans le conteneur: docker compose exec frontend sh
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "5173:5173" # ou autre port selon le framework
+    tty: true
+
+
+# npm init vue@latest
