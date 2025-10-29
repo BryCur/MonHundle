@@ -10,7 +10,7 @@ import router from './router'
 // 🔹 Import des traductions
 import en from './locales/en.json'
 import fr from './locales/fr.json'
-import { UserApiAccess } from './api-access/UserApiAccess'
+import { UserApi } from './services/ApiService/UserApi'
 
 const i18n = createI18n({
     legacy: false,
@@ -24,7 +24,7 @@ const i18n = createI18n({
 
 const app = createApp(App);
 
-new UserApiAccess().authUser();
+new UserApi().authUser();
 
 app.use(createPinia());
 app.use(router);

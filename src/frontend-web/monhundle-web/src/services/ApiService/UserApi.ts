@@ -1,12 +1,14 @@
-import type IUserApi from "@/interfaces/api-contracts/IUserApi";
+import type IUserApi from "@/domain/interfaces/api-contracts/IUserApi";
 
-export class UserApiAccess implements IUserApi {
+import { apiFetch } from "./ApiBaseAccess";
+
+export class UserApi implements IUserApi {
     public authenticated: boolean = false
 
     constructor() {}
 
     public authUser(): Promise<void> {
-        return fetch("http://localhost:5000/user/authenticate", // TODO not hard code the URL...
+        return apiFetch("/user/authenticate",
             {
                 method: "GET",
                 credentials: "include", 

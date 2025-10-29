@@ -23,7 +23,7 @@ public class Program
 
         // define the injectable classes
         builder.Services.AddScoped<IGameService, GameService>();
-        builder.Services.AddScoped<IMonsterService, MonsterService>();
+        builder.Services.AddScoped<IMonsterService, MonsterService>()biomes;
         builder.Services.AddScoped<IMonsterDataAccess, MonsterDataAccess>();
         builder.Services.AddScoped<IGameTitleService, GameTitleService>();
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
