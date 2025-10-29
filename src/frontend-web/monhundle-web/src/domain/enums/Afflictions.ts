@@ -1,0 +1,23 @@
+
+export enum Afflictions {
+    BlastBlight,
+    Bleeding,
+    BubbleBlight,
+    DefenseDown,
+    Dragon,
+    Fatigue,
+    Fire,
+    FrenzyVirus,
+    FrostBlight,
+    HellfireBlight,
+    Ice,
+    Paralysis,
+    Poison,
+    Sleep,
+    Snowman,
+    Stench,
+    Stun,
+    Thunder,
+    Water,
+    Webbed,
+}
