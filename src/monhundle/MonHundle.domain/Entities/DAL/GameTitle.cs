@@ -1,5 +1,8 @@
-﻿namespace MonHundle.domain.Entities.DAL;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace MonHundle.domain.Entities.DAL;
+
+[Table("games", Schema = "public")]
 public class GameTitle
 {
     public int id { get; set; }

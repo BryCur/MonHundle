@@ -5,8 +5,8 @@ namespace MonHundle.database;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<GameTitle> Games { get; set; }
-    public DbSet<GuessableMonsterData> GuessableMonsters { get; set; }
+    public DbSet<GameTitle> Games { get; init; }
+    public DbSet<GuessableMonsterData> GuessableMonsters { get; init; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -14,5 +14,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .Entity<GuessableMonsterData>()
             .HasNoKey()
             .ToView("guessable_monsters_v", "public");
+        
+        modelBuilder
+            .Entity<GameTitle>()
+            .ToView("games", "public");
     }
 }
