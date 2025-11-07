@@ -11,9 +11,14 @@ public class GameService : IGameService
     
     public GameService(IMonsterService monsterService) { _monsterService = monsterService ?? throw new ArgumentNullException(nameof(monsterService)); }
     
-    public Game CreateGame()
+    public Game CreateGame(String userId)
     {
-        Game game = new Game {Id = Guid.NewGuid(), Answer = _monsterService.getRandomMonster()};
+        Game game = new Game
+        {
+            Id = Guid.NewGuid(), 
+            Answer = _monsterService.getRandomMonster(), 
+            playerId = Guid.Parse((ReadOnlySpan<char>)userId)
+        };
         
         Games.Add(game.Id, game);
         return game;

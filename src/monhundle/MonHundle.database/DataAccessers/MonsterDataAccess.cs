@@ -23,5 +23,14 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
-    
+
+    public List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes)
+    {
+        var guessableMonsterPool = dbContext.GuessableMonsters
+                .ToList()
+                .Where(gm => gm.GamesList.Any( g => GameCodes.Contains(g)))
+                .Select(monster => monster.MonsterCode)
+            ;
+        return guessableMonsterPool.ToList();
+    }
 }

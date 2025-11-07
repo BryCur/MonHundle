@@ -4,5 +4,5 @@ namespace MonHundle.domain.Interfaces;
 
 public interface ICriteria
 {
-    ComparisonResult Compare(ICriteria criteria);
+    ComparisonOutcomes Compare(ICriteria criteria);
 }

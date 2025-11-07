@@ -4,18 +4,18 @@ namespace MonHundle.domain.Criterias;
 
 public class CriteriaSet<TS>(HashSet<TS> initialValue) : AbstractCriteria<HashSet<TS>, CriteriaSet<TS>>(initialValue)
 {
-    public override ComparisonResult Compare(CriteriaSet<TS> other)
+    public override ComparisonOutcomes Compare(CriteriaSet<TS> other)
     {
         if (other.Value.SetEquals(Value))
         {
-            return ComparisonResult.Correct;
+            return ComparisonOutcomes.Correct;
         }
 
         if (other.Value.Overlaps(Value))
         {
-            return ComparisonResult.Partial;
+            return ComparisonOutcomes.Partial;
         }
 
-        return ComparisonResult.Incorrect;
+        return ComparisonOutcomes.Incorrect;
     }    
 }

@@ -2,7 +2,7 @@
 
 namespace MonHundle.domain.Entities.DAL;
 
-[Table("games", Schema = "public")]
+[Table("game_titles", Schema = "public")]
 public class GameTitle
 {
     public int id { get; set; }

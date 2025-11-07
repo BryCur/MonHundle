@@ -17,6 +17,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         
         modelBuilder
             .Entity<GameTitle>()
-            .ToView("games", "public");
+            .ToView("game_titles", "public");
     }
 }

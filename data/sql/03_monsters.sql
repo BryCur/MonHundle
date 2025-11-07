@@ -2,7 +2,7 @@ drop table if exists monsters_classifications;
 drop table if exists monsters_afflictions;
 drop table if exists monsters_biomes;
 drop table if exists monsters_weaknesses;
-drop table if exists monsters_games;
+drop table if exists monsters_gametitles;
 drop table if exists monsters;
 
 create table if not exists monsters (
@@ -325,7 +325,7 @@ insert into monsters_biomes (biome_id, monster_id)
     union all select 10 as biome_id, id as monster_id from monsters where code in ('guardian_arkveld', 'guardian_doshaguma', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'guardian_rathalos', 'xu_wu', 'zoh_shia') -- Unique
     union all select 11 as biome_id, id as monster_id from monsters where code in ('gypceros') -- Swamp
     union all select 12 as biome_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'gogmazios', 'gravios', 'nu_udra', 'rathalos', 'rathian', 'rompopolo') -- Volcano
-
+;
     
 --------------------------- afflictions ----------------------------
 create table if not exists monsters_afflictions (
@@ -370,21 +370,21 @@ insert into monsters_weaknesses (weakness_id, monster_id)
     union all select 6 as weakness_id, id as monster_id from monsters where code in ('hirabami') -- Sleep
     union all select 7 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'hirabami', 'quematrice', 'xu_wu') -- Poison
     union all select 9 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'lala_barina') -- Stun
-
+;
 --------------------------- games ----------------------------
-create table if not exists monsters_games (
+create table if not exists monsters_gametitles (
                                                    monster_id integer not null references monsters(id),
-                                                   game_id integer not null references games(id),
-                                                   primary key(monster_id, game_id)
+                                                   game_title_id integer not null references game_titles(id),
+                                                   primary key(monster_id, game_title_id)
 );
 
-insert into monsters_games (game_id, monster_id)
-    select 16 as game_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'guardian_arkveld', 'balahara', 'blangonga', 'chatacabra', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gogmazios', 'gore_magala', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'mizutsune', 'nerscylla', 'nu_udra', 'omega_planetes', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'rey_dau', 'rompopolo', 'seregios', 'uth_duna', 'xu_wu', 'yian_kut_ku', 'zoh_shia');
+insert into monsters_gametitles (game_title_id, monster_id)
+    select 16 as game_title_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'guardian_arkveld', 'balahara', 'blangonga', 'chatacabra', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gogmazios', 'gore_magala', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'mizutsune', 'nerscylla', 'nu_udra', 'omega_planetes', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'rey_dau', 'rompopolo', 'seregios', 'uth_duna', 'xu_wu', 'yian_kut_ku', 'zoh_shia');
     
     
     
 ---------------------------- views -----------------------------
-drop view guessable_monsters_v;
+drop view if exists guessable_monsters_v;
 create view guessable_monsters_v AS
 select
     monsters.id monster_id,
@@ -395,7 +395,7 @@ select
     array_agg( distinct m_weaknesses.weakness_id) weakness_list,
     array_agg( distinct m_afflictions.affliction_id) affliction_list,
     array_agg( distinct m_biomes.biome_id) habitat_list,
-    array_agg( distinct games.code) games_list
+    array_agg( distinct game_titles.code) games_list
 from monsters
          inner join monsters_classifications m_classifications on monsters.id = m_classifications.monster_id
 
@@ -405,7 +405,7 @@ from monsters
 
          inner join monsters_biomes m_biomes on monsters.id = m_biomes.monster_id
 
-         inner join monsters_games on monsters.id = monsters_games.monster_id
-         inner join games on monsters_games.game_id = games.id
+         inner join monsters_gametitles on monsters.id = monsters_gametitles.monster_id
+         inner join game_titles on monsters_gametitles.game_title_id = game_titles.id
 group by monsters.id, monsters.code, monsters.generation, threat_level
 ;

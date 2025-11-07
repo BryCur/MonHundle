@@ -24,4 +24,9 @@ public class MonsterService(IMonsterDataAccess monsterDataAccess) : IMonsterServ
     {
         return monsterDataAccess.GetGuessableMonsterFromCode(id);
     }
+
+    public List<String> getMonsterChoicesFromGames(string[] gameTitles)
+    {
+        return monsterDataAccess.GetGuessableMonsterChoicesFromGames(gameTitles);
+    }
 }

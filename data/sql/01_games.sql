@@ -1,6 +1,6 @@
-drop table if exists games;
+drop table if exists game_titles;
 
-create table if not exists games (
+create table if not exists game_titles (
     id integer primary key,
     code varchar(10) unique not null,
     name varchar(100),
@@ -8,7 +8,7 @@ create table if not exists games (
     release_year integer
 );
 
-insert into games -- only consider international releases, commented entries are japanese exclusives
+insert into game_titles -- only consider international releases, commented entries are japanese exclusives
 (id, code, name, generation, release_year)
 values
     (1, 'MH1', 'Monster Hunter', 1, 2004),
@@ -17,7 +17,7 @@ values
     -- (4, 'MH2', 'Monster Hunter 2', 2, 2006),
     (5, 'MHF2', 'Monster Hunter Freedom 2', 2, 2007),
     (6, 'MHFU', 'Monster Hunter Freedom Unite', 2, 2009),
-    (7, 'MHF3', 'Monster Hunter Tri', 3, 2010),
+    (7, 'MH3', 'Monster Hunter Tri', 3, 2010),
     -- (7, 'MHP3', 'Monster Hunter Portable 3rd', 3, 2010),
     (8, 'MH3U', 'Monster Hunter Tri Ultimate', 3, 2013),
     -- (9, 'MH4', 'Monster Hunter 4', 4, 2013),

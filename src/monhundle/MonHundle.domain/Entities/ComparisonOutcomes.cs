@@ -1,6 +1,6 @@
 ﻿namespace MonHundle.domain.Entities;
 
-public enum ComparisonResult
+public enum ComparisonOutcomes
 {
     Incorrect, Partial, Correct, Higher, Lower
 }

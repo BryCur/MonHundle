@@ -4,18 +4,18 @@ namespace MonHundle.domain.Criterias;
 
 public class CriteriaNumber(int val) : AbstractCriteria<int, CriteriaNumber>(val)
 {
-    public override ComparisonResult Compare(CriteriaNumber other)
+    public override ComparisonOutcomes Compare(CriteriaNumber other)
     {
         if (other.Value == this.Value)
         {
-            return ComparisonResult.Correct; 
+            return ComparisonOutcomes.Correct; 
         } 
         
         if (other.Value > this.Value)
         {
-            return ComparisonResult.Lower;
+            return ComparisonOutcomes.Lower;
         }
 
-        return ComparisonResult.Higher;
+        return ComparisonOutcomes.Higher;
     }
 }

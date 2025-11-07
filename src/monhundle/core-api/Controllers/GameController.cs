@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MonHundle.domain.Criterias;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Interfaces.Services;
@@ -22,7 +23,14 @@ public class GameController : ControllerBase
     public IActionResult StartGame()
     {
         // start a new game
-        Game newGame = _gameService.CreateGame();
+        string? sUID = Request.Cookies["user_id"];
+        if (string.IsNullOrEmpty(sUID))
+        {
+            return Unauthorized("user not recognised");
+        }
+        
+        Game newGame = _gameService.CreateGame(sUID);
+        
         // return game ID
         return Ok(newGame.Id);
     }
@@ -52,8 +60,8 @@ public class GameController : ControllerBase
         GuessableMonster guess = _monsterService.getMonsterFromId(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
-        List<ComparisonResult> results = game.Answer.compareTo(guess);
+        MonsterComparisonResult results = game.Answer.compareTo(guess);
         
-        return Ok(results);
+        return Ok(new GuessResponse(guess.GetId(), MonsterCriteriaDTO.ToDto(guess.GetCriterias()), results));
     }
 }

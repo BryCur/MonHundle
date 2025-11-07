@@ -6,9 +6,9 @@ namespace MonHundle.domain.Criterias;
 public abstract class AbstractCriteria<T, TSelf>(T initialValue) : ICriteria where TSelf : AbstractCriteria<T, TSelf>
 {
     protected T Value { get; } = initialValue;
-    public abstract ComparisonResult Compare(TSelf other);
+    public abstract ComparisonOutcomes Compare(TSelf other);
 
-    ComparisonResult ICriteria.Compare(ICriteria other)
+    ComparisonOutcomes ICriteria.Compare(ICriteria other)
     {
         if (other is TSelf otherCriteria)
         {
@@ -17,4 +17,6 @@ public abstract class AbstractCriteria<T, TSelf>(T initialValue) : ICriteria whe
         
         throw new ArgumentException($"Cannot compare criteria of type {this.GetType().Name} to {other.GetType().Name}");
     }
+    
+    public T GetValue() => Value;
 }
