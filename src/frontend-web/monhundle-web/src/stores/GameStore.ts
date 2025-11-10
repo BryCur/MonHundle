@@ -1,4 +1,5 @@
-import type GameStatus from '@/domain/GameState'
+import type { GameStates } from '@/domain/enums/GameStates'
+import GameStatus from '@/domain/GameStatus'
 import type Guess from '@/domain/Guess'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -10,13 +11,17 @@ export const useGameStore = defineStore('game', () => {
     game.value = newGame
   }
 
-  function resetGame() {
-    game.value = null
-  }
-
   function addGuess(guess: Guess){
     game.value?.addguess(guess);
   }
 
-  return { game, setGame, resetGame, addGuess }
+  function setState(state: GameStates) {
+    if(!game.value){
+      return;
+    }
+
+    game.value.state = state;
+  }
+
+  return { game, setGame, addGuess, setState}
 })

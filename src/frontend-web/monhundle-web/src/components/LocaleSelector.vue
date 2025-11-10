@@ -7,7 +7,6 @@ const langs = useI18n().availableLocales;
 let selectedLang = locale.value;
 
 function switchLang(event: any) {
-  console.log(selectedLang)
   locale.value = event.target.value;
 }
 </script>

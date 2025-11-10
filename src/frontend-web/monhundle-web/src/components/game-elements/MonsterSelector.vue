@@ -27,8 +27,8 @@ const emit = defineEmits<{
             :placeholder="t('ui.placeholder.monsterSelector')"
         >
             <option v-for="monsterCode in items" class="select-box-option" :value="monsterCode">
-                <img :src="getMonsterImage(monsterCode)" class="select-box-option-icon"></img>
-                <span>{{  $t("game.monster.name." + monsterCode) }}</span>
+                <!-- img :src="getMonsterImage(monsterCode)" class="select-box-option-icon"></img>-->
+                {{  $t("game.monster.name." + monsterCode) }}
             </option>
         </select>
     </div>

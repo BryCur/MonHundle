@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
 import { apiFetch } from '../services/ApiService/ApiBaseAccess';
 import { setCookie } from '../services/CookieService';
 import MonsterSelector from '../components/game-elements/MonsterSelector.vue';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
-import GameStatus from '../domain/GameState';
+import GameStatus from '../domain/GameStatus';
 import Guess from '../domain/Guess';
+import type { GameService } from '../services/GameService';
+import type ResourceApi from '../services/ApiService/ResourceApi';
+import { GameStates } from '../domain/enums/GameStates';
 
 const gameStore = useGameStore();
+const gameService = inject<GameService>('gameService');
+const resourceApi = inject<ResourceApi>('resourceApi');
+
+const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
 
 let ready = ref(false);
 let monsterList = ref<string[]>([])
@@ -17,33 +24,39 @@ let gameId :string;
 
 onMounted(async () => {
     ready.value = false;
-    const gameResponse = await apiFetch("/game/start", { method: "POST", credentials: 'include'});
-    gameId = (await gameResponse.json()) as string;
+    await gameService?.startNewGame()
+        .then(resp => gameId = resp);
     setCookie("currentGame", gameId);
-    gameStore.setGame(new GameStatus(gameId))
 
     let gameList = JSON.parse(localStorage.getItem("gameList") ?? "") as string[];
-    const monsterListResponse = await apiFetch(`/resources/monster-choices?gameTitles=${gameList.join(",")}`,  { method: "GET", credentials: 'include'})
-    let rawMonsterList = (await monsterListResponse.json());
-    monsterList.value = rawMonsterList
+    await resourceApi?.getMonstersOptions(gameList)
+        .then(list => monsterList.value = list);
+    
     ready.value = true;
 }) 
 
 async function sendGuess() {
     // send to api
-    const guessRequestBody = {"gameId": gameId, "guessId": selectedMonster.value}
-    const guessResponse = await apiFetch("/game/guess", { method: "POST", body: JSON.stringify(guessRequestBody)});
-    let guess: Guess = (await guessResponse.json()) as Guess;
-    console.log("guess", guess)
-    gameStore.addGuess(guess);
+    gameService?.makeGuess(gameId, selectedMonster.value!);
+    selectedMonster.value = undefined;
+
+    // TODO game finished screen (congrats, right answer, send requests, disabled fields)
+    // TODO restart game
+    // TODO styling........
 }
+
+function startNewGame() {
+    gameService?.startNewGame().then(resp => gameId = resp);
+    setCookie("currentGame", gameId);
+}
+
 </script>
 
 <template>
     <div>
         weeee, la game weeee
     </div>
-    <div>
+    <div v-if="!isGameOver">
         <MonsterSelector :items="monsterList" v-model="selectedMonster"></MonsterSelector>
         <button @click="sendGuess()">
             <span>{{ $t("ui.generic.sendGuess")}}</span>
@@ -51,5 +64,10 @@ async function sendGuess() {
     </div>
     <div>
         <GameGuessList></GameGuessList>
+    </div>
+    <div v-if="isGameOver">
+        <button @click="startNewGame()">
+            <span> {{ $t("ui.reneric.newGame") }}</span>
+        </button>
     </div>
 </template>
