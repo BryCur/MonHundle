@@ -1,9 +1,8 @@
 ﻿
-
-using MonHundle.domain.Criterias.Enums;
+using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces;
 
-namespace MonHundle.domain.Criterias;
+namespace MonHundle.domain.Entities.Criterias;
 
 public record MonsterCriteria(
     CriteriaNumber Generation,

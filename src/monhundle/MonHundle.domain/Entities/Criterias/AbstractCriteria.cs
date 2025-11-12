@@ -1,7 +1,7 @@
 ﻿using MonHundle.domain.Entities;
 using MonHundle.domain.Interfaces;
 
-namespace MonHundle.domain.Criterias;
+namespace MonHundle.domain.Entities.Criterias;
 
 public abstract class AbstractCriteria<T, TSelf>(T initialValue) : ICriteria where TSelf : AbstractCriteria<T, TSelf>
 {

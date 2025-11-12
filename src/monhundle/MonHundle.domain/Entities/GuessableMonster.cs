@@ -1,13 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
-using MonHundle.domain.Criterias;
-using MonHundle.domain.Criterias.Enums;
+using MonHundle.domain.Entities.Criterias;
 using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces;
 
 namespace MonHundle.domain.Entities;
 
-public class GuessableMonster(string code, MonsterCriteria monsterCriteria)
+public class GuessableMonster(int id, string code, MonsterCriteria monsterCriteria)
 {
+    private readonly int _id = id;
     private readonly string _code = code;
     private readonly MonsterCriteria _MonsterCriteria = monsterCriteria;
 
@@ -24,7 +25,8 @@ public class GuessableMonster(string code, MonsterCriteria monsterCriteria)
         };
     }
     
-    public string GetId() {return _code;}
+    public string GetCode() {return _code;}
+    public int GetId() {return _id;}
     public MonsterCriteria GetCriterias() {return _MonsterCriteria;}
 
     public static GuessableMonster FromData(GuessableMonsterData monsterData)
@@ -57,6 +59,6 @@ public class GuessableMonster(string code, MonsterCriteria monsterCriteria)
             new CriteriaSet<Habitats>(biomes)
         );
         
-        return new GuessableMonster(monsterData.MonsterCode, criterion);
+        return new GuessableMonster(monsterData.MonsterId, monsterData.MonsterCode, criterion);
     }
 }

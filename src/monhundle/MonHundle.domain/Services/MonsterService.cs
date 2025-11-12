@@ -1,5 +1,4 @@
 ﻿
-using MonHundle.domain.DummyData;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
@@ -20,9 +19,14 @@ public class MonsterService(IMonsterDataAccess monsterDataAccess) : IMonsterServ
 
     }
 
-    public GuessableMonster? getMonsterFromId(string id)
+    public GuessableMonster? getMonsterFromCode(string code)
     {
-        return monsterDataAccess.GetGuessableMonsterFromCode(id);
+        return monsterDataAccess.GetGuessableMonsterFromCode(code);
+    }
+    
+    public GuessableMonster getMonsterFromId(int id)
+    {
+        return monsterDataAccess.GetGuessableMonsterFromId(id);
     }
 
     public List<String> getMonsterChoicesFromGames(string[] gameTitles)

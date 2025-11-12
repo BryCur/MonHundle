@@ -1,5 +1,6 @@
-﻿using MonHundle.domain.Criterias;
-using MonHundle.domain.Criterias.Enums;
+﻿
+using MonHundle.domain.Entities.Criterias;
+using MonHundle.domain.Enums;
 
 namespace MonHundle.domain.Entities.DTO;
 

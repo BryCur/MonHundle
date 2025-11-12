@@ -20,7 +20,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [Fact]
     public async Task GameController_create_game_returns_200_with_id()
     {
-        _gameServiceMock.Setup(g => g.CreateGame()).Returns(new Game() {Id = Guid.NewGuid(), Answer = null});
+        _gameServiceMock.Setup(g => g.CreateGame("player_1")).Returns(new Game() {Id = Guid.NewGuid(), Answer = null});
         var response = await _client.PostAsync("/game/start", null);
         
         response.EnsureSuccessStatusCode();
@@ -31,7 +31,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [Fact]
     public async Task GameController_get_game_returns_404_on_non_existing_uuid()
     {
-        _gameServiceMock.Setup(g => g.GetGame(It.IsAny<Guid>())).Returns((Game?)null);
+        _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>())).Returns((Game?)null);
         
         var response = await _client.GetAsync($"/game/resume/{Guid.NewGuid().ToString()}");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -41,7 +41,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task GameController_get_game_returns_game_from_guid()
     {
         Game game = new Game() {Id = Guid.NewGuid(), Answer = null};
-        _gameServiceMock.Setup(g => g.GetGame(game.Id)).Returns(game);
+        _gameServiceMock.Setup(g => g.ResumeGame(game.Id)).Returns(game);
         
         var response = await _client.GetAsync($"/game/resume/{game.Id}");
         response.EnsureSuccessStatusCode();

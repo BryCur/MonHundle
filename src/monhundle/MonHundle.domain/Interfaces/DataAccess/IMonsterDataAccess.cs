@@ -8,4 +8,5 @@ public interface IMonsterDataAccess
     List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes);
 
     GuessableMonster? GetGuessableMonsterFromCode(String monsterCode);
+    GuessableMonster? GetGuessableMonsterFromId(int monsterId);
 }

@@ -1,4 +1,4 @@
-﻿namespace MonHundle.domain.Criterias.Enums;
+﻿namespace MonHundle.domain.Enums;
 
 public enum Diets
 {

@@ -1,4 +1,5 @@
 ﻿using MonHundle.domain.Entities.DTO;
+using MonHundle.domain.Enums;
 
 namespace MonHundle.domain.Entities;
 
@@ -7,6 +8,6 @@ public class Game
     public Guid Id { get; set;}
     public Guid playerId { get; set; }
     public GuessableMonster Answer {get; set;}
-    public bool Finished { get; set; } = false;
-    public GuessResponse[] Guesses { get; set; }
+    public GameStates State { get; set; } = GameStates.Ongoing;
+    public List<GuessResponse> Guesses { get; set; } = [];
 }

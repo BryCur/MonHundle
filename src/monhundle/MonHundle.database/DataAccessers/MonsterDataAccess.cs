@@ -23,6 +23,14 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
+    
+    public GuessableMonster? GetGuessableMonsterFromId(int monsterId)
+    {
+        var guessableMonsterData = dbContext.GuessableMonsters
+            .First(gm => gm.MonsterId.Equals(monsterId));
+        
+        return GuessableMonster.FromData(guessableMonsterData);
+    }
 
     public List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes)
     {

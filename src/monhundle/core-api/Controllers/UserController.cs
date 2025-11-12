@@ -1,34 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MonHundle.domain.Interfaces.DataAccess;
+using MonHundle.domain.Interfaces.Services;
 
 namespace core_api.Controllers;
 
 [ApiController]
 [Route("user")]
-public class UserController: ControllerBase
+public class UserController(IPlayerService playerService): ControllerBase
 {
+    
     [HttpGet("authenticate")]
     public IActionResult IdentifyUser()
     {
         // read cookie
         string? sUID = Request.Cookies["user_id"];
-        
-        // if cookie not exists -> create UUID and save
-        if (sUID == null)
+        try
         {
-            sUID = Guid.NewGuid().ToString(); 
-        }
 
-        CookieOptions options = new CookieOptions
+            Guid playerUid = playerService.AuthPlayer(sUID);
+
+            CookieOptions options = new CookieOptions
+            {
+                MaxAge = TimeSpan.FromDays(30),
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            };
+
+
+            Response.Cookies.Append("user_id", playerUid.ToString(), options);
+            // return OK with cookie 1month
+
+            return Ok();
+        }
+        catch (Exception e)
         {
-            MaxAge = TimeSpan.FromDays(30),
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None
-        };
-        
-        Response.Cookies.Append("user_id", sUID, options);
-        // return OK with cookie 1month
-        
-        return Ok();
+            return BadRequest(e.Message);
+        }
     }
 }

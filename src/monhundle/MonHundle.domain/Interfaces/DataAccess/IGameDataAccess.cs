@@ -1,9 +1,12 @@
 ﻿using MonHundle.domain.Entities;
+using MonHundle.domain.Entities.DAL;
 
 namespace MonHundle.database.Interfaces.DataAccess;
 
 public interface IGameDataAccess
 {
-    void createGame();
-    Game getGame(Guid gameId);
+    void CreateGame(Game game);
+    GameSession GetGame(Guid gameId);
+    Game GetCurrentGame(Guid playerId);
+    void SaveGame(GameSession game);
 }

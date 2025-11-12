@@ -1,6 +1,6 @@
 ﻿using MonHundle.domain.Entities;
 
-namespace MonHundle.domain.Criterias;
+namespace MonHundle.domain.Entities.Criterias;
 
 public class CriteriaSet<TS>(HashSet<TS> initialValue) : AbstractCriteria<HashSet<TS>, CriteriaSet<TS>>(initialValue)
 {

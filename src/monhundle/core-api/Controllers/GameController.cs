@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MonHundle.domain.Criterias;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Interfaces.Services;
+using MonHundle.domain.Services;
 
 namespace core_api.Controllers;
 
@@ -38,7 +38,18 @@ public class GameController : ControllerBase
     [HttpGet("resume/{gameId:guid}")]
     public IActionResult ResumeOngoingGame(Guid gameId)
     {
-        Game? game = _gameService.GetGame(gameId);
+        // TODO automatically do user_id check before reaching any endpoints
+        Guid playerId;
+        bool parsedPlayer;
+        
+        parsedPlayer = Guid.TryParse(Request.Cookies["user_id"], out playerId) && playerId != Guid.Empty;
+
+        if (!parsedPlayer)
+        {
+            return Unauthorized("user not recognised");
+        }
+        
+        Game? game = _gameService.ResumeGame(playerId, gameId);
         
         if (game == null)
         {
@@ -51,17 +62,24 @@ public class GameController : ControllerBase
     [HttpPost("guess")]
     public IActionResult MakeGuess([FromBody] MakeGuessBody body)
     {
-        Game? game = _gameService.GetGame(body.gameId);
-        if (game == null)
-        {
-            return NotFound("game was not found");
-        }
+        
+        // TODO automatically do user_id check before reaching any endpoints
+        Guid playerId;
+        bool parsedPlayer;
+        
+        parsedPlayer = Guid.TryParse(Request.Cookies["user_id"], out playerId) && playerId != Guid.Empty;
 
-        GuessableMonster guess = _monsterService.getMonsterFromId(body.guessId) ??
+        if (!parsedPlayer)
+        {
+            return Unauthorized("user not recognised");
+        }
+        
+        GuessableMonster guess = _monsterService.getMonsterFromCode(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
-        MonsterComparisonResult results = game.Answer.compareTo(guess);
         
-        return Ok(new GuessResponse(guess.GetId(), MonsterCriteriaDTO.ToDto(guess.GetCriterias()), results));
+        GuessResponse resp = _gameService.MakeGuess(body.gameId, guess);
+        
+        return Ok(resp);
     }
 }

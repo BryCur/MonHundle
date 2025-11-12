@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace MonHundle.domain.Criterias.Enums;
+namespace MonHundle.domain.Enums;
 
 public enum Afflictions
 {

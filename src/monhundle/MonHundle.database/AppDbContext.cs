@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MonHundle.database.Converters;
 using MonHundle.domain.Entities.DAL;
 
 namespace MonHundle.database;
@@ -7,6 +8,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public DbSet<GameTitle> Games { get; init; }
     public DbSet<GuessableMonsterData> GuessableMonsters { get; init; }
+    public DbSet<GameSession> GameSessions { get; init; }
+    public DbSet<Player> Players { get; init; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,6 +20,20 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         
         modelBuilder
             .Entity<GameTitle>()
-            .ToView("game_titles", "public");
+            .ToView("game_titles", "public");  
+        
+        modelBuilder
+            .Entity<GameSession>()
+            .ToView("game_sessions", "public");        
+        
+        modelBuilder
+            .Entity<Player>()
+            .ToView("players", "public");
+    }
+    
+    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+    {
+        builder.Properties<DateTime>()
+            .HaveConversion<DateTimeUtcKindConverter>();
     }
 }

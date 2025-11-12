@@ -1,6 +1,6 @@
 ﻿using MonHundle.domain.Entities;
 
-namespace MonHundle.domain.Criterias;
+namespace MonHundle.domain.Entities.Criterias;
 
 public class CriteriaNumber(int val) : AbstractCriteria<int, CriteriaNumber>(val)
 {

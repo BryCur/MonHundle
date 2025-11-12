@@ -7,12 +7,15 @@ namespace MonHundle.Tests.Services;
 
 public class MockGameService: IGameService
 {
-    public Game CreateGame()
+    public Game CreateGame(string playerId)
     {
-        return new Game(); 
+        return new Game()
+        {
+            playerId = Guid.Parse(playerId),
+        }; 
     }
 
-    public Game? GetGame(Guid gameId)
+    public Game? ResumeGame(Guid gameId)
     {
         return null;
     }
