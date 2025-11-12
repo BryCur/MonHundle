@@ -9,5 +9,5 @@ public class Game
     public Guid playerId { get; set; }
     public GuessableMonster Answer {get; set;}
     public GameStates State { get; set; } = GameStates.Ongoing;
-    public List<GuessResponse> Guesses { get; set; } = [];
+    public List<MonsterGuessDTO> Guesses { get; set; } = [];
 }

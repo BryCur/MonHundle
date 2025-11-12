@@ -1,8 +1,10 @@
 ﻿
+using System.Security.Authentication;
 using MonHundle.database.Interfaces.DataAccess;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.JsonStructs;
+using MonHundle.domain.Entities.DAL.Mappers;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.Services;
@@ -46,9 +48,14 @@ public class GameService : IGameService
      * <param name="guess"> Monster data of the guess made </param>
      * <returns>Structure containing the necessary information to update client on the game state</returns>
      */
-    public GuessResponse MakeGuess(Guid gameId, GuessableMonster guess)
+    public (MonsterGuessDTO, GameStates) MakeGuess(Guid gameId, GuessableMonster guess, Player player)
     {
-        GameSession game = _gameDataAccess.GetGame(gameId);
+        if (!player.Id.HasValue)
+        {
+            throw new AuthenticationException("no game owner provided");
+        }
+        
+        GameSession game = _gameDataAccess.GetGame(gameId, player.Id.Value);
         GuessableMonster answerMonster = _monsterService.getMonsterFromId(game.AnswerMonsterId);
         MonsterComparisonResult comparisonResult = answerMonster.compareTo(guess);
 
@@ -57,22 +64,27 @@ public class GameService : IGameService
         saveNewGuess(game, guess, comparisonResult, stateAfterGuess);
 
         // create response obj
-        GuessResponse guessResponse = new GuessResponse(
+        MonsterGuessDTO monsterGuessDto = new MonsterGuessDTO(
             guess.GetCode(), 
             MonsterCriteriaDTO.ToDto(guess.GetCriterias()), 
-            comparisonResult,
-            stateAfterGuess
+            comparisonResult
         );
         
         
-        return guessResponse;
+        return (monsterGuessDto, stateAfterGuess);
     }
 
-    public Game? ResumeGame(Guid playerId, Guid gameId)
+    public Game? ResumeGame(Guid gameId, Player player)
     {
-        GameSession gameData = _gameDataAccess.GetGame(gameId);
+        if (!player.Id.HasValue)
+        {
+            throw new AuthenticationException("no game owner provided");
+        }
+        
+        GameSession gameData = _gameDataAccess.GetGame(gameId, player.Id.Value);
+        GuessableMonster answer = _monsterService.getMonsterFromId(gameData.AnswerMonsterId);
 
-        return new Game();
+        return GameSessionMapper.ToDto(gameData, player, answer);
     }
 
     /**

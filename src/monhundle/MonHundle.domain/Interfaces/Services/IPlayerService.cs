@@ -1,4 +1,6 @@
-﻿namespace MonHundle.domain.Interfaces.Services;
+﻿using MonHundle.domain.Entities.DAL;
+
+namespace MonHundle.domain.Interfaces.Services;
 
 public interface IPlayerService
 {

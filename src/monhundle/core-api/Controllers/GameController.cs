@@ -27,14 +27,8 @@ public class GameController : ControllerBase
     [HttpPost("start")]
     public IActionResult StartGame()
     {
-        // start a new game
-        string? sUID = Request.Cookies["user_id"];
-        if (string.IsNullOrEmpty(sUID))
-        {
-            return Unauthorized("user not recognised");
-        }
-        
-        Game newGame = _gameService.CreateGame(sUID);
+        Player player = GetPlayerFromContext();
+        Game newGame = _gameService.CreateGame(player.PlayerUid.ToString());
         
         // return game ID
         return Ok(newGame.Id);
@@ -43,48 +37,40 @@ public class GameController : ControllerBase
     [HttpGet("resume/{gameId:guid}")]
     public IActionResult ResumeOngoingGame(Guid gameId)
     {
-        // TODO automatically do user_id check before reaching any endpoints
-        Guid playerId;
-        bool parsedPlayer;
-        
-        parsedPlayer = Guid.TryParse(Request.Cookies["user_id"], out playerId) && playerId != Guid.Empty;
-
-        if (!parsedPlayer)
-        {
-            return Unauthorized("user not recognised");
-        }
-        
-        Game? game = _gameService.ResumeGame(playerId, gameId);
+        Player player = GetPlayerFromContext();
+        Game? game = _gameService.ResumeGame(gameId, player);
         
         if (game == null)
         {
             return NotFound();
         }
         
-        return Ok(game);
+        return Ok(new GameStateResponse(
+            game.Id,
+            game.State,
+            game.Guesses
+        ));
     }
 
     [HttpPost("guess")]
     public IActionResult MakeGuess([FromBody] MakeGuessBody body)
     {
-        
-        // TODO automatically do user_id check before reaching any endpoints
-        Guid playerId;
-        bool parsedPlayer;
-        
-        parsedPlayer = Guid.TryParse(Request.Cookies["user_id"], out playerId) && playerId != Guid.Empty;
-
-        if (!parsedPlayer)
-        {
-            return Unauthorized("user not recognised");
-        }
-        
         GuessableMonster guess = _monsterService.getMonsterFromCode(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
+        Player player = GetPlayerFromContext();
+        (MonsterGuessDTO resp, GameStates stateAfterGuess) = _gameService.MakeGuess(body.gameId, guess, player);
         
-        GuessResponse resp = _gameService.MakeGuess(body.gameId, guess);
-        
-        return Ok(resp);
+        return Ok(new GuessResponse(
+            resp.MonsterCode,
+            resp.Criterias,
+            resp.ComparisonResult,
+            stateAfterGuess
+        ));
+    }
+
+    private Player GetPlayerFromContext()
+    {
+        return HttpContext.Items["PlayerData"] as Player ?? throw new AuthenticationException();
     }
 }

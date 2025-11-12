@@ -1,5 +1,6 @@
 ﻿
 using MonHundle.domain.Entities.Criterias;
+using MonHundle.domain.Entities.DAL.JsonStructs;
 using MonHundle.domain.Enums;
 
 namespace MonHundle.domain.Entities.DTO;
@@ -23,6 +24,18 @@ public record MonsterCriteriaDTO(
             criteria.WeaknessesSet.GetValue().ToArray(),
             criteria.InflictedAilments.GetValue().ToArray(),
             criteria.Habitat.GetValue().ToArray()
+        );
+    }
+    
+    public static MonsterCriteriaDTO ToDto(GameCriteriaStruct criteria)
+    {
+        return new MonsterCriteriaDTO(
+            criteria.Generation,
+            criteria.ThreatLevel,
+            criteria.Classifications,
+            criteria.Weaknesses,
+            criteria.Afflictions,
+            criteria.Habitats
         );
     }
 }

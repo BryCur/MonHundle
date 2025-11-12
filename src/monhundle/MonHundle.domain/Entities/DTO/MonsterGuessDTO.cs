@@ -2,9 +2,8 @@
 
 namespace MonHundle.domain.Entities.DTO;
 
-public record GuessResponse(
+public record MonsterGuessDTO(
     String MonsterCode,
     MonsterCriteriaDTO Criterias,
-    MonsterComparisonResult ComparisonResult,
-    GameStates State
+    MonsterComparisonResult ComparisonResult
 );

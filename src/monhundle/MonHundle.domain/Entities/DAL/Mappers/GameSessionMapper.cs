@@ -1,4 +1,7 @@
-﻿using MonHundle.domain.Entities.DAL.JsonStructs;
+﻿using MonHundle.domain.Entities.Criterias;
+using MonHundle.domain.Entities.DAL.JsonStructs;
+using MonHundle.domain.Entities.DTO;
+using MonHundle.domain.Enums;
 
 namespace MonHundle.domain.Entities.DAL.Mappers;
 
@@ -14,13 +17,28 @@ public class GameSessionMapper
             GameGuesses = game.Guesses.Select(
                     g => new GameGuessStruct()
                     {
-                        MonsterCode = g.monsterCode,
-                        Criterias = new GameCriteriaStruct(g.criterias),
-                        Comparisons = new GameComparisonStruct(g.comparisonResult)
+                        MonsterCode = g.MonsterCode,
+                        Criterias = new GameCriteriaStruct(g.Criterias),
+                        Comparisons = new GameComparisonStruct(g.ComparisonResult)
                     }
                 ).ToList(),
             State = game.State.ToString(),
             LastUpdate = DateTime.UtcNow
+        };
+    }
+
+    public static Game ToDto(GameSession gameSession, Player player, GuessableMonster answer)
+    {
+        return new Game()
+        {
+            Id = gameSession.GameUid,
+            playerId = player.PlayerUid,
+            Answer = answer,
+            Guesses = gameSession.GameGuesses.Select(g => new MonsterGuessDTO(
+                g.MonsterCode,
+                MonsterCriteriaDTO.ToDto(g.Criterias),
+                MonsterComparisonResult.fromStruct(g.Comparisons)
+            )).ToList()
         };
     }
 }

@@ -18,9 +18,9 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         dbContext.SaveChanges();
     }
 
-    public GameSession GetGame(Guid gameId)
+    public GameSession GetGame(Guid gameId, int playerId)
     {
-        return dbContext.GameSessions.First(gs => gs.GameUid.Equals(gameId)) 
+        return dbContext.GameSessions.First(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId) 
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
     }
 

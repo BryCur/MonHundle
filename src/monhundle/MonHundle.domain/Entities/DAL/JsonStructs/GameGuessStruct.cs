@@ -9,13 +9,13 @@ public struct GameGuessStruct
     public GameCriteriaStruct Criterias { get; init; }
     public GameComparisonStruct Comparisons { get; init; }
 
-    public static GameGuessStruct fromGuessDTO(GuessResponse guessObject)
+    public static GameGuessStruct fromGuessDTO(MonsterGuessDTO monsterGuessObject)
     {
         return new GameGuessStruct()
         {
-            MonsterCode = guessObject.monsterCode,
-            Criterias = new GameCriteriaStruct(guessObject.criterias),
-            Comparisons = new GameComparisonStruct(guessObject.comparisonResult)
+            MonsterCode = monsterGuessObject.MonsterCode,
+            Criterias = new GameCriteriaStruct(monsterGuessObject.Criterias),
+            Comparisons = new GameComparisonStruct(monsterGuessObject.ComparisonResult)
         };
     }
 }
