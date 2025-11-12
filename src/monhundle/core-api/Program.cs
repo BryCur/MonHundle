@@ -1,3 +1,4 @@
+using core_api.Filters;
 using Microsoft.EntityFrameworkCore;
 using MonHundle.database;
 using MonHundle.database.DataAccessers;
@@ -39,6 +40,8 @@ public class Program
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
         builder.Services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
+        builder.Services.AddScoped<ValidateUserFilter>();
+
 
         builder.Services.AddCors(options =>
         {

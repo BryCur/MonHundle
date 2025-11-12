@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Authentication;
+using core_api.Filters;
+using Microsoft.AspNetCore.Mvc;
 using MonHundle.domain.Entities;
+using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DTO;
+using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
 
@@ -8,6 +12,7 @@ namespace core_api.Controllers;
 
 [ApiController]
 [Route("game")]
+[ServiceFilter(typeof(ValidateUserFilter))]
 public class GameController : ControllerBase
 {
     private readonly IGameService _gameService;
