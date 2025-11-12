@@ -1,4 +1,5 @@
 ﻿using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 
@@ -23,7 +24,7 @@ public class PlayerService(IPlayerDataAccess playerDataAccess): IPlayerService
 
             if (player is null)
             {
-                throw new ApplicationException($"Player {playerUid} not found");
+                throw new DataNotFoundException($"Player {playerUid} not found");
             }
             
             player.last_connection = DateTime.UtcNow;

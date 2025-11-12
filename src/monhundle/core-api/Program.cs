@@ -1,4 +1,5 @@
 using core_api.Filters;
+using core_api.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using MonHundle.database;
 using MonHundle.database.DataAccessers;
@@ -64,6 +65,7 @@ public class Program
         
         app.UseCors("AllowFrontend");
         
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
         app.MapControllers();
         app.Run();
