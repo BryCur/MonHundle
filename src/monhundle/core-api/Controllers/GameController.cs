@@ -28,7 +28,7 @@ public class GameController : ControllerBase
     public IActionResult StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game newGame = _gameService.CreateGame(player.PlayerUid.ToString());
+        Game newGame = _gameService.CreateGame(player);
         
         // return game ID
         return Ok(newGame.Id);

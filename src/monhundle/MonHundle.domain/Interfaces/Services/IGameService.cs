@@ -7,7 +7,7 @@ namespace MonHundle.domain.Interfaces.Services;
 
 public interface IGameService
 {
-    public Game CreateGame(String userId);
+    public Game CreateGame(Player gameOwner);
     public Game? ResumeGame(Guid gameId, Player player);
     public (MonsterGuessDTO, GameStates) MakeGuess(Guid gameId, GuessableMonster guess, Player player);
 }

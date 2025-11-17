@@ -13,7 +13,6 @@ namespace MonHundle.domain.Services;
 
 public class GameService : IGameService
 {
-    private static readonly Dictionary<Guid, Game> Games = new Dictionary<Guid, Game>(); // en attendant Redis / DB
     private readonly IGameDataAccess _gameDataAccess;
     private readonly IMonsterService _monsterService;
 
@@ -25,19 +24,18 @@ public class GameService : IGameService
     
     /**
      * <summary> Initiate a new game session with a unique identifier owned by the userId. Also save the new game in database </summary>
-     * <param name="userId"> Unique identifier of the player starting the game </param>
+     * <param name="player"> Player starting the game </param>
      * <returns> "bare" Game object with a newly created identifier </returns>
      */
-    public Game CreateGame(String userId)
+    public Game CreateGame(Player player)
     {
         Game game = new Game
         {
             Id = Guid.NewGuid(), 
             Answer = _monsterService.getRandomMonster(), 
-            playerId = Guid.Parse((ReadOnlySpan<char>)userId)
+            playerId = player.PlayerUid
         };
         
-        Games.Add(game.Id, game);
         _gameDataAccess.CreateGame(game);
         return game;
     }
@@ -122,6 +120,5 @@ public class GameService : IGameService
         });
         
         _gameDataAccess.SaveGame(game);
-
     }
 }
