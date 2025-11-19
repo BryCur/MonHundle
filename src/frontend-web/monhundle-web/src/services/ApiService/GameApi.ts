@@ -2,6 +2,8 @@ import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 
 import { apiFetch } from "./ApiBaseAccess";
 import type Guess from "@/domain/Guess";
+import type GuessResponse from "@/domain/responses/GuessResponse";
+import type GameStatus from "@/domain/GameStatus";
 
 export class GameApi implements IGameApi {
 
@@ -12,14 +14,24 @@ export class GameApi implements IGameApi {
         return response.json() as string;
     }
 
-    public async makeGuess(gameId: string, monsterCode: string):  Promise<Guess> {
+    public async makeGuess(gameId: string, monsterCode: string):  Promise<GuessResponse> {
         const guessRequestBody = {"gameId": gameId, "guessId": monsterCode}
         const guessResponse = await apiFetch("/game/guess", { method: "POST", body: JSON.stringify(guessRequestBody)});
 
-        return guessResponse.json() as Guess;
+        return guessResponse.json() as GuessResponse;
     }
 
-    saveGame (game: Object): Promise<void> {
-        return apiFetch("", {})
+    public async saveGame (game: GameStatus): Promise<void> {
+        return await apiFetch("", {})
+    }
+
+    public async resumeGame (gameId: string): Promise<GameStatus | null> {
+        const response = await apiFetch(`/game/resume/${gameId}`, { method: "GET", credentials: 'include'})
+        if (response.ok) {
+
+            return response.json() as GameStatus;
+        }
+
+        return null;
     }
 }

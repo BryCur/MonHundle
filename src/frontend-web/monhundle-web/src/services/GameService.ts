@@ -4,7 +4,7 @@ import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { useGameStore } from "@/stores/GameStore";
-import { reactive } from "vue";
+import { setCookie } from "./CookieService";
 
 export class GameService {
     private readonly gameApi: IGameApi;
@@ -21,6 +21,7 @@ export class GameService {
             let newGame = new GameStatus(gameId);
             this.gameStore.setGame(newGame);
 
+            setCookie("currentGame", gameId);
             return gameId;
         });
     }
@@ -33,9 +34,20 @@ export class GameService {
             let compResults = Object.values(guessResult.comparisonResult) as ComparisonResults[]
 
             if(compResults.every(r => r == ComparisonResults.Correct)){
-                this.gameStore.setState(GameStates.Win)
+                this.gameStore.setState(res.gameStateAfterGuess)
+            }
+        });
+    }
+
+    public async resumeGame(gameId: string): Promise<boolean> {
+        return await this.gameApi.resumeGame(gameId).then( res => {
+            if (res !== null) {
+                this.gameStore.setGame(res);
+                setCookie("currentGame", gameId);
+                return this.gameStore.isGameOngoing()
             }
 
-        });
+            return false
+        })
     }
 }

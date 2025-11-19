@@ -1,4 +1,4 @@
-import type { GameStates } from '@/domain/enums/GameStates'
+import { GameStates } from '@/domain/enums/GameStates'
 import GameStatus from '@/domain/GameStatus'
 import type Guess from '@/domain/Guess'
 import { defineStore } from 'pinia'
@@ -23,5 +23,13 @@ export const useGameStore = defineStore('game', () => {
     game.value.state = state;
   }
 
-  return { game, setGame, addGuess, setState}
+  function isGameNull(): boolean {
+    return game.value === null
+  }
+
+  function isGameOngoing(): boolean {
+    return game.value?.state === GameStates.Ongoing
+  }
+
+  return { game, setGame, addGuess, setState, isGameNull, isGameOngoing }
 })

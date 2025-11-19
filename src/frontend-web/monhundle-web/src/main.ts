@@ -32,6 +32,7 @@ const gameService = new GameService(gameApi);
 const resourceApi = new ResourceApi();
 
 new UserApi().authUser();
+
 app.use(router);
 app.use(i18n);
 app.provide("gameService", gameService);

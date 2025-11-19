@@ -36,6 +36,13 @@ function confirmSelection() {
 
     router.push("/unlimited");
 }
+
+function randomTilt(element: HTMLElement) {
+  const randomAngle = Math.random() < 0.5
+      ? -(5 + Math.random() * 5) // entre -10 et -5
+      : 5 + Math.random() * 5;   // entre 5 et 10;
+  element.style.transform = `scale(1.05) rotate(${randomAngle}deg)`;
+}
 </script>
 
 <template>
@@ -47,6 +54,8 @@ function confirmSelection() {
             @click="toggleGameSelection(game)" 
             class="list-item"
             :class="{ selected: selectedGames.has(game) }"
+            @mouseenter="(e) => randomTilt(e.currentTarget as HTMLElement)"
+            @mouseleave="(e) => (e.currentTarget as HTMLElement).style.transform = ''"
             >
                 <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo"></img>
                 <div class="game-title">{{ $t("game.titles." + game) }}</div>
@@ -93,7 +102,6 @@ function confirmSelection() {
 
     &:hover {
       background-color: #353535;
-      transform: scale(1.05);
     }
 
     &.selected {

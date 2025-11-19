@@ -29,6 +29,11 @@ public class GameSessionMapper
 
     public static Game ToDto(GameSession gameSession, Player player, GuessableMonster answer)
     {
+        if (!GameStates.TryParse(gameSession.State, out GameStates state))
+        {
+            throw new ArgumentException("Invalid state");
+        }
+        
         return new Game()
         {
             Id = gameSession.GameUid,
@@ -38,7 +43,8 @@ public class GameSessionMapper
                 g.MonsterCode,
                 MonsterCriteriaDTO.ToDto(g.Criterias),
                 MonsterComparisonResult.fromStruct(g.Comparisons)
-            )).ToList()
+            )).ToList(),
+            State = state,
         };
     }
 }

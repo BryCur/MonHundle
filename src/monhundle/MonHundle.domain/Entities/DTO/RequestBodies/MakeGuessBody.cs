@@ -1,3 +1,5 @@
-﻿namespace MonHundle.domain.Entities.DTO;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record MakeGuessBody(Guid gameId, string guessId);
+namespace MonHundle.domain.Entities.DTO;
+
+public record MakeGuessBody([Required] Guid gameId,  [Required] string guessId);
