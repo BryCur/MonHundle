@@ -12,18 +12,24 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
   </header>
 
-  <RouterView />
+  <div class="game-area">
+
+    <RouterView />
+  </div>
+  <footer>
+    ouai les pieds
+  </footer>
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
+  margin-bottom: 5rem;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+footer {
+  margin-top: 5rem;
 }
 
 nav {
@@ -31,6 +37,10 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+}
+
+.game-area {
+  max-width: 1280px;
 }
 
 nav a.router-link-exact-active {
