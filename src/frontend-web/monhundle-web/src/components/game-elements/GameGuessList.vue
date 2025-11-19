@@ -16,7 +16,7 @@ function getComparisonResultsClass(val: ComparisonResults): string{
 
 <template>
 <div class="guess-container">
-    <div v-for="guess in store.game?.guesses">
+    <div v-for="guess in store.game?.guesses.slice().reverse()">
         <div>{{ $t("game.monster.name." + guess.monsterCode) }}</div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.classification)">
             classification : {{guess.criterias.classification }} ({{ ComparisonResults[guess.comparisonResult.classification] }})
