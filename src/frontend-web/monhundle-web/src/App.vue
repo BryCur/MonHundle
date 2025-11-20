@@ -17,7 +17,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterView />
   </div>
   <footer>
-    ouai les pieds
+    ouai le pied de page
   </footer>
 </template>
 
@@ -41,6 +41,7 @@ nav {
 
 .game-area {
   max-width: 1280px;
+  margin:auto
 }
 
 nav a.router-link-exact-active {

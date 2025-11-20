@@ -19,3 +19,8 @@ export enum Classifications {
     Temnoceran,
     Unknown,
 }
+
+// to easily get the name of the enum, used for translations keys
+export namespace Classifications {
+    export const enumName: string = "Classifications"
+}

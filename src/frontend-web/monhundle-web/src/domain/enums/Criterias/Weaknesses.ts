@@ -11,3 +11,8 @@ export enum Weaknesses
     Blast,
     Stun,
 }
+
+// to easily get the name of the enum, used for translations keys
+export namespace Weaknesses {
+    export const enumName: string = "Weaknesses"
+}

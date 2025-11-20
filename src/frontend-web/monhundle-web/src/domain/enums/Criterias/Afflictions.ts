@@ -21,3 +21,8 @@ export enum Afflictions {
     Water,
     Webbed,
 }
+
+// to easily get the name of the enum, used for translations keys
+export namespace Afflictions {
+    export const enumName: string = "Afflictions"
+}

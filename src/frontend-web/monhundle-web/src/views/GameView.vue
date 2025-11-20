@@ -59,18 +59,18 @@ function startNewGame() {
 </script>
 
 <template>
-    <div v-if="ready">
-        <div v-if="!isGameOver">
+    <div v-if="ready" class="game-page-container">
+        <div v-if="!isGameOver" class="option-selector-container">
             <MonsterSelector :items="monsterList" v-model="selectedMonster"></MonsterSelector>
             <button @click="sendGuess()">
                 <span>{{ $t("ui.generic.sendGuess")}}</span>
             </button>
         </div>
-        <div v-else> yeeee you got it!</div>
-        <div>
+        <div v-else class="option-game-over-container"> yeeee you got it!</div>
+        <div class="game-progress-container">
             <GameGuessList></GameGuessList>
         </div>
-        <div v-if="isGameOver">
+        <div v-if="isGameOver" class="new-game-button-container">
             <button @click="startNewGame()">
                 <span> {{ $t("ui.generic.newGame") }}</span>
             </button>
@@ -78,3 +78,20 @@ function startNewGame() {
     </div>
     <div v-else> loading... </div>
 </template>
+
+<style lang="scss" scoped>
+
+.game-page-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
+    .option-selector-container, .game-progress-container {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+</style>

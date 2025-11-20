@@ -14,3 +14,8 @@ export enum Biomes {
     Swamp,
     Volcano
 }
+
+// to easily get the name of the enum, used for translations keys
+export namespace Biomes {
+    export const enumName: string = "Biomes"
+}
