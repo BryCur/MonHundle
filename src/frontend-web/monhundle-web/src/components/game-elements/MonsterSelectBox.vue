@@ -25,7 +25,6 @@ const emit = defineEmits<{
 
 const filteredItems = computed(() => {
     if (searchInput.value === undefined || !searchInput.value.trim()) {
-        
         return props.items;
     }
     console.log("ouai grave");
@@ -80,48 +79,55 @@ function onInputFocus(e: Event){
 }
 
 function onClickOutside(event: MouseEvent) {
-  if (!containerRef.value) return
-  if (!containerRef.value.contains(event.target as Node)) {
-    close()
-  }
+    if (!containerRef.value) return
+    if (!containerRef.value.contains(event.target as Node)) {
+        if(model.value !== undefined) {
+            selectValue(model.value)
+        } else {
+            close()
+        }
+    }
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (!isDropdownOpen.value && (e.key === 'ArrowDown' || e.key === 'Enter')) {
-    e.preventDefault()
-    open()
-    return
-  }
+    if (!isDropdownOpen.value && (e.key === 'ArrowDown' || e.key === 'Enter')) {
+        e.preventDefault()
+        open()
+        return
+    }
 
-  if (!isDropdownOpen.value) return
+    if (!isDropdownOpen.value) return
 
-  switch (e.key) {
-    case 'Escape':
-      e.preventDefault()
-      close()
-      break
-    case 'ArrowDown':
-      e.preventDefault()
-      if (filteredItems.value.length === 0) return
-      highlightedIndex.value =
-        (highlightedIndex.value + 1) % filteredItems.value.length
-      break
-    case 'ArrowUp':
-      e.preventDefault()
-      if (filteredItems.value.length === 0) return
-      highlightedIndex.value =
-        (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length
-      break
-    case 'Enter':
-      e.preventDefault()
-      if (
-        highlightedIndex.value >= 0 &&
-        highlightedIndex.value < filteredItems.value.length
-      ) {
-        selectValue(filteredItems.value[highlightedIndex.value]!)
-      }
-      break
-  }
+    switch (e.key) {
+        case 'Escape':
+                e.preventDefault()
+                if(model.value !== undefined) {
+                    selectValue(model.value)
+                }
+        break
+
+        case 'ArrowDown':
+            e.preventDefault()
+            if (filteredItems.value.length === 0) return
+            highlightedIndex.value = (highlightedIndex.value + 1) % filteredItems.value.length
+        break
+
+        case 'ArrowUp':
+            e.preventDefault()
+            if (filteredItems.value.length === 0) return
+            highlightedIndex.value = (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length
+        break
+
+        case 'Enter':
+            e.preventDefault()
+            if (
+                highlightedIndex.value >= 0 &&
+                highlightedIndex.value < filteredItems.value.length
+            ) {
+                selectValue(filteredItems.value[highlightedIndex.value]!)
+            }
+        break
+    }
 }
 onMounted(() => {
   document.addEventListener('click', onClickOutside)
