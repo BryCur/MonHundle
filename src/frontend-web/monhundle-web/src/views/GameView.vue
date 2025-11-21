@@ -8,6 +8,7 @@ import { useGameStore } from '../stores/GameStore';
 import type { GameService } from '../services/GameService';
 import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
+import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 
 const gameStore = useGameStore();
 const gameService = inject<GameService>('gameService');
@@ -61,7 +62,7 @@ function startNewGame() {
 <template>
     <div v-if="ready" class="game-page-container">
         <div v-if="!isGameOver" class="option-selector-container">
-            <MonsterSelector :items="monsterList" v-model="selectedMonster"></MonsterSelector>
+            <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
                 <span>{{ $t("ui.generic.sendGuess")}}</span>
             </button>
