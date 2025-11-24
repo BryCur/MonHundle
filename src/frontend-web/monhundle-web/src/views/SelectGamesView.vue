@@ -17,6 +17,8 @@ onMounted(async () => {
 
     gameList = (await response.json()) as string[];
     ready.value = true;
+
+    confirmSelection(); // TODO remove when more than 1 game is available
 }) 
 
 function toggleGameSelection(game: string) {

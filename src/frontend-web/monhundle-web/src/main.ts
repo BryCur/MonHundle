@@ -7,9 +7,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// 🔹 Import des traductions
 import en from './locales/en.json'
 import fr from './locales/fr.json'
+
 import { UserApi } from './services/ApiService/UserApi'
 import { GameService } from './services/GameService'
 import { GameApi } from './services/ApiService/GameApi'

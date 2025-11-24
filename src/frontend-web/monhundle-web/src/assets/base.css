@@ -1,12 +1,16 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  --light-bg: #ffffff;
+  --light-bg-soft: #f8f8f8;
+  --light-bg-mute: #f2f2f2;
+  --light-text-color: rgb(39, 25, 0);
+  --light-link-color: #744911;
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  --dark-bg: #3f2502;
+  --dark-bg-soft: #472a05;
+  --dark-bg-mute: #3f2502;
+  --dark-text-color: rgb(231, 231, 231);
+  --dark-link-color: #e49a38;
 
   --vt-c-indigo: #2c3e50;
 
@@ -15,17 +19,17 @@
   --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
   --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
 
-  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-txt-lighte-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-1: var(--light-bg);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 }
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
+  --color-background: var(--light-bg);
+  --color-background-soft: var(--light-bg-soft);
+  --color-background-mute: var(--light-bg-mute);
 
   --color-border: var(--vt-c-divider-light-2);
   --color-border-hover: var(--vt-c-divider-light-1);
@@ -38,15 +42,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+    --color-background: var(--dark-bg);
+    --color-background-soft: var(--dark-bg-soft);
+    --color-background-mute: var(--dark-bg-mute);
 
     --color-border: var(--vt-c-divider-dark-2);
     --color-border-hover: var(--vt-c-divider-dark-1);
 
     --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+    --color-text: var(--dark-text-color);
   }
 }
 

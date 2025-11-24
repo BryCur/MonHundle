@@ -1,89 +1,126 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import LocaleSelector from './components/LocaleSelector.vue';
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
+      <nav class="navigation">
         <RouterLink to="/unlimited">Unlimited</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
       </nav>
+      <div class="lang-select">
+        <LocaleSelector></LocaleSelector>
+      </div>
     </div>
   </header>
 
   <div class="game-area">
-
     <RouterView />
   </div>
   <footer>
-    ouai le pied de page
+    <div class="footer-disclaimer">
+      Unofficial fan project - Monster Hunter is a trademark of Capcom Co., Ltd.
+    </div>
+
+    <div class="footer-main">
+      <span>Made with ❤️ by <a href="https://github.com/BryCur">Corbac</a></span>
+    </div>
+
+    <div class="game-version">
+      <span>v0.1 prototype</span>
+    </div>
   </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
-  margin-bottom: 5rem;
-}
+  margin: 1rem;
+  margin-bottom: 4rem;
 
-footer {
-  margin-top: 5rem;
-}
+  .wrapper {
+    display: flex;
+    place-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    width: 100%;
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+      nav {
+        font-size: 12px;
+        text-align: center;
+    
+        a {
+          display: inline-block;
+          padding: 0 1rem;
+          border-left: 1px solid var(--color-border);
+    
+          &:first-of-type {
+            border: 0;
+          }
+    
+          .router-link-exact-active {
+            color: var(--color-text);
+      
+            &:hover {
+              background-color: transparent;
+            }
+          }
+        }
+    
+      }
+
+      .lang-select{
+        display: none;
+        align-self: flex-end;
+      }
+  }
 }
 
 .game-area {
   max-width: 1280px;
-  margin:auto
+  margin:auto;
+  flex:1;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+footer {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9pt;
+  
+  .game-version, .footer-disclaimer {
+    min-width: 300px;
+    flex:0
+  }
+
+  .footer-main {
+    flex:1;
+    text-align: center;
+  }
+  .game-version{
+    text-align: right;
+  }
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
 
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
   }
 
   .logo {
     margin: 0 2rem 0 0;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
   nav {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
     padding: 1rem 0;
     margin-top: 1rem;
   }

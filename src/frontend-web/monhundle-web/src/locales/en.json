@@ -1,8 +1,842 @@
 {
-  "ui": {
-    "generic": {
-      "save": "Save"
+  "game": {
+    "criteria": {
+      "classifications": {
+        "amphibian": "Amphibian",
+        "birdwyvern": "Bird Wyvern",
+        "brutewyvern": "Brute Wyvern",
+        "carapaceon": "Carapaceon",
+        "cephalopod": "Cephalopod",
+        "construct": "Construct",
+        "demielder": "Demi-Elder",
+        "elderdragon": "Elder Dragon",
+        "fangedbeast": "Fanged Beast",
+        "fangedwyvern": "Fanged Wyvern",
+        "flyingwyvern": "Flying Wyvern",
+        "leviathan": "Leviathan",
+        "lynian": "Lynian",
+        "neopteron": "Neopteron",
+        "piscinewyvern": "Piscine Wyvern",
+        "relict": "Relict",
+        "snakewyvern": "Snake Wyvern",
+        "temnoceran": "Temnoceran",
+        "unknown": "Unknown"
+      },
+      "weaknesses": {
+        "fire": "Fire",
+        "ice": "Ice",
+        "thunder": "Thunder",
+        "water": "Water",
+        "dragon": "Dragon",
+        "paralysis": "Paralysis",
+        "sleep": "Sleep",
+        "poison": "Poison",
+        "blast": "Blast",
+        "stun": "Stun"
+      },
+      "afflictions": {
+        "blastblight": "Blast Blight",
+        "bleeding": "Bleeding",
+        "bubbleblight": "Bubble Blight",
+        "defensedown": "Defense Down",
+        "dragon": "Dragon",
+        "fatigue": "Fatigue",
+        "fire": "Fire",
+        "frenzyvirus": "Frenzy Virus",
+        "frostblight": "Frost Blight",
+        "hellfireblight": "Hellfire Blight",
+        "ice": "Ice",
+        "paralysis": "Paralysis",
+        "poison": "Poison",
+        "sleep": "Sleep",
+        "snowman": "Snowman",
+        "stench": "Stench",
+        "stun": "Stun",
+        "thunder": "Thunder",
+        "water": "Water",
+        "webbed": "Webbed"
+      },
+      "biomes": {
+        "cave": "Cave",
+        "desert": "Desert",
+        "forest": "Forest",
+        "highland": "Highland",
+        "mountain": "Mountain",
+        "aquatic": "Aquatic",
+        "ruin": "Ruin",
+        "savanna": "Savanna",
+        "snowfield": "Snowfield",
+        "special": "Special",
+        "unique": "Unique",
+        "swamp": "Swamp",
+        "volcano": "Volcano"
+      }
     },
-    "welcome": "Welcome!"
+    "monster": {
+        "abyssal_lagiacrus": {
+          "name": "Abyssal Lagiacrus"
+        },
+        "acidic_glavenus": {
+          "name": "Acidic Glavenus"
+        },
+        "agnaktor": {
+          "name": "Agnaktor"
+        },
+        "ahtal_ka": {
+          "name": "AhtalKa"
+        },
+        "ajarakan": {
+          "name": "Ajarakan"
+        },
+        "akantor": {
+          "name": "Akantor"
+        },
+        "aknosom": {
+          "name": "Aknosom"
+        },
+        "alatreon": {
+          "name": "Alatreon"
+        },
+        "almudron": {
+          "name": "Almudron"
+        },
+        "amatsu": {
+          "name": "Amatsu"
+        },
+        "ancient_leshen": {
+          "name": "Ancient Leshen"
+        },
+        "anjanath": {
+          "name": "Anjanath"
+        },
+        "arkveld": {
+          "name": "Arkveld"
+        },
+        "arzuros": {
+          "name": "Arzuros"
+        },
+        "ash_kecha_wacha": {
+          "name": "Ash Kecha-Wacha"
+        },
+        "ashen_lao_shan_lung": {
+          "name": "Ashen Lao-Shan Lung"
+        },
+        "astalos": {
+          "name": "Astalos"
+        },
+        "aurora_somnacanth": {
+          "name": "Aurora Somnacanth"
+        },
+        "azure_rathalos": {
+          "name": "Azure Rathalos"
+        },
+        "balahara": {
+          "name": "Balahara"
+        },
+        "baleful_gigginox": {
+          "name": "Baleful Gigginox"
+        },
+        "banbaro": {
+          "name": "Banbaro"
+        },
+        "barioth": {
+          "name": "Barioth"
+        },
+        "barroth": {
+          "name": "Barroth"
+        },
+        "basarios": {
+          "name": "Basarios"
+        },
+        "bazelgeuse": {
+          "name": "Bazelgeuse"
+        },
+        "behemoth": {
+          "name": "Behemoth"
+        },
+        "beotodus": {
+          "name": "Beotodus"
+        },
+        "berserk_tetsucabra": {
+          "name": "Berserk Tetsucabra"
+        },
+        "bishaten": {
+          "name": "Bishaten"
+        },
+        "black_diablos": {
+          "name": "BlackDiablos"
+        },
+        "black_gravios": {
+          "name": "Black Gravios"
+        },
+        "blackveil_vaal_hazak": {
+          "name": "Blackveil Vaal Hazak"
+        },
+        "blangonga": {
+          "name": "Blangonga"
+        },
+        "blood_orange_bishaten": {
+          "name": "Blood Orange Bishaten"
+        },
+        "bloodbath_diablos": {
+          "name": "Bloodbat Diablos"
+        },
+        "blue_yian_kut": {
+          "name": "Blue Yian Kut"
+        },
+        "boltreaver_astalos": {
+          "name": "Boltreaver Astalos"
+        },
+        "brachydios": {
+          "name": "Brachydios"
+        },
+        "brute_tigrex": {
+          "name": "Brute Tigrex"
+        },
+        "bulldrome": {
+          "name": "Bulldrome"
+        },
+        "ceadeus": {
+          "name": "Ceadeus"
+        },
+        "cephadrome": {
+          "name": "Cephadrome"
+        },
+        "chameleos": {
+          "name": "Chameleos"
+        },
+        "chaotic_gore_magala": {
+          "name": "Chaotic Gore Magala"
+        },
+        "chatacabra": {
+          "name": "Chatacabra"
+        },
+        "congalala": {
+          "name": "Congalala"
+        },
+        "copper_blangonga": {
+          "name": "Copper Blangonga"
+        },
+        "coral_pukei": {
+          "name": "Coral Pukei"
+        },
+        "crimson_fatalis": {
+          "name": "Crimson Fatalis"
+        },
+        "crimson_glow_valstrax": {
+          "name": "Crimson Glow Valstrax"
+        },
+        "crimson_qurupeco": {
+          "name": "Crimson Qurupeco"
+        },
+        "crystalbeard_uragaan": {
+          "name": "Crystalbeard Uragaan"
+        },
+        "dah_ren_mohran": {
+          "name": "Dah'Ren Mohran"
+        },
+        "daimyo_hermitaur": {
+          "name": "Daimyo Hermitaur"
+        },
+        "dalamadur": {
+          "name": "Dalamadur"
+        },
+        "deadeye_yian_garuga": {
+          "name": "Deadeye Yian Garuga"
+        },
+        "desert_seltas": {
+          "name": "Desert Seltas"
+        },
+        "desert_seltas_queen": {
+          "name": "Desert Seltas Queen"
+        },
+        "deviljho": {
+          "name": "Deviljho"
+        },
+        "diablos": {
+          "name": "Diablos"
+        },
+        "dire_miralis": {
+          "name": "Dire Miralis"
+        },
+        "dodogama": {
+          "name": "Dodogama"
+        },
+        "doshaguma": {
+          "name": "Doshaguma"
+        },
+        "dreadking_rathalos": {
+          "name": "Dreadking Rathalos"
+        },
+        "dreadqueen_rathian": {
+          "name": "Dreadqueen Rathian"
+        },
+        "drilltusk_tetsucabra": {
+          "name": "Drilltusk Tetsucabra"
+        },
+        "duramboros": {
+          "name": "Duramboros"
+        },
+        "ebony_odogaron": {
+          "name": "Ebony Odogaron"
+        },
+        "elderfrost_gammoth": {
+          "name": "Elderfrost Gammoth"
+        },
+        "emerald_congalala": {
+          "name": "Emerald Congalala"
+        },
+        "espinas": {
+          "name": "Espinas"
+        },
+        "fatalis": {
+          "name": "Fatalis"
+        },
+        "flaming_espinas": {
+          "name": "Flaming Espinas"
+        },
+        "frostfang_barioth": {
+          "name": "Frostfang Barioth"
+        },
+        "fulgur_anjanath": {
+          "name": "Fulgur Anjanath"
+        },
+        "furious_rajang": {
+          "name": "Furious Rajang"
+        },
+        "gaismagorm": {
+          "name": "Gaismagorm"
+        },
+        "gammoth": {
+          "name": "Gammoth"
+        },
+        "garangolm": {
+          "name": "Garangolm"
+        },
+        "gendrome": {
+          "name": "Gendrome"
+        },
+        "giadrome": {
+          "name": "Giadrome"
+        },
+        "gigginox": {
+          "name": "Gigginox"
+        },
+        "glacial_agnaktor": {
+          "name": "Glacial Agnaktor"
+        },
+        "glavenus": {
+          "name": "Glavenus"
+        },
+        "gobul": {
+          "name": "Gobul"
+        },
+        "gogmazios": {
+          "name": "Gogmazios"
+        },
+        "gold_rathian": {
+          "name": "Gold Rathian"
+        },
+        "goldbeard_ceadeus": {
+          "name": "Goldbeard Ceadeus"
+        },
+        "gore_magala": {
+          "name": "Gore Magala"
+        },
+        "goss_harag": {
+          "name": "Goss Harag"
+        },
+        "gravios": {
+          "name": "Gravios"
+        },
+        "great_baggi": {
+          "name": "Great Baggi"
+        },
+        "great_girros": {
+          "name": "Great Girros"
+        },
+        "great_izuchi": {
+          "name": "Great Izuchi"
+        },
+        "great_jaggi": {
+          "name": "Great Jaggi"
+        },
+        "great_jagras": {
+          "name": "Great Jagras"
+        },
+        "great_maccao": {
+          "name": "Great Maccao"
+        },
+        "great_wroggi": {
+          "name": "Great Wroggi"
+        },
+        "green_nargacuga": {
+          "name": "Green Nargacuga"
+        },
+        "green_plesioth": {
+          "name": "Green Plesioth"
+        },
+        "guardian_arkveld": {
+          "name": "Guardian Arkveld"
+        },
+        "guardian_doshaguma": {
+          "name": "Guardian Doshaguma"
+        },
+        "guardian_ebony_odogaron": {
+          "name": "Guardian Ebony Odogaron"
+        },
+        "guardian_fulgur_anjanath": {
+          "name": "Guardian Fulgur Anjanath"
+        },
+        "guardian_rathalos": {
+          "name": "Guardian Rathalos"
+        },
+        "grimclaw_tigrex": {
+          "name": "Grimclaw Tigrex"
+        },
+        "gypceros": {
+          "name": "Gypceros"
+        },
+        "hallowed_jhen_mohran": {
+          "name": "Hallowed Jhen Mohran"
+        },
+        "hellblade_glavenus": {
+          "name": "Hellblade Glavenus"
+        },
+        "hirabami": {
+          "name": "Hirabami"
+        },
+        "hypnocatrice": {
+          "name": "Hypnocatrice"
+        },
+        "iodrome": {
+          "name": "Iodrome"
+        },
+        "ivory_lagiacrus": {
+          "name": "Ivory Lagiacrus"
+        },
+        "jade_barroth": {
+          "name": "Jade Barroth"
+        },
+        "jhen_mohran": {
+          "name": "Jhen Mohran"
+        },
+        "jin_dahaad": {
+          "name": "Jin Dahaad"
+        },
+        "jyuratodus": {
+          "name": "Jyuratodus"
+        },
+        "kecha_wacha": {
+          "name": "Kecha Wacha"
+        },
+        "khezu": {
+          "name": "Khezu"
+        },
+        "king_shakalaka": {
+          "name": "King Shakalaka"
+        },
+        "kirin": {
+          "name": "Kirin"
+        },
+        "kulu_ya_ku": {
+          "name": "Kulu-Ya-Ku"
+        },
+        "kulve_taroth": {
+          "name": "Kulve Taroth"
+        },
+        "kushala_daora": {
+          "name": "Kushala Daora"
+        },
+        "lagiacrus": {
+          "name": "Lagiacrus"
+        },
+        "lagombi": {
+          "name": "Lagombi"
+        },
+        "lala_barina": {
+          "name": "Lala Barina"
+        },
+        "lao_shan_lung": {
+          "name": "Lao-Shan Lung"
+        },
+        "lavasioth": {
+          "name": "Lavasioth"
+        },
+        "legiana": {
+          "name": "Legiana"
+        },
+        "leshen": {
+          "name": "Leshen"
+        },
+        "lucent_nargacuga": {
+          "name": "Lucent Nargacuga"
+        },
+        "lunagaron": {
+          "name": "Lunagaron"
+        },
+        "lunastra": {
+          "name": "Lunastra"
+        },
+        "magma_almudron": {
+          "name": "Magma Almudron"
+        },
+        "magnamalo": {
+          "name": "Magnamalo"
+        },
+        "malfestio": {
+          "name": "Malfestio"
+        },
+        "malzeno": {
+          "name": "Malzeno"
+        },
+        "mizutsune": {
+          "name": "Mizutsune"
+        },
+        "molten_tigrex": {
+          "name": "Molten Tigrex"
+        },
+        "monoblos": {
+          "name": "Monoblos"
+        },
+        "najarala": {
+          "name": "Najarala"
+        },
+        "nakarkos": {
+          "name": "Nakarkos"
+        },
+        "namielle": {
+          "name": "Namielle"
+        },
+        "nargacuga": {
+          "name": "Nargacuga"
+        },
+        "narwa_the_allmother": {
+          "name": "Narwa The Allmother"
+        },
+        "nergigante": {
+          "name": "Nergigante"
+        },
+        "nerscylla": {
+          "name": "Nerscylla"
+        },
+        "nibelsnarf": {
+          "name": "Nibelsnarf"
+        },
+        "nightcloak_malfestio": {
+          "name": "Nightcloak Malfestio"
+        },
+        "nightshade_paolumu": {
+          "name": "Nightshade Paolumu"
+        },
+        "nu_udra": {
+          "name": "Nu Udra"
+        },
+        "odogaron": {
+          "name": "Odogaron"
+        },
+        "old_fatalis": {
+          "name": "Old Fatalis"
+        },
+        "oroshi_kirin": {
+          "name": "Oroshi Kirin"
+        },
+        "paolumu": {
+          "name": "Paolumu"
+        },
+        "pink_rathian": {
+          "name": "Pink Rathian"
+        },
+        "plesioth": {
+          "name": "Plesioth"
+        },
+        "plum_daimyo_hermitaur": {
+          "name": "Plum Daimyo Hermitaur"
+        },
+        "primordial_malzeno": {
+          "name": "Primordial Malzeno"
+        },
+        "pukei_pukei": {
+          "name": "Pukei Pukei"
+        },
+        "purple_gypceros": {
+          "name": "Purple Gypceros"
+        },
+        "purple_ludroth": {
+          "name": "Purple Ludroth"
+        },
+        "pyre_rakna_kadaki": {
+          "name": "Pyre Rakna-Kadaki"
+        },
+        "quematrice": {
+          "name": "Quematrice"
+        },
+        "qurupeco": {
+          "name": "Qurupeco"
+        },
+        "radobaan": {
+          "name": "Radobaan"
+        },
+        "raging_brachydios": {
+          "name": "Raging Brachydios"
+        },
+        "rajang": {
+          "name": "Rajang"
+        },
+        "rakna_kadaki": {
+          "name": "Rakna-Kadaki"
+        },
+        "rathalos": {
+          "name": "Rathalos"
+        },
+        "rathian": {
+          "name": "Rathian"
+        },
+        "red_khezu": {
+          "name": "Red Khezu"
+        },
+        "redhelm_arzuros": {
+          "name": "Redhelm Arzuros"
+        },
+        "rey_dau": {
+          "name": "Rey Dau"
+        },
+        "rompopolo": {
+          "name": "Rompopolo"
+        },
+        "royal_ludroth": {
+          "name": "Royal Ludroth"
+        },
+        "ruby_basarios": {
+          "name": "Ruby Basarios"
+        },
+        "ruiner_nergigante": {
+          "name": "Ruiner Nergigante"
+        },
+        "rust_duramboros": {
+          "name": "Rust Duramboros"
+        },
+        "rustrazor_ceanataur": {
+          "name": "Rustrazor Ceanataur"
+        },
+        "safi_jiiva": {
+          "name": "Safi'Jiiva"
+        },
+        "sand_barioth": {
+          "name": "SandBarioth"
+        },
+        "savage_deviljho": {
+          "name": "Savage Deviljho"
+        },
+        "scarred_yian_garuga": {
+          "name": "Scarred Yian Garuga"
+        },
+        "scorned_magnamalo": {
+          "name": "Scorned Magnamalo"
+        },
+        "seething_bazelgeuse": {
+          "name": "Seething Bazelgeuse"
+        },
+        "seltas": {
+          "name": "Seltas"
+        },
+        "seltas_queen": {
+          "name": "Seltas Queen"
+        },
+        "seregios": {
+          "name": "Seregios"
+        },
+        "shagaru_magala": {
+          "name": "Shagaru Magala"
+        },
+        "shah_dalamadur": {
+          "name": "Shah Dalamadur"
+        },
+        "shara_ishvalda": {
+          "name": "Shara Ishvalda"
+        },
+        "shen_gaoren": {
+          "name": "Shen Gaoren"
+        },
+        "shogun_ceanataur": {
+          "name": "Shogun Ceanataur"
+        },
+        "shrieking_legiana": {
+          "name": "Shrieking Legiana"
+        },
+        "shrouded_nerscylla": {
+          "name": "Shrouded Nerscylla"
+        },
+        "silver_rathalos": {
+          "name": "Silver Rathalos"
+        },
+        "silverwind_nargacuga": {
+          "name": "Silverwind Nargacuga"
+        },
+        "snowbaron_lagombi": {
+          "name": "Snowbaron Lagombi"
+        },
+        "somnacanth": {
+          "name": "Somnacanth"
+        },
+        "soulseer_mizutsune": {
+          "name": "Soulseer Mizutsune"
+        },
+        "steel_uragaan": {
+          "name": "Steel Uragaan"
+        },
+        "stonefist_hermitaur": {
+          "name": "Stonefist Hermitaur"
+        },
+        "stygian_zinogre": {
+          "name": "Stygian Zinogre"
+        },
+        "teostra": {
+          "name": "Teostra"
+        },
+        "terra_shogun_ceanataur": {
+          "name": "Terra Shogun Ceanataur"
+        },
+        "tetranadon": {
+          "name": "Tetranadon"
+        },
+        "tetsucabra": {
+          "name": "Tetsucabra"
+        },
+        "thunder_serpent_narwa": {
+          "name": "Thunder Serpent Narwa"
+        },
+        "thunderlord_zinogre": {
+          "name": "Thunderlord Zinogre"
+        },
+        "tidal_najarala": {
+          "name": "Tidal Najarala"
+        },
+        "tigerstripe_zamtrios": {
+          "name": "Tigerstripe Zamtrios"
+        },
+        "tigrex": {
+          "name": "Tigrex"
+        },
+        "tobi_kadachi": {
+          "name": "Tobi Kadachi"
+        },
+        "tzitzi_ya_ku": {
+          "name": "Tzitzi-Ya-Ku"
+        },
+        "ukanlos": {
+          "name": "Ukanlos"
+        },
+        "uragaan": {
+          "name": "Uragaan"
+        },
+        "uth_duna": {
+          "name": "Uth Duna"
+        },
+        "vaal_hazak": {
+          "name": "Vaal Hazak"
+        },
+        "valstrax": {
+          "name": "Valstrax"
+        },
+        "velkhana": {
+          "name": "Velkhana"
+        },
+        "velocidrome": {
+          "name": "Velocidrome"
+        },
+        "vespoid_queen": {
+          "name": "Vespoid Queen"
+        },
+        "violet_mizutsune": {
+          "name": "Violet Mizutsune"
+        },
+        "viper_tobi_kadachi": {
+          "name": "Viper Tobi-Kadachi"
+        },
+        "volvidon": {
+          "name": "Volvidon"
+        },
+        "white_monoblos": {
+          "name": "White Monoblos"
+        },
+        "wind_serpent_ibushi": {
+          "name": "Wind Serpent Ibushi"
+        },
+        "xeno_jiiva": {
+          "name": "Xeno'jiiva"
+        },
+        "xu_wu": {
+          "name": "XuWu"
+        },
+        "yama_tsukami": {
+          "name": "Yama Tsukami"
+        },
+        "yian_garuga": {
+          "name": "Yian Garuga"
+        },
+        "yian_kut_ku": {
+          "name": "Yian Kut-Ku"
+        },
+        "zamtrios": {
+          "name": "Zamtrios"
+        },
+        "zinogre": {
+          "name": "Zinogre"
+        },
+        "zoh_shia": {
+          "name": "Zoh Shia"
+        },
+        "zorah_magdaros": {
+          "name": "Zorah Magdaros"
+        }
+      }
+  },
+  "ui": {
+    "game": {
+      "header": {
+        "affliction": {
+          "title": "Affliction",
+          "tooltip": "Elemental/status effect that the monster is recognised to be using. It is recommended to equip the adapted armour."
+        },
+        "classification": {
+          "title": "Classification",
+          "tooltip": "Guild issued monster categories as you could find in the compendium. Only specifies the main category (e.g. flying wyvern), does not specify whether the monster is a sub-/rare-species or variant."
+        },
+        "generation": {
+          "title": "Generation",
+          "tooltip": "Provides which generation a monster belongs to. Indirectly hints which game it first appeared in."
+        },
+        "habitat": {
+          "title": "Habitat",
+          "tooltip": "Lists all the different types of environments the monster could be observed in. Note that a locale could include more than one environment type."
+        },
+        "threatlvl": {
+          "title": "Threat lvl",
+          "tooltip": "Indicate how dangerous the monster is on a scale of 1 to 9; 1 being the weakest threat and 9 a cataclysmic disaster. The Guild has not officially approved the scale and could be subject to revisions."
+        },
+        "weakness": {
+          "title": "Weakness",
+          "tooltip": "Recommended elemental/status to prioritise when choosing your weapon"
+        }
+      }
+    },
+    "placeholder":{
+      "monsterSelector": "Select a monster..."
+    },
+    "generic": {
+      "confirm": "Validate",
+      "newGame": "Play again",
+      "sendguess": "Send"
+    }
+  },
+  "accessibility": {
+    "result": {
+      "Incorrect": "{value} is or are wrong",
+      "Partial": "at least one value is wrong in {value}",
+      "Correct": "{value} is or are correct",
+      "Higher": "the correct value is higher than {value}",
+      "Lower": "the correct value is lower than {value}"
+    }
   }
 }

@@ -29,6 +29,18 @@ function getResultAriaTranslation(result: ComparisonResults, criteria: any, valu
     return t(`accessibility.result.${ComparisonResults[result].toLocaleLowerCase()}`, {value: translatedValue})
 
 }
+
+function getEnumTranslationKey(enumType: any, enumVal: number): string {
+    if(!enumType.enumName) {
+        return "";
+    }
+
+    return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
+}
+
+function getMonsterImage(monsterCode: string) {
+    return `/images/monsters/${monsterCode}.png`;
+}
 </script>
 
 <template>
@@ -44,8 +56,10 @@ function getResultAriaTranslation(result: ComparisonResults, criteria: any, valu
     </div>
 
     <div v-for="guess in store.game?.guesses.slice().reverse()" class="guess-table-row" role="row">
-        <div role="cell">
-            <span class="guess-table-cell-content">{{ $t("game.monster.name." + guess.monsterCode) }} </span>
+        <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
+            
+            <img :src="getMonsterImage(guess.monsterCode)" class="table-guess-monster-icon"></img>
+            <span class="guess-table-cell-content">{{ $t(`game.monster.${guess.monsterCode}.name`) }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
             <span class="guess-table-cell-content">{{ Classifications[guess.criterias.classification] }}</span>
@@ -96,6 +110,19 @@ function getResultAriaTranslation(result: ComparisonResults, criteria: any, valu
             .guess-table-cell-content {
                 position: relative; 
                 z-index: 1;
+            }
+        }
+
+        .guess-table-monster-cell {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            .table-guess-monster-icon {
+                 width: 48px;
+                height: 48px;
+                object-fit: contain;
+                align-self: center;
             }
         }
 

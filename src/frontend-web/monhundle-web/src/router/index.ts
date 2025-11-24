@@ -1,23 +1,29 @@
+import AboutView from '@/views/AboutView.vue'
 import GameView from '@/views/GameView.vue'
 import SelectGamesView from '@/views/SelectGamesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+const SiteName= "MonHundle"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: `${SiteName}: home`,
       component: SelectGamesView,
     },
     {
       path: '/unlimited',
-      name: 'unlimited',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      name: `${SiteName}: unlimited`,
+
       component: GameView,
+    },
+    {
+      path: '/about',
+      name: `${SiteName}: about`,
+
+      component: AboutView,
     },
   ],
 })

@@ -64,7 +64,7 @@ function startNewGame() {
         <div v-if="!isGameOver" class="option-selector-container">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
-                <span>{{ $t("ui.generic.sendGuess")}}</span>
+                <span>{{ $t("ui.generic.sendguess")}}</span>
             </button>
         </div>
         <div v-else class="option-game-over-container"> yeeee you got it!</div>
@@ -92,6 +92,7 @@ function startNewGame() {
     .option-selector-container, .game-progress-container {
         display: flex;
         justify-content: center;
+        gap:1rem;
     }
 }
 

@@ -35,7 +35,7 @@ const filteredItems = computed(() => {
 });
 
 function getMonsterLabel(code: string): string {
-  return t("game.monster.name." + code);
+  return t(`game.monster.${code}.name`);
 }
 
 function open() {
@@ -181,7 +181,7 @@ watch(model, (newval, oldval) => {
         <div v-if="isDropdownOpen" class="monster-option-list">
             <button v-for="monsterCode in filteredItems" class="monster-option" @click="selectValue(monsterCode)">
                 <img class="monster-option-icon" :src="getMonsterImage(monsterCode)" :alt="monsterCode"></img>
-                <span class="monster-option-label"> {{ $t("game.monster.name." + monsterCode) }}</span>
+                <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
         </div>
     </div>
@@ -190,7 +190,7 @@ watch(model, (newval, oldval) => {
 <style lang="scss" scoped>
 .monster-selector-container{
     width: 100%;
-    max-width: 1024px;
+    max-width: 512px;
     min-height: 36px;
     display: flex;
     align-content: center;
