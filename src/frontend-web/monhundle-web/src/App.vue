@@ -38,7 +38,7 @@ import LocaleSelector from './components/LocaleSelector.vue';
 header {
   line-height: 1.5;
   max-height: 100vh;
-  margin: 1rem;
+  padding: 0 1rem;
   margin-bottom: 4rem;
 
   .wrapper {
@@ -46,7 +46,6 @@ header {
     place-items: flex-start;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
     width: 100%;
 
       nav {
@@ -119,10 +118,7 @@ footer {
 
   nav {
     text-align: left;
-    margin-left: -1rem;
     font-size: 1rem;
-    padding: 1rem 0;
-    margin-top: 1rem;
   }
 }
 </style>

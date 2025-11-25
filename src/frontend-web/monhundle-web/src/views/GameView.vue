@@ -9,7 +9,9 @@ import type { GameService } from '../services/GameService';
 import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n()
 const gameStore = useGameStore();
 const gameService = inject<GameService>('gameService');
 const resourceApi = inject<ResourceApi>('resourceApi');
@@ -56,25 +58,49 @@ async function sendGuess() {
 function startNewGame() {
     gameService?.startNewGame().then(resp => gameId = resp);
 }
+function getLastGuessIcon(){
+    if(gameStore.isGameNull() || gameStore.isGameOngoing()){
+        return "/images/monsters/unknown.png";
+    } else {
+        return `/images/monsters/${gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode}.png`;
+    }
+}
+
+function getLastGuessName(): string{
+    if(gameStore.isGameNull() || gameStore.isGameOngoing()){
+        return t("game.monsters.unknown.name");
+    } else {
+        return t(`game.monster.${gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode}.name`);
+    }
+}
 
 </script>
 
 <template>
     <div v-if="ready" class="game-page-container">
+        <div class="introduction" v-if="!isGameOver">
+            <img class="introduction-icon" src="/images/monsters/unknown.png"></img>
+            <div v-html="t('ui.game.rules.unlimited')" class="introduction-content">
+            </div>
+        </div>
         <div v-if="!isGameOver" class="option-selector-container">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
                 <span>{{ $t("ui.generic.sendguess")}}</span>
             </button>
         </div>
-        <div v-else class="option-game-over-container"> yeeee you got it!</div>
-        <div class="game-progress-container">
-            <GameGuessList></GameGuessList>
-        </div>
-        <div v-if="isGameOver" class="new-game-button-container">
+        <div v-else class="option-game-over-container"> 
+            <img class="game-over-icon" :src="getLastGuessIcon()"></img>
+            <div class="game-over-content">
+                <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
+                <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
+            </div>
             <button @click="startNewGame()">
                 <span> {{ $t("ui.generic.newGame") }}</span>
             </button>
+        </div>
+        <div class="game-progress-container">
+            <GameGuessList></GameGuessList>
         </div>
     </div>
     <div v-else> loading... </div>
@@ -89,10 +115,44 @@ function startNewGame() {
     justify-content: center;
     gap: 1rem;
 
+    .introduction {
+        text-align: center;
+        font-size: 10pt;
+        margin-bottom: 2rem;
+
+        .introduction-icon {
+            height: 124px;
+            width: 124px;
+        }
+
+        .introduction-content > * {
+            margin-bottom: .5rem;
+        }
+    }
+
     .option-selector-container, .game-progress-container {
         display: flex;
         justify-content: center;
         gap:1rem;
+    }
+
+    .game-progress-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .option-game-over-container{
+        text-align: center;
+        font-size: 10pt;
+        
+        .game-over-icon {
+            height: 124px;
+            width: 124px;
+        }
+
+        .game-over-content > * {
+            margin-bottom: .5rem;
+        }
     }
 }
 

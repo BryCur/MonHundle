@@ -41,11 +41,26 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
 function getMonsterImage(monsterCode: string) {
     return `/images/monsters/${monsterCode}.png`;
 }
+
+function hasGuesses() : boolean {
+    return !store.isGameNull() && store.game!.guesses.length > 0;
+}
 </script>
 
 <template>
+<div class="game-lexic" v-if="hasGuesses()">
+    <div>
+        🟥 - {{ $t("ui.game.rules.general.incorrect")}}
+    </div>
+    <div>
+        🟨 -  {{ $t("ui.game.rules.general.partial")}}
+    </div>
+    <div>
+        🟩 - {{ $t("ui.game.rules.general.correct")}}
+    </div>
+</div>
 <div class="guess-container guess-table" role="table">
-    <div class="guess-table-row table-header" role="row">
+    <div class="guess-table-row table-header" role="row" v-if="hasGuesses()">
         <div class="guess-table-cell" role="columnheader" ></div>
         <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.classification.title") }} </span></div>
         <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.generation.title") }} </span></div>
@@ -62,28 +77,35 @@ function getMonsterImage(monsterCode: string) {
             <span class="guess-table-cell-content">{{ $t(`game.monster.${guess.monsterCode}.name`) }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ Classifications[guess.criterias.classification] }}</span>
+            <span class="guess-table-cell-content">{{ $t(getEnumTranslationKey(Classifications, guess.criterias.classification)) }}</span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.generation)" class="guess-table-cell" role="cell">
             <span class="guess-table-cell-content">{{ guess.criterias.generation}} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => Weaknesses[a]).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => $t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.afflictions)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => Afflictions[a]).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => $t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)" class="guess-table-cell" role="cell">
             <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.habitats)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => Biomes[a]).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => $t(getEnumTranslationKey(Biomes, a))).join(", ") : "-" }} </span>
         </div>
     </div>
 </div>
 </template>
 
 <style lang="scss" scoped>
+
+.game-lexic {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 1rem
+}
 
 .guess-table {
     max-width: 1024px;  
