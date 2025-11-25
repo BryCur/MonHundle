@@ -3,15 +3,16 @@ import { GameStates } from "@/domain/enums/GameStates";
 import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
-import { useGameStore } from "@/stores/GameStore";
-import { setCookie } from "./CookieService";
+import { type GameStore } from "@/stores/GameStore";
+import { setCookie } from "@/services/CookieService";
 
 export class GameService {
     private readonly gameApi: IGameApi;
-    private readonly gameStore = useGameStore();
+    private readonly gameStore: GameStore;
 
-    constructor(gameApi: IGameApi){
+    constructor(gameApi: IGameApi, gameStore: GameStore){
         this.gameApi = gameApi;
+        this.gameStore = gameStore
     }
 
     public async startNewGame(): Promise<string> {
@@ -29,13 +30,8 @@ export class GameService {
     public async makeGuess(gameId: string, guessCode: string): Promise<void>{
         await this.gameApi.makeGuess(gameId, guessCode).then(res => {
             let guessResult: Guess = res
-            this.gameStore.game!.guesses.push(guessResult);
-            
-            let compResults = Object.values(guessResult.comparisonResult) as ComparisonResults[]
-
-            if(compResults.every(r => r == ComparisonResults.Correct)){
-                this.gameStore.setState(res.gameStateAfterGuess)
-            }
+            this.gameStore.addGuess(guessResult);
+            this.gameStore.setState(res.gameStateAfterGuess)
         });
     }
 

@@ -33,3 +33,6 @@ export const useGameStore = defineStore('game', () => {
 
   return { game, setGame, addGuess, setState, isGameNull, isGameOngoing }
 })
+
+
+export type GameStore = ReturnType<typeof useGameStore>;

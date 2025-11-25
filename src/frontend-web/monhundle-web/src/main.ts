@@ -14,6 +14,7 @@ import { UserApi } from './services/ApiService/UserApi'
 import { GameService } from './services/GameService'
 import { GameApi } from './services/ApiService/GameApi'
 import ResourceApi from './services/ApiService/ResourceApi'
+import { useGameStore } from './stores/GameStore'
 
 const i18n = createI18n({
     legacy: false,
@@ -27,8 +28,9 @@ const i18n = createI18n({
 
 const app = createApp(App);
 app.use(createPinia());
+const gameStore = useGameStore();
 const gameApi = new GameApi();
-const gameService = new GameService(gameApi);
+const gameService = new GameService(gameApi, gameStore);
 const resourceApi = new ResourceApi();
 
 new UserApi().authUser();

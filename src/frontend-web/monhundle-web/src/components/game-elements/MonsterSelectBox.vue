@@ -53,6 +53,8 @@ function open() {
     } else {
       highlightedIndex.value = 0;
     }
+
+    
     monsterSearchInputRef.value?.focus()
   })
 }
