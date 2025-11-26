@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useGameStore } from '../../stores/GameStore';
 import { ComparisonResults } from '../../domain/enums/ComparisonResults';
 import { Afflictions } from '../../domain/enums/Criterias/Afflictions';
 import { Weaknesses } from '../../domain/enums/Criterias/Weaknesses';
 import { Classifications } from '../../domain/enums/Criterias/Classifications';
 import { Biomes } from '../../domain/enums/Criterias/Biomes';
 import { enumValueToKeyLower } from '../../domain/enums/EnumUtils';
+import type Guess from '../../domain/Guess';
+import { computed } from 'vue';
 
-const { t } = useI18n()
-const store = useGameStore()
+const { t } = useI18n();
+const model = defineModel<Guess[]>();
 
 function getComparisonResultsClass(val: ComparisonResults): string{ 
     return `result-${ComparisonResults[val].toLowerCase()}`
@@ -42,57 +43,57 @@ function getMonsterImage(monsterCode: string) {
     return `/images/monsters/${monsterCode}.png`;
 }
 
-function hasGuesses() : boolean {
-    return !store.isGameNull() && store.game!.guesses.length > 0;
-}
+const hasGuesses = computed<boolean>(() => {
+    return model.value !== undefined && model.value.length > 0;
+});
 </script>
 
 <template>
-<div class="game-lexic" v-if="hasGuesses()">
+<div class="game-lexic" v-if="hasGuesses">
     <div>
-        🟥 - {{ $t("ui.game.rules.general.incorrect")}}
+        🟥 - {{ t("ui.game.rules.general.incorrect")}}
     </div>
     <div>
-        🟨 -  {{ $t("ui.game.rules.general.partial")}}
+        🟨 -  {{ t("ui.game.rules.general.partial")}}
     </div>
     <div>
-        🟩 - {{ $t("ui.game.rules.general.correct")}}
+        🟩 - {{ t("ui.game.rules.general.correct")}}
     </div>
 </div>
-<div class="guess-container guess-table" role="table">
-    <div class="guess-table-row table-header" role="row" v-if="hasGuesses()">
+<div class="guess-container guess-table" role="table" v-if="hasGuesses">
+    <div class="guess-table-row table-header" role="row">
         <div class="guess-table-cell" role="columnheader" ></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.classification.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.generation.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.weakness.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.affliction.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.threatlvl.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ $t("ui.game.header.habitat.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
+        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
     </div>
 
-    <div v-for="guess in store.game?.guesses.slice().reverse()" class="guess-table-row" role="row">
+    <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
         <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
             
             <img :src="getMonsterImage(guess.monsterCode)" class="table-guess-monster-icon"></img>
-            <span class="guess-table-cell-content">{{ $t(`game.monster.${guess.monsterCode}.name`) }} </span>
+            <span class="guess-table-cell-content">{{ t(`game.monster.${guess.monsterCode}.name`) }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ $t(getEnumTranslationKey(Classifications, guess.criterias.classification)) }}</span>
+            <span class="guess-table-cell-content">{{ t(getEnumTranslationKey(Classifications, guess.criterias.classification)) }}</span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.generation)" class="guess-table-cell" role="cell">
             <span class="guess-table-cell-content">{{ guess.criterias.generation}} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => $t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.afflictions)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => $t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)" class="guess-table-cell" role="cell">
             <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
         </div>
         <div :class="getComparisonResultsClass(guess.comparisonResult.habitats)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => $t(getEnumTranslationKey(Biomes, a))).join(", ") : "-" }} </span>
+            <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => t(getEnumTranslationKey(Biomes, a))).join(", ") : "-" }} </span>
         </div>
     </div>
 </div>

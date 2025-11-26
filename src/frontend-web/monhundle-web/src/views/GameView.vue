@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { apiFetch } from '../services/ApiService/ApiBaseAccess';
 import { getCookie, setCookie } from '../services/CookieService';
-import MonsterSelector from '../components/game-elements/MonsterSelector.vue';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
 import type { GameService } from '../services/GameService';
@@ -17,6 +15,7 @@ const gameService = inject<GameService>('gameService');
 const resourceApi = inject<ResourceApi>('resourceApi');
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
+const gameGuesses = computed(() => gameStore.isGameNull() ? [] : gameStore.game?.guesses);
 
 let ready = ref(false);
 let monsterList = ref<string[]>([]);
@@ -100,7 +99,7 @@ function getLastGuessName(): string{
             </button>
         </div>
         <div class="game-progress-container">
-            <GameGuessList></GameGuessList>
+            <GameGuessList v-model="gameGuesses"></GameGuessList>
         </div>
     </div>
     <div v-else> loading... </div>
