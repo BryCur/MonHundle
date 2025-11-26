@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { GameService } from "@/services/GameService"
+import { GameService } from "@/services/GameService";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import type GuessResponse from "@/domain/responses/GuessResponse";
-import type { GameStore } from "@/stores/gameStore";
+import type { GameStore } from "@/stores/GameStore";
 import { GameStates } from "@/domain/enums/GameStates";
 import type Guess from "@/domain/Guess";
 import type GameStatus from "@/domain/GameStatus";

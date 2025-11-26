@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { setActivePinia, createPinia } from "pinia"
-import { useGameStore } from "@/stores/gameStore"
+import { useGameStore } from "@/stores/GameStore"
 import { GameStates } from "@/domain/enums/GameStates"
 import type Guess from "@/domain/Guess"
 import GameStatus from "@/domain/GameStatus"

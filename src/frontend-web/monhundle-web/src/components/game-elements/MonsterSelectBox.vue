@@ -8,7 +8,7 @@ const props = defineProps<{
     items: string[]
 }>()
 
-const model = defineModel<string>()
+const model = defineModel<string>(); // v-model value
 const isDropdownOpen = ref(false);
 const searchInput = ref<string | undefined>("");
 const highlightedIndex = ref(-1);
