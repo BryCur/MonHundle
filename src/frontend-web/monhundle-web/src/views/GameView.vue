@@ -46,12 +46,8 @@ onMounted(async () => {
 }) 
 
 async function sendGuess() {
-    // send to api
     gameService?.makeGuess(gameId!, selectedMonster.value!);
     selectedMonster.value = undefined;
-
-    // TODO game finished screen (congrats, right answer, send requests, disabled fields)
-    // TODO styling........
 }
 
 function startNewGame() {

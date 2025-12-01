@@ -27,11 +27,12 @@ const filteredItems = computed(() => {
     if (searchInput.value === undefined || !searchInput.value.trim()) {
         return props.items;
     }
-    console.log("ouai grave");
 
     const term = searchInput.value.toLowerCase();
 
-    return props.items.filter(code => getMonsterLabel(code).toLowerCase().includes(term));
+    return props.items
+    .filter(code => getMonsterLabel(code).toLowerCase().includes(term))
+    .sort((a, b) => getMonsterLabel(a) > getMonsterLabel(b) ? -1 : 1);
 });
 
 function getMonsterLabel(code: string): string {
