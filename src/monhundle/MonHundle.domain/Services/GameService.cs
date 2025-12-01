@@ -1,5 +1,6 @@
 ﻿
 using System.Security.Authentication;
+using Microsoft.Extensions.Logging;
 using MonHundle.database.Interfaces.DataAccess;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
@@ -13,11 +14,13 @@ namespace MonHundle.domain.Services;
 
 public class GameService : IGameService
 {
+    private readonly ILogger<GameService> _logger;
     private readonly IGameDataAccess _gameDataAccess;
     private readonly IMonsterService _monsterService;
 
-    public GameService(IMonsterService monsterService, IGameDataAccess gameDataAccess)
+    public GameService(ILogger<GameService> logger, IMonsterService monsterService, IGameDataAccess gameDataAccess)
     {
+        _logger = logger;
         _monsterService = monsterService ?? throw new ArgumentNullException(nameof(monsterService));
         _gameDataAccess = gameDataAccess ?? throw new ArgumentNullException(nameof(gameDataAccess));
     }
@@ -37,6 +40,7 @@ public class GameService : IGameService
         };
         
         _gameDataAccess.CreateGame(game);
+        _logger.LogInformation("Created game {gameId} for {playerId}", game.Id, player.PlayerUid);
         return game;
     }
 
@@ -50,6 +54,7 @@ public class GameService : IGameService
     {
         if (!player.Id.HasValue)
         {
+            _logger.LogWarning("Attempted to make guess for {gameId} but game owner not provided", gameId);
             throw new AuthenticationException("no game owner provided");
         }
         
@@ -76,6 +81,7 @@ public class GameService : IGameService
     {
         if (!player.Id.HasValue)
         {
+            _logger.LogWarning("Attempted to resume game {gameId} but game owner not provided", gameId);
             throw new AuthenticationException("no game owner provided");
         }
         

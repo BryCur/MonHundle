@@ -15,11 +15,13 @@ namespace core_api.Controllers;
 [ServiceFilter(typeof(ValidateUserFilter))]
 public class GameController : ControllerBase
 {
+    private readonly ILogger<GameController> _logger;
     private readonly IGameService _gameService;
     private readonly IMonsterService _monsterService;
 
-    public GameController(IGameService gameService, IMonsterService monsterService)
+    public GameController(ILogger<GameController> logger, IGameService gameService, IMonsterService monsterService)
     {
+        _logger = logger;
         _gameService = gameService;
         _monsterService = monsterService;
     }
@@ -31,6 +33,7 @@ public class GameController : ControllerBase
         Game newGame = _gameService.CreateGame(player);
         
         // return game ID
+        _logger.LogInformation("The player {playerId} started a new game", player.Id);
         return Ok(newGame.Id);
     }
 
@@ -42,6 +45,7 @@ public class GameController : ControllerBase
         
         if (game == null)
         {
+            _logger.LogWarning("The player {playerId}, tried to resume game {gameId}, but game was not found", player.Id, gameId);
             return NotFound();
         }
         

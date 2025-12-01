@@ -6,7 +6,7 @@ namespace core_api.Controllers;
 
 [ApiController]
 [Route("user")]
-public class UserController(IPlayerService playerService): ControllerBase
+public class UserController(ILogger<UserController> logger, IPlayerService playerService): ControllerBase
 {
     
     [HttpGet("authenticate")]

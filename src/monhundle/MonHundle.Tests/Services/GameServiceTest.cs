@@ -1,5 +1,7 @@
 ﻿
 using System.Security.Authentication;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using MonHundle.database.Interfaces.DataAccess;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.Criterias;
@@ -18,6 +20,7 @@ public class GameServiceTest
 {
     private readonly Mock<IMonsterService> _monsterServiceMock;
     private readonly Mock<IGameDataAccess> _gameDataAccessMock;
+    private readonly NullLogger<GameService> _loggerMock;
     
     private readonly Player _currentPlayer = new Player()
     {
@@ -30,12 +33,13 @@ public class GameServiceTest
     {
         _monsterServiceMock = new Mock<IMonsterService>();
         _gameDataAccessMock = new Mock<IGameDataAccess>();
+        _loggerMock = new NullLogger<GameService>();
     }
     
     [Fact]
     public void GameService_should_create_a_new_game()
     {
-        GameService service = new GameService(_monsterServiceMock.Object, _gameDataAccessMock.Object);
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
         Game game = service.CreateGame(_currentPlayer);
         
@@ -74,7 +78,7 @@ public class GameServiceTest
         _monsterServiceMock.Setup(mock => mock.getMonsterFromId(currentGame.AnswerMonsterId))
             .Returns(guess);
         
-        GameService service = new GameService(_monsterServiceMock.Object, _gameDataAccessMock.Object);
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
         (MonsterGuessDTO guessResult, GameStates stateAfterGuess) = service.MakeGuess(currentGame.GameUid, guess, _currentPlayer);
 
@@ -103,7 +107,7 @@ public class GameServiceTest
         _monsterServiceMock.Setup(mock => mock.getMonsterFromId(currentGame.AnswerMonsterId))
             .Returns(guess);
         
-        GameService service = new GameService(_monsterServiceMock.Object, _gameDataAccessMock.Object);
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         (MonsterGuessDTO guessResult, GameStates stateAfterGuess) = service.MakeGuess(currentGame.GameUid, guess, _currentPlayer);
         
         Assert.Equal(GameStates.Ongoing, stateAfterGuess);
@@ -118,7 +122,7 @@ public class GameServiceTest
             PlayerUid = new Guid()
         };
         
-        GameService service = new GameService(_monsterServiceMock.Object, _gameDataAccessMock.Object);
+        GameService service = new GameService( _loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
         Assert.Throws<AuthenticationException>(() => service.ResumeGame(new Guid(), badPlayer));
     }

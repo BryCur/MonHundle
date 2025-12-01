@@ -8,6 +8,7 @@ using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
 using Npgsql;
+using Serilog;
 
 namespace core_api;
 
@@ -25,6 +26,15 @@ public class Program
 
             options.UseNpgsql(dataSource);
         });
+        
+        // logger configuration
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .WriteTo.Console(
+                outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")
+            .CreateLogger();
+        builder.Host.UseSerilog();
 
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
