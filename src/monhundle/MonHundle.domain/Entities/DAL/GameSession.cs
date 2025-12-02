@@ -24,7 +24,7 @@ public class GameSession
     public List<GameGuessStruct> GameGuesses { get; set; } = new List<GameGuessStruct>();
     
     [Column("state")] 
-    public string State { get; set; }
+    public  required string State { get; set; }
     
     [Column("start_time")] 
     public DateTime StartTime { get; set; } = DateTime.UtcNow;

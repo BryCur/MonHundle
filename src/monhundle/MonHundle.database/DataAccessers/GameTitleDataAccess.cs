@@ -6,6 +6,6 @@ public class GameTitleDataAccess(AppDbContext dbContext) : IGameTitleDataAccess
 {
     public List<String> GetGameTitles()
     {
-        return dbContext.Games.Select(g => g.code).ToList();
+        return dbContext.Games.Select(g => g.Code).ToList();
     }
 }

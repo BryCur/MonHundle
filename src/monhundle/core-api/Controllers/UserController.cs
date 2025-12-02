@@ -35,6 +35,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
         }
         catch (Exception e)
         {
+            logger.LogError(e, $"failed to auth player : ${e.Message}");
             return BadRequest(e.Message);
         }
     }

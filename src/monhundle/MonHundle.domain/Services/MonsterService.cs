@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Extensions.Logging;
 using MonHundle.domain.Entities;
+using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 
@@ -31,7 +32,7 @@ public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess m
     
     public GuessableMonster getMonsterFromId(int id)
     {
-        return monsterDataAccess.GetGuessableMonsterFromId(id);
+        return monsterDataAccess.GetGuessableMonsterFromId(id) ?? throw new DataNotFoundException($"Could not find monster with id {id}");
     }
 
     public List<String> getMonsterChoicesFromGames(string[] gameTitles)

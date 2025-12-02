@@ -6,7 +6,7 @@ src/**/*.sln.iml
 src/**/bin/
 src/**/obj/
 src/**/out/
-src/monhundle/publish
+src/monhundle/publish/
 
 # User-specific files
 src/monhundle/*.user
@@ -64,3 +64,5 @@ src/monhundle/secrets.json
 src/monhundle/appsettings.*.json
 src/monhundle/!appsettings.Development.json
 
+src/monhundle/core-api/publish/
+src/monhundle/core-api/logs/

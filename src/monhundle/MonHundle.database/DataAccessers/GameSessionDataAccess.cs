@@ -10,7 +10,7 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
 
     public void CreateGame(Game game)
     {
-        int playerUid = GetPlayerIdFromGuid(game.playerId);
+        int playerUid = GetPlayerIdFromGuid(game.PlayerId);
         
         var gameSessionEntity = GameSessionMapper.ToEntity(game, playerUid);
         
@@ -22,11 +22,6 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
     {
         return dbContext.GameSessions.First(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId) 
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
-    }
-
-    public Game GetCurrentGame(Guid playerId)
-    {
-        return new Game();
     }
 
     public void SaveGame(GameSession game)

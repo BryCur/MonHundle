@@ -45,7 +45,7 @@ public class GameServiceTest
         
         Assert.NotNull(game);
         Assert.NotEqual(Guid.Empty, game.Id);
-        Assert.Equal(_currentPlayer.PlayerUid, game.playerId);
+        Assert.Equal(_currentPlayer.PlayerUid, game.PlayerId);
         _monsterServiceMock.Verify(s => s.getRandomMonster(), Times.Once);
         _gameDataAccessMock.Verify(s => s.CreateGame(game), Times.Once);
     }
@@ -59,6 +59,7 @@ public class GameServiceTest
             GameUid = Guid.NewGuid(),
             PlayerId = _currentPlayer.Id!.Value,
             AnswerMonsterId = 1,
+            State = GameStates.Ongoing.ToString(),
             GameGuesses = [],
         };
         GuessableMonster guess = getDefaultGuessableMonster();
@@ -98,6 +99,7 @@ public class GameServiceTest
             GameUid = Guid.NewGuid(),
             PlayerId = _currentPlayer.Id!.Value,
             AnswerMonsterId = 2,
+            State = GameStates.Ongoing.ToString(),
             GameGuesses = [],
         };
         GuessableMonster guess = getDefaultGuessableMonster();

@@ -36,7 +36,7 @@ public class GameService : IGameService
         {
             Id = Guid.NewGuid(), 
             Answer = _monsterService.getRandomMonster(), 
-            playerId = player.PlayerUid
+            PlayerId = player.PlayerUid
         };
         
         _gameDataAccess.CreateGame(game);

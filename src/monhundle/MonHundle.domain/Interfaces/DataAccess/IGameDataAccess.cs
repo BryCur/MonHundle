@@ -7,6 +7,5 @@ public interface IGameDataAccess
 {
     void CreateGame(Game game);
     GameSession GetGame(Guid gameId, int playerId);
-    Game GetCurrentGame(Guid playerId);
     void SaveGame(GameSession game);
 }

@@ -37,7 +37,7 @@ public class GameSessionMapper
         return new Game()
         {
             Id = gameSession.GameUid,
-            playerId = player.PlayerUid,
+            PlayerId = player.PlayerUid,
             Answer = answer,
             Guesses = gameSession.GameGuesses.Select(g => new MonsterGuessDTO(
                 g.MonsterCode,
