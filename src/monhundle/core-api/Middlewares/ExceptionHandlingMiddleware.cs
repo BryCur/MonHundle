@@ -25,8 +25,7 @@ public class ExceptionHandlingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception occurred.");
-
-            // On gère ici toutes les exceptions
+            
             await HandleExceptionAsync(context, ex);
         }
     }
@@ -36,10 +35,10 @@ public class ExceptionHandlingMiddleware
         var response = context.Response;
         response.ContentType = "application/json";
         
+        // default values
         var statusCode = HttpStatusCode.InternalServerError;
         var message = "An unexpected error occurred.";
 
-        // Exemple de classification selon ton type d'exception
         switch (exception)
         {
             case DataNotFoundException:
@@ -56,8 +55,6 @@ public class ExceptionHandlingMiddleware
                 statusCode = HttpStatusCode.Unauthorized;
                 message = "Invalid credentials.";
                 break;
-            
-            
         }
 
         response.StatusCode = (int)statusCode;
