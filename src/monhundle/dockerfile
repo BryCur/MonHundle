@@ -1,0 +1,30 @@
+# Étape 1 : Build de l'application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copie les fichiers de projet et restaure les dépendances
+COPY ["core-api/core-api.csproj", "core-api/"]
+COPY ["MonHundle.domain/MonHundle.domain.csproj", "MonHundle.domain/"]
+COPY ["MonHundle.database/MonHundle.database.csproj", "MonHundle.database/"]
+
+# Restaure les dépendances
+RUN dotnet restore "core-api/core-api.csproj"
+
+# Copie le reste des fichiers sources
+COPY . .
+
+# Publie le projet API
+RUN dotnet publish "core-api/core-api.csproj" -c Release -o /app/publish --self-contained false -r linux-x64
+
+# Étape 2 : Image finale (plus légère)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copie les artefacts publiés
+COPY --from=build /app/publish .
+
+# Déclare le port exposé (à adapter selon ton API)
+EXPOSE 8080
+
+# Point d'entrée pour lancer l'API
+ENTRYPOINT ["dotnet", "core-api.dll"]

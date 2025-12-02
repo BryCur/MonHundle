@@ -6,6 +6,7 @@ src/**/*.sln.iml
 src/**/bin/
 src/**/obj/
 src/**/out/
+src/monhundle/publish
 
 # User-specific files
 src/monhundle/*.user

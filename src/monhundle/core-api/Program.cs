@@ -17,7 +17,16 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+        var connectionString = String.Format(
+            connectionStringTemplate,
+            builder.Configuration["HOST_ADDRESS"],
+            builder.Configuration["HOST_PORT"],
+            builder.Configuration["DB_NAME"],
+            builder.Configuration["DB_USER"],
+            builder.Configuration["DB_PWD"]
+        );
+        
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);

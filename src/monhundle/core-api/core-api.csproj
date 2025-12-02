@@ -21,4 +21,28 @@
       <ProjectReference Include="..\MonHundle.domain\MonHundle.domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="publish\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="publish\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="publish\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="publish\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="publish\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.json" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.Production.json" />
+      <_ContentIncludedByDefault Remove="publish\core-api.deps.json" />
+      <_ContentIncludedByDefault Remove="publish\core-api.runtimeconfig.json" />
+    </ItemGroup>
+
 </Project>
