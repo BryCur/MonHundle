@@ -1,0 +1,34 @@
+name: Frontend Tests and Checks
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test-and-check:
+    name: Test and TypeScript Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'        
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript check
+        run: npx vue-tsc --noEmit --pretty
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Build for production
+        run: npm run build
