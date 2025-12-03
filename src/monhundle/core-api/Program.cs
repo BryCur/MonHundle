@@ -61,13 +61,13 @@ public class Program
         builder.Services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
-
-
+    
+        string[] allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(",") ?? Array.Empty<string>();
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontend",
                 policy => policy
-                    .WithOrigins("http://localhost:5173")
+                    .WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
