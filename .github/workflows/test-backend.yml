@@ -1,4 +1,4 @@
-name: Build & test backend
+name: Backend - Build & test 
 
 on:
   push:
