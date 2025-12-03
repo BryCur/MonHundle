@@ -62,7 +62,7 @@ public class Program
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
     
-        string[] allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(",") ?? Array.Empty<string>();
+        string[] allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(",") ?? Array.Empty<string>();
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontend",
