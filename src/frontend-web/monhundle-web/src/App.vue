@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import LocaleSelector from './components/LocaleSelector.vue';
+import { onMounted } from 'vue';
+import router from './router';
+
+onMounted(async () => {
+  router.push("/");
+}) 
 </script>
 
 <template>

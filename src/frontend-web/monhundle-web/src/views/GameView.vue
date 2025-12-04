@@ -8,6 +8,7 @@ import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
+import router from '../router';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
@@ -24,6 +25,12 @@ let gameId :string | undefined;
 
 onMounted(async () => {
     ready.value = false;
+
+    let storedGameList = localStorage.getItem("gameList");
+    if (storedGameList === null) {
+        router.push("/");
+    }
+
     let gameIdFromCookie = getCookie("currentGame");
 
     if(gameIdFromCookie && gameStore.isGameNull()){
@@ -38,9 +45,9 @@ onMounted(async () => {
         startNewGame();
     }
 
-    let gameList = JSON.parse(localStorage.getItem("gameList") ?? "") as string[];
+    let gameList = JSON.parse(storedGameList!) as string[];
     await resourceApi?.getMonstersOptions(gameList)
-        .then(list => monsterList.value = list);
+        .then(list => monsterList.value = list)
     
     ready.value = true;
 }) 
