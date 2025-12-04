@@ -11,4 +11,10 @@ public class ServiceHealthController
     {
         return new OkObjectResult("Service is alive");
     }
+    
+    [HttpHead("Status")]
+    public IActionResult GetServiceStatusHead()
+    {
+        return new OkObjectResult("Service is alive");
+    }
 }
