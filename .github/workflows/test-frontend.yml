@@ -42,23 +42,14 @@ jobs:
     needs: test-and-check
     runs-on: ubuntu-latest
     environment: Production
+    permissions:
+       id-token: write
+       contents: read
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
-
-      - name: Install OIDC Client from Core Package
-        run: npm install @actions/core@1.6.0 @actions/http-client
-
-      - name: Get Id Token
-        uses: actions/github-script@v6
-        id: idtoken
-        with:
-           script: |
-               const coredemo = require('@actions/core')
-               return await coredemo.getIDToken()
-           result-encoding: string
 
       - name: Build and Deploy to Azure
         uses: Azure/static-web-apps-deploy@v1
@@ -68,4 +59,4 @@ jobs:
           app_location: "./src/frontend-web/monhundle-web"
           api_location: ""
           output_location: "dist"
-          github_id_token: ${{ steps.idtoken.outputs.result }}
+          github_id_token: ${{ secrets.GITHUB_TOKEN }}
