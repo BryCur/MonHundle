@@ -42,6 +42,7 @@ jobs:
     needs: test-and-check
     if: success() && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    environment: Production
     defaults:
       run:
         working-directory: ./src/frontend-web/monhundle-web
@@ -54,15 +55,6 @@ jobs:
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
 
-      - name: Get Id Token
-        uses: actions/github-script@v6
-        id: idtoken
-        with:
-           script: |
-               const coredemo = require('@actions/core')
-               return await coredemo.getIDToken()
-           result-encoding: string
-
       - name: Build and Deploy to Azure
         uses: Azure/static-web-apps-deploy@v1
         with:
@@ -70,3 +62,4 @@ jobs:
           action: "upload"
           app_location: "./src/frontend-web/monhundle-web"
           output_location: "dist"
+          github_id_token: ${{ secrets.GITHUB_TOKEN }}
