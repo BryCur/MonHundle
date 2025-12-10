@@ -18,7 +18,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
-        var connectionString = String.Format(
+        String connectionString = builder.Configuration["AZURE_POSTGRESQL_CONNECTIONSTRING"] ?? String.Format(
             connectionStringTemplate,
             builder.Configuration["HOST_ADDRESS"],
             builder.Configuration["HOST_PORT"],
