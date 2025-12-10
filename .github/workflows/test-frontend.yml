@@ -1,10 +1,16 @@
 name: Frontend - Build & tests
 
 on:
-  push:
+  push: # push on master with changes in this file or in frontend folder
     branches: [ "master" ]
-  pull_request:
+    paths:
+    - '.github/workflows/test-frontend.yml'
+    - 'src/frontend-web/**'
+  pull_request: # all PR targeting master
     branches: [ "master" ]
+  workflow_dispatch: # enable manual execution
+  release:
+    types: [published]  # When a new release is published
 
 jobs:
   test-and-check:
@@ -36,27 +42,3 @@ jobs:
 
       - name: Build for production
         run: npm run build
-
-  deploy-to-azure:
-    name: Deploy Front to Azure
-    needs: test-and-check
-    runs-on: ubuntu-latest
-    environment: Production
-    permissions:
-       id-token: write
-       contents: read
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-          lfs: false
-
-      - name: Build and Deploy to Azure
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SEA_0C4F15B03 }}
-          action: "upload"
-          app_location: "./src/frontend-web/monhundle-web"
-          api_location: ""
-          output_location: "dist"
-          github_id_token: ${{ secrets.GITHUB_TOKEN }}

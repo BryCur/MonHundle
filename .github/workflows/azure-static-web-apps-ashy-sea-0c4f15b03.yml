@@ -1,7 +1,9 @@
 name: Deploy Front - Azure Static Web Apps
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # enable manual executions
+  release:
+    types: [published]  # Déclenche le workflow quand une release est publiée
 
 jobs:
   build_and_deploy_job:
