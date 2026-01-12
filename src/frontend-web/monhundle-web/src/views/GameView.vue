@@ -119,6 +119,7 @@ function getLastGuessName(): string{
     .introduction {
         text-align: center;
         margin-bottom: 2rem;
+        font-size: .8rem;
 
         .introduction-icon {
             height: 8rem;
