@@ -115,16 +115,14 @@ function getLastGuessName(): string{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
 
     .introduction {
         text-align: center;
-        font-size: 10pt;
         margin-bottom: 2rem;
 
         .introduction-icon {
-            height: 124px;
-            width: 124px;
+            height: 8rem;
+            width: 8rem;
         }
 
         .introduction-content > * {
@@ -145,11 +143,10 @@ function getLastGuessName(): string{
 
     .option-game-over-container{
         text-align: center;
-        font-size: 10pt;
         
         .game-over-icon {
-            height: 124px;
-            width: 124px;
+            height: 8rem;
+            width: 8rem;
         }
 
         .game-over-content > * {

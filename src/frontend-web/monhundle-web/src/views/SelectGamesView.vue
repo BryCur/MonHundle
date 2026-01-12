@@ -122,7 +122,6 @@ function randomTilt(element: HTMLElement) {
     }
 
     .game-title {
-      font-size: 1rem;
       font-weight: 500;
       color: #f0f0f0;
       text-align: center;

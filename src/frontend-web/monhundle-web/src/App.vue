@@ -55,7 +55,7 @@ header {
     width: 100%;
 
       nav {
-        font-size: 12px;
+        font-size: .8rem;
         text-align: center;
     
         a {
@@ -87,6 +87,7 @@ header {
 
 .game-area {
   max-width: 1280px;
+  width: 90vw;
   margin:auto;
   flex:1;
 }
@@ -95,15 +96,16 @@ footer {
   margin-top: 5rem;
   display: flex;
   justify-content: space-between;
-  font-size: 9pt;
+  font-size: .75rem;
   
   .game-version, .footer-disclaimer {
-    min-width: 300px;
-    flex:0
+    flex:0;
+    min-width: 150px;
   }
 
   .footer-main {
     flex:1;
+    max-width: 40vw;
     text-align: center;
   }
   .game-version{
@@ -124,7 +126,6 @@ footer {
 
   nav {
     text-align: left;
-    font-size: 1rem;
   }
 }
 </style>
