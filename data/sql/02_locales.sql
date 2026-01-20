@@ -85,14 +85,14 @@ create table if not exists locales_biomes (
 );
 
 insert into locales_biomes (locale_id, biome_id)
-    select 1 as locale_id, id as biome_id from biomes where code in ('forest', 'highland') -- dant_hill
-    union all select 2 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- _jungle
-    union all select 3 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- _desert
-    union all select 4 as locale_id, id as biome_id from biomes where code in ('swamp') -- _swamp
-    union all select 5 as locale_id, id as biome_id from biomes where code in ('volcano') -- _volcano
-    union all select 6 as locale_id, id as biome_id from biomes where code in ('special') -- tress
-    union all select 7 as locale_id, id as biome_id from biomes where code in ('ruin', 'special') -- tle_shrade
-    union all select 8 as locale_id, id as biome_id from biomes where code in ('volcano', 'special') -- tleground
+    select 1 as locale_id, id as biome_id from biomes where code in ('forest', 'highland') -- verdant_hill
+    union all select 2 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- old_jungle
+    union all select 3 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- old_desert
+    union all select 4 as locale_id, id as biome_id from biomes where code in ('swamp') -- old_swamp
+    union all select 5 as locale_id, id as biome_id from biomes where code in ('volcano') -- old_volcano
+    union all select 6 as locale_id, id as biome_id from biomes where code in ('special') -- fortress
+    union all select 7 as locale_id, id as biome_id from biomes where code in ('ruin', 'special') -- castle_shrade
+    union all select 8 as locale_id, id as biome_id from biomes where code in ('volcano', 'special') -- battleground
     union all select 9 as locale_id, id as biome_id from biomes where code in ('mountain', 'snowfield') -- wy_mountains 
     union all select 10 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- jungle
     union all select 11 as locale_id, id as biome_id from biomes where code in ('desert') -- desert
@@ -142,11 +142,11 @@ insert into locales_biomes (locale_id, biome_id)
     union all select 55 as locale_id, id as biome_id from biomes where code in ('snowfield', 'cave') -- frost_islands
     union all select 56 as locale_id, id as biome_id from biomes where code in ('volcano', 'aquatic', 'cave') -- lava_caverns
     union all select 57 as locale_id, id as biome_id from biomes where code in ('swamp', 'mountain', 'ruins', 'forest') -- citadel
-    union all select 58 as locale_id, id as biome_id from biomes where code in ('ruin', 'unique') -- coral_palace
+    union all select 58 as locale_id, id as biome_id from biomes where code in ('ruin', 'special') -- coral_palace
     union all select 59 as locale_id, id as biome_id from biomes where code in ('special', 'ruin') -- yawning_abyss
     union all select 60 as locale_id, id as biome_id from biomes where code in ('savanna', 'desert') -- windward_plains 
     union all select 61 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic', 'ruin') -- scarlet_forest
-    union all select 62 as locale_id, id as biome_id from biomes where code in ('cave', 'volcano') -- oilwell_basin
+    union all select 62 as locale_id, id as biome_id from biomes where code in ('cave', 'volcano', 'unique') -- oilwell_basin
     union all select 63 as locale_id, id as biome_id from biomes where code in ('mountain', 'ruin', 'snowfield') -- iceshard_cliffs
     union all select 64 as locale_id, id as biome_id from biomes where code in ('ruin', 'cave", unique}') -- ruins_of_wyveria
     union all select 65 as locale_id, id as biome_id from biomes where code in ('ruin', 'mountain', 'snowfield', 'special') -- rimechain_peak
