@@ -103,7 +103,7 @@ values
     ('glavenus', 4, 5),
     ('gobul', 3, 2),
     ('gogmazios', 4, 8),
-    ('gold_rathian', 1, 5),
+    ('gold_rathian', 1, 6),
     ('goldbeard_ceadeus', 3, 8),
     ('gore_magala', 4, 6),
     ('goss_harag', 5, 3),
@@ -362,7 +362,7 @@ create table if not exists monsters_weaknesses (
 
 insert into monsters_weaknesses (weakness_id, monster_id)
     select 0 as weakness_id, id as monster_id from monsters where code in ('blangonga', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'nerscylla') -- Fire
-    union all select 1 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'chatacabra', 'congalala', 'guardian_doshaguma', 'guardian_fulgur_anjanath', 'gypceros', 'lagiacrus', 'mizutsune', 'rey_dau', 'seregios', 'xu_wu', 'yian_kut_ku') -- Ice
+    union all select 1 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'chatacabra', 'congalala', 'guardian_doshaguma', 'guardian_fulgur_anjanath', 'gypceros', 'lagiacrus', 'rey_dau', 'seregios', 'xu_wu', 'yian_kut_ku') -- Ice
     union all select 2 as weakness_id, id as monster_id from monsters where code in ('balahara', 'blangonga', 'chatacabra', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'hirabami', 'mizutsune', 'nerscylla', 'rathalos', 'guardian_rathalos', 'rathian', 'seregios', 'uth_duna', 'yian_kut_ku') -- Thunder
     union all select 3 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'nu_udra', 'quematrice', 'rey_dau', 'rompopolo', 'yian_kut_ku') -- Water
     union all select 4 as weakness_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'gore_magala', 'guardian_doshaguma', 'gravios', 'guardian_fulgur_anjanath', 'lagiacrus', 'mizutsune', 'rathalos', 'guardian_rathalos', 'rathian', 'zoh_shia') -- Dragon
