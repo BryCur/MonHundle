@@ -138,10 +138,10 @@ insert into locales_biomes (locale_id, biome_id)
     union all select 51 as locale_id, id as biome_id from biomes where code in ('special', 'cave', 'unique') -- confluence_of_fates
     union all select 52 as locale_id, id as biome_id from biomes where code in ('special', 'cave', 'volcano') -- caverns_of_el_dorado
     union all select 53 as locale_id, id as biome_id from biomes where code in ('special', 'unique') -- origin_isle
-    union all select 54 as locale_id, id as biome_id from biomes where code in ('forest') -- shrine_ruins
+    union all select 54 as locale_id, id as biome_id from biomes where code in ('forest', 'aquatic') -- shrine_ruins
     union all select 55 as locale_id, id as biome_id from biomes where code in ('snowfield', 'cave') -- frost_islands
     union all select 56 as locale_id, id as biome_id from biomes where code in ('volcano', 'aquatic', 'cave') -- lava_caverns
-    union all select 57 as locale_id, id as biome_id from biomes where code in ('swamp', 'mountain', 'ruins') -- citadel
+    union all select 57 as locale_id, id as biome_id from biomes where code in ('swamp', 'mountain', 'ruins', 'forest') -- citadel
     union all select 58 as locale_id, id as biome_id from biomes where code in ('ruin', 'unique') -- coral_palace
     union all select 59 as locale_id, id as biome_id from biomes where code in ('special', 'ruin') -- yawning_abyss
     union all select 60 as locale_id, id as biome_id from biomes where code in ('savanna', 'desert') -- windward_plains 
