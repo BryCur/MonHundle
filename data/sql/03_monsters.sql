@@ -269,7 +269,7 @@ insert into monsters_classifications (classification_id, monster_id)
     -- amphibians 7
     select 0 as classification_id, id as monster_id from monsters where code in ('chatacabra', 'tetranadon', 'tetsucabra', 'berserk_tetsucabra', 'drilltusk_tetsucabra', 'zamtrios', 'tigerstripe_zamtrios')
     --bird_wyvern 26
-    union all select 1 as classification_id, id as monster_id from monsters where code in ('aknosom', 'gendrome', 'giadrome', 'great_baggi', 'great_izuchi', 'great_jaggi', 'great_maccao', 'great_wroggi', 'gypceros', 'purple_gypceros', 'hypnocatrice', 'iodrome', 'kulu_ya_ku', 'malfestio', 'nightcloak_malfestio', 'pukei', 'pukei', 'qurupeco', 'crimson_qurupeco', 'tzitzi_ya_ku', 'velocidrome', 'yian_garuga', 'scarred_yian_garuga', 'deadeye_yian_garuga', 'yian_kut_ku', 'blue_yian_kut_ku')
+    union all select 1 as classification_id, id as monster_id from monsters where code in ('aknosom', 'gendrome', 'giadrome', 'great_baggi', 'great_izuchi', 'great_jaggi', 'great_maccao', 'great_wroggi', 'gypceros', 'purple_gypceros', 'hypnocatrice', 'iodrome', 'kulu_ya_ku', 'malfestio', 'nightcloak_malfestio', 'pukei_pukei', 'qurupeco', 'crimson_qurupeco', 'tzitzi_ya_ku', 'velocidrome', 'yian_garuga', 'scarred_yian_garuga', 'deadeye_yian_garuga', 'yian_kut_ku', 'blue_yian_kut_ku')
     --brute_wyvern 20
     union all select 2 as classification_id, id as monster_id from monsters where code in ('anjanath','fulgur_anjanath','banbaro','barroth','jade_barroth','brachydios','raging_brachydios','deviljho','savage_deviljho','duramboros','rust_duramboros','glavenus','acidic_glavenus','hellblade_glavenus','radobaan','rompopolo','quematrice','uragaan','steel_uragaan','crystalbeard_uragaan')
     --carapaceon 7
