@@ -105,23 +105,28 @@ const hasGuesses = computed<boolean>(() => {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    margin-top: 1rem
+    margin-top: 1rem;
 }
 
 .guess-table {
-    max-width: 1024px;  
+    width: max-content;
+    max-width: 100%;
     display: grid;
-    overflow: hidden;
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 2fr));
+    overflow-x: auto;
+    gap: .5rem;
 
     .guess-table-row {
         display: grid;
-        grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
+        grid-auto-flow: row;
+        grid-template-rows: 
+            minmax(30px, 1fr) // monster icon line
+            repeat(6, minmax(60px, .8fr)); // criteria line
         gap: .1rem;
         overflow-wrap: break-word;
+        overflow: hidden;
 
         .guess-table-cell {
-            padding: 0.5rem 0.75rem;
             text-align: center;
             align-content: center;
             overflow-wrap: break-word;
@@ -139,11 +144,13 @@ const hasGuesses = computed<boolean>(() => {
         .guess-table-monster-cell {
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            font-size: .8rem;
             gap: .5rem;
 
             .table-guess-monster-icon {
-                 width: 48px;
-                height: 48px;
+                width: 2rem;
+                height: 2rem;
                 object-fit: contain;
                 align-self: center;
             }
@@ -169,13 +176,13 @@ const hasGuesses = computed<boolean>(() => {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 2rem;
-            height: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
             display: block;          /* assurer le rendu */
             pointer-events: none;    /* ne pas capter les clics */
             z-index: 2;
-            background: #ffffff; 
-            opacity: 0.1;   /*  pour ne pas gêner la lisibilité du texte */
+            background: #000; 
+            opacity: 0.4;   /*  pour ne pas gêner la lisibilité du texte */
             z-index: 0;      /* derrière le texte */
 
         }
@@ -205,6 +212,32 @@ const hasGuesses = computed<boolean>(() => {
             );
         }
     }
+}
+
+@media (min-width: 1024px) {
+.guess-table {
+    grid-auto-flow: row;
+    grid-template-columns: initial;
+    width: 100%;
+
+
+    .guess-table-row {
+        grid-auto-flow: column;
+        grid-template-rows: initial;
+        grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
+
+        .guess-table-cell {
+            padding: 0.5rem 0.75rem;
+        }
+
+        .guess-table-monster-cell {
+            .table-guess-monster-icon {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+    }
+}
 }
 
 </style>

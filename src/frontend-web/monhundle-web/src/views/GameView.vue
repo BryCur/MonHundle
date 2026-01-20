@@ -140,6 +140,7 @@ function getLastGuessName(): string{
     .game-progress-container {
         display: flex;
         flex-direction: column;
+        max-width: 90vw;
     }
 
     .option-game-over-container{
