@@ -52,7 +52,7 @@ values
     ('blangonga', 2, 3),
     ('blood_orange_bishaten', 5, 3),
     ('bloodbath_diablos', 4, 6),
-    ('blue_yian_kut', 1, 2),
+    ('blue_yian_kut_ku', 1, 2),
     ('boltreaver_astalos', 4, 5),
     ('brachydios', 3, 5),
     ('brute_tigrex', 2, 5),
@@ -64,7 +64,7 @@ values
     ('chatacabra', 6, 1),
     ('congalala', 2, 1),
     ('copper_blangonga', 2, 3),
-    ('coral_pukei', 5, 2),
+    ('coral_pukei_pukei', 5, 2),
     ('crimson_fatalis', 1, 9),
     ('crimson_glow_valstrax', 5, 7),
     ('crimson_qurupeco', 3, 2),
@@ -269,7 +269,7 @@ insert into monsters_classifications (classification_id, monster_id)
     -- amphibians 7
     select 0 as classification_id, id as monster_id from monsters where code in ('chatacabra', 'tetranadon', 'tetsucabra', 'berserk_tetsucabra', 'drilltusk_tetsucabra', 'zamtrios', 'tigerstripe_zamtrios')
     --bird_wyvern 26
-    union all select 1 as classification_id, id as monster_id from monsters where code in ('aknosom', 'gendrome', 'giadrome', 'great_baggi', 'great_izuchi', 'great_jaggi', 'great_maccao', 'great_wroggi', 'gypceros', 'purple_gypceros', 'hypnocatrice', 'iodrome', 'kulu_ya_ku', 'malfestio', 'nightcloak_malfestio', 'pukei_pukei', 'qurupeco', 'crimson_qurupeco', 'tzitzi_ya_ku', 'velocidrome', 'yian_garuga', 'scarred_yian_garuga', 'deadeye_yian_garuga', 'yian_kut_ku', 'blue_yian_kut_ku')
+    union all select 1 as classification_id, id as monster_id from monsters where code in ('aknosom', 'coral_pukei_pukei', 'gendrome', 'giadrome', 'great_baggi', 'great_izuchi', 'great_jaggi', 'great_maccao', 'great_wroggi', 'gypceros', 'purple_gypceros', 'hypnocatrice', 'iodrome', 'kulu_ya_ku', 'malfestio', 'nightcloak_malfestio', 'pukei_pukei', 'qurupeco', 'crimson_qurupeco', 'tzitzi_ya_ku', 'velocidrome', 'yian_garuga', 'scarred_yian_garuga', 'deadeye_yian_garuga', 'yian_kut_ku', 'blue_yian_kut_ku')
     --brute_wyvern 20
     union all select 2 as classification_id, id as monster_id from monsters where code in ('anjanath','fulgur_anjanath','banbaro','barroth','jade_barroth','brachydios','raging_brachydios','deviljho','savage_deviljho','duramboros','rust_duramboros','glavenus','acidic_glavenus','hellblade_glavenus','radobaan','rompopolo','quematrice','uragaan','steel_uragaan','crystalbeard_uragaan')
     --carapaceon 7
@@ -281,13 +281,13 @@ insert into monsters_classifications (classification_id, monster_id)
     --demi_elder 2
     union all select 6 as classification_id, id as monster_id from monsters where code in ('gore_magala', 'chaotic_gore_magala')
     --elder_dragon 47
-    union all select 7 as classification_id, id as monster_id from monsters where code in ('alatreon', 'amatsu', 'behemoth', 'ceadeus', 'goldbeard_ceadeus', 'chameleos', 'ren_mohran', 'dalamadur', 'shah_dalamadur', 'dire_miralis', 'fatalis', 'crimson_fatalis', 'old_fatalis', 'gaismagorm', 'gogmazios', 'jhen_mohran', 'hallowed_jhen_mohran', 'kirin', 'oroshi_kirin', 'kulve_taroth', 'kushala_daora', 'rusted_kushala_daora', 'ashen_lao_shan_lung', 'lao_shan_lung', 'lunastra', 'malzeno', 'primordial_malzeno', 'nakarkos', 'namielle', 'nergigante', 'ruiner_nergigante', 'saafi_jiiva', 'shagaru_magala', 'shara_ishvalda', 'teostra', 'thunder_serpent_narwa', 'narwa_the_allmother', 'vaal_hazak', 'blackveil_vaal_hazak', 'valstrax', 'crimson_glow_valstrax', 'velkhana', 'wind_serpent_ibushi', 'xeno_jiiva', 'yama_tsukami', 'zorah_magdaros')
+    union all select 7 as classification_id, id as monster_id from monsters where code in ('alatreon', 'amatsu', 'behemoth', 'ceadeus', 'goldbeard_ceadeus', 'chameleos', 'dah_ren_mohran', 'dalamadur', 'shah_dalamadur', 'dire_miralis', 'fatalis', 'crimson_fatalis', 'old_fatalis', 'gaismagorm', 'gogmazios', 'jhen_mohran', 'hallowed_jhen_mohran', 'kirin', 'oroshi_kirin', 'kulve_taroth', 'kushala_daora', 'rusted_kushala_daora', 'ashen_lao_shan_lung', 'lao_shan_lung', 'lunastra', 'malzeno', 'primordial_malzeno', 'nakarkos', 'namielle', 'nergigante', 'ruiner_nergigante', 'safi_jiiva', 'shagaru_magala', 'shara_ishvalda', 'teostra', 'thunder_serpent_narwa', 'narwa_the_allmother', 'vaal_hazak', 'blackveil_vaal_hazak', 'valstrax', 'crimson_glow_valstrax', 'velkhana', 'wind_serpent_ibushi', 'xeno_jiiva', 'yama_tsukami', 'zorah_magdaros')
     --fanged_beast 23
     union all select 8 as classification_id, id as monster_id from monsters where code in ('ajarakan', 'arzuros', 'apex_arzuros', 'redhelm_arzuros', 'bishaten', 'blood_orange_bishaten', 'blangonga', 'copper_blangonga', 'bulldrome', 'congalala', 'emerald_congalala', 'doshaguma', 'gammoth', 'elderfrost_gammoth', 'garangolm', 'goss_harag', 'kecha_wacha', 'ash_kecha_wacha', 'lagombi', 'snowbaron_lagombi', 'rajang', 'furious_rajang', 'volvidon')
     --fanged_wyvern 14
-    union all select 9 as classification_id, id as monster_id from monsters where code in ('dodogama', 'great_girros', 'great_jagras', 'lunagaron', 'magnamalo', 'scorned_magnamalo', 'odogaron', 'ebony_odogaron', 'kadachi', 'kadachi', 'zinogre', 'apex_zinogre', 'stygian_zinogre', 'thunderlord_zinogre')
+    union all select 9 as classification_id, id as monster_id from monsters where code in ('dodogama', 'great_girros', 'great_jagras', 'lunagaron', 'magnamalo', 'scorned_magnamalo', 'odogaron', 'ebony_odogaron', 'kadachi', 'kadachi', 'zinogre', 'apex_zinogre', 'stygian_zinogre', 'thunderlord_zinogre', 'tobi_kadachi', 'viper_tobi_kadachi')
     --flying_wyvern 50
-    union all select 10 as classification_id, id as monster_id from monsters where code in ('akantor', 'arkveld', 'astalos', 'boltreaver_astalos', 'barioth', 'frostfang_barioth', 'sand_barioth', 'basarios', 'ruby_basarios', 'bazelgeuse', 'seething_bazelgeuse', 'diablos', 'apex_diablos', 'black_diablos', 'bloodbath_diablos', 'espinas', 'flaming_espinas', 'gigginox', 'baleful_gigginox_', 'gravios', 'black_gravios', 'khezu', 'red_khezu', 'legiana', 'shrieking_legiana', 'monoblos', 'white_monoblos', 'nargacuga', 'green_nargacuga', 'lucent_nargacuga', 'silverwind_nargacuga', 'paolumu', 'nightshade_paolumu', 'rathalos', 'azure_rathalos', 'silver_rathalos', 'dreadking_rathalos', 'apex_rathalos', 'rathian', 'pink_rathian', 'gold_rathian', 'dreadqueen_rathian', 'apex_rathian', 'rey_dau', 'seregios', 'tigrex', 'brute_tigrex', 'molten_tigrex', 'grimclaw_tigrex', 'ukanlos')
+    union all select 10 as classification_id, id as monster_id from monsters where code in ('akantor', 'arkveld', 'astalos', 'boltreaver_astalos', 'barioth', 'frostfang_barioth', 'sand_barioth', 'basarios', 'ruby_basarios', 'bazelgeuse', 'seething_bazelgeuse', 'diablos', 'apex_diablos', 'black_diablos', 'bloodbath_diablos', 'espinas', 'flaming_espinas', 'gigginox', 'baleful_gigginox', 'gravios', 'black_gravios', 'khezu', 'red_khezu', 'legiana', 'shrieking_legiana', 'monoblos', 'white_monoblos', 'nargacuga', 'green_nargacuga', 'lucent_nargacuga', 'silverwind_nargacuga', 'paolumu', 'nightshade_paolumu', 'rathalos', 'azure_rathalos', 'silver_rathalos', 'dreadking_rathalos', 'apex_rathalos', 'rathian', 'pink_rathian', 'gold_rathian', 'dreadqueen_rathian', 'apex_rathian', 'rey_dau', 'seregios', 'tigrex', 'brute_tigrex', 'molten_tigrex', 'grimclaw_tigrex', 'ukanlos')
     --leviathan 21
     union all select 11 as classification_id, id as monster_id from monsters where code in ('agnaktor', 'glacial_agnaktor', 'almudron', 'magma_almudron', 'balahara', 'gobul', 'hirabami', 'jin_dahaad', 'lagiacrus', 'abyssal_lagiacrus', 'ivory_lagiacrus', 'mizutsune', 'violet_mizutsune', 'soulseer_mizutsune', 'apex_mizutsune', 'nibelsnarf', 'royal_ludroth', 'purple_ludroth', 'somnacanth', 'aurora_somnacanth', 'uth_duna')
     --lynian 1
