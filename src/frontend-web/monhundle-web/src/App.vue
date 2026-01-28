@@ -45,7 +45,7 @@ header {
   line-height: 1.5;
   max-height: 100vh;
   padding: 0 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 
   .wrapper {
     display: flex;
@@ -55,7 +55,7 @@ header {
     width: 100%;
 
       nav {
-        font-size: 12px;
+        
         text-align: center;
     
         a {
@@ -86,7 +86,6 @@ header {
 }
 
 .game-area {
-  max-width: 1280px;
   margin:auto;
   flex:1;
 }
@@ -95,15 +94,16 @@ footer {
   margin-top: 5rem;
   display: flex;
   justify-content: space-between;
-  font-size: 9pt;
+  font-size: .75rem;
   
   .game-version, .footer-disclaimer {
-    min-width: 300px;
-    flex:0
+    flex:0;
+    min-width: 150px;
   }
 
   .footer-main {
     flex:1;
+    max-width: 40vw;
     text-align: center;
   }
   .game-version{
@@ -116,6 +116,7 @@ footer {
   header {
     display: flex;
     place-items: center;
+    margin-bottom: 4rem;
   }
 
   .logo {
@@ -123,8 +124,8 @@ footer {
   }
 
   nav {
+    font-size: .8rem;
     text-align: left;
-    font-size: 1rem;
   }
 }
 </style>

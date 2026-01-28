@@ -17,16 +17,14 @@ const { t, locale } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-@media (min-width: 1024px) {
-  .about {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    p {
-      text-align: center;
-      padding: .3rem;
-    }
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  p {
+    text-align: center;
+    padding: .3rem;
   }
 }
 </style>

@@ -80,12 +80,12 @@ function getLastGuessName(): string{
 
 <template>
     <div v-if="ready" class="game-page-container">
-        <div class="introduction" v-if="!isGameOver">
+        <div class="introduction fit-screen" v-if="!isGameOver">
             <img class="introduction-icon" src="/images/monsters/unknown.png"></img>
             <div v-html="t('ui.game.rules.unlimited')" class="introduction-content">
             </div>
         </div>
-        <div v-if="!isGameOver" class="option-selector-container">
+        <div v-if="!isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
                 <span>{{ $t("ui.generic.sendguess")}}</span>
@@ -101,7 +101,7 @@ function getLastGuessName(): string{
                 <span> {{ $t("ui.generic.newGame") }}</span>
             </button>
         </div>
-        <div class="game-progress-container">
+        <div class="game-progress-container fit-screen">
             <GameGuessList v-model="gameGuesses"></GameGuessList>
         </div>
     </div>
@@ -115,20 +115,29 @@ function getLastGuessName(): string{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
 
     .introduction {
         text-align: center;
-        font-size: 10pt;
         margin-bottom: 2rem;
+        font-size: .8rem;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        gap:2rem;
 
         .introduction-icon {
-            height: 124px;
-            width: 124px;
+            height: 6rem;
+            width: 6rem;
         }
 
-        .introduction-content > * {
-            margin-bottom: .5rem;
+        .introduction-content {
+            display:flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            p {
+                margin-bottom: .5rem;
+            }
         }
     }
 
@@ -145,11 +154,10 @@ function getLastGuessName(): string{
 
     .option-game-over-container{
         text-align: center;
-        font-size: 10pt;
         
         .game-over-icon {
-            height: 124px;
-            width: 124px;
+            height: 8rem;
+            width: 8rem;
         }
 
         .game-over-content > * {
@@ -158,4 +166,23 @@ function getLastGuessName(): string{
     }
 }
 
+@media (min-width: 1024px) {
+.game-page-container {
+    .introduction {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: .8rem;
+
+
+        .introduction-icon {
+            height: 8rem;
+            width: 8rem;
+        }
+
+        .introduction-content > * {
+            margin-bottom: .5rem;
+        }
+    }
+}
+}
 </style>

@@ -192,7 +192,7 @@ watch(model, (newval, oldval) => {
 
 <style lang="scss" scoped>
 .monster-selector-container{
-    width: 100%;
+    width: 80vw;
     max-width: 512px;
     min-height: 36px;
     display: flex;
@@ -220,8 +220,8 @@ watch(model, (newval, oldval) => {
         }
 
         .monster-select-input-icon {
-            width: 32px;
-            height: 32px;
+            width: 2rem;
+            height: 2rem;
             object-fit: contain;
             border-radius: 0.25rem;
         }
@@ -279,8 +279,8 @@ watch(model, (newval, oldval) => {
             text-align: left;
 
             .monster-option-icon {
-                width: 28px;
-                height: 28px;
+                width: 1.75rem;
+                height: 1.75rem;
                 object-fit: contain;
                 border-radius: 0.25rem;
             }

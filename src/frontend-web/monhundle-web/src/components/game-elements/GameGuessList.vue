@@ -60,40 +60,43 @@ const hasGuesses = computed<boolean>(() => {
         🟩 - {{ t("ui.game.rules.general.correct")}}
     </div>
 </div>
-<div class="guess-container guess-table" role="table" v-if="hasGuesses">
-    <div class="guess-table-row table-header" role="row">
-        <div class="guess-table-cell" role="columnheader" ></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
-        <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
-    </div>
-
-    <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
-        <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
-            
-            <img :src="getMonsterImage(guess.monsterCode)" class="table-guess-monster-icon"></img>
-            <span class="guess-table-cell-content">{{ t(`game.monster.${guess.monsterCode}.name`) }} </span>
+<div class="guess-container fit-screen">
+    
+    <div class="guess-table" role="table" v-if="hasGuesses">
+        <div class="guess-table-row table-header" role="row">
+            <div class="guess-table-cell" role="columnheader" ></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
+            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
         </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ t(getEnumTranslationKey(Classifications, guess.criterias.classification)) }}</span>
-        </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.generation)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ guess.criterias.generation}} </span>
-        </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
-        </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.afflictions)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
-        </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
-        </div>
-        <div :class="getComparisonResultsClass(guess.comparisonResult.habitats)" class="guess-table-cell" role="cell">
-            <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => t(getEnumTranslationKey(Biomes, a))).join(", ") : "-" }} </span>
+    
+        <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
+            <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
+                
+                <img :src="getMonsterImage(guess.monsterCode)" class="table-guess-monster-icon"></img>
+                <span class="guess-table-cell-content">{{ t(`game.monster.${guess.monsterCode}.name`) }} </span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{ t(getEnumTranslationKey(Classifications, guess.criterias.classification)) }}</span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.generation)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{ guess.criterias.generation}} </span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.afflictions)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
+            </div>
+            <div :class="getComparisonResultsClass(guess.comparisonResult.habitats)" class="guess-table-cell" role="cell">
+                <span class="guess-table-cell-content">{{ guess.criterias.habitats.length > 0 ? guess.criterias.habitats.map(a => t(getEnumTranslationKey(Biomes, a))).join(", ") : "-" }} </span>
+            </div>
         </div>
     </div>
 </div>
@@ -105,23 +108,39 @@ const hasGuesses = computed<boolean>(() => {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    margin-top: 1rem
+    margin-top: 1rem;
+}
+
+.guess-container{
+    overflow-x: scroll; // let this container have a scrolling bar on the horizontal axis for mobile
 }
 
 .guess-table {
-    max-width: 1024px;  
+    width: max-content;
+    max-width: none; // remove width restriction to let the table expand as required
     display: grid;
-    overflow: hidden;
-    gap: 1rem;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
+    gap: .5rem;
+
+    .table-header {
+        position: sticky;
+        left: 0;
+        background-color: var(--color-background);
+        z-index: 10; 
+    }
 
     .guess-table-row {
         display: grid;
-        grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
+        grid-auto-flow: row;
+        grid-template-rows: 
+            minmax(30px, 1fr) // monster icon line
+            repeat(6, minmax(60px, .8fr)); // criteria line
         gap: .1rem;
         overflow-wrap: break-word;
+        overflow: hidden;
 
         .guess-table-cell {
-            padding: 0.5rem 0.75rem;
             text-align: center;
             align-content: center;
             overflow-wrap: break-word;
@@ -139,11 +158,13 @@ const hasGuesses = computed<boolean>(() => {
         .guess-table-monster-cell {
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            font-size: .8rem;
             gap: .5rem;
 
             .table-guess-monster-icon {
-                 width: 48px;
-                height: 48px;
+                width: 2rem;
+                height: 2rem;
                 object-fit: contain;
                 align-self: center;
             }
@@ -169,13 +190,13 @@ const hasGuesses = computed<boolean>(() => {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 2rem;
-            height: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
             display: block;          /* assurer le rendu */
             pointer-events: none;    /* ne pas capter les clics */
             z-index: 2;
-            background: #ffffff; 
-            opacity: 0.1;   /*  pour ne pas gêner la lisibilité du texte */
+            background: #000; 
+            opacity: 0.4;   /*  pour ne pas gêner la lisibilité du texte */
             z-index: 0;      /* derrière le texte */
 
         }
@@ -205,6 +226,35 @@ const hasGuesses = computed<boolean>(() => {
             );
         }
     }
+}
+
+@media (min-width: 1024px) {
+.guess-container{
+    overflow-x: auto; // let this container have a scrolling bar on the horizontal axis for mobile
+}
+.guess-table {
+    grid-auto-flow: row;
+    grid-template-columns: initial;
+    width: 100%;
+
+
+    .guess-table-row {
+        grid-auto-flow: column;
+        grid-template-rows: initial;
+        grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
+
+        .guess-table-cell {
+            padding: 0.5rem 0.75rem;
+        }
+
+        .guess-table-monster-cell {
+            .table-guess-monster-icon {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+    }
+}
 }
 
 </style>
