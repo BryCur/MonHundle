@@ -123,6 +123,7 @@ function getLastGuessName(): string{
         display: flex;
         align-content: center;
         justify-content: center;
+        gap:2rem;
 
         .introduction-icon {
             height: 6rem;
