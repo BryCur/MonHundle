@@ -45,7 +45,7 @@ header {
   line-height: 1.5;
   max-height: 100vh;
   padding: 0 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 
   .wrapper {
     display: flex;
@@ -55,7 +55,7 @@ header {
     width: 100%;
 
       nav {
-        font-size: .8rem;
+        
         text-align: center;
     
         a {
@@ -116,6 +116,7 @@ footer {
   header {
     display: flex;
     place-items: center;
+    margin-bottom: 4rem;
   }
 
   .logo {
@@ -123,6 +124,7 @@ footer {
   }
 
   nav {
+    font-size: .8rem;
     text-align: left;
   }
 }
