@@ -112,7 +112,7 @@ const hasGuesses = computed<boolean>(() => {
 }
 
 .guess-container{
-    overflow-x: auto; // let this container have a scrolling bar on the horizontal axis for mobile
+    overflow-x: scroll; // let this container have a scrolling bar on the horizontal axis for mobile
 }
 
 .guess-table {
@@ -121,8 +121,14 @@ const hasGuesses = computed<boolean>(() => {
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
-    overflow-x: auto;
     gap: .5rem;
+
+    .table-header {
+        position: sticky;
+        left: 0;
+        background-color: var(--color-background);
+        z-index: 10; 
+    }
 
     .guess-table-row {
         display: grid;
@@ -223,6 +229,9 @@ const hasGuesses = computed<boolean>(() => {
 }
 
 @media (min-width: 1024px) {
+.guess-container{
+    overflow-x: auto; // let this container have a scrolling bar on the horizontal axis for mobile
+}
 .guess-table {
     grid-auto-flow: row;
     grid-template-columns: initial;
