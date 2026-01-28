@@ -86,8 +86,6 @@ header {
 }
 
 .game-area {
-  max-width: 1280px;
-  width: 90vw;
   margin:auto;
   flex:1;
 }
