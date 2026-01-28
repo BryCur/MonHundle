@@ -17,6 +17,11 @@ a {
   padding: 3px;
 }
 
+.fit-screen {
+  max-width: 1280px;
+  width: 90vw;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(34, 90%, 53%, 0.2);
