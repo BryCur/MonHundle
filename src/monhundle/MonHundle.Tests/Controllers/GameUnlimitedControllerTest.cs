@@ -10,7 +10,7 @@ using Moq;
 
 namespace MonHundle.Tests.Controllers;
 
-public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
+public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockFactory>
 {
     private readonly HttpClient _client;
     private readonly Mock<IGameService> _gameServiceMock;
@@ -22,7 +22,7 @@ public class GameControllerTest : IClassFixture<WebApplicationWithMockFactory>
         PlayerUid = new Guid()
     };
 
-    public GameControllerTest(WebApplicationWithMockFactory factory)
+    public GameUnlimitedControllerTest(WebApplicationWithMockFactory factory)
     {
         _client = factory.CreateClient();
         _gameServiceMock = factory.GameServiceMock;

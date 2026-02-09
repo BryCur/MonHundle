@@ -8,18 +8,18 @@ using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
 
-namespace core_api.Controllers;
+namespace core_api.Controllers.GameModes;
 
 [ApiController]
-[Route("game")]
+[Route("game/daily")]
 [ServiceFilter(typeof(ValidateUserFilter))]
-public class GameController : ControllerBase
+public class GameDailyController : ControllerBase
 {
-    private readonly ILogger<GameController> _logger;
+    private readonly ILogger<GameDailyController> _logger;
     private readonly IGameService _gameService;
     private readonly IMonsterService _monsterService;
 
-    public GameController(ILogger<GameController> logger, IGameService gameService, IMonsterService monsterService)
+    public GameDailyController(ILogger<GameDailyController> logger, IGameService gameService, IMonsterService monsterService)
     {
         _logger = logger;
         _gameService = gameService;
