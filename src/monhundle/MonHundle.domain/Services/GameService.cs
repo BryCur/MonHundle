@@ -35,7 +35,8 @@ public class GameService : IGameService
         Game game = new Game
         {
             Id = Guid.NewGuid(), 
-            Answer = _monsterService.getRandomMonster(), 
+            Answer = _monsterService.getRandomMonster(),
+            GameMode = GameModes.Unlimited,
             PlayerId = player.PlayerUid
         };
         
