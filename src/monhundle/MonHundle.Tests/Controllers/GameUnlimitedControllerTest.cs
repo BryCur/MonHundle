@@ -63,7 +63,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     {
         _gameServiceMock.Setup(g => g.CreateGame(_currentPlayer)).Returns(new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()});
 
-        var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/start");
+        var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/unlimited/start");
         var response = await _client.SendAsync(request);
         
         response.EnsureSuccessStatusCode();
@@ -76,7 +76,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     {
         _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).Returns((Game?)null);
         
-        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/resume/{Guid.NewGuid().ToString()}");
+        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{Guid.NewGuid().ToString()}");
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -88,7 +88,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         Game game = new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()};
         _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(game);
         
-        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/resume/{game.Id}");
+        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{game.Id}");
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         Assert.NotEmpty(await response.Content.ReadAsStringAsync());
