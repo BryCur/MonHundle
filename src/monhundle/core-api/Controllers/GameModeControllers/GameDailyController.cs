@@ -1,6 +1,7 @@
 ﻿using System.Security.Authentication;
 using core_api.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DTO;
@@ -8,18 +9,18 @@ using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
 
-namespace core_api.Controllers.GameModes;
+namespace core_api.Controllers.GameModeControllers;
 
 [ApiController]
-[Route("game/unlimited")]
+[Route("game/daily")]
 [ServiceFilter(typeof(ValidateUserFilter))]
-public class GameUnlimitedController : ControllerBase
+public class GameDailyController : ControllerBase
 {
-    private readonly ILogger<GameUnlimitedController> _logger;
+    private readonly ILogger<GameDailyController> _logger;
     private readonly IGameService _gameService;
     private readonly IMonsterService _monsterService;
 
-    public GameUnlimitedController(ILogger<GameUnlimitedController> logger, IGameService gameService, IMonsterService monsterService)
+    public GameDailyController(ILogger<GameDailyController> logger, IGameService gameService, IMonsterService monsterService)
     {
         _logger = logger;
         _gameService = gameService;
@@ -30,7 +31,20 @@ public class GameUnlimitedController : ControllerBase
     public IActionResult StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game newGame = _gameService.CreateGame(player);
+        Game? lastGame = _gameService.GetLastGame(GameModes.Daily, player);
+
+        if (lastGame != null && lastGame.StartTime.Date.Equals(DateTime.Today.Date))
+        {
+            _logger.LogInformation("The player {playerId} already had a daily game created", player.Id);
+            Response.Headers.Add(HeaderNames.Location, $"/game/daily/resume/{lastGame.Id.ToString()}");
+            return StatusCode(303);
+            /*return StatusCode(303, new {
+                Location = $"/game/daily/resume/{lastGame.Id}"
+            });*/
+        }
+        
+        GuessableMonster dailyMonster = _monsterService.getDailyMonster(DateTime.UtcNow);
+        Game newGame = _gameService.CreateGame(GameModes.Daily, player, dailyMonster);
         
         // return game ID
         _logger.LogInformation("The player {playerId} started a new game", player.Id);

@@ -29,6 +29,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder
             .Entity<Player>()
             .ToView("players", "public");
+
+        modelBuilder
+            .Entity<DailyMonsterData>()
+            .HasOne<GuessableMonsterData>(dm => dm.monsterData)
+            .WithMany()
+            .HasForeignKey(dm => dm.MonsterId);
     }
     
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)

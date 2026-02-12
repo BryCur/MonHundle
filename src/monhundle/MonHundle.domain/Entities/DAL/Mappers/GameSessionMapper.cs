@@ -45,6 +45,7 @@ public class GameSessionMapper
                 MonsterComparisonResult.fromStruct(g.Comparisons)
             )).ToList(),
             State = state,
+            StartTime = gameSession.StartTime,
         };
     }
 }

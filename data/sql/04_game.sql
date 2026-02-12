@@ -1,5 +1,6 @@
 drop table if exists game_sessions;
 drop table if exists players;
+drop table if exists history_daily_mode;
 
 create table if not exists players (
     id serial primary key,
@@ -22,3 +23,9 @@ create table if not exists game_sessions (
 );
 
 create index game_sessions_player_id on game_sessions(player_id);
+
+create table if not exists history_daily_mode (
+    id serial primary key,
+    date date unique not null,
+    answer_monster_id integer not null references monsters(id)
+);

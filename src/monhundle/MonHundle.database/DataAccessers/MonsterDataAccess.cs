@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities;
+using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 
 namespace MonHundle.database.DataAccessers;
@@ -40,5 +41,17 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
                 .Select(monster => monster.MonsterCode)
             ;
         return guessableMonsterPool.ToList();
+    }
+
+    public GuessableMonster? GetDailyGuessableMonster(DateTime date)
+    {
+        DateTime justDate = date.Date;
+        GuessableMonsterData? monster = dbContext.Set<DailyMonsterData>()
+            .Include(dm => dm.monsterData)
+            .Where(dm => dm.Date == justDate)
+            .Select(dm=> dm.monsterData)
+            .FirstOrDefault();
+        
+        return monster == null ? null: GuessableMonster.FromData(monster);
     }
 }
