@@ -840,6 +840,10 @@
           "partial": "Partially correct, at least 1 wrong value"
         },
         "unlimited": "<p><b>Guess the monster, with the fewest guesses possible!</b></p><p>You have unlimited attempts, so take your time. You will not have any additional clue than what the table is providing.</p><p>Good luck and have fun!</p>"
+      },
+      "share": {
+        "unlimited": "I found my #MonHundle monster in {guessCount} guesses! 🔍\n\n{guessesStr}\n{Url} 🐉⚔️",
+        "daily": "I found today's #MonHundle monster in {guessCount} guesses! 🔍\n\n{guessesStr}\n{Url} 🐉⚔️"
       }
     },
     "generic": {

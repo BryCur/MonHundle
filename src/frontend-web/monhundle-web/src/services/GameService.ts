@@ -46,6 +46,35 @@ export class UnlimitedGameService {
             return false
         })
     }
+
+    public convertGameToShareableString() : string {
+        let guessesString: string = "";
+        let guesses: Guess[] = this.gameStore.game?.guesses || [];
+
+        for(let guess of guesses) {
+            guessesString += this.getStringForResult(guess.comparisonResult.classification);
+            guessesString += this.getStringForResult(guess.comparisonResult.generation);
+            guessesString += this.getStringForResult(guess.comparisonResult.weaknesses);
+            guessesString += this.getStringForResult(guess.comparisonResult.afflictions);
+            guessesString += this.getStringForResult(guess.comparisonResult.threatLevel);
+            guessesString += this.getStringForResult(guess.comparisonResult.habitats);
+            guessesString += "\n";
+        }
+
+
+        console.log(guessesString)
+        
+        return guessesString;
+    }
+    private getStringForResult(result: ComparisonResults): string {
+        switch(result){
+            case ComparisonResults.Correct: return "🟩";
+            case ComparisonResults.Incorrect: return "🟥";
+            case ComparisonResults.Higher: return "🔺";
+            case ComparisonResults.Lower: return "🔻";
+            case ComparisonResults.Partial: return "🟨";
+        }
+    }
 }
 
 export class DailyGameService {

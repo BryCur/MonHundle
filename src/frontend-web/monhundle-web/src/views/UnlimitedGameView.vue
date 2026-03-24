@@ -49,6 +49,8 @@ onMounted(async () => {
     await resourceApi?.getMonstersOptions(gameList)
         .then(list => monsterList.value = list)
     
+    gameService?.convertGameToShareableString();
+
     ready.value = true;
 }) 
 
@@ -77,6 +79,17 @@ function getLastGuessName(): string{
     }
 }
 
+// insert string representation of the game into the clipboard
+function shareGame(): void {
+    const guessCount = gameStore.game?.guesses.length;
+    const guessesStr = gameService?.convertGameToShareableString();
+    const Url = "https://" + window.location.host + window.location.pathname;
+
+    const shareStr = t("ui.game.share.unlimited", {guessCount, guessesStr, Url})
+    
+    navigator.clipboard.writeText(shareStr);
+}
+
 </script>
 
 <template>
@@ -98,8 +111,12 @@ function getLastGuessName(): string{
                 <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
                 <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
             </div>
+
             <button @click="startNewGame()">
                 <span> {{ $t("ui.generic.newGame") }}</span>
+            </button>
+            <button @click="shareGame()">
+                <span> {{ $t("ui.generic.share") }}</span>
             </button>
         </div>
         <div class="game-progress-container fit-screen">
