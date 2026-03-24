@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { getCookie, setCookie } from '../services/CookieService';
+import { getCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
 import type { DailyGameService, UnlimitedGameService } from '../services/GameService';

@@ -64,7 +64,9 @@ export class DailyGameService {
             let newGame = new GameStatus(gameId);
             this.gameStore.setGame(newGame);
 
-            setCookie("currentDailyGame", gameId);
+            let now = Date.now()
+
+            setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
             return gameId;
         });
     }
@@ -81,11 +83,22 @@ export class DailyGameService {
         return await this.gameApi.resumeGame(gameId).then( res => {
             if (res !== null) {
                 this.gameStore.setGame(res);
-                setCookie("currentDailyGame", gameId);
+                setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
                 return true;
             }
 
             return false;
         })
+    }
+
+    private msUntilMidnightUTC(): number {
+        const now = new Date();
+        const midnightUTC = new Date(Date.UTC(
+            now.getUTCFullYear(),
+            now.getUTCMonth(),
+            now.getUTCDate() + 1,
+            0, 0, 0, 0
+        ));
+        return midnightUTC.getTime() - now.getTime();
     }
 }
