@@ -5,18 +5,18 @@ import type Guess from "@/domain/Guess";
 import type GuessResponse from "@/domain/responses/GuessResponse";
 import GameStatus from "@/domain/GameStatus";
 
-export class GameApi implements IGameApi {
+export class DailyGameApi implements IGameApi {
 
     constructor() {}
 
     public async newGame(): Promise<string> {
-        const response = await apiFetch("/game/unlimited/start", { method: "POST", credentials: 'include'})
+        const response = await apiFetch("/game/daily/start", { method: "POST", credentials: 'include'})
         return response.json() as string;
     }
 
     public async makeGuess(gameId: string, monsterCode: string):  Promise<GuessResponse> {
         const guessRequestBody = {"gameId": gameId, "guessId": monsterCode}
-        const guessResponse = await apiFetch("/game/unlimited/guess", { method: "POST", body: JSON.stringify(guessRequestBody)});
+        const guessResponse = await apiFetch("/game/daily/guess", { method: "POST", body: JSON.stringify(guessRequestBody)});
 
         return guessResponse.json() as GuessResponse;
     }
@@ -26,7 +26,7 @@ export class GameApi implements IGameApi {
     }
 
     public async resumeGame (gameId: string): Promise<GameStatus | null> {
-        const response: Response = await apiFetch(`/game/unlimited/resume/${gameId}`, { method: "GET", credentials: 'include'})
+        const response: Response = await apiFetch(`/game/daily/resume/${gameId}`, { method: "GET", credentials: 'include'})
         if (response.ok) {
             let resp = await response.json() as GameStatus
             return  new GameStatus(resp.gameId, resp.guesses, resp.state);

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { GameService } from "@/services/GameService";
+import { UnlimitedGameService } from "@/services/GameService";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import type GuessResponse from "@/domain/responses/GuessResponse";
 import type { GameStore } from "@/stores/GameStore";
@@ -39,14 +39,14 @@ describe("GameService", () => {
         const testGameId = "abc";
         mockedGameApi.newGame.mockResolvedValueOnce(testGameId);
 
-        const gameService = new GameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore)
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore)
         let gameId: string = "";
         await gameService.startNewGame().then(r => gameId = r);
 
         expect(gameId).toStrictEqual(testGameId);
         expect(mockedGameApi.newGame).toHaveBeenCalled();
         expect(mockedGameStore.setGame).toHaveBeenCalled();
-        expect(setCookie).toHaveBeenCalledWith("currentGame", testGameId);
+        expect(setCookie).toHaveBeenCalledWith("currentUnlimitedGame", testGameId);
     });
 
     it("should send the guess and update the store", async () =>{
@@ -59,7 +59,7 @@ describe("GameService", () => {
 
         mockedGameApi.makeGuess.mockResolvedValueOnce(testGuessResult as GuessResponse);
 
-        const gameService = new GameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
         await gameService.makeGuess(testGid, testMonstercode);
 
         expect(mockedGameApi.makeGuess).toHaveBeenCalledWith(testGid, testMonstercode);
@@ -79,13 +79,13 @@ describe("GameService", () => {
         mockedGameApi.resumeGame.mockResolvedValueOnce(testGame as GameStatus);
         mockedGameStore.isGameOngoing.mockReturnValueOnce(true);
 
-        const gameService = new GameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
         await gameService.resumeGame(testGid).then(r => result = r);
 
         expect(result).toBeTruthy();
         expect(mockedGameApi.resumeGame).toHaveBeenCalledWith(testGid);
         expect(mockedGameStore.setGame).toHaveBeenCalledWith(testGame as GameStatus);
-        expect(setCookie).toHaveBeenCalledWith("currentGame", testGid);
+        expect(setCookie).toHaveBeenCalledWith("currentUnlimitedGame", testGid);
     });
 
     it("should return false if no game found", async () =>{
@@ -94,7 +94,7 @@ describe("GameService", () => {
 
         mockedGameApi.resumeGame.mockResolvedValueOnce(null);
 
-        const gameService = new GameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
         await gameService.resumeGame(testGid).then(r => result = r);
 
         expect(result).toBeFalsy();

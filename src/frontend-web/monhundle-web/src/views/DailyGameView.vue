@@ -3,7 +3,7 @@ import { computed, inject, onMounted, ref } from 'vue';
 import { getCookie, setCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
-import type { GameService } from '../services/GameService';
+import type { DailyGameService, UnlimitedGameService } from '../services/GameService';
 import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
@@ -12,7 +12,7 @@ import router from '../router';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
-const gameService = inject<GameService>('gameService');
+const gameService = inject<DailyGameService>('dailyGameService');
 const resourceApi = inject<ResourceApi>('resourceApi');
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
@@ -26,14 +26,9 @@ let gameId :string | undefined;
 onMounted(async () => {
     ready.value = false;
 
-    let storedGameList = localStorage.getItem("gameList");
-    if (storedGameList === null) {
-        router.push("/");
-    }
+    let gameIdFromCookie = getCookie("currentDailyGame");
 
-    let gameIdFromCookie = getCookie("currentGame");
-
-    if(gameIdFromCookie && gameStore.isGameNull()){
+    if(gameIdFromCookie){
         await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {
             if (!gameSet) {
                startNewGame();
@@ -41,12 +36,11 @@ onMounted(async () => {
                 gameId = gameStore.game!.gameId
             }
         })
-    } else if (gameStore.isGameNull()) {
+    } else {
         startNewGame();
     }
 
-    let gameList = JSON.parse(storedGameList!) as string[];
-    await resourceApi?.getMonstersOptions(gameList)
+    await resourceApi?.getMonstersOptions([]) // empty list -> all options
         .then(list => monsterList.value = list)
     
     ready.value = true;
@@ -97,8 +91,8 @@ function getLastGuessName(): string{
                 <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
                 <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
             </div>
-            <button @click="startNewGame()">
-                <span> {{ $t("ui.generic.newGame") }}</span>
+            <button @click="">
+                <span> {{ $t("ui.generic.share") }}</span>
             </button>
         </div>
         <div class="game-progress-container fit-screen">
