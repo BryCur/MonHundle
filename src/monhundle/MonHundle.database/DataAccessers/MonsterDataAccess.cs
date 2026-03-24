@@ -35,9 +35,11 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
 
     public List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes)
     {
+        Boolean getAllMonsters = GameCodes.Length < 1;
+        
         var guessableMonsterPool = dbContext.GuessableMonsters
                 .ToList()
-                .Where(gm => gm.GamesList.Any( g => GameCodes.Contains(g)))
+                .Where(gm => getAllMonsters || gm.GamesList.Any( g => GameCodes.Contains(g)))
                 .Select(monster => monster.MonsterCode)
             ;
         return guessableMonsterPool.ToList();

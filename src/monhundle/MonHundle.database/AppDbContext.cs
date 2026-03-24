@@ -15,20 +15,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         modelBuilder
             .Entity<GuessableMonsterData>()
-            .HasNoKey()
-            .ToView("guessable_monsters_v", "public");
+            .HasKey(m => m.MonsterId);
         
         modelBuilder
             .Entity<GameTitle>()
-            .ToView("game_titles", "public");  
-        
+            .HasKey(gt => gt.Id);
+
         modelBuilder
             .Entity<GameSession>()
-            .ToView("game_sessions", "public");        
+            .HasKey(gs => gs.Id);        
         
         modelBuilder
             .Entity<Player>()
-            .ToView("players", "public");
+            .HasKey(p => p.Id);;
 
         modelBuilder
             .Entity<DailyMonsterData>()

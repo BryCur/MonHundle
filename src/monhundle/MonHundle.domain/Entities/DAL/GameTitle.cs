@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MonHundle.domain.Entities.DAL;
 
 [Table("game_titles", Schema = "public")]
 public class GameTitle
 {
+    [Key]
     [Column("id")] 
     public int Id { get; set; }
     

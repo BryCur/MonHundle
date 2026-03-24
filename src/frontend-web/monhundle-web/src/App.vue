@@ -14,6 +14,7 @@ onMounted(async () => {
     <div class="wrapper">
       <nav class="navigation">
         <RouterLink to="/unlimited">Unlimited</RouterLink>
+        <RouterLink to="/daily">Daily Challenge</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
       <div class="lang-select">

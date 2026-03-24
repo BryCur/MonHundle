@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace MonHundle.domain.Entities.DAL;
@@ -6,7 +7,7 @@ namespace MonHundle.domain.Entities.DAL;
 [Keyless]
 [Table("guessable_monsters_v", Schema = "public")]
 public record GuessableMonsterData(
-    [property: Column("monster_id")] int MonsterId,
+    [property: Key, Column("monster_id")] int MonsterId,
     [property: Column("monster_code")] String MonsterCode,
     [property: Column("generation")] int Generation,
     [property: Column("threat_level")] int ThreatLevel,
