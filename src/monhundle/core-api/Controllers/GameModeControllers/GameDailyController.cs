@@ -38,9 +38,6 @@ public class GameDailyController : ControllerBase
             _logger.LogInformation("The player {playerId} already had a daily game created", player.Id);
             Response.Headers.Add(HeaderNames.Location, $"/game/daily/resume/{lastGame.Id.ToString()}");
             return StatusCode(303);
-            /*return StatusCode(303, new {
-                Location = $"/game/daily/resume/{lastGame.Id}"
-            });*/
         }
         
         GuessableMonster dailyMonster = _monsterService.getDailyMonster(DateTime.UtcNow);
