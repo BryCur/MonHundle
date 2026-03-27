@@ -35,12 +35,33 @@ public class GameService : IGameService
         Game game = new Game
         {
             Id = Guid.NewGuid(), 
-            Answer = _monsterService.getRandomMonster(), 
-            PlayerId = player.PlayerUid
+            Answer = _monsterService.getRandomMonster(),
+            GameMode = GameModes.Unlimited,
+            PlayerId = player.PlayerUid,
+            StartTime = DateTime.Now,
         };
         
         _gameDataAccess.CreateGame(game);
-        _logger.LogInformation("Created game {gameId} for {playerId}", game.Id, player.PlayerUid);
+        _logger.LogInformation("Created game (unlimited mode) {gameId} for {playerId}", game.Id, player.PlayerUid);
+        return game;
+    }
+    
+    public Game CreateGame(GameModes mode, Player player, GuessableMonster monster)
+    {
+        Game game = new Game
+        {
+            Id = Guid.NewGuid(), 
+            Answer = monster,
+            GameMode = mode,
+            PlayerId = player.PlayerUid,
+            StartTime = DateTime.Now,
+        };
+        
+        _gameDataAccess.CreateGame(game);
+        _logger.LogInformation(
+            "Created game ({modeStr} mode) {gameId} for {playerId}",
+            mode.ToString(), game.Id, player.PlayerUid
+        );
         return game;
     }
 
@@ -126,5 +147,25 @@ public class GameService : IGameService
         });
         
         _gameDataAccess.SaveGame(game);
+    }
+
+    public Game? GetLastGame(GameModes gameMode, Player player)
+    {
+        if (!player.Id.HasValue)
+        {
+            _logger.LogWarning("Attempted to get current {gameMode} game but game owner not provided", gameMode.ToString());
+            throw new AuthenticationException("no game owner provided");
+        }
+
+        GameSession? session = _gameDataAccess.GetLastGameForPlayer(gameMode, player.Id.Value);
+
+        if (session == null)
+        {
+            return null;
+        }
+        
+        GuessableMonster answer = _monsterService.getMonsterFromId(session.AnswerMonsterId);
+        
+        return GameSessionMapper.ToDto(session, player, answer);
     }
 }

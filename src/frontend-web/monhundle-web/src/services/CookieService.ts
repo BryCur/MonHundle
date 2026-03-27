@@ -1,11 +1,8 @@
-export function setCookie(name: string, val: string, durationDays: number = 7) {
+export function setCookie(name: string, val: string, durationMs: number = 7 * 24 * 60 * 60 * 1000) { // 7 days duration by default
     const date = new Date();
     const value = val;
-
-    // Set it expire in 7 days
-    date.setTime(date.getTime() + (durationDays * 24 * 60 * 60 * 1000));
-
-    // Set it
+    
+    date.setTime(date.getTime() + durationMs);
     document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
 }
 
@@ -23,7 +20,5 @@ export function deleteCookie(name: string) {
 
     // Set it expire in -1 days
     date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
-
-    // Set it
     document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
 }

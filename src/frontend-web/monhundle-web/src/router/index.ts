@@ -1,7 +1,8 @@
 import AboutView from '@/views/AboutView.vue'
-import GameView from '@/views/GameView.vue'
+import UnlimitedGameView from '@/views/UnlimitedGameView.vue'
 import SelectGamesView from '@/views/SelectGamesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import DailyGameView from '@/views/DailyGameView.vue'
 
 const SiteName= "MonHundle"
 
@@ -17,7 +18,13 @@ const router = createRouter({
       path: '/unlimited',
       name: `${SiteName}: unlimited`,
 
-      component: GameView,
+      component: UnlimitedGameView,
+    },
+    {
+      path: '/daily',
+      name: `${SiteName}: Daily`,
+
+      component: DailyGameView,
     },
     {
       path: '/about',

@@ -4,8 +4,10 @@ import { apiFetch } from "./ApiBaseAccess";
 export default class ResourceApi implements IResourceApi {
 
     public async getMonstersOptions(gameTitles: string[]): Promise<string[]> {
-         const response = await apiFetch(`/resources/monster-choices?gameTitles=${gameTitles.join(",")}`,  { method: "GET", credentials: 'include'})
-         return response.json() as string[]
+        const path =  "/resources/monster-choices"
+        const pathParam = gameTitles.length > 0 ? `?gameTitles=${gameTitles.join(",")}` : "";
+        const response = await apiFetch(path + pathParam,  { method: "GET", credentials: 'include'})
+        return response.json() as string[]
     }
 
     public async getGameTitles(): Promise<string[]>{

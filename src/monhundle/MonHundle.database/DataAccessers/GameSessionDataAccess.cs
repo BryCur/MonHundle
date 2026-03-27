@@ -2,6 +2,7 @@
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.Mappers;
+using MonHundle.domain.Enums;
 using MonHundle.domain.Exceptions.DAL;
 
 namespace MonHundle.database.DataAccessers;
@@ -22,6 +23,13 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
     {
         return dbContext.GameSessions.First(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId) 
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
+    }
+
+    public GameSession? GetLastGameForPlayer(GameModes mode, int playerId)
+    {
+        return dbContext.GameSessions
+            .OrderByDescending(gs => gs.StartTime)
+            .FirstOrDefault(gs => gs.GameMode == mode && gs.PlayerId == playerId);
     }
 
     public void SaveGame(GameSession game)
@@ -45,4 +53,6 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         return p.Value;
         
     }
+    
+    
 }

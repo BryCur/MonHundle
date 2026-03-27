@@ -23,9 +23,18 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet("monster-choices")]
-    public IActionResult GetMonsterChoices([FromQuery] string gameTitles)
+    public IActionResult GetMonsterChoices([FromQuery] string? gameTitles)
     {
-        String[] gamelist = gameTitles.Split(","); 
+        String[] gamelist;
+
+        if (gameTitles == null || gameTitles.Length == 0)
+        {
+            gamelist = new String[] { };
+        }
+        else
+        {
+            gamelist = gameTitles.Split(',');
+        }
         
         return Ok(_monsterService.getMonsterChoicesFromGames(gamelist));
     }

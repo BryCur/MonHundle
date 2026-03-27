@@ -14,6 +14,7 @@ public class GameSessionMapper
             GameUid = game.Id,
             PlayerId = playerId,
             AnswerMonsterId = game.Answer.GetId(),
+            GameMode = game.GameMode,
             GameGuesses = game.Guesses.Select(
                     g => new GameGuessStruct()
                     {
@@ -45,6 +46,7 @@ public class GameSessionMapper
                 MonsterComparisonResult.fromStruct(g.Comparisons)
             )).ToList(),
             State = state,
+            StartTime = gameSession.StartTime,
         };
     }
 }
