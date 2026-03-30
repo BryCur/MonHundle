@@ -24,5 +24,6 @@ public enum Afflictions
     Thunder,
     Water,
     Webbed,
-    Muddy
+    Muddy,
+    Effluvium
 }
