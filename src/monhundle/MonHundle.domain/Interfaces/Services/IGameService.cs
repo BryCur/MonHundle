@@ -10,6 +10,6 @@ public interface IGameService
     public Game CreateGame(Player gameOwner);
     public Game CreateGame(GameModes mode, Player gameOwner, GuessableMonster monster);
     public Game? ResumeGame(Guid gameId, Player player);
-    public Game? GetLastGame(GameModes gameMode, Player player);
+    public Game? GetDailyGameForPlayerAtDate(DateTime date, Player player);
     public (MonsterGuessDTO, GameStates) MakeGuess(Guid gameId, GuessableMonster guess, Player player);
 }

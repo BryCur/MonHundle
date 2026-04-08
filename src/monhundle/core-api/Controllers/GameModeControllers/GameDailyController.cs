@@ -1,4 +1,5 @@
-﻿using System.Security.Authentication;
+﻿using System.Runtime.InteropServices.JavaScript;
+using System.Security.Authentication;
 using core_api.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -7,7 +8,6 @@ using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.Services;
-using MonHundle.domain.Services;
 
 namespace core_api.Controllers.GameModeControllers;
 
@@ -31,12 +31,12 @@ public class GameDailyController : ControllerBase
     public IActionResult StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game? lastGame = _gameService.GetLastGame(GameModes.Daily, player);
+        Game? todaysGame = _gameService.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player);
 
-        if (lastGame != null && lastGame.StartTime.Date.Equals(DateTime.Today.Date))
+        if (todaysGame != null && todaysGame.StartTime.Date.Equals(DateTime.Today.Date))
         {
             _logger.LogInformation("The player {playerId} already had a daily game created", player.Id);
-            Response.Headers.Add(HeaderNames.Location, $"/game/daily/resume/{lastGame.Id.ToString()}");
+            Response.Headers.Add(HeaderNames.Location, $"/game/daily/resume/{todaysGame.Id.ToString()}");
             return StatusCode(303);
         }
         

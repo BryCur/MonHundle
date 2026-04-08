@@ -25,11 +25,14 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
     }
 
-    public GameSession? GetLastGameForPlayer(GameModes mode, int playerId)
+    public GameSession? GetDailyGameForPlayerAtDate(DateTime date, int playerId)
     {
         return dbContext.GameSessions
-            .OrderByDescending(gs => gs.StartTime)
-            .FirstOrDefault(gs => gs.GameMode == mode && gs.PlayerId == playerId);
+            .FirstOrDefault(gs =>
+                gs.GameMode == GameModes.Daily  // daily mode
+                && gs.PlayerId == playerId // match player
+                && gs.StartTime.Date == date.Date // match date
+            );
     }
 
     public void SaveGame(GameSession game)

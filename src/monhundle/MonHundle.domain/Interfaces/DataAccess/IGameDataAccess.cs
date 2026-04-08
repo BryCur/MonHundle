@@ -9,5 +9,5 @@ public interface IGameDataAccess
     void CreateGame(Game game);
     GameSession GetGame(Guid gameId, int playerId);
     void SaveGame(GameSession game);
-    GameSession? GetLastGameForPlayer(GameModes mode, int playerId);
+    GameSession? GetDailyGameForPlayerAtDate(DateTime date, int playerId);
 }

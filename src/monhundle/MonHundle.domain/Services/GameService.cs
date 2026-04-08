@@ -149,16 +149,16 @@ public class GameService : IGameService
         _gameDataAccess.SaveGame(game);
     }
 
-    public Game? GetLastGame(GameModes gameMode, Player player)
+    public Game? GetDailyGameForPlayerAtDate(DateTime date, Player player)
     {
         if (!player.Id.HasValue)
         {
-            _logger.LogWarning("Attempted to get current {gameMode} game but game owner not provided", gameMode.ToString());
+            _logger.LogWarning("Attempted to get daily game for date {gameDate} but game owner not provided", date.ToString());
             throw new AuthenticationException("no game owner provided");
         }
-
-        GameSession? session = _gameDataAccess.GetLastGameForPlayer(gameMode, player.Id.Value);
-
+        
+        GameSession? session = _gameDataAccess.GetDailyGameForPlayerAtDate(date, player.Id.Value);
+        
         if (session == null)
         {
             return null;

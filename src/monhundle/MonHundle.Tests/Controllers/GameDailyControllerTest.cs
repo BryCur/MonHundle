@@ -66,7 +66,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     public async Task GameController_create_game_returns_200_with_id_when_no_game_exists()
     {
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
-        _gameServiceMock.Setup(g => g.GetLastGame(GameModes.Daily, _currentPlayer))
+        _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
             .Returns(() => null);
         _gameServiceMock.Setup(g => g.CreateGame(GameModes.Daily, _currentPlayer, defaultMonster))
             .Returns(new Game() {Id = Guid.NewGuid(), Answer = defaultMonster});
@@ -85,7 +85,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     {
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         Game existingFromYesterday = new Game() { Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Today.AddDays(-1) };
-        _gameServiceMock.Setup(g => g.GetLastGame(GameModes.Daily, _currentPlayer))
+        _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
             .Returns(() => existingFromYesterday);
         _gameServiceMock.Setup(g => g.CreateGame(GameModes.Daily, _currentPlayer, defaultMonster))
             .Returns(new Game() {Id = Guid.NewGuid(), Answer = defaultMonster});
@@ -105,7 +105,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     {
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         Game existingToday = new Game() {Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Now};
-        _gameServiceMock.Setup(g => g.GetLastGame(GameModes.Daily, _currentPlayer))
+        _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
             .Returns(() => existingToday);
         
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/daily/start");
