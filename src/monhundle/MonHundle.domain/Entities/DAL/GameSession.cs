@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MonHundle.domain.Entities.DAL.JsonStructs;
+using MonHundle.domain.Enums;
 
 namespace MonHundle.domain.Entities.DAL;
 
@@ -20,8 +21,11 @@ public class GameSession
     [Column("answer_monster_id")] 
     public int AnswerMonsterId { get; set; }
     
-    [Column("guesses", TypeName = "json")] 
+    [Column("game_data", TypeName = "json")] 
     public List<GameGuessStruct> GameGuesses { get; set; } = new List<GameGuessStruct>();
+    
+    [Column("game_mode")] 
+    public GameModes GameMode { get; set; }
     
     [Column("state")] 
     public  required string State { get; set; }

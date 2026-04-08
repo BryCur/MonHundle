@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { getCookie, setCookie } from '../services/CookieService';
+import { getCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
-import type { GameService } from '../services/GameService';
+import type { UnlimitedGameService } from '../services/GameService';
 import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
@@ -12,7 +12,7 @@ import router from '../router';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
-const gameService = inject<GameService>('gameService');
+const gameService = inject<UnlimitedGameService>('unlimitedGameService');
 const resourceApi = inject<ResourceApi>('resourceApi');
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
@@ -31,9 +31,9 @@ onMounted(async () => {
         router.push("/");
     }
 
-    let gameIdFromCookie = getCookie("currentGame");
-
-    if(gameIdFromCookie && gameStore.isGameNull()){
+    let gameIdFromCookie = getCookie("currentUnlimitedGame");
+    
+    if(gameIdFromCookie){
         await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {
             if (!gameSet) {
                startNewGame();
@@ -62,6 +62,7 @@ async function sendGuess() {
 function startNewGame() {
     gameService?.startNewGame().then(resp => gameId = resp);
 }
+
 function getLastGuessIcon(){
     if(gameStore.isGameNull() || gameStore.isGameOngoing()){
         return "/images/monsters/unknown.png";

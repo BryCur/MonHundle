@@ -6,7 +6,7 @@ import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { setCookie } from "@/services/CookieService";
 
-export class GameService {
+export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
     private readonly gameStore: GameStore;
 
@@ -22,7 +22,7 @@ export class GameService {
             let newGame = new GameStatus(gameId);
             this.gameStore.setGame(newGame);
 
-            setCookie("currentGame", gameId);
+            setCookie("currentUnlimitedGame", gameId);
             return gameId;
         });
     }
@@ -39,7 +39,7 @@ export class GameService {
         return await this.gameApi.resumeGame(gameId).then( res => {
             if (res !== null) {
                 this.gameStore.setGame(res);
-                setCookie("currentGame", gameId);
+                setCookie("currentUnlimitedGame", gameId);
                 return this.gameStore.isGameOngoing()
             }
 
@@ -74,5 +74,60 @@ export class GameService {
             case ComparisonResults.Lower: return "🔻";
             case ComparisonResults.Partial: return "🟨";
         }
+    }
+}
+
+export class DailyGameService {
+    private readonly gameApi: IGameApi;
+    private readonly gameStore: GameStore;
+
+    constructor(gameApi: IGameApi, gameStore: GameStore){
+        this.gameApi = gameApi;
+        this.gameStore = gameStore
+    }
+
+    public async startNewGame(): Promise<string> {
+        return await this.gameApi.newGame().then(res => {
+            let gameId: string = res;
+
+            let newGame = new GameStatus(gameId);
+            this.gameStore.setGame(newGame);
+
+            let now = Date.now()
+
+            setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
+            return gameId;
+        });
+    }
+
+    public async makeGuess(gameId: string, guessCode: string): Promise<void>{
+        await this.gameApi.makeGuess(gameId, guessCode).then(res => {
+            let guessResult: Guess = res
+            this.gameStore.addGuess(guessResult);
+            this.gameStore.setState(res.gameStateAfterGuess)
+        });
+    }
+
+    public async resumeGame(gameId: string): Promise<boolean> {
+        return await this.gameApi.resumeGame(gameId).then( res => {
+            if (res !== null) {
+                this.gameStore.setGame(res);
+                setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
+                return true;
+            }
+
+            return false;
+        })
+    }
+
+    private msUntilMidnightUTC(): number {
+        const now = new Date();
+        const midnightUTC = new Date(Date.UTC(
+            now.getUTCFullYear(),
+            now.getUTCMonth(),
+            now.getUTCDate() + 1,
+            0, 0, 0, 0
+        ));
+        return midnightUTC.getTime() - now.getTime();
     }
 }

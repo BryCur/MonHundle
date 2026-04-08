@@ -11,10 +11,11 @@ import en from './locales/en.json'
 import fr from './locales/fr.json'
 
 import { UserApi } from './services/ApiService/UserApi'
-import { GameService } from './services/GameService'
-import { GameApi } from './services/ApiService/GameApi'
+import { DailyGameService, UnlimitedGameService } from './services/GameService'
+import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi'
 import ResourceApi from './services/ApiService/ResourceApi'
 import { useGameStore } from './stores/GameStore'
+import { DailyGameApi } from './services/ApiService/DailyGameApi'
 
 const i18n = createI18n({
     legacy: false,
@@ -29,15 +30,21 @@ const i18n = createI18n({
 const app = createApp(App);
 app.use(createPinia());
 const gameStore = useGameStore();
-const gameApi = new GameApi();
-const gameService = new GameService(gameApi, gameStore);
+
+const unlimitedGameApi = new UnlimitedGameApi();
+const unlimitedGameService = new UnlimitedGameService(unlimitedGameApi, gameStore);
+
+const dailyGameApi = new DailyGameApi();
+const dailyGameService = new DailyGameService(dailyGameApi, gameStore);
+
 const resourceApi = new ResourceApi();
 
 new UserApi().authUser();
 
 app.use(router);
 app.use(i18n);
-app.provide("gameService", gameService);
+app.provide("unlimitedGameService", unlimitedGameService);
+app.provide("dailyGameService", dailyGameService);
 app.provide("resourceApi", resourceApi);
 
 app.mount('#app');

@@ -1,5 +1,6 @@
 drop table if exists game_sessions;
 drop table if exists players;
+drop table if exists history_daily_mode;
 
 create table if not exists players (
     id serial primary key,
@@ -14,10 +15,17 @@ create table if not exists game_sessions (
     player_id integer not null references players(id),
     answer_monster_id integer not null references monsters(id),
     state text not null default 'ONGOING',
-    guesses json not null default json('[]'),
+    game_mode integer not null,
+    game_data json not null default json('[]'),
     start_time timestamp not null default current_timestamp,
     last_update timestamp not null,
     end_time timestamp
 );
 
 create index game_sessions_player_id on game_sessions(player_id);
+
+create table if not exists history_daily_mode (
+    id serial primary key,
+    date date unique not null,
+    answer_monster_id integer not null references monsters(id)
+);

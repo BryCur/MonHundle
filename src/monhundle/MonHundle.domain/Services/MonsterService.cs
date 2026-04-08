@@ -25,6 +25,19 @@ public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess m
 
     }
 
+    public GuessableMonster getDailyMonster(DateTime date)
+    {
+        GuessableMonster monsterForDate = monsterDataAccess.GetDailyGuessableMonster(date);
+
+        if (monsterForDate is null)
+        {
+            logger.LogError("Failed to get monster for date {date}", date);
+            throw new InvalidDataException("No monster available");
+        }
+        
+        return monsterForDate;
+    }
+
     public GuessableMonster? getMonsterFromCode(string code)
     {
         return monsterDataAccess.GetGuessableMonsterFromCode(code);

@@ -37,7 +37,7 @@ public class GameServiceTest
     }
     
     [Fact]
-    public void GameService_should_create_a_new_game()
+    public void GameService_should_create_a_new_unlimited_game_by_default()
     {
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
@@ -46,7 +46,24 @@ public class GameServiceTest
         Assert.NotNull(game);
         Assert.NotEqual(Guid.Empty, game.Id);
         Assert.Equal(_currentPlayer.PlayerUid, game.PlayerId);
+        Assert.Equal(GameModes.Unlimited, game.GameMode);
         _monsterServiceMock.Verify(s => s.getRandomMonster(), Times.Once);
+        _gameDataAccessMock.Verify(s => s.CreateGame(game), Times.Once);
+    }
+    
+    [Fact]
+    public void GameService_should_create_a_new_of_specified_mode()
+    {
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+        GuessableMonster defaultMonster = getDefaultGuessableMonster();
+        
+        Game game = service.CreateGame(GameModes.Daily, _currentPlayer, defaultMonster);
+        
+        Assert.NotNull(game);
+        Assert.NotEqual(Guid.Empty, game.Id);
+        Assert.Equal(_currentPlayer.PlayerUid, game.PlayerId);
+        Assert.Equal(GameModes.Daily, game.GameMode);
+        Assert.Equal(game.Answer.GetCode(), defaultMonster.GetCode());
         _gameDataAccessMock.Verify(s => s.CreateGame(game), Times.Once);
     }
 
