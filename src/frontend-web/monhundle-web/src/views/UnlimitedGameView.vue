@@ -33,7 +33,7 @@ onMounted(async () => {
 
     let gameIdFromCookie = getCookie("currentUnlimitedGame");
     
-    if(gameIdFromCookie && gameStore.isGameNull()){
+    if(gameIdFromCookie){
         await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {
             if (!gameSet) {
                startNewGame();
