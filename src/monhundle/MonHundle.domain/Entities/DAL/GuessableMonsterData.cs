@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MonHundle.domain.Entities.DAL;
 
-[Keyless]
 [Table("guessable_monsters_v", Schema = "public")]
 public record GuessableMonsterData(
     [property: Key, Column("monster_id")] int MonsterId,
