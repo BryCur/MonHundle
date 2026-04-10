@@ -60,6 +60,7 @@ public class Program
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
         builder.Services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
+        builder.Services.AddScoped<IDailyGameManagementDataAccess, DailyGameManagementDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
     
         string[] allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(",") ?? Array.Empty<string>();
