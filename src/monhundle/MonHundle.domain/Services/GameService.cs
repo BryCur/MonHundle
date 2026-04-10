@@ -30,7 +30,7 @@ public class GameService : IGameService
      * <param name="player"> Player starting the game </param>
      * <returns> "bare" Game object with a newly created identifier </returns>
      */
-    public Game CreateGame(Player player)
+    public Game CreateUnlimitedGameSessionWithRandomMonster(Player player)
     {
         Game game = new Game
         {

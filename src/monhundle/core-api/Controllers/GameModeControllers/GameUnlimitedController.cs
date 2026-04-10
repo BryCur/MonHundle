@@ -30,7 +30,7 @@ public class GameUnlimitedController : ControllerBase
     public IActionResult StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game newGame = _gameService.CreateGame(player);
+        Game newGame = _gameService.CreateUnlimitedGameSessionWithRandomMonster(player);
         
         // return game ID
         _logger.LogInformation("The player {playerId} started a new game", player.Id);

@@ -41,7 +41,7 @@ public class GameServiceTest
     {
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
-        Game game = service.CreateGame(_currentPlayer);
+        Game game = service.CreateUnlimitedGameSessionWithRandomMonster(_currentPlayer);
         
         Assert.NotNull(game);
         Assert.NotEqual(Guid.Empty, game.Id);
