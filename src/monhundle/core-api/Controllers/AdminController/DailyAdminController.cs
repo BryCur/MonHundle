@@ -51,7 +51,7 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
         catch (ForbiddenOperationException e)
         {
             _logger.LogError(e.Message);
-            return Forbid("The specified date cannot be updated: existing sessions");
+            return BadRequest(e.Message);
         }
     }
 }
