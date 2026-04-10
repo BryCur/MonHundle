@@ -55,6 +55,7 @@ public class Program
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<IMonsterService, MonsterService>();
         builder.Services.AddScoped<IPlayerService, PlayerService>();
+        builder.Services.AddScoped<IDailyGameManagementService, DailyGameManagementService>();
         builder.Services.AddScoped<IMonsterDataAccess, MonsterDataAccess>();
         builder.Services.AddScoped<IGameTitleService, GameTitleService>();
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
