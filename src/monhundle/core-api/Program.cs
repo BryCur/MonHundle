@@ -63,6 +63,7 @@ public class Program
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
         builder.Services.AddScoped<IDailyGameManagementDataAccess, DailyGameManagementDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
+        builder.Services.AddScoped<ManagementAuthFilter>();
     
         string[] allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(",") ?? Array.Empty<string>();
         builder.Services.AddCors(options =>

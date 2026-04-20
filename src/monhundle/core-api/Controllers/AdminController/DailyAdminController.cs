@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using core_api.Filters;
+using Microsoft.AspNetCore.Mvc;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.Services;
@@ -7,6 +8,7 @@ namespace core_api.Controllers.AdminController;
 
 [ApiController]
 [Route("admin/daily")]
+[ServiceFilter(typeof(ManagementAuthFilter))]
 public class DailyAdminController(ILogger<DailyAdminController> _logger,
     IDailyGameManagementService dailyService) : ControllerBase
 {
