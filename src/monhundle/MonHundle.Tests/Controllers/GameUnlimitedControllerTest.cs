@@ -61,7 +61,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     [Fact]
     public async Task GameController_create_game_returns_200_with_id()
     {
-        _gameServiceMock.Setup(g => g.CreateGame(_currentPlayer)).Returns(new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()});
+        _gameServiceMock.Setup(g => g.CreateUnlimitedGameSessionWithRandomMonster(_currentPlayer)).Returns(new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()});
 
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/unlimited/start");
         var response = await _client.SendAsync(request);

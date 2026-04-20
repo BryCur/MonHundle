@@ -10,4 +10,5 @@ public interface IMonsterDataAccess
     GuessableMonster? GetGuessableMonsterFromCode(String monsterCode);
     GuessableMonster? GetGuessableMonsterFromId(int monsterId);
     GuessableMonster? GetDailyGuessableMonster(DateTime date);
+    List<int> GetAllGuessableMonsterIds();
 }

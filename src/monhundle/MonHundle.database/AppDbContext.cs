@@ -10,6 +10,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<GuessableMonsterData> GuessableMonsters { get; init; }
     public DbSet<GameSession> GameSessions { get; init; }
     public DbSet<Player> Players { get; init; }
+    public DbSet<DailyMonsterData> DailyMonsters { get; init; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

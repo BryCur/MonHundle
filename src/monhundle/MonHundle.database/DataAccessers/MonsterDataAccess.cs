@@ -56,4 +56,11 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         
         return monster == null ? null: GuessableMonster.FromData(monster);
     }
+
+    public List<int> GetAllGuessableMonsterIds()
+    {
+        return dbContext.GuessableMonsters
+            .Select(m => m.MonsterId)
+            .ToList();
+    }
 }

@@ -55,12 +55,15 @@ public class Program
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<IMonsterService, MonsterService>();
         builder.Services.AddScoped<IPlayerService, PlayerService>();
+        builder.Services.AddScoped<IDailyGameManagementService, DailyGameManagementService>();
         builder.Services.AddScoped<IMonsterDataAccess, MonsterDataAccess>();
         builder.Services.AddScoped<IGameTitleService, GameTitleService>();
         builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
         builder.Services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
         builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
+        builder.Services.AddScoped<IDailyGameManagementDataAccess, DailyGameManagementDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
+        builder.Services.AddScoped<ManagementAuthFilter>();
     
         string[] allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(",") ?? Array.Empty<string>();
         builder.Services.AddCors(options =>
