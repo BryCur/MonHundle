@@ -9,6 +9,7 @@ import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import router from '../router';
+import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
@@ -54,11 +55,12 @@ async function sendGuess() {
 function startNewGame() {
     gameService?.startNewGame().then(resp => gameId = resp);
 }
+
 function getLastGuessIcon(){
     if(gameStore.isGameNull() || gameStore.isGameOngoing()){
-        return "/images/monsters/unknown.png";
+        return getLatestIconForMonster("unknown");
     } else {
-        return `/images/monsters/${gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode}.png`;
+        return getLatestIconForMonster(gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode);
     }
 }
 
@@ -75,7 +77,7 @@ function getLastGuessName(): string{
 <template>
     <div v-if="ready" class="game-page-container">
         <div class="introduction fit-screen" v-if="!isGameOver">
-            <img class="introduction-icon" src="/images/monsters/unknown.png"></img>
+            <img class="introduction-icon" :src="getLatestIconForMonster('unknown')"></img>
             <div v-html="t('ui.game.rules.unlimited')" class="introduction-content">
             </div>
         </div>
