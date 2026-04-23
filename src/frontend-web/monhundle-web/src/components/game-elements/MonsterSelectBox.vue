@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n'
 
@@ -15,9 +16,6 @@ const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 
-function getMonsterImage(monsterCode: string) {
-    return `/images/monsters/${monsterCode}.png`;
-}
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string | undefined): void
@@ -155,7 +153,7 @@ watch(model, (newval, oldval) => {
             <div class="monster-selector-wrapper">
                 <img 
                     v-if="!isDropdownOpen && model !== undefined && model !== ''" 
-                    :src="model ? getMonsterImage(model) : ''" 
+                    :src="model ? getLatestIconForMonster(model) : ''" 
                     :alt="model"
                     class="monster-select-input-icon"
                 ></img>
@@ -183,7 +181,7 @@ watch(model, (newval, oldval) => {
         <!-- dropdown -->
         <div v-if="isDropdownOpen" class="monster-option-list">
             <button v-for="monsterCode in filteredItems" class="monster-option" @click="selectValue(monsterCode)">
-                <img class="monster-option-icon" :src="getMonsterImage(monsterCode)" :alt="monsterCode"></img>
+                <img class="monster-option-icon" loading="lazy" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode"></img>
                 <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
         </div>

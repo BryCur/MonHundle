@@ -8,6 +8,7 @@ import { Biomes } from '../../domain/enums/Criterias/Biomes';
 import { enumValueToKeyLower } from '../../domain/enums/EnumUtils';
 import type Guess from '../../domain/Guess';
 import { computed } from 'vue';
+import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n();
 const model = defineModel<Guess[]>();
@@ -39,9 +40,6 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
     return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
 }
 
-function getMonsterImage(monsterCode: string) {
-    return `/images/monsters/${monsterCode}.png`;
-}
 
 const hasGuesses = computed<boolean>(() => {
     return model.value !== undefined && model.value.length > 0;
@@ -76,7 +74,7 @@ const hasGuesses = computed<boolean>(() => {
         <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
             <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
                 
-                <img :src="getMonsterImage(guess.monsterCode)" class="table-guess-monster-icon"></img>
+                <img :src="getLatestIconForMonster(guess.monsterCode)" class="table-guess-monster-icon"></img>
                 <span class="guess-table-cell-content">{{ t(`game.monster.${guess.monsterCode}.name`) }} </span>
             </div>
             <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">
