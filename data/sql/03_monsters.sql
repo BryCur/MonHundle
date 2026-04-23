@@ -340,7 +340,7 @@ insert into monsters_afflictions (affliction_id, monster_id)
     union all select 2 as affliction_id, id as monster_id from monsters where code in ('mizutsune') -- BubbleBlight
     union all select 3 as affliction_id, id as monster_id from monsters where code in ('guardian_doshaguma') -- DefenseDown
     union all select 4 as affliction_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'guardian_ebony_odogaron') -- Dragon
-    union all select 6 as affliction_id, id as monster_id from monsters where code in ('ajarakan', 'congalala', 'gravios', 'mizutsune', 'nu_udra', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'yian_kut_ku', 'zoh_shia') -- Fire
+    union all select 6 as affliction_id, id as monster_id from monsters where code in ('ajarakan', 'congalala', 'gravios', 'mizutsune', 'nu_udra', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'yian_kut_ku', 'zoh_shia', 'gogmazios') -- Fire
     union all select 7 as affliction_id, id as monster_id from monsters where code in ('gore_magala') -- FrenzyVirus
     union all select 8 as affliction_id, id as monster_id from monsters where code in ('blangonga', 'hirabami', 'jin_dahaad') -- FrostBlight
     union all select 10 as affliction_id, id as monster_id from monsters where code in ('blangonga', 'hirabami', 'jin_dahaad') -- Ice
@@ -361,11 +361,11 @@ create table if not exists monsters_weaknesses (
 );
 
 insert into monsters_weaknesses (weakness_id, monster_id)
-    select 0 as weakness_id, id as monster_id from monsters where code in ('blangonga', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'nerscylla') -- Fire
+    select 0 as weakness_id, id as monster_id from monsters where code in ('blangonga', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'nerscylla', 'gogmazios') -- Fire
     union all select 1 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'chatacabra', 'congalala', 'guardian_doshaguma', 'guardian_fulgur_anjanath', 'gypceros', 'lagiacrus', 'rey_dau', 'seregios', 'xu_wu', 'yian_kut_ku') -- Ice
     union all select 2 as weakness_id, id as monster_id from monsters where code in ('balahara', 'blangonga', 'chatacabra', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'hirabami', 'mizutsune', 'nerscylla', 'rathalos', 'guardian_rathalos', 'rathian', 'seregios', 'uth_duna', 'yian_kut_ku') -- Thunder
     union all select 3 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'nu_udra', 'quematrice', 'rey_dau', 'rompopolo', 'yian_kut_ku') -- Water
-    union all select 4 as weakness_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'gore_magala', 'guardian_doshaguma', 'gravios', 'guardian_fulgur_anjanath', 'lagiacrus', 'mizutsune', 'rathalos', 'guardian_rathalos', 'rathian', 'zoh_shia') -- Dragon
+    union all select 4 as weakness_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'gore_magala', 'guardian_doshaguma', 'gravios', 'guardian_fulgur_anjanath', 'lagiacrus', 'mizutsune', 'rathalos', 'guardian_rathalos', 'rathian', 'zoh_shia', 'gogmazios') -- Dragon
     union all select 5 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'balahara', 'guardian_ebony_odogaron', 'nerscylla', 'quematrice') -- Paralysis
     union all select 6 as weakness_id, id as monster_id from monsters where code in ('hirabami') -- Sleep
     union all select 7 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'hirabami', 'quematrice', 'xu_wu') -- Poison
