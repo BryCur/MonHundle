@@ -18,7 +18,8 @@ public class DailyGameManagementDataAccess(AppDbContext dbContext): IDailyGameMa
             {
                 throw new ForbiddenOperationException($"Upsert daily game is forbidden: {date} already has sessions.");    
             } 
-                
+            
+            toUpdate.MonsterId = monsterId;
             dbContext.DailyMonsters.Update(toUpdate);
         }
         else
