@@ -181,7 +181,7 @@ watch(model, (newval, oldval) => {
         <!-- dropdown -->
         <div v-if="isDropdownOpen" class="monster-option-list">
             <button v-for="monsterCode in filteredItems" class="monster-option" @click="selectValue(monsterCode)">
-                <img class="monster-option-icon" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode"></img>
+                <img class="monster-option-icon" loading="lazy" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode"></img>
                 <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
         </div>
