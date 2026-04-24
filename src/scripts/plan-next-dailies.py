@@ -84,7 +84,7 @@ def format_results(results: list) -> str:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print("Usage: python generate_daily_challenges.py <AUTH_TOKEN> <API_URL> [COVERAGE]")
         sys.exit(1)
     print(main())
