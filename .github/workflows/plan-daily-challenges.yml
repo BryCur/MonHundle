@@ -25,4 +25,4 @@ jobs:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}  
           API_URL: ${{ secrets.API_URL }}        
           COVERAGE: 1                            
-        run: python src/scripts/generate_daily_challenges.py
+        run: python src/scripts/plan-next-dailies.py
