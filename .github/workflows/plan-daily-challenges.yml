@@ -22,5 +22,5 @@ jobs:
 
       - name: Run script
         env:
-          COVERAGE: 1                            
+          COVERAGE: 10                            
         run: python src/scripts/plan-next-dailies.py ${{ secrets.AUTH_TOKEN }} ${{ secrets.API_URL }}  
