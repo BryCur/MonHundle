@@ -7,7 +7,7 @@ from typing import Optional
 
 AUTH_TOKEN = os.getenv("AUTH_TOKEN") or sys.argv[1]
 API_URL = os.getenv("API_URL") or sys.argv[2]
-COVERAGE = 10  # 7 DAYS to cover between execution + 3 days coverage to have some margin
+COVERAGE = int(os.getenv("COVERAGE", 10))  # 7 DAYS to cover between execution + 3 days coverage to have some margin
 
 API_ENDPOINT_LAST_DATE = f'{API_URL}/admin/daily/last-date'
 API_ENDPOINT_GENERATE = f'{API_URL}/admin/daily/generate-answer' 
