@@ -72,6 +72,16 @@ function getLastGuessName(): string{
     }
 }
 
+// insert string representation of the game into the clipboard
+function shareGame(): void {
+    const guessCount = gameStore.game?.guesses.length;
+    const guessesStr = gameStore.game?.convertGameToShareableString();
+    const Url = "https://" + window.location.host + window.location.pathname;
+
+    const shareStr = t("ui.game.share.daily", {guessCount, guessesStr, Url})
+    
+    navigator.clipboard.writeText(shareStr);
+}
 </script>
 
 <template>
@@ -93,7 +103,7 @@ function getLastGuessName(): string{
                 <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
                 <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
             </div>
-            <button @click="">
+            <button @click="shareGame()">
                 <span> {{ $t("ui.generic.share") }}</span>
             </button>
         </div>
