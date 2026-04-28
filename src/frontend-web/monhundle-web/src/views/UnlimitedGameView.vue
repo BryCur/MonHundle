@@ -49,8 +49,6 @@ onMounted(async () => {
     let gameList = JSON.parse(storedGameList!) as string[];
     await resourceApi?.getMonstersOptions(gameList)
         .then(list => monsterList.value = list)
-    
-    gameService?.convertGameToShareableString();
 
     ready.value = true;
 }) 
