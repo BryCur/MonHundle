@@ -49,8 +49,6 @@ onMounted(async () => {
     let gameList = JSON.parse(storedGameList!) as string[];
     await resourceApi?.getMonstersOptions(gameList)
         .then(list => monsterList.value = list)
-    
-    gameService?.convertGameToShareableString();
 
     ready.value = true;
 }) 
@@ -83,7 +81,7 @@ function getLastGuessName(): string{
 // insert string representation of the game into the clipboard
 function shareGame(): void {
     const guessCount = gameStore.game?.guesses.length;
-    const guessesStr = gameService?.convertGameToShareableString();
+    const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = "https://" + window.location.host + window.location.pathname;
 
     const shareStr = t("ui.game.share.unlimited", {guessCount, guessesStr, Url})
