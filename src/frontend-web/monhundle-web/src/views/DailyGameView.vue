@@ -8,7 +8,6 @@ import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
-import router from '../router';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n()

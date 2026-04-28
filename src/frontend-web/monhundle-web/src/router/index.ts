@@ -4,35 +4,40 @@ import SelectGamesView from '@/views/SelectGamesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import DailyGameView from '@/views/DailyGameView.vue'
 
-const SiteName= "MonHundle"
+const SiteName= 'MonHundle'
 
-const router = createRouter({
+export const paths = {
+  unlimited: '/unlimited',
+  selectGame: '/',
+  daily: '/daily',
+  about: '/about'
+}
+
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: paths.selectGame,
       name: `${SiteName}: home`,
       component: SelectGamesView,
     },
     {
-      path: '/unlimited',
+      path: paths.unlimited,
       name: `${SiteName}: unlimited`,
 
       component: UnlimitedGameView,
     },
     {
-      path: '/daily',
+      path: paths.daily,
       name: `${SiteName}: Daily`,
 
       component: DailyGameView,
     },
     {
-      path: '/about',
+      path: paths.about,
       name: `${SiteName}: about`,
 
       component: AboutView,
     },
   ],
 })
-
-export default router
