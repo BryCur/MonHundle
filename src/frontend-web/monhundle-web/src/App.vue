@@ -2,10 +2,12 @@
 import { RouterLink, RouterView } from 'vue-router'
 import LocaleSelector from './components/LocaleSelector.vue';
 import { onMounted } from 'vue';
-import router from './router';
+import { router, paths } from './router';
 
 onMounted(async () => {
-  router.push("/");
+  if( window.location.pathname === paths.unlimited && !localStorage.getItem("gameList")){
+    router.push("/");
+  }
 }) 
 </script>
 
