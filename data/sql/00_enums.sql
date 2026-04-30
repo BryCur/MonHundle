@@ -95,7 +95,8 @@ values
     (17, 'thunder'),
     (18, 'water'),
     (19, 'webbed'),
-    (20, 'muddy');
+    (20, 'muddy'),
+    (21, 'effluvium');
 
 ---------------------------- weaknesses ------------------------------
 -- lists the elements and status effects that could affect a monster

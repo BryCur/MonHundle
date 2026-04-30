@@ -132,7 +132,7 @@ insert into locales_biomes (locale_id, biome_id)
     union all select 45 as locale_id, id as biome_id from biomes where code in ('desert', 'cave') -- wildspire_waste
     union all select 46 as locale_id, id as biome_id from biomes where code in ('highland', 'mountain', 'unique') -- coral_highlands
     union all select 47 as locale_id, id as biome_id from biomes where code in ('cave', 'unique') -- rotten_vale
-    union all select 48 as locale_id, id as biome_id from biomes where code in ('volcano', 'cave') -- elders_recess
+    union all select 48 as locale_id, id as biome_id from biomes where code in ('volcano', 'cave', 'mountain') -- elders_recess
     union all select 49 as locale_id, id as biome_id from biomes where code in ('mountain', 'snowfield') -- hoardfrost_reach
     union all select 50 as locale_id, id as biome_id from biomes where code in ('special', 'volcano') -- everstream
     union all select 51 as locale_id, id as biome_id from biomes where code in ('special', 'cave', 'unique') -- confluence_of_fates
