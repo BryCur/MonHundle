@@ -311,21 +311,6 @@ create table if not exists monsters_biomes (
     biome_id integer not null references biomes(id),
     primary key(monster_id, biome_id)
 );
-
-insert into monsters_biomes (biome_id, monster_id) 
-    select 0 as biome_id, id as monster_id from monsters where code in ('ajarakan', 'balahara', 'chatacabra', 'gravios', 'gypceros', 'hirabami', 'nerscylla', 'nu_udra', 'rompopolo', 'xu_wu') -- Cave
-    union all select 1 as biome_id, id as monster_id from monsters where code in ('arkveld', 'balahara', 'chatacabra', 'doshaguma', 'rathian', 'rey_dau', 'seregios') -- Desert
-    union all select 2 as biome_id, id as monster_id from monsters where code in ('arkveld', 'congalala', 'lagiacrus', 'lala_barina', 'mizutsune', 'rathalos', 'rathian', 'uth_duna', 'yian_kut_ku') -- Forest
-    union all select 4 as biome_id, id as monster_id from monsters where code in ('arkveld', 'blangonga', 'gore_magala', 'hirabami', 'jin_dahaad', 'nerscylla') -- Mountain
-    union all select 5 as biome_id, id as monster_id from monsters where code in ('lagiacrus', 'mizutsune', 'uth_duna') -- Aquatic
-    union all select 6 as biome_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'guardian_doshaguma', 'gore_magala', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'jin_dahaad', 'guardian_rathalos', 'xu_wu', 'zoh_shia') -- Ruin
-    union all select 7 as biome_id, id as monster_id from monsters where code in ('arkveld', 'chatacabra', 'doshaguma', 'gypceros', 'quematrice', 'rathian', 'rey_dau', 'seregios') -- Savanna
-    union all select 8 as biome_id, id as monster_id from monsters where code in ('arkveld', 'blangonga', 'gore_magala') -- Snowfield
-    union all select 9 as biome_id, id as monster_id from monsters where code in ('gogmazios', 'jin_dahaad', 'zoh_shia') -- Special
-    union all select 10 as biome_id, id as monster_id from monsters where code in ('guardian_arkveld', 'guardian_doshaguma', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'guardian_rathalos', 'xu_wu', 'zoh_shia') -- Unique
-    union all select 11 as biome_id, id as monster_id from monsters where code in ('gypceros') -- Swamp
-    union all select 12 as biome_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'gogmazios', 'gravios', 'nu_udra', 'rathalos', 'rathian', 'rompopolo') -- Volcano
-;
     
 --------------------------- afflictions ----------------------------
 create table if not exists monsters_afflictions (
@@ -334,25 +319,6 @@ create table if not exists monsters_afflictions (
     primary key(monster_id, affliction_id)
 );
 
-insert into monsters_afflictions (affliction_id, monster_id)
-    select 0 as affliction_id, id as monster_id from monsters where code in ('ajarakan') -- BlastBlight
-    union all select 1 as affliction_id, id as monster_id from monsters where code in ('guardian_ebony_odogaron', 'seregios') -- Bleeding
-    union all select 2 as affliction_id, id as monster_id from monsters where code in ('mizutsune') -- BubbleBlight
-    union all select 3 as affliction_id, id as monster_id from monsters where code in ('guardian_doshaguma') -- DefenseDown
-    union all select 4 as affliction_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'guardian_ebony_odogaron') -- Dragon
-    union all select 6 as affliction_id, id as monster_id from monsters where code in ('ajarakan', 'congalala', 'gravios', 'mizutsune', 'nu_udra', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'yian_kut_ku', 'zoh_shia', 'gogmazios') -- Fire
-    union all select 7 as affliction_id, id as monster_id from monsters where code in ('gore_magala') -- FrenzyVirus
-    union all select 8 as affliction_id, id as monster_id from monsters where code in ('blangonga', 'hirabami', 'jin_dahaad') -- FrostBlight
-    union all select 10 as affliction_id, id as monster_id from monsters where code in ('blangonga', 'hirabami', 'jin_dahaad') -- Ice
-    union all select 11 as affliction_id, id as monster_id from monsters where code in ('gypceros', 'lala_barina', 'congalala') -- Paralysis
-    union all select 12 as affliction_id, id as monster_id from monsters where code in ('gravios', 'nerscylla', 'rathalos', 'rathian' ,'rompopolo', 'congalala') -- Poison
-    union all select 13 as affliction_id, id as monster_id from monsters where code in ('gravios', 'nerscylla') -- Sleep
-    union all select 15 as affliction_id, id as monster_id from monsters where code in ('congalala') -- Stench
-    union all select 16 as affliction_id, id as monster_id from monsters where code in ('gypceros') -- Stun
-    union all select 17 as affliction_id, id as monster_id from monsters where code in ('guardian_fulgur_anjanath', 'lagiacrus' ,'rey_dau', 'zoh_shia') -- Thunder
-    union all select 18 as affliction_id, id as monster_id from monsters where code in ('balahara', 'mizutsune', 'uth_duna') -- Water
-    union all select 19 as affliction_id, id as monster_id from monsters where code in ('nerscylla') -- Webbed
-;
 --------------------------- weaknesses ----------------------------
 create table if not exists monsters_weaknesses (
     monster_id integer not null references monsters(id),
@@ -360,27 +326,13 @@ create table if not exists monsters_weaknesses (
     primary key(monster_id, weakness_id)
 );
 
-insert into monsters_weaknesses (weakness_id, monster_id)
-    select 0 as weakness_id, id as monster_id from monsters where code in ('blangonga', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'nerscylla', 'gogmazios') -- Fire
-    union all select 1 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'chatacabra', 'congalala', 'guardian_doshaguma', 'guardian_fulgur_anjanath', 'gypceros', 'lagiacrus', 'rey_dau', 'seregios', 'xu_wu', 'yian_kut_ku') -- Ice
-    union all select 2 as weakness_id, id as monster_id from monsters where code in ('balahara', 'blangonga', 'chatacabra', 'doshaguma', 'guardian_doshaguma', 'gore_magala', 'hirabami', 'mizutsune', 'nerscylla', 'rathalos', 'guardian_rathalos', 'rathian', 'seregios', 'uth_duna', 'yian_kut_ku') -- Thunder
-    union all select 3 as weakness_id, id as monster_id from monsters where code in ('ajarakan', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'nu_udra', 'quematrice', 'rey_dau', 'rompopolo', 'yian_kut_ku') -- Water
-    union all select 4 as weakness_id, id as monster_id from monsters where code in ('arkveld', 'guardian_arkveld', 'gore_magala', 'guardian_doshaguma', 'gravios', 'guardian_fulgur_anjanath', 'lagiacrus', 'mizutsune', 'rathalos', 'guardian_rathalos', 'rathian', 'zoh_shia', 'gogmazios') -- Dragon
-    union all select 5 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'balahara', 'guardian_ebony_odogaron', 'nerscylla', 'quematrice') -- Paralysis
-    union all select 6 as weakness_id, id as monster_id from monsters where code in ('hirabami') -- Sleep
-    union all select 7 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'hirabami', 'quematrice', 'xu_wu') -- Poison
-    union all select 9 as weakness_id, id as monster_id from monsters where code in ('chatacabra', 'lala_barina') -- Stun
-;
 --------------------------- games ----------------------------
 create table if not exists monsters_gametitles (
                                                    monster_id integer not null references monsters(id),
                                                    game_title_id integer not null references game_titles(id),
                                                    primary key(monster_id, game_title_id)
-);
-
-insert into monsters_gametitles (game_title_id, monster_id)
-    select 16 as game_title_id, id as monster_id from monsters where code in ('ajarakan', 'arkveld', 'guardian_arkveld', 'balahara', 'blangonga', 'chatacabra', 'congalala', 'doshaguma', 'guardian_doshaguma', 'gogmazios', 'gore_magala', 'gravios', 'guardian_ebony_odogaron', 'guardian_fulgur_anjanath', 'gypceros', 'hirabami', 'jin_dahaad', 'lagiacrus', 'lala_barina', 'mizutsune', 'nerscylla', 'nu_udra', 'omega_planetes', 'quematrice', 'rathalos', 'guardian_rathalos', 'rathian', 'rey_dau', 'rompopolo', 'seregios', 'uth_duna', 'xu_wu', 'yian_kut_ku', 'zoh_shia');
-    
+)
+;
     
     
 ---------------------------- views -----------------------------
