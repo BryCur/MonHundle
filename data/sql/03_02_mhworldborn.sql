@@ -23,7 +23,7 @@ Monster whose data are already written due to "future" games
 */
 
 ---------------------------- habitats -----------------------------
-insert into monsters_biomes (biome_id, monster_id)
+insert into monsters_biomes (biome_id, monster_id)  
 select 0 as biome_id /* Cave */, id as monster_id from monsters where code in ('xeno_jiiva', 'blackveil_vaal_hazak', 'vaal_hazak', 'uragaan', 'viper_tobi_kadachi', 'safi_jiiva', 'ebony_odogaron', 'odogaron', 'ruiner_nergigante', 'nergigante', 'kulve_taroth', 'great_girros', 'acidic_glavenus', 'dodogama', 'black_diablos', 'brachydios', 'fulgur_anjanath')
 union all select 1 as biome_id /* Desert */, id as monster_id from monsters where code in ('brute_tigrex', 'pink_rathian', 'nightshade_paolumu', 'ebony_odogaron', 'ruiner_nergigante', 'nergigante', 'lunastra', 'glavenus', 'black_diablos', 'deviljho', 'savage_deviljho', 'banbaro', 'fulgur_anjanath')
 union all select 2 as biome_id /* Forest */, id as monster_id from monsters where code in ('scarred_yian_garuga', 'yian_garuga', 'blackveil_vaal_hazak', 'pink_rathian', 'azure_rathalos', 'nightshade_paolumu', 'ebony_odogaron', 'ruiner_nergigante', 'nergigante', 'great_jagras', 'glavenus', 'deviljho', 'savage_deviljho', 'raging_brachydios', 'banbaro', 'fulgur_anjanath')
@@ -35,7 +35,7 @@ union all select 8 as biome_id /* Snowfield */, id as monster_id from monsters w
 union all select 9 as biome_id /* Special */, id as monster_id from monsters where code in ('zorah_magdaros', 'shara_ishvalda', 'safi_jiiva', 'kulve_taroth', 'fatalis', 'alatreon')
 union all select 10 as biome_id /* Unique */, id as monster_id from monsters where code in ('xeno_jiiva', 'vaal_hazak', 'radobaan', 'odogaron', 'great_girros', 'acidic_glavenus', 'raging_brachydios')
 union all select 12 as biome_id /* Volcano */, id as monster_id from monsters where code in ('stygian_zinogre', 'uragaan', 'brute_tigrex', 'azure_rathalos', 'lunastra', 'lavasioth', 'kulve_taroth', 'glavenus', 'dodogama', 'deviljho', 'savage_deviljho', 'raging_brachydios', 'brachydios', 'banbaro', 'fulgur_anjanath')
-;
+on conflict do nothing;
     
 --------------------------- afflictions ----------------------------
 insert into afflictions (id, code) VALUES (21, 'effluvium');
@@ -55,7 +55,7 @@ union all select 16 as affliction_id /* Stun */, id as monster_id from monsters 
 union all select 17 as affliction_id /* Thunder */, id as monster_id from monsters where code in ('namielle', 'kirin', 'fulgur_anjanath', 'alatreon')
 union all select 18 as affliction_id /* Waterblight */, id as monster_id from monsters where code in ('coral_pukei_pukei', 'namielle', 'alatreon')
 union all select 21 as affliction_id /* Effluvium */, id as monster_id from monsters where code in ('blackveil_vaal_hazak', 'vaal_hazak')
-
+on conflict do nothing
 ;
 --------------------------- weaknesses ----------------------------
 
@@ -68,10 +68,10 @@ union all select 4 as weakness_id /* Dragon */, id as monster_id from monsters w
 union all select 5 as weakness_id /* Paralysis */, id as monster_id from monsters where code in ('odogaron')
 union all select 7 as weakness_id /* Poison */, id as monster_id from monsters where code in ('legiana')
 union all select 8 as weakness_id /* Blast */, id as monster_id from monsters where code in ('radobaan')
-;
+on conflict do nothing;
 --------------------------- games ----------------------------
 
 insert into monsters_gametitles (game_title_id, monster_id)
 select 13 as game_title_id /* Iceborn */, id as monster_id from monsters where code in ('alatreon', 'anjanath', 'fulgur_anjanath', 'banbaro', 'barioth', 'frostfang_barioth', 'barroth', 'bazelgeuse', 'seething_bazelgeuse', 'beotodus', 'brachydios', 'raging_brachydios', 'deviljho', 'savage_deviljho', 'diablos', 'black_diablos', 'dodogama', 'fatalis', 'glavenus', 'acidic_glavenus', 'great_girros', 'great_jagras', 'jyuratodus', 'kirin', 'kulu_ya_ku', 'kulve_taroth', 'kushala_daora', 'lavasioth', 'legiana', 'shrieking_legiana', 'lunastra', 'namielle', 'nargacuga', 'nergigante', 'ruiner_nergigante', 'odogaron', 'ebony_odogaron', 'paolumu', 'nightshade_paolumu', 'pukei_pukei', 'coral_pukei_pukei', 'radobaan', 'rajang', 'furious_rajang', 'rathalos', 'azure_rathalos', 'silver_rathalos', 'rathian', 'pink_rathian', 'gold_rathian', 'safi_jiiva', 'shara_ishvalda', 'teostra', 'tigrex', 'brute_tigrex', 'tobi_kadachi', 'viper_tobi_kadachi', 'tzitzi_ya_ku', 'uragaan', 'vaal_hazak', 'blackveil_vaal_hazak', 'velkhana', 'xeno_jiiva', 'yian_garuga', 'scarred_yian_garuga', 'zinogre', 'stygian_zinogre', 'zorah_magdaros')
 union all select 12 as game_title_id /* World */, id as monster_id from monsters where code in ('anjanath','barroth','bazelgeuse','deviljho','diablos','black_diablos','dodogama','great_girros','great_jagras','jyuratodus','kirin','kulu_ya_ku','kulve_taroth','kushala_daora','lavasioth','legiana','lunastra','nergigante','odogaron','paolumu', 'pukei_pukei', 'radobaan','rathalos','azure_rathalos','rathian','pink_rathian','teostra','tobi_kadachi','tzitzi_ya_ku','uragaan','vaal_hazak','xeno_jiiva','zorah_magdaros')
-;
+on conflict do nothing;
