@@ -1,0 +1,101 @@
+@import './base.css';
+
+.bg-effluvium {
+    width: 20px; height: 20px;
+    background: var(--icon-source) -218px -62px;
+}
+
+.bg-muddy {
+    width: 14px; height: 19px;
+    background: var(--icon-source) -218px -142px;
+}
+
+.bg-hellfireblight {
+    width: 20px; height: 20px;
+    background: var(--icon-source) -218px -102px;
+}
+
+.bg-stench {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -10px -10px;
+}
+
+.bg-sleep {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -62px -10px;
+}
+
+.bg-poison {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -10px -62px;
+}
+
+.bg-stun {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -62px -62px;
+}
+
+.bg-paralysis {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -114px -10px;
+}
+
+.bg-defensedown {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -114px -62px;
+}
+
+.bg-frenzy {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -10px -114px;
+}
+
+.bg-bubbleblight {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -62px -114px;
+}
+
+.bg-Webbed {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -114px -114px;
+}
+
+.bg-frostblight {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -166px -10px;
+}
+
+.bg-blastblight {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -166px -62px;
+}
+
+.bg-thunder {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -166px -114px;
+}
+
+.bg-water {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -10px -166px;
+}
+
+.bg-ice {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -62px -166px;
+}
+
+.bg-dragon {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -114px -166px;
+}
+
+.bg-fire {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -166px -166px;
+}
+
+.bg-bleeding {
+    width: 32px; height: 32px;
+    background: var(--icon-source) -218px -10px;
+}
