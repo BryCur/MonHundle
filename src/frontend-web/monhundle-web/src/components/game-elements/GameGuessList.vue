@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '@/assets/icons.css';
 import { useI18n } from 'vue-i18n';
 import { ComparisonResults } from '../../domain/enums/ComparisonResults';
 import { Afflictions } from '../../domain/enums/Criterias/Afflictions';
@@ -40,7 +41,6 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
     return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
 }
 
-
 const hasGuesses = computed<boolean>(() => {
     return model.value !== undefined && model.value.length > 0;
 });
@@ -59,7 +59,6 @@ const hasGuesses = computed<boolean>(() => {
     </div>
 </div>
 <div class="guess-container fit-screen">
-    
     <div class="guess-table" role="table" v-if="hasGuesses">
         <div class="guess-table-row table-header" role="row">
             <div class="guess-table-cell" role="columnheader" ></div>
@@ -84,10 +83,33 @@ const hasGuesses = computed<boolean>(() => {
                 <span class="guess-table-cell-content">{{ guess.criterias.generation}} </span>
             </div>
             <div :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)" class="guess-table-cell" role="cell">
-                <span class="guess-table-cell-content">{{guess.criterias.weaknesses.length > 0 ? guess.criterias.weaknesses.map(a => t(getEnumTranslationKey(Weaknesses, a))).join(", ") : "-" }} </span>
+                <span class="guess-table-cell-content" v-if="guess.criterias.weaknesses.length < 1"> - </span>
+                <span class="guess-table-cell-content" v-else>
+                    <ul class="icon-list">
+                        <li 
+                            v-for="weakness in guess.criterias.weaknesses" 
+                            :class="'bg-' + enumValueToKeyLower(Weaknesses, weakness)" 
+                            :aria-label="t(getEnumTranslationKey(Weaknesses, weakness))"
+                            :title="t(getEnumTranslationKey(Weaknesses, weakness))"
+                            class="icon-item"
+                        ></li>
+                    </ul>
+                </span>
+
             </div>
             <div :class="getComparisonResultsClass(guess.comparisonResult.afflictions)" class="guess-table-cell" role="cell">
-                <span class="guess-table-cell-content">{{guess.criterias.afflictions.length > 0 ? guess.criterias.afflictions.map(a => t(getEnumTranslationKey(Afflictions, a))).join(", ") : "-" }} </span>
+                <span class="guess-table-cell-content" v-if="guess.criterias.afflictions.length < 1"> - </span>
+                <span class="guess-table-cell-content" v-else>
+                    <ul class="icon-list">
+                        <li 
+                             v-for="affliction in guess.criterias.afflictions" 
+                            :class="'bg-' + enumValueToKeyLower(Afflictions, affliction)" 
+                            :aria-label="t(getEnumTranslationKey(Afflictions, affliction))"
+                            :title="t(getEnumTranslationKey(Afflictions, affliction))"
+                            class="icon-item icon"
+                        ></li>
+                    </ul>
+                </span>
             </div>
             <div :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)" class="guess-table-cell" role="cell">
                 <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
@@ -101,6 +123,7 @@ const hasGuesses = computed<boolean>(() => {
 </template>
 
 <style lang="scss" scoped>
+
 
 .game-lexic {
     display: flex;
@@ -150,6 +173,21 @@ const hasGuesses = computed<boolean>(() => {
             .guess-table-cell-content {
                 position: relative; 
                 z-index: 1;
+    
+                .icon-list{
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0px;
+                    padding: 0;
+                    margin: 0;
+                    list-style: none;
+                    justify-content: center;
+                    
+                    .icon-item{
+                        list-style: none;
+                        text-align: center;
+                    }
+                }
             }
         }
 
@@ -242,7 +280,7 @@ const hasGuesses = computed<boolean>(() => {
         grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
 
         .guess-table-cell {
-            padding: 0.5rem 0.75rem;
+            padding: 0.3rem 0.5rem;
         }
 
         .guess-table-monster-cell {
