@@ -23,6 +23,8 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--light-bg);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
 }
 
 /* semantic color variables for this project */
