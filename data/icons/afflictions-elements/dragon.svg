@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="26.0px"
+   height="26.0px"
+   viewBox="0 0 26.0 26.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="dragon.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="dragon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview829"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="23.490011"
+     inkscape:cx="23.350351"
+     inkscape:cy="10.578965"
+     inkscape:window-width="1904"
+     inkscape:window-height="993"
+     inkscape:window-x="1080"
+     inkscape:window-y="487"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid892"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
+    <sodipodi:guide
+       position="10.472537,9.6526258"
+       orientation="1,0"
+       id="guide1188"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="15.581091,7.4389189"
+       orientation="1,0"
+       id="guide1295"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs824" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect846"
+       style="fill:#86819e;fill-opacity:1;stroke:#000000;stroke-width:1.06586;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 10.306087,9.8113633 V 15.63977 11.943076 H 5.5390042 v 5.329283 l 4.8079248,4.263426 v 3.19757 h 5.404144 v -3.059632 l 4.709923,-4.401364 v -5.329283 h -4.709923 v 3.674007 -5.8057197 z"
+       sodipodi:nodetypes="ccccccccccccccc" />
+    <path
+       id="rect15111"
+       style="fill:#695c8e;fill-opacity:0.997701;stroke:#000000;stroke-width:1.06586;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 5.5390042,8.7455067 10.306087,5.5479371 V 11.943076 H 5.5390042 Z"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       id="path15786"
+       style="fill:#695c8e;fill-opacity:0.997701;stroke:#000000;stroke-width:1.06586;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 20.456575,8.7451583 15.751073,5.5479371 v 6.3951389 l 4.705502,-0.0075 z"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       id="rect1945"
+       style="fill:#695c8e;fill-opacity:0.997701;stroke:#000000;stroke-width:1.06586;stroke-opacity:1"
+       d="M 10.306087,4.4820806 13,1.2845109 15.751073,4.4820806 v 5.3292827 h -5.444986 z"
+       sodipodi:nodetypes="cccccc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     sodipodi:insensitive="true"
+     style="display:none;opacity:0.379518">
+    <image
+       width="28"
+       height="28"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,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 b/G55wAAAABJRU5ErkJggg== "
+       id="image926"
+       x="-1"
+       y="-1" />
+  </g>
+</svg>

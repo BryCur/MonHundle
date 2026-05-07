@@ -20,6 +20,8 @@ export enum Afflictions {
     Thunder,
     Water,
     Webbed,
+    Muddy,
+    Effluvium,
 }
 
 // to easily get the name of the enum, used for translations keys
