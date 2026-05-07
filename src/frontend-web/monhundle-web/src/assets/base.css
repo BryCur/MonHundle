@@ -25,6 +25,10 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
   --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
+
+  --bg-incorrect: #6d0d0d;
+  --bg-partial: #6d5b0a;
+  --bg-correct: #086b05;
 }
 
 /* semantic color variables for this project */
@@ -40,6 +44,8 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --incorrect-arrow: #2c0000;
 }
 
 @media (prefers-color-scheme: dark) {
