@@ -15,7 +15,7 @@ const { t } = useI18n();
 const model = defineModel<Guess[]>();
 
 function getComparisonResultsClass(val: ComparisonResults): string{ 
-    return `result-${ComparisonResults[val].toLowerCase()}`
+    return `result-${ComparisonResults[val].toLowerCase()} accessibility-${ComparisonResults[val].toLowerCase()}`
 }
 
 function getResultAriaTranslation(result: ComparisonResults, criteria: any, value: number | number[]) {
@@ -136,6 +136,47 @@ const hasGuesses = computed<boolean>(() => {
     overflow-x: scroll; // let this container have a scrolling bar on the horizontal axis for mobile
 }
 
+.result-correct {
+    background-color: var(--bg-correct);
+}
+
+.result-partial {
+    background-color: var(--bg-partial);
+}
+
+.result-incorrect, .result-higher, .result-lower {
+    background-color: var(--bg-incorrect);
+}
+
+
+.accessibility-partial {
+    background-image:
+        radial-gradient(
+            circle at center,
+            transparent 3px,
+            rgba(255, 255, 255, 0.1) 1px  
+        );
+    background-size: 10px 10px; 
+}
+
+
+.accessibility-incorrect, .accessibility-higher, .accessibility-lower {
+    background-image:
+    repeating-linear-gradient(
+        45deg,
+        transparent,
+        rgba(0, 0, 0, 0.2),
+        transparent 5px 33%, 
+    ),
+    repeating-linear-gradient(
+        -45deg,
+        transparent,
+        rgba(0, 0, 0, 0.2),
+        transparent 5px 33%, 
+    );
+}
+
+
 .guess-table {
     width: max-content;
     max-width: none; // remove width restriction to let the table expand as required
@@ -207,17 +248,10 @@ const hasGuesses = computed<boolean>(() => {
         }
 
         .result-incorrect, .result-higher, .result-lower {
-            background-color: #9413139c;
             position: relative;
             z-index: 1;
         }
-        .result-correct {
-            background-color: #1794139c;
-        }
         
-        .result-partial {
-            background-color: #947c139c;
-        }
 
         .result-higher::before,
         .result-lower::before {
@@ -231,8 +265,8 @@ const hasGuesses = computed<boolean>(() => {
             display: block;          /* assurer le rendu */
             pointer-events: none;    /* ne pas capter les clics */
             z-index: 2;
-            background: #000; 
-            opacity: 0.4;   /*  pour ne pas gêner la lisibilité du texte */
+            background: var(--incorrect-arrow); 
+            opacity: 1;   /*  pour ne pas gêner la lisibilité du texte */
             z-index: 0;      /* derrière le texte */
 
         }
