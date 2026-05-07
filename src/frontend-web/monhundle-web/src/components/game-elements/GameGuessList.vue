@@ -13,9 +13,16 @@ import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n();
 const model = defineModel<Guess[]>();
+const enableA11y = false;
 
 function getComparisonResultsClass(val: ComparisonResults): string{ 
-    return `result-${ComparisonResults[val].toLowerCase()} accessibility-${ComparisonResults[val].toLowerCase()}`
+    let classes =  `result-${ComparisonResults[val].toLowerCase()}`;
+
+    if (enableA11y) {
+        classes += ` accessibility-${ComparisonResults[val].toLowerCase()} accessibility-on`
+    }
+
+    return classes
 }
 
 function getResultAriaTranslation(result: ComparisonResults, criteria: any, value: number | number[]) {
@@ -41,6 +48,10 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
     return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
 }
 
+function getA11yClasses(): string {
+    return enableA11y ? 'accessibility-on' : ''
+}
+
 const hasGuesses = computed<boolean>(() => {
     return model.value !== undefined && model.value.length > 0;
 });
@@ -59,18 +70,18 @@ const hasGuesses = computed<boolean>(() => {
     </div>
 </div>
 <div class="guess-container fit-screen">
-    <div class="guess-table" role="table" v-if="hasGuesses">
-        <div class="guess-table-row table-header" role="row">
+    <div class="guess-table" :class="getA11yClasses()" role="table" v-if="hasGuesses">
+        <div class="guess-table-row table-header " role="row">
             <div class="guess-table-cell" role="columnheader" ></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
         </div>
     
-        <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
+        <div v-for="guess in model?.slice().reverse()" class="guess-table-row" :class="getA11yClasses()" role="row">
             <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
                 
                 <img :src="getLatestIconForMonster(guess.monsterCode)" class="table-guess-monster-icon"></img>
@@ -185,11 +196,16 @@ const hasGuesses = computed<boolean>(() => {
     grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
     gap: .5rem;
 
+    &.accessibility-on {
+        gap: 0px;
+    }
+
     .table-header {
         position: sticky;
         left: 0;
         background-color: var(--color-background);
         z-index: 10; 
+        //border: 3px green solid;
     }
 
     .guess-table-row {
@@ -201,11 +217,20 @@ const hasGuesses = computed<boolean>(() => {
         gap: .1rem;
         overflow-wrap: break-word;
         overflow: hidden;
+        
+        &.accessibility-on {
+            border-left: .3rem black solid;
+        }
+
 
         .guess-table-cell {
             text-align: center;
             align-content: center;
             overflow-wrap: break-word;
+
+            &.accessibility-on {
+                border-top: .3rem black solid;
+            }
 
             :first-child {
                 text-align: left;
@@ -313,8 +338,18 @@ const hasGuesses = computed<boolean>(() => {
         grid-template-rows: initial;
         grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
 
+        &.accessibility-on {
+            border-top: .3rem black solid;
+            border-left: none;
+        }
+
         .guess-table-cell {
             padding: 0.3rem 0.5rem;
+
+            &.accessibility-on {
+            border-top: none;
+            border-left: .3rem black solid;
+        }
         }
 
         .guess-table-monster-cell {
