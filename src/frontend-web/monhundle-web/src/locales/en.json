@@ -835,9 +835,12 @@
       },
       "rules": {
         "general": {
-          "correct": "Correct answer",
-          "incorrect": "Wrong, incorrect value(s)",
-          "partial": "Partially correct, at least 1 wrong value"
+          "label": "how to read the table: ",
+          "correct": "Correct value(s)",
+          "incorrect": "Incorrect value(s)",
+          "partial": "At least 1 wrong or missing value",
+          "higher": "The right value is higher",
+          "lower": "The right value is lower"
         },
         "unlimited": "<p><b>Guess the monster, with the fewest guesses possible!</b></p><p>You have unlimited attempts, so take your time. You will not have any additional clue than what the table is providing.</p><p>Good luck and have fun!</p>"
       },

@@ -59,14 +59,28 @@ const hasGuesses = computed<boolean>(() => {
 
 <template>
 <div class="game-lexic" v-if="hasGuesses">
-    <div>
-        🟥 - {{ t("ui.game.rules.general.incorrect")}}
-    </div>
-    <div>
-        🟨 -  {{ t("ui.game.rules.general.partial")}}
-    </div>
-    <div>
-        🟩 - {{ t("ui.game.rules.general.correct")}}
+
+    <div class="guess-table">
+        <div class="guess-table-row">
+            <div class="guess-table-monster-cell">
+                
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Higher)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.higher")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Lower)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.lower")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Incorrect)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.incorrect")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Partial)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.partial")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Correct)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.correct")}}</span>
+            </div>
+        </div>
     </div>
 </div>
 <div class="guess-container fit-screen">
@@ -141,6 +155,7 @@ const hasGuesses = computed<boolean>(() => {
     justify-content: space-evenly;
     width: 100%;
     margin-top: 1rem;
+    padding-bottom: 2rem;
 }
 
 .guess-container{
@@ -285,8 +300,8 @@ const hasGuesses = computed<boolean>(() => {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3rem;
+            height: 3rem;
             display: block;          /* assurer le rendu */
             pointer-events: none;    /* ne pas capter les clics */
             z-index: 2;
