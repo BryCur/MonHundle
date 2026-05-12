@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import '@/assets/icons.css';
 import { useI18n } from 'vue-i18n';
-import { ComparisonResults } from '../../domain/enums/ComparisonResults';
-import { Afflictions } from '../../domain/enums/Criterias/Afflictions';
-import { Weaknesses } from '../../domain/enums/Criterias/Weaknesses';
-import { Classifications } from '../../domain/enums/Criterias/Classifications';
-import { Biomes } from '../../domain/enums/Criterias/Biomes';
-import { enumValueToKeyLower } from '../../domain/enums/EnumUtils';
-import type Guess from '../../domain/Guess';
+import { ComparisonResults } from '@/domain/enums/ComparisonResults';
+import { Afflictions } from '@/domain/enums/Criterias/Afflictions';
+import { Weaknesses } from '@/domain/enums/Criterias/Weaknesses';
+import { Classifications } from '@/domain/enums/Criterias/Classifications';
+import { Biomes } from '@/domain/enums/Criterias/Biomes';
+import { enumValueToKeyLower } from '@/domain/enums/EnumUtils';
+import type Guess from '@/domain/Guess';
 import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 

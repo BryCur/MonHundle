@@ -1,5 +1,3 @@
-import { ComparisonResults } from "@/domain/enums/ComparisonResults";
-import { GameStates } from "@/domain/enums/GameStates";
 import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";

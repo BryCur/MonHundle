@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { getCookie } from '../services/CookieService';
-import GameGuessList from '../components/game-elements/GameGuessList.vue';
-import { useGameStore } from '../stores/GameStore';
-import type { DailyGameService, UnlimitedGameService } from '../services/GameService';
-import type ResourceApi from '../services/ApiService/ResourceApi';
-import { GameStates } from '../domain/enums/GameStates';
-import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
+import { getCookie } from '@/services/CookieService';
+import GameGuessList from '@/components/game-elements/GameGuessList.vue';
+import { useGameStore } from '@/stores/GameStore';
+import type { DailyGameService } from '@/services/GameService';
+import type ResourceApi from '@/services/ApiService/ResourceApi';
+import { GameStates } from '@/domain/enums/GameStates';
+import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 

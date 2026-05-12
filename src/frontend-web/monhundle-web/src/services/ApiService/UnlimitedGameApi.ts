@@ -1,7 +1,6 @@
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 
 import { apiFetch } from "./ApiBaseAccess";
-import type Guess from "@/domain/Guess";
 import type GuessResponse from "@/domain/responses/GuessResponse";
 import GameStatus from "@/domain/GameStatus";
 
