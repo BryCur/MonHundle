@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '@/assets/icons.css';
+import '@/assets/utils.css';
 import { useI18n } from 'vue-i18n';
 import { ComparisonResults } from '@/domain/enums/ComparisonResults';
 import { Afflictions } from '@/domain/enums/Criterias/Afflictions';
@@ -87,14 +88,56 @@ const hasGuesses = computed<boolean>(() => {
     <div class="guess-table" :class="getA11yClasses()" role="table" v-if="hasGuesses">
         <div class="guess-table-row table-header " role="row">
             <div class="guess-table-cell" role="columnheader" ></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
-            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.classification.tooltip')"
+                >
+                    {{ t("ui.game.header.classification.title") }} 
+                </span>
+            </div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.generation.tooltip')"
+                >
+                    {{ t("ui.game.header.generation.title") }} 
+                </span>
+            </div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.weakness.tooltip')"
+                >
+                    {{ t("ui.game.header.weakness.title") }} 
+                </span>
+            </div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.affliction.tooltip')"
+                >
+                    {{ t("ui.game.header.affliction.title") }} 
+                </span>
+            </div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.threatlvl.tooltip')"
+                >
+                    {{ t("ui.game.header.threatlvl.title") }} 
+                </span>
+            </div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" >
+                <span 
+                    class="guess-table-cell-content tooltip-text" 
+                    :tooltip-content="t('ui.game.header.habitat.tooltip')"
+                >
+                    {{ t("ui.game.header.habitat.title") }} 
+                </span>
+            </div>
         </div>
-    
+        
         <div v-for="guess in model?.slice().reverse()" class="guess-table-row" :class="getA11yClasses()" role="row">
             <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
                 
@@ -116,7 +159,8 @@ const hasGuesses = computed<boolean>(() => {
                             :class="'bg-' + enumValueToKeyLower(Weaknesses, weakness)" 
                             :aria-label="t(getEnumTranslationKey(Weaknesses, weakness))"
                             :title="t(getEnumTranslationKey(Weaknesses, weakness))"
-                            class="icon-item"
+                            class="icon-item tooltip-text"
+                            :tooltip-content="t(getEnumTranslationKey(Weaknesses, weakness))"
                         ></li>
                     </ul>
                 </span>
@@ -211,6 +255,7 @@ const hasGuesses = computed<boolean>(() => {
     grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
     gap: .5rem;
 
+
     &.accessibility-on {
         gap: 0px;
     }
@@ -221,6 +266,7 @@ const hasGuesses = computed<boolean>(() => {
         background-color: var(--color-background);
         z-index: 10; 
         //border: 3px green solid;
+
     }
 
     .guess-table-row {
@@ -231,7 +277,6 @@ const hasGuesses = computed<boolean>(() => {
             repeat(6, minmax(60px, .8fr)); // criteria line
         gap: .1rem;
         overflow-wrap: break-word;
-        overflow: hidden;
         
         &.accessibility-on {
             border-left: .3rem black solid;
@@ -341,6 +386,7 @@ const hasGuesses = computed<boolean>(() => {
 @media (min-width: 1024px) {
 .guess-container{
     overflow-x: auto; // let this container have a scrolling bar on the horizontal axis for mobile
+    overflow: visible;
 }
 .guess-table {
     grid-auto-flow: row;
