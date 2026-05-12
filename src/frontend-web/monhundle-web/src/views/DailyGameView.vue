@@ -22,10 +22,12 @@ let ready = ref(false);
 let monsterList = ref<string[]>([]);
 let selectedMonster = ref<string | undefined>(undefined);
 let gameId :string | undefined; 
+let  enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
 
+    enableTableA11y = Boolean(localStorage.getItem("enableTableVisualA11y"));
     let gameIdFromCookie = getCookie("currentDailyGame");
 
     if(gameIdFromCookie){
@@ -107,7 +109,7 @@ function shareGame(): void {
             </button>
         </div>
         <div class="game-progress-container fit-screen">
-            <GameGuessList v-model="gameGuesses"></GameGuessList>
+            <GameGuessList v-model="gameGuesses" :accessibility-enabled="enableTableA11y"></GameGuessList>
         </div>
     </div>
     <div v-else> loading... </div>

@@ -13,9 +13,16 @@ import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n();
 const model = defineModel<Guess[]>();
+const props = defineProps({accessibilityEnabled: Boolean});
 
 function getComparisonResultsClass(val: ComparisonResults): string{ 
-    return `result-${ComparisonResults[val].toLowerCase()}`
+    let classes =  `result-${ComparisonResults[val].toLowerCase()}`;
+
+    if (props.accessibilityEnabled) {
+        classes += ` accessibility-${ComparisonResults[val].toLowerCase()} accessibility-on`
+    }
+
+    return classes
 }
 
 function getResultAriaTranslation(result: ComparisonResults, criteria: any, value: number | number[]) {
@@ -41,6 +48,10 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
     return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
 }
 
+function getA11yClasses(): string {
+    return props.accessibilityEnabled ? 'accessibility-on' : ''
+}
+
 const hasGuesses = computed<boolean>(() => {
     return model.value !== undefined && model.value.length > 0;
 });
@@ -48,29 +59,43 @@ const hasGuesses = computed<boolean>(() => {
 
 <template>
 <div class="game-lexic" v-if="hasGuesses">
-    <div>
-        🟥 - {{ t("ui.game.rules.general.incorrect")}}
-    </div>
-    <div>
-        🟨 -  {{ t("ui.game.rules.general.partial")}}
-    </div>
-    <div>
-        🟩 - {{ t("ui.game.rules.general.correct")}}
+
+    <div class="guess-table">
+        <div class="guess-table-row">
+            <div class="guess-table-monster-cell">
+                
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Higher)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.higher")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Lower)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.lower")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Incorrect)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.incorrect")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Partial)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.partial")}}</span>
+            </div>
+            <div class="guess-table-cell" :class="getComparisonResultsClass(ComparisonResults.Correct)">
+                <span class="guess-table-cell-content">{{ t("ui.game.rules.general.correct")}}</span>
+            </div>
+        </div>
     </div>
 </div>
 <div class="guess-container fit-screen">
-    <div class="guess-table" role="table" v-if="hasGuesses">
-        <div class="guess-table-row table-header" role="row">
+    <div class="guess-table" :class="getA11yClasses()" role="table" v-if="hasGuesses">
+        <div class="guess-table-row table-header " role="row">
             <div class="guess-table-cell" role="columnheader" ></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
-            <div class="guess-table-cell" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.classification.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.generation.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.weakness.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.affliction.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.threatlvl.title") }} </span></div>
+            <div class="guess-table-cell" :class="getA11yClasses()" role="columnheader" ><span class="guess-table-cell-content">{{ t("ui.game.header.habitat.title") }} </span></div>
         </div>
     
-        <div v-for="guess in model?.slice().reverse()" class="guess-table-row" role="row">
+        <div v-for="guess in model?.slice().reverse()" class="guess-table-row" :class="getA11yClasses()" role="row">
             <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
                 
                 <img :src="getLatestIconForMonster(guess.monsterCode)" class="table-guess-monster-icon"></img>
@@ -130,11 +155,53 @@ const hasGuesses = computed<boolean>(() => {
     justify-content: space-evenly;
     width: 100%;
     margin-top: 1rem;
+    padding-bottom: 2rem;
 }
 
 .guess-container{
     overflow-x: scroll; // let this container have a scrolling bar on the horizontal axis for mobile
 }
+
+.result-correct {
+    background-color: var(--bg-correct);
+}
+
+.result-partial {
+    background-color: var(--bg-partial);
+}
+
+.result-incorrect, .result-higher, .result-lower {
+    background-color: var(--bg-incorrect);
+}
+
+
+.accessibility-partial {
+    background-image:
+        radial-gradient(
+            circle at center,
+            transparent 3px,
+            rgba(255, 255, 255, 0.1) 1px  
+        );
+    background-size: 10px 10px; 
+}
+
+
+.accessibility-incorrect, .accessibility-higher, .accessibility-lower {
+    background-image:
+    repeating-linear-gradient(
+        45deg,
+        transparent,
+        rgba(0, 0, 0, 0.2),
+        transparent 5px 33%, 
+    ),
+    repeating-linear-gradient(
+        -45deg,
+        transparent,
+        rgba(0, 0, 0, 0.2),
+        transparent 5px 33%, 
+    );
+}
+
 
 .guess-table {
     width: max-content;
@@ -144,11 +211,16 @@ const hasGuesses = computed<boolean>(() => {
     grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
     gap: .5rem;
 
+    &.accessibility-on {
+        gap: 0px;
+    }
+
     .table-header {
         position: sticky;
         left: 0;
         background-color: var(--color-background);
         z-index: 10; 
+        //border: 3px green solid;
     }
 
     .guess-table-row {
@@ -160,11 +232,20 @@ const hasGuesses = computed<boolean>(() => {
         gap: .1rem;
         overflow-wrap: break-word;
         overflow: hidden;
+        
+        &.accessibility-on {
+            border-left: .3rem black solid;
+        }
+
 
         .guess-table-cell {
             text-align: center;
             align-content: center;
             overflow-wrap: break-word;
+
+            &.accessibility-on {
+                border-top: .3rem black solid;
+            }
 
             :first-child {
                 text-align: left;
@@ -207,17 +288,10 @@ const hasGuesses = computed<boolean>(() => {
         }
 
         .result-incorrect, .result-higher, .result-lower {
-            background-color: #9413139c;
             position: relative;
             z-index: 1;
         }
-        .result-correct {
-            background-color: #1794139c;
-        }
         
-        .result-partial {
-            background-color: #947c139c;
-        }
 
         .result-higher::before,
         .result-lower::before {
@@ -226,13 +300,13 @@ const hasGuesses = computed<boolean>(() => {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3rem;
+            height: 3rem;
             display: block;          /* assurer le rendu */
             pointer-events: none;    /* ne pas capter les clics */
             z-index: 2;
-            background: #000; 
-            opacity: 0.4;   /*  pour ne pas gêner la lisibilité du texte */
+            background: var(--incorrect-arrow); 
+            opacity: 1;   /*  pour ne pas gêner la lisibilité du texte */
             z-index: 0;      /* derrière le texte */
 
         }
@@ -279,8 +353,18 @@ const hasGuesses = computed<boolean>(() => {
         grid-template-rows: initial;
         grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
 
+        &.accessibility-on {
+            border-top: .3rem black solid;
+            border-left: none;
+        }
+
         .guess-table-cell {
             padding: 0.3rem 0.5rem;
+
+            &.accessibility-on {
+                border-top: none;
+                border-left: .3rem black solid;
+            }
         }
 
         .guess-table-monster-cell {

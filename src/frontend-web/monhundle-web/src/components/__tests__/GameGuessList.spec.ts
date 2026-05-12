@@ -78,8 +78,8 @@ describe("GameGuessList", () => {
       }
     });
 
-    const rows = wrapper.findAll(".guess-table-row");
-    expect(rows.length).toBe(1 + sampleGuesses.length); // length +1 for the header line
+    const rows = wrapper.findAll(".guess-container .guess-table-row");
+    expect(rows.length).toBe(1 + sampleGuesses.length); // length +1 for the header line & lexic
   });
 
   it("displays guesses in reverse orders", async () => {
@@ -90,7 +90,7 @@ describe("GameGuessList", () => {
     });
 
     const monsterCells = wrapper
-      .findAll(".guess-table-monster-cell")
+      .findAll(".guess-container .guess-table-monster-cell")
       .map(cell => cell.find(".guess-table-cell-content").text());
 
     const reverseTranslatedList = sampleGuesses.slice().reverse().map(m => `game.monster.${m.monsterCode}.name`);
