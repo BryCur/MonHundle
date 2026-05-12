@@ -13,12 +13,12 @@ import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 
 const { t } = useI18n();
 const model = defineModel<Guess[]>();
-const enableA11y = false;
+const props = defineProps({accessibilityEnabled: Boolean});
 
 function getComparisonResultsClass(val: ComparisonResults): string{ 
     let classes =  `result-${ComparisonResults[val].toLowerCase()}`;
 
-    if (enableA11y) {
+    if (props.accessibilityEnabled) {
         classes += ` accessibility-${ComparisonResults[val].toLowerCase()} accessibility-on`
     }
 
@@ -49,7 +49,7 @@ function getEnumTranslationKey(enumType: any, enumVal: number): string {
 }
 
 function getA11yClasses(): string {
-    return enableA11y ? 'accessibility-on' : ''
+    return props.accessibilityEnabled ? 'accessibility-on' : ''
 }
 
 const hasGuesses = computed<boolean>(() => {
@@ -347,9 +347,9 @@ const hasGuesses = computed<boolean>(() => {
             padding: 0.3rem 0.5rem;
 
             &.accessibility-on {
-            border-top: none;
-            border-left: .3rem black solid;
-        }
+                border-top: none;
+                border-left: .3rem black solid;
+            }
         }
 
         .guess-table-monster-cell {
