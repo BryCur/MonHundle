@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import '@/assets/icons.css';
 import '@/assets/utils.css';
+import '@/assets/game-table.css';
 import { useI18n } from 'vue-i18n';
 import { ComparisonResults } from '@/domain/enums/ComparisonResults';
 import { Afflictions } from '@/domain/enums/Criterias/Afflictions';
@@ -206,46 +207,6 @@ const hasGuesses = computed<boolean>(() => {
     overflow-x: scroll; // let this container have a scrolling bar on the horizontal axis for mobile
 }
 
-.result-correct {
-    background-color: var(--bg-correct);
-}
-
-.result-partial {
-    background-color: var(--bg-partial);
-}
-
-.result-incorrect, .result-higher, .result-lower {
-    background-color: var(--bg-incorrect);
-}
-
-
-.accessibility-partial {
-    background-image:
-        radial-gradient(
-            circle at center,
-            transparent 3px,
-            rgba(255, 255, 255, 0.1) 1px  
-        );
-    background-size: 10px 10px; 
-}
-
-
-.accessibility-incorrect, .accessibility-higher, .accessibility-lower {
-    background-image:
-    repeating-linear-gradient(
-        45deg,
-        transparent,
-        rgba(0, 0, 0, 0.2),
-        transparent 5px 33%, 
-    ),
-    repeating-linear-gradient(
-        -45deg,
-        transparent,
-        rgba(0, 0, 0, 0.2),
-        transparent 5px 33%, 
-    );
-}
-
 
 .guess-table {
     width: max-content;
@@ -330,55 +291,6 @@ const hasGuesses = computed<boolean>(() => {
                 object-fit: contain;
                 align-self: center;
             }
-        }
-
-        .result-incorrect, .result-higher, .result-lower {
-            position: relative;
-            z-index: 1;
-        }
-        
-
-        .result-higher::before,
-        .result-lower::before {
-            content: "";
-            position: absolute;      /* IMPORTANT */
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 3rem;
-            height: 3rem;
-            display: block;          /* assurer le rendu */
-            pointer-events: none;    /* ne pas capter les clics */
-            z-index: 2;
-            background: var(--incorrect-arrow); 
-            opacity: 1;   /*  pour ne pas gêner la lisibilité du texte */
-            z-index: 0;      /* derrière le texte */
-
-        }
-
-        .result-lower::before {
-            transform: translate(-50%, -50%) rotate(180deg); /* on retourne la flèche */
-            clip-path: polygon(
-                50% 0%,
-                100% 50%,
-                70% 50%,
-                70% 100%,
-                30% 100%,
-                30% 50%,
-                0% 50%
-            );
-        }
-
-        .result-higher::before {
-            clip-path: polygon(
-                50% 0%,   /* pointe en haut */
-                100% 50%, /* coin droit milieu */
-                70% 50%,  /* coin droit du “corps” */
-                70% 100%, /* bas droit */
-                30% 100%, /* bas gauche */
-                30% 50%,  /* coin gauche du “corps” */
-                0% 50%    /* coin gauche milieu */
-            );
         }
     }
 }
