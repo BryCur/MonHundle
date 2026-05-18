@@ -15,9 +15,10 @@ onMounted(async () => {
   <header>
     <div class="wrapper">
       <nav class="navigation">
-        <RouterLink to="/unlimited">Unlimited</RouterLink>
-        <RouterLink to="/daily">Daily Challenge</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink :to="paths.unlimited">Unlimited</RouterLink>
+        <RouterLink :to="paths.daily">Daily Challenge</RouterLink>
+        <RouterLink :to="paths.about">About</RouterLink>
+        <RouterLink :to="paths.settings">Settings</RouterLink>
       </nav>
       <div class="lang-select">
         <LocaleSelector></LocaleSelector>
