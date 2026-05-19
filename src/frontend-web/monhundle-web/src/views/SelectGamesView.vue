@@ -3,6 +3,8 @@ import { useRouter } from 'vue-router';
 import { apiFetch } from '../services/ApiService/ApiBaseAccess';
 import { useI18n } from 'vue-i18n'
 import { onMounted, ref } from 'vue';
+import { paths } from '@/router';
+import { LocalStorageKeys } from '@/services/LocalStorageService';
 
 const { t } = useI18n()
 const router = useRouter()
@@ -10,10 +12,18 @@ const router = useRouter()
 const ready = ref(false);
 let selectedGames = ref(new Set<string>([]));
 let gameList: string[];
+const lastRoute = ref<string |null>(null);
 
 onMounted(async () => {
     ready.value = false;
     const response = await apiFetch("/resources/game-titles", { method: "GET"});
+
+    if (window.history.state?.from) {
+        lastRoute.value = window.history.state.from.path;
+    } else {
+        // Alternative : utilise l'index -1 de l'historique
+        lastRoute.value = window.history.state?.back?.path || paths.unlimited;
+    }
 
     gameList = (await response.json()) as string[];
     ready.value = true;
@@ -31,12 +41,12 @@ function toggleGameSelection(game: string) {
 
 function confirmSelection() {
     if(selectedGames.value.size > 0) {
-        localStorage.setItem("gameList", JSON.stringify(Array.from(selectedGames.value)))
+        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(Array.from(selectedGames.value)))
     } else {
-        localStorage.setItem("gameList", JSON.stringify(gameList))
+        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList))
     }
 
-    router.push("/unlimited");
+    router.push(lastRoute.value ?? paths.unlimited);
 }
 
 function randomTilt(element: HTMLElement) {
