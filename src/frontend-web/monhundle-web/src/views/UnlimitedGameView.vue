@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { getCookie } from '../services/CookieService';
+import { CookieKeys, getCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
 import type { UnlimitedGameService } from '../services/GameService';
@@ -10,6 +10,7 @@ import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '../router';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { LocalStorageKeys } from '@/services/LocalStorageService';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
@@ -27,14 +28,14 @@ let  enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
-    enableTableA11y = Boolean(localStorage.getItem("enableTableVisualA11y"));
+    enableTableA11y = Boolean(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY));
 
-    let storedGameList = localStorage.getItem("gameList");
+    let storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
     if (storedGameList === null) {
         router.push("/");
     }
 
-    let gameIdFromCookie = getCookie("currentUnlimitedGame");
+    let gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
     
     if(gameIdFromCookie){
         await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {

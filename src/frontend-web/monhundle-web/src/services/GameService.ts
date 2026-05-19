@@ -4,7 +4,7 @@ import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
-import { setCookie } from "@/services/CookieService";
+import { CookieKeys, setCookie } from "@/services/CookieService";
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -22,7 +22,7 @@ export class UnlimitedGameService {
             let newGame = new GameStatus(gameId);
             this.gameStore.setGame(newGame);
 
-            setCookie("currentUnlimitedGame", gameId);
+            setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
             return gameId;
         });
     }
@@ -39,7 +39,7 @@ export class UnlimitedGameService {
         return await this.gameApi.resumeGame(gameId).then( res => {
             if (res !== null) {
                 this.gameStore.setGame(res);
-                setCookie("currentUnlimitedGame", gameId);
+                setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
                 return this.gameStore.isGameOngoing()
             }
 

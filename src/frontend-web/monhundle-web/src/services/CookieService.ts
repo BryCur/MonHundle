@@ -22,3 +22,9 @@ export function deleteCookie(name: string) {
     date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
     document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
 }
+
+export enum CookieKeys {
+    USER_ID = "user_id",
+    CURRENT_DAILY_GAME = "currentDailyGame",
+    CURRENT_UNLIMITED_GAME = "currentUnlimitedGame"
+}
