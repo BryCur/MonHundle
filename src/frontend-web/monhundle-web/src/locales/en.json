@@ -857,6 +857,32 @@
     },
     "placeholder": {
       "monsterSelector": "Select a monster..."
+    },
+    "settings": {
+      "visualAccessibility": {
+        "label": "Enable table visual accessibility",
+        "description": "changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
+      },
+      "gameList": {
+        "label": "Game list for unlimited play: {gameList} ({gameCount} titles)",
+        "button": "Change your game list",
+        "description": "Fine tune your unlimited play experience by specifying the game you played. This will reduce the mystery monster and the guess option to the monster pool of all your games."
+      },
+      "copyUUID": {
+        "label": "Get your identifier",
+        "button": "Copy your UUID",
+        "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and history. Feel free to store this identifier and use it on other devices."
+      },
+      "setUUID": {
+        "label": "Load your save",
+        "placeholder": "Your UUID",
+        "button": "Load",
+        "description": "Loading your identifier will remove most data currently stored in this device, including unfinished games, preferences, and history."
+      },
+      "deleteUUID": {
+        "button": "Delete your data",
+        "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new UUID will be attributed to the device."
+      }
     }
   }
 }
