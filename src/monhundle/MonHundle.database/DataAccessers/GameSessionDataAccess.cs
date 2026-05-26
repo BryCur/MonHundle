@@ -56,6 +56,15 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         return p.Value;
         
     }
-    
-    
+
+    public List<GameSession> GetOngoingUnlimitedGamesForPlayer(Guid playerId)
+    {
+        return dbContext.GameSessions
+            .Where(gs => 
+                gs.PlayerId.Equals(playerId) 
+                && gs.State.Equals(GameStates.Ongoing)
+                && gs.GameMode == GameModes.Unlimited
+            )
+            .ToList();
+    }
 }
