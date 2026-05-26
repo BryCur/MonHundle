@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MonHundle.domain.Entities.DAL.JsonStructs;
 
 namespace MonHundle.domain.Entities.DAL;
 
@@ -12,7 +13,7 @@ public class Player
     [Column("player_uid")] 
     public Guid PlayerUid { get; set; }
     [Column("preferences", TypeName = "json")] 
-    public string? JsonPreferences { get; set; }
+    public PlayerPreferencesStruct? JsonPreferences { get; set; }
     [Column("last_connection")]
     public DateTime? last_connection { get; set; }
 }
