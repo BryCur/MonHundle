@@ -1,0 +1,17 @@
+info:
+  name: Get last date
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{domain_url}}/admin/daily/last-date"
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

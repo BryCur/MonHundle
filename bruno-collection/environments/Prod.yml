@@ -1,0 +1,6 @@
+name: Prod
+variables:
+  - name: domain_url
+    value: https://monhundle-api.agreeablewater-1ed6a75f.northeurope.azurecontainerapps.io
+  - secret: true
+    name: admin_token

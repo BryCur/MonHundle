@@ -1,0 +1,7 @@
+info:
+  name: Unlimited play
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

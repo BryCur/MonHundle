@@ -1,0 +1,18 @@
+info:
+  name: Start new unlimited game
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{domain_url}}/game/unlimited/start"
+  headers:
+    - name: Cookie
+      value: user_id=060d30e1-da14-4fa2-85aa-962112e2a41e
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

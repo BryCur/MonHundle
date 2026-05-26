@@ -1,0 +1,6 @@
+name: Local
+variables:
+  - name: domain_url
+    value: http://localhost:5000
+  - secret: true
+    name: admin_token

@@ -1,0 +1,21 @@
+info:
+  name: Save user preference
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{domain_url}}/user/preference"
+  body:
+    type: json
+    data: |-
+      {
+        "enableTableVisualAid": true,
+        "gameTitles": ["MHWilds", "MHWI", "MHWorld"]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
