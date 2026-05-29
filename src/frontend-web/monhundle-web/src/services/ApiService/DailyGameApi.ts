@@ -11,7 +11,12 @@ export class DailyGameApi implements IGameApi {
 
     public async newGame(): Promise<string> {
         const response = await apiFetch("/game/daily/start", { method: "POST", credentials: 'include'})
-        return response.json() as string;
+
+        if (response.status === 409) {
+            throw new Error(await response.text());
+        }
+
+        return response.text();
     }
 
     public async makeGuess(gameId: string, monsterCode: string):  Promise<GuessResponse> {

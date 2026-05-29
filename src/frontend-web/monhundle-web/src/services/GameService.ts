@@ -69,6 +69,13 @@ export class DailyGameService {
 
             setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
             return gameId;
+        }).catch( async err => {
+            let gameSet = await this.resumeGame(err.message)
+            if(gameSet) {
+                return err
+            } else {
+                throw new Error("game could not be set")
+            }
         });
     }
 
