@@ -101,7 +101,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }    
     
     [Fact]
-    public async Task GameController_create_game_returns_303_with_id_when_game_daily_exists()
+    public async Task GameController_create_game_returns_409_with_id_when_game_daily_exists()
     {
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         Game existingToday = new Game() {Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Now};
@@ -111,10 +111,10 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/daily/start");
         var response = await _client.SendAsync(request);
         
-        Assert.Equal(303, (int)response.StatusCode);
-        var location = response.Headers.GetValues("Location").FirstOrDefault();
-        Assert.False(string.IsNullOrWhiteSpace(location));
-        Assert.Contains(existingToday.Id.ToString(), location);
+        Assert.Equal(409, (int)response.StatusCode);
+        var uuid = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(existingToday.Id.ToString(), uuid);
     }
 
     [Fact]

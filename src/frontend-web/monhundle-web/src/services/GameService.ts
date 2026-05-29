@@ -69,8 +69,8 @@ export class DailyGameService {
 
             setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
             return gameId;
-        }).catch( err => {
-            const gameSet = this.resumeGame(err.message);
+        }).catch( async err => {
+            let gameSet = await this.resumeGame(err.message)
             if(gameSet) {
                 return err
             } else {
