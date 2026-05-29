@@ -36,8 +36,7 @@ public class GameDailyController : ControllerBase
         if (todaysGame != null && todaysGame.StartTime.Date.Equals(DateTime.Today.Date))
         {
             _logger.LogInformation("The player {playerId} already had a daily game created", player.Id);
-            Response.Headers.Add(HeaderNames.Location, $"/game/daily/resume/{todaysGame.Id.ToString()}");
-            return StatusCode(303);
+            return Conflict(todaysGame.Id.ToString());
         }
         
         GuessableMonster dailyMonster = _monsterService.getDailyMonster(DateTime.UtcNow);
