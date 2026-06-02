@@ -17,18 +17,16 @@ const lastRoute = ref<string |null>(null);
 onMounted(async () => {
     ready.value = false;
     const response = await apiFetch("/resources/game-titles", { method: "GET"});
+    console.log("history", window.history);
 
-    if (window.history.state?.from) {
-        lastRoute.value = window.history.state.from.path;
-    } else {
-        // Alternative : utilise l'index -1 de l'historique
-        lastRoute.value = window.history.state?.back?.path || paths.unlimited;
+    // Alternative : utilise l'index -1 de l'historique
+    lastRoute.value = window.history.state?.back;
+    if(lastRoute.value !== paths.unlimited && lastRoute.value !== paths.settings) {
+        lastRoute.value = paths.unlimited;
     }
 
     gameList = (await response.json()) as string[];
     ready.value = true;
-
-    confirmSelection(); // TODO remove when more than 1 game is available
 }) 
 
 function toggleGameSelection(game: string) {
