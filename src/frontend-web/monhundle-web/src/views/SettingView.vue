@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { paths } from '@/router';
-import { CookieKeys, getCookie } from '@/services/CookieService';
+import { CookieKeys, getCookie, clearCookies } from '@/services/CookieService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
@@ -23,10 +23,10 @@ onMounted(async () => {
 
     // get current UUID
     currentUUID = getCookie(CookieKeys.USER_ID) ?? "";
+
 })
 
 function  toggleA11y() {
-    enableTableA11y.value = enableTableA11y.value!
     localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, String(enableTableA11y.value))
 }
 
@@ -35,19 +35,17 @@ function copyUUID() {
 }
 
 function loadUuid() {
-    console.log("loading uuid ;", inputUuid.value);
     // check that the uuid exists -> request to BE
     // delete stored data from other 
     // load data from the new? -> request to BE
 }
 
 function deleteStoredData() {
-    // delete stored data
-}
+    // delete local storage
+    localStorage.clear()
+    clearCookies();
 
-function requestNewUuid() {
-    // delete the user_id cookie
-    // call /user/authenticate
+    location.reload();
 }
 </script>
 
@@ -55,7 +53,7 @@ function requestNewUuid() {
     <div class="setting-list">
         <div>
             <label>Enable visual accessibility</label>
-            <input type="checkbox"/>
+            <input @change="toggleA11y()" v-model="enableTableA11y" type="checkbox"/>
         </div>
         <div>
             <label>gamelist for unlimited play: all (12 titles)</label>
@@ -71,7 +69,7 @@ function requestNewUuid() {
             <button>load</button>
         </div>
         <div>
-            <button>delete your data</button>
+            <button @click="deleteStoredData()">delete your data</button>
         </div>
     </div>
 </template>

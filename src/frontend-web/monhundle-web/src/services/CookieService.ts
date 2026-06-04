@@ -8,6 +8,7 @@ export function setCookie(name: string, val: string, durationMs: number = 7 * 24
 
 export function getCookie(name: string) {
     const value = "; " + document.cookie;
+    console.log("cookie", value);
     const parts = value.split("; " + name + "=");
     
     if (parts.length == 2 && parts[1] != undefined) {
@@ -21,6 +22,15 @@ export function deleteCookie(name: string) {
     // Set it expire in -1 days
     date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
     document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
+}
+
+export function clearCookies() {
+    const date = new Date();
+    date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
+
+    for (const cookieKey in CookieKeys) {
+        document.cookie = cookieKey+"=; expires="+date.toUTCString()+"; path=/";
+    }
 }
 
 export enum CookieKeys {
