@@ -5,6 +5,7 @@ import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { CookieKeys, setCookie } from "@/services/CookieService";
+import { msUntilMidnightUTC } from '@/domain/Utils';
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -67,7 +68,7 @@ export class DailyGameService {
 
             let now = Date.now()
 
-            setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
+            setCookie(CookieKeys.CURRENT_DAILY_GAME, gameId, msUntilMidnightUTC());
             return gameId;
         });
     }
@@ -84,22 +85,11 @@ export class DailyGameService {
         return await this.gameApi.resumeGame(gameId).then( res => {
             if (res !== null) {
                 this.gameStore.setGame(res);
-                setCookie("currentDailyGame", gameId, this.msUntilMidnightUTC());
+                setCookie(CookieKeys.CURRENT_DAILY_GAME, gameId, msUntilMidnightUTC());
                 return true;
             }
 
             return false;
         })
-    }
-
-    private msUntilMidnightUTC(): number {
-        const now = new Date();
-        const midnightUTC = new Date(Date.UTC(
-            now.getUTCFullYear(),
-            now.getUTCMonth(),
-            now.getUTCDate() + 1,
-            0, 0, 0, 0
-        ));
-        return midnightUTC.getTime() - now.getTime();
     }
 }
