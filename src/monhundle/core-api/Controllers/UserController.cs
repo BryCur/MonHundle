@@ -97,7 +97,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
         CookieOptions options = new CookieOptions
         {
             MaxAge = TimeSpan.FromDays(30),
-            HttpOnly = true,
+            HttpOnly = false,
             Secure = true,
             SameSite = SameSiteMode.None
         };

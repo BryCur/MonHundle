@@ -1,21 +1,24 @@
 <script setup lang="ts">
 
+import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
 import { paths } from '@/router';
-import { CookieKeys, getCookie, clearCookies } from '@/services/CookieService';
+import { SettingsApi } from '@/services/ApiService/SettingApi';
+import { CookieKeys, getCookie, clearCookies, setCookie } from '@/services/CookieService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
+const settingsApi = inject<SettingsApi>('settingsApi');
 
 let gameList: string[] = [];
-let enableTableA11y = ref<boolean>(false);
+const enableTableA11y = ref<boolean>(false);
 let currentUUID: string = "";
 const inputUuid = ref<string |null>(null)
 
 onMounted(async () => { 
     // load game list
-    let storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
+    const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
     gameList = JSON.parse(storedGameList!) as string[];
 
     // load current a11y conf
@@ -34,10 +37,32 @@ function copyUUID() {
     navigator.clipboard.writeText(currentUUID);
 }
 
-function loadUuid() {
-    // check that the uuid exists -> request to BE
-    // delete stored data from other 
-    // load data from the new? -> request to BE
+async function loadUuid() {
+
+    if(inputUuid.value && isUUID(inputUuid.value)) {
+        const isInputValid: boolean = await settingsApi?.validateUser(inputUuid.value) ?? false;
+
+        if(isInputValid) {
+            await settingsApi?.loadUser(inputUuid.value);
+            const userProfile = await settingsApi?.getProfile(inputUuid.value);
+
+            localStorage.setItem(LocalStorageKeys.GAME_LIST, userProfile?.gameList || "");
+            localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, String(userProfile?.enableTableVisualAid ||false));
+
+            if(userProfile?.currentDailyGameUuid){
+                setCookie(CookieKeys.CURRENT_DAILY_GAME, userProfile?.currentDailyGameUuid, msUntilMidnightUTC());
+            }
+
+            if(userProfile?.currentUnlimitedGameUuid){
+                setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile?.currentUnlimitedGameUuid);
+            }
+        } else {
+            // TODO error management
+            console.error("UUID provided not recognised")
+        }
+    } else {
+        console.error("invalid format")
+    }
 }
 
 function deleteStoredData() {
@@ -65,8 +90,8 @@ function deleteStoredData() {
         </div>
         <div>
             <label>load your identifier</label>
-            <input type="text" :value="inputUuid">
-            <button>load</button>
+            <input type="text" v-model="inputUuid">
+            <button @click="loadUuid()">load</button>
         </div>
         <div>
             <button @click="deleteStoredData()">delete your data</button>
