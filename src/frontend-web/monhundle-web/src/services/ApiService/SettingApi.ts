@@ -21,13 +21,15 @@ export class SettingsApi implements ISettingApi {
     }
 
     public async validateUser(userUid: string) : Promise<boolean> {
-        const response = await apiFetch('/user/validate', {method: 'GET', body: new URLSearchParams({'user-id': userUid})})
+        const urlParam = new URLSearchParams({'user-id': userUid});
+        const response = await apiFetch(`/user/validate?${urlParam.toString()}`, {method: 'GET'})
 
         return response.status === 200;
     }
 
     public async loadUser(userUid: string): Promise<void> {
-        await apiFetch('/user/validate', {method: 'GET', body: new URLSearchParams({'user-id': userUid})})
+        const urlParam = new URLSearchParams({'user-id': userUid});
+        await apiFetch(`/user/load?${urlParam.toString()}` , {method: 'GET'})
     }
     
 }

@@ -53,12 +53,12 @@ public class PlayerService(
     public PlayerProfileResponse GetPlayerProfile(Guid playerUid)
     {
         Player? player = playerDataAccess.GetPlayer(playerUid);
-        if (player is null)
+        if (player is null || player.Id is null)
         {
             throw new DataNotFoundException($"Player {playerUid} not found");
         }
         
-        List<GameSession> ongoingUnlimitedGames = gameDataAccess.GetOngoingUnlimitedGamesForPlayer(playerUid);
+        List<GameSession> ongoingUnlimitedGames = gameDataAccess.GetOngoingUnlimitedGamesForPlayer(player.Id.Value);
         GameSession? latestUnlimited = ongoingUnlimitedGames.MaxBy(gs => gs.StartTime);
         GameSession? ongoingDaily = gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.Today, player.Id!.Value);
 
