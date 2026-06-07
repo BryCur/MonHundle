@@ -28,7 +28,7 @@ export function clearCookies() {
     const date = new Date();
     date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
 
-    for (const cookieKey in CookieKeys) {
+    for (const cookieKey of Object.values(CookieKeys)) {
         document.cookie = cookieKey+"=; expires="+date.toUTCString()+"; path=/";
     }
 }
