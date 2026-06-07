@@ -28,7 +28,7 @@ let  enableTableA11y = false;
 onMounted(async () => {
     ready.value = false;
 
-    enableTableA11y = Boolean(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY));
+    enableTableA11y = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";    
     let gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
     if(gameIdFromCookie){

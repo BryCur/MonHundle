@@ -28,8 +28,7 @@ let  enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
-    enableTableA11y = Boolean(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY));
-
+    enableTableA11y = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";
     let storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
     if (storedGameList === null) {
         router.push("/");
