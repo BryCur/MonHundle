@@ -859,19 +859,29 @@
       "monsterSelector": "Select a monster..."
     },
     "settings": {
+      "titles": {
+        "preferences": "Preferences",
+        "data": "Your data"
+      },
       "visualAccessibility": {
         "label": "Enable table visual accessibility",
-        "description": "changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
+        "description": "Changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
       },
       "gameList": {
-        "label": "Game list for unlimited play: {gameList} ({gameCount} titles)",
+        "shortLabel": "Game list for unlimited play: {gameList}",
+        "label": "Game list for unlimited play: {gameList}, ... ({gameCount} titles)",
         "button": "Change your game list",
         "description": "Fine tune your unlimited play experience by specifying the game you played. This will reduce the mystery monster and the guess option to the monster pool of all your games."
+      },
+      "savePreferences": {
+        "label": "Save your preferences",
+        "button": "Backup",
+        "description": "Your preferences are stored on your browser. If you play across multiple devices, you may save your preferences and they will be backed up along with your personal ID."
       },
       "copyUUID": {
         "label": "Get your identifier",
         "button": "Copy your UUID",
-        "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and history. Feel free to store this identifier and use it on other devices."
+        "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and preferences. Feel free to store this identifier and use it on other devices."
       },
       "setUUID": {
         "label": "Load your save",
@@ -880,7 +890,8 @@
         "description": "Loading your identifier will remove most data currently stored in this device, including unfinished games, preferences, and history."
       },
       "deleteUUID": {
-        "button": "Delete your data",
+        "label": "Delete your data",
+        "button": "Delete",
         "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new UUID will be attributed to the device."
       }
     }

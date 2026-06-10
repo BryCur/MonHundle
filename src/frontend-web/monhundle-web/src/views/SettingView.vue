@@ -76,41 +76,56 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     await settingsApi?.saveSettings(enableTableA11y.value, gameList);
 }
+
+function getGameListString() {
+    if(gameList.length < 4) {
+        return t('ui.settings.gameList.shortLabel', {gameList: gameList.join(', ')});
+    } else {
+        const displayedList = gameList.slice(0, 3);
+        return t('ui.settings.gameList.label', {gameList: displayedList.join(', '), gameCount: gameList.length});
+    }
+}
 </script>
 
 <template>
     <div class="setting-list">
-        <h2>Preferences</h2>
+        <h2>{{ $t('ui.settings.titles.preferences')}}</h2>
         <div class="setting-line">
-            <label>Enable visual accessibility</label>
+            <label>{{ $t('ui.settings.visualAccessibility.label')}}</label>
             <input @change="toggleA11y()" v-model="enableTableA11y" type="checkbox"/>
-            <span class="setting-description"> the table will be textured for colourblindess</span>
+            <span class="setting-description">{{ $t('ui.settings.visualAccessibility.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>gamelist for unlimited play: all (12 titles)</label>
-            <button @click="router.push(paths.selectGame)">change game list</button>
+            <label> {{ getGameListString() }}</label>
+            <button @click="router.push(paths.selectGame)"> {{ $t('ui.settings.gameList.button') }}</button>
+            <span class="setting-description">{{ $t('ui.settings.gameList.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>save preferences</label>
-            <button @click="savePreferenceToProfile()">Save</button>
+            <label> {{ $t('ui.settings.savePreferences.label') }}</label>
+            <button @click="savePreferenceToProfile()">{{ $t('ui.settings.savePreferences.button') }}</button>
+            <span class="setting-description">{{ $t('ui.settings.savePreferences.description') }}</span>
         </div>
     </div>
     <div class="setting-list">
-        <h2>Your data</h2>
+        <h2>{{ $t('ui.settings.titles.data')}}</h2>
         <div class="setting-line">
-            <label>Get your identifier</label>
-            <button @click="copyUUID()">copy your UUID</button>
+            <label>{{ $t('ui.settings.copyUUID.label')}}</label>
+            <button @click="copyUUID()">{{ $t('ui.settings.copyUUID.button')}}</button>
+            <span class="setting-description">{{ $t('ui.settings.copyUUID.description') }}</span>
+            
         </div>
         <div class="setting-line">
-            <label>load your identifier</label>
+            <label>{{ $t('ui.settings.setUUID.label')}}</label>
             <span class="composed-field">
-                <input type="text" v-model="inputUuid">
-                <button @click="loadUuid()">load</button>
+                <input type="text" v-model="inputUuid" :placeholder="t('ui.settings.setUUID.placeholder')">
+                <button @click="loadUuid()">{{ $t('ui.settings.setUUID.button') }}</button>
             </span>
+            <span class="setting-description">{{ $t('ui.settings.setUUID.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>Reset stored data</label>
-            <button @click="deleteStoredData()" class="danger">delete your data</button>
+            <label>{{ $t('ui.settings.deleteUUID.label')}}</label>
+            <button @click="deleteStoredData()" class="danger">{{ $t('ui.settings.deleteUUID.button')}}</button>
+            <span class="setting-description">{{ $t('ui.settings.deleteUUID.description') }}</span>
         </div>
     </div>
 </template>
@@ -132,8 +147,8 @@ async function savePreferenceToProfile() {
     .setting-line {
         display:grid;
         grid-template-columns: repeat(2, minmax(250px, 50%));
-        gap: 1rem none;
-        margin-bottom: 2vh;
+        gap: 0 1rem;
+        margin-bottom: 3vh;
         font-size: 1.1rem;
 
 
