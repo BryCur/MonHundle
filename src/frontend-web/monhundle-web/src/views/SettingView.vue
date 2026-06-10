@@ -72,6 +72,10 @@ function deleteStoredData() {
 
     location.reload();
 }
+
+async function savePreferenceToProfile() {
+    await settingsApi?.saveSettings(enableTableA11y.value, gameList);
+}
 </script>
 
 <template>
@@ -84,7 +88,11 @@ function deleteStoredData() {
             <label>gamelist for unlimited play: all (12 titles)</label>
             <RouterLink :to="paths.selectGame"><button>change game list</button></RouterLink>
         </div>
-        <div>
+        <div class="setting-line">
+            <label>save preferences</label>
+            <button @click="savePreferenceToProfile()">Save</button>
+        </div>
+        <div class="setting-line">
             <label>Get your identifier</label>
             <button @click="copyUUID()">copy your UUID</button>
         </div>
