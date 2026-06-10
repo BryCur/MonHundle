@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
-import { paths } from '@/router';
+import { paths, router } from '@/router';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { CookieKeys, getCookie, clearCookies, setCookie } from '@/services/CookieService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
@@ -80,33 +80,82 @@ async function savePreferenceToProfile() {
 
 <template>
     <div class="setting-list">
-        <div>
+        <h2>Preferences</h2>
+        <div class="setting-line">
             <label>Enable visual accessibility</label>
             <input @change="toggleA11y()" v-model="enableTableA11y" type="checkbox"/>
+            <span class="setting-description"> the table will be textured for colourblindess</span>
         </div>
-        <div>
+        <div class="setting-line">
             <label>gamelist for unlimited play: all (12 titles)</label>
-            <RouterLink :to="paths.selectGame"><button>change game list</button></RouterLink>
+            <button @click="router.push(paths.selectGame)">change game list</button>
         </div>
         <div class="setting-line">
             <label>save preferences</label>
             <button @click="savePreferenceToProfile()">Save</button>
         </div>
+    </div>
+    <div class="setting-list">
+        <h2>Your data</h2>
         <div class="setting-line">
             <label>Get your identifier</label>
             <button @click="copyUUID()">copy your UUID</button>
         </div>
-        <div>
+        <div class="setting-line">
             <label>load your identifier</label>
-            <input type="text" v-model="inputUuid">
-            <button @click="loadUuid()">load</button>
+            <span class="composed-field">
+                <input type="text" v-model="inputUuid">
+                <button @click="loadUuid()">load</button>
+            </span>
         </div>
-        <div>
-            <button @click="deleteStoredData()">delete your data</button>
+        <div class="setting-line">
+            <label>Reset stored data</label>
+            <button @click="deleteStoredData()" class="danger">delete your data</button>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 
+.setting-list {
+    min-width: 25vw;
+    width: 40vw;
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 5vh;
+
+    h2 {
+        font-weight: bold;
+        margin-bottom: 1vh;
+    }
+
+    .setting-line {
+        display:grid;
+        grid-template-columns: repeat(2, minmax(250px, 50%));
+        gap: 1rem none;
+        margin-bottom: 2vh;
+        font-size: 1.1rem;
+
+
+        .composed-field {
+            display:flex;
+            gap: 1vw;
+
+            input {
+                width: 75%
+            }
+
+            button {
+                min-width: 5vw;
+                width: 25%
+            }
+        }
+
+        .setting-description { 
+            grid-column: span 2;
+            font-size: .9rem;
+            font-style: italic;
+        }
+    }
+}
 </style>
