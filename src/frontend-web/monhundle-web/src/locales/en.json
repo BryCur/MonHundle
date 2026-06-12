@@ -880,19 +880,19 @@
       },
       "copyUUID": {
         "label": "Get your identifier",
-        "button": "Copy your UUID",
+        "button": "Copy your ID",
         "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and preferences. Feel free to store this identifier and use it on other devices."
       },
       "setUUID": {
         "label": "Load your save",
-        "placeholder": "Your UUID",
+        "placeholder": "Your ID",
         "button": "Load",
-        "description": "Loading your identifier will remove most data currently stored in this device, including unfinished games, preferences, and history."
+        "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history."
       },
       "deleteUUID": {
         "label": "Delete your data",
         "button": "Delete",
-        "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new UUID will be attributed to the device."
+        "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
       }
     }
   }
