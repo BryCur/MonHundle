@@ -7,9 +7,13 @@ import { GameStates } from "@/domain/enums/GameStates";
 import type Guess from "@/domain/Guess";
 import type GameStatus from "@/domain/GameStatus";
 
-vi.mock("@/services/CookieService", () => ({
-  setCookie: vi.fn(), // on fournit une fausse implémentation
-}));
+vi.mock("@/services/CookieService", async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        setCookie: vi.fn(), // on fournit une fausse implémentation
+    }
+});
 
 import { CookieKeys, setCookie } from "@/services/CookieService";
 
