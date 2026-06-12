@@ -11,7 +11,7 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const settingsApi = inject<SettingsApi>('settingsApi');
 
-let gameList: string[] = [];
+const gameList= ref<string[]>([]);
 const enableTableA11y = ref<boolean>(false);
 let currentUUID: string = "";
 const inputUuid = ref<string |null>(null)
@@ -19,10 +19,10 @@ const inputUuid = ref<string |null>(null)
 onMounted(async () => { 
     // load game list
     const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-    gameList = JSON.parse(storedGameList!) as string[];
+    gameList.value = JSON.parse(storedGameList!) as string[];
 
     // load current a11y conf
-    enableTableA11y.value = Boolean(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY) ?? false);
+    enableTableA11y.value = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";
 
     // get current UUID
     currentUUID = getCookie(CookieKeys.USER_ID) ?? "";
@@ -46,9 +46,12 @@ async function loadUuid() {
             await settingsApi?.loadUser(inputUuid.value);
             const userProfile = await settingsApi?.getProfile(inputUuid.value);
 
-            localStorage.setItem(LocalStorageKeys.GAME_LIST, userProfile?.gameList || "");
-            localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, String(userProfile?.enableTableVisualAid ||false));
+            localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(userProfile?.gameList ?? []));
+            gameList.value = userProfile?.gameList ?? [];
 
+            localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, String(userProfile?.enableTableVisualAid ||false));
+            enableTableA11y.value = userProfile?.enableTableVisualAid || false;
+            
             if(userProfile?.currentDailyGameUuid){
                 setCookie(CookieKeys.CURRENT_DAILY_GAME, userProfile?.currentDailyGameUuid, msUntilMidnightUTC());
             }
@@ -74,15 +77,15 @@ function deleteStoredData() {
 }
 
 async function savePreferenceToProfile() {
-    await settingsApi?.saveSettings(enableTableA11y.value, gameList);
+    await settingsApi?.saveSettings(enableTableA11y.value, gameList.value);
 }
 
 function getGameListString() {
-    if(gameList.length < 4) {
-        return t('ui.settings.gameList.shortLabel', {gameList: gameList.join(', ')});
+    if(gameList.value.length < 4) {
+        return t('ui.settings.gameList.shortLabel', {gameList: gameList.value.join(', ')});
     } else {
-        const displayedList = gameList.slice(0, 3);
-        return t('ui.settings.gameList.label', {gameList: displayedList.join(', '), gameCount: gameList.length});
+        const displayedList = gameList.value.slice(0, 3);
+        return t('ui.settings.gameList.label', {gameList: displayedList.join(', '), gameCount: gameList.value.length});
     }
 }
 </script>

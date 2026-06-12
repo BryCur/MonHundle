@@ -60,11 +60,11 @@ public class PlayerService(
         
         List<GameSession> ongoingUnlimitedGames = gameDataAccess.GetOngoingUnlimitedGamesForPlayer(player.Id.Value);
         GameSession? latestUnlimited = ongoingUnlimitedGames.MaxBy(gs => gs.StartTime);
-        GameSession? ongoingDaily = gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.Today, player.Id!.Value);
+        GameSession? ongoingDaily = gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player.Id!.Value);
 
         return new PlayerProfileResponse(
             player.JsonPreferences?.enableTableAccessibility ?? false,
-            String.Join(",", player.JsonPreferences?.gameList ?? []) ?? null,
+            player.JsonPreferences?.gameList ?? [],
             ongoingDaily?.GameUid.ToString() ?? null,
             latestUnlimited?.GameUid.ToString() ?? null
         );

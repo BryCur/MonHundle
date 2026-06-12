@@ -31,7 +31,7 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
             .FirstOrDefault(gs =>
                 gs.GameMode == GameModes.Daily  // daily mode
                 && gs.PlayerId == playerId // match player
-                && gs.StartTime.Date == date.Date // match date
+                && gs.StartTime.Date.Equals(date.Date) // match date
             );
     }
 

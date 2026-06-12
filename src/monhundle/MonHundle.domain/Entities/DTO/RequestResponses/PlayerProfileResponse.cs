@@ -5,7 +5,7 @@ namespace MonHundle.domain.Entities.DTO;
 public record PlayerProfileResponse
 (
     Boolean enableTableVisualAid,
-    string? gameList,
+    string[] gameList,
     string? currentDailyGameUuid,
     string? currentUnlimitedGameUuid
 );
