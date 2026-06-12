@@ -3,7 +3,7 @@
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
 import { paths, router } from '@/router';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
-import { CookieKeys, getCookie, clearCookies, setCookie } from '@/services/CookieService';
+import { CookieKeys, getCookie, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
@@ -43,6 +43,7 @@ async function loadUuid() {
         const isInputValid: boolean = await settingsApi?.validateUser(inputUuid.value) ?? false;
 
         if(isInputValid) {
+
             await settingsApi?.loadUser(inputUuid.value);
             const userProfile = await settingsApi?.getProfile(inputUuid.value);
 
@@ -51,13 +52,17 @@ async function loadUuid() {
 
             localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, String(userProfile?.enableTableVisualAid ||false));
             enableTableA11y.value = userProfile?.enableTableVisualAid || false;
-            
+
             if(userProfile?.currentDailyGameUuid){
                 setCookie(CookieKeys.CURRENT_DAILY_GAME, userProfile?.currentDailyGameUuid, msUntilMidnightUTC());
+            } else {
+                deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
             }
 
             if(userProfile?.currentUnlimitedGameUuid){
                 setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile?.currentUnlimitedGameUuid);
+            }else {
+                deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
             }
         } else {
             // TODO error management
@@ -70,7 +75,7 @@ async function loadUuid() {
 
 function deleteStoredData() {
     // delete local storage
-    localStorage.clear()
+    localStorage.clear();
     clearCookies();
 
     location.reload();
