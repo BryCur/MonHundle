@@ -7,11 +7,15 @@ import { GameStates } from "@/domain/enums/GameStates";
 import type Guess from "@/domain/Guess";
 import type GameStatus from "@/domain/GameStatus";
 
-vi.mock("@/services/CookieService", () => ({
-  setCookie: vi.fn(), // on fournit une fausse implémentation
-}));
+vi.mock("@/services/CookieService", async (importOriginal) => {
+    const actual = await importOriginal() as object;
+    return {
+        ...actual,
+        setCookie: vi.fn(), // on fournit une fausse implémentation
+    }
+});
 
-import { setCookie } from "@/services/CookieService";
+import { CookieKeys, setCookie } from "@/services/CookieService";
 
 const mockedGameApi = {
     newGame: vi.fn(),
@@ -46,7 +50,7 @@ describe("GameService", () => {
         expect(gameId).toStrictEqual(testGameId);
         expect(mockedGameApi.newGame).toHaveBeenCalled();
         expect(mockedGameStore.setGame).toHaveBeenCalled();
-        expect(setCookie).toHaveBeenCalledWith("currentUnlimitedGame", testGameId);
+        expect(setCookie).toHaveBeenCalledWith(CookieKeys.CURRENT_UNLIMITED_GAME, testGameId);
     });
 
     it("should send the guess and update the store", async () =>{
@@ -85,7 +89,7 @@ describe("GameService", () => {
         expect(result).toBeTruthy();
         expect(mockedGameApi.resumeGame).toHaveBeenCalledWith(testGid);
         expect(mockedGameStore.setGame).toHaveBeenCalledWith(testGame as GameStatus);
-        expect(setCookie).toHaveBeenCalledWith("currentUnlimitedGame", testGid);
+        expect(setCookie).toHaveBeenCalledWith(CookieKeys.CURRENT_UNLIMITED_GAME, testGid);
     });
 
     it("should return false if no game found", async () =>{

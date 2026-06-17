@@ -31,7 +31,7 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
             .FirstOrDefault(gs =>
                 gs.GameMode == GameModes.Daily  // daily mode
                 && gs.PlayerId == playerId // match player
-                && gs.StartTime.Date == date.Date // match date
+                && gs.StartTime.Date.Equals(date.Date) // match date
             );
     }
 
@@ -56,6 +56,15 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         return p.Value;
         
     }
-    
-    
+
+    public List<GameSession> GetOngoingUnlimitedGamesForPlayer(int playerId)
+    {
+        return dbContext.GameSessions
+            .Where(gs => 
+                gs.PlayerId.Equals(playerId) 
+                && gs.State.Equals(nameof(GameStates.Ongoing))
+                && gs.GameMode == GameModes.Unlimited
+            )
+            .ToList();
+    }
 }

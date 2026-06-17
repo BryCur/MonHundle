@@ -13,7 +13,8 @@ public class WebApplicationWithMockFactory : WebApplicationFactory<Program>
 {
     public Mock<IGameService> GameServiceMock { get; } = new();
     public Mock<IMonsterService> MonsterServiceMock { get; } = new();
-    public Mock<IPlayerDataAccess> MockPlayerAccess { get; } = new();
+    public Mock<IPlayerDataAccess> PlayerAccessMock { get; } = new();
+    public Mock<IPlayerService> PlayerServiceMock { get; } = new();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -24,7 +25,9 @@ public class WebApplicationWithMockFactory : WebApplicationFactory<Program>
             s.RemoveAll(typeof(IMonsterService));
             s.AddScoped(_ => MonsterServiceMock.Object);            
             s.RemoveAll(typeof(IPlayerDataAccess));
-            s.AddScoped(_ => MockPlayerAccess.Object);
+            s.AddScoped(_ => PlayerAccessMock.Object);
+            s.RemoveAll(typeof(IPlayerService));
+            s.AddScoped(_ => PlayerServiceMock.Object);
         });
     }
 }

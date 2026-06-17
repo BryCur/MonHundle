@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from 'vue';
-import { getCookie } from '../services/CookieService';
+import { CookieKeys, getCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
 import type { DailyGameService, UnlimitedGameService } from '../services/GameService';
@@ -9,6 +9,7 @@ import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { LocalStorageKeys } from '@/services/LocalStorageService';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
@@ -27,8 +28,8 @@ let  enableTableA11y = false;
 onMounted(async () => {
     ready.value = false;
 
-    enableTableA11y = Boolean(localStorage.getItem("enableTableVisualA11y"));
-    let gameIdFromCookie = getCookie("currentDailyGame");
+    enableTableA11y = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";    
+    let gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
     if(gameIdFromCookie){
         await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {

@@ -29,7 +29,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     {
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions() {AllowAutoRedirect = false});
         _gameServiceMock = factory.GameServiceMock;
-        _playerDataAccess = factory.MockPlayerAccess;
+        _playerDataAccess = factory.PlayerAccessMock;
         _monsterServiceMock = factory.MonsterServiceMock;
         
         _playerDataAccess.Setup(mock => mock.GetPlayer(It.IsAny<Guid>()))

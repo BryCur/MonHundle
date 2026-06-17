@@ -1,6 +1,7 @@
 import AboutView from '@/views/AboutView.vue'
 import UnlimitedGameView from '@/views/UnlimitedGameView.vue'
 import SelectGamesView from '@/views/SelectGamesView.vue'
+import SettingsView from '@/views/SettingView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import DailyGameView from '@/views/DailyGameView.vue'
 
@@ -10,7 +11,8 @@ export const paths = {
   unlimited: '/unlimited',
   selectGame: '/',
   daily: '/daily',
-  about: '/about'
+  about: '/about',
+  settings: '/settings'
 }
 
 export const router = createRouter({
@@ -38,6 +40,12 @@ export const router = createRouter({
       name: `${SiteName}: about`,
 
       component: AboutView,
+    },
+    {
+      path: paths.settings,
+      name: `${SiteName}: Settings`,
+
+      component: SettingsView,
     },
   ],
 })

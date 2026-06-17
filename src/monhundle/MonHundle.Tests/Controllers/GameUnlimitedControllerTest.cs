@@ -26,7 +26,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     {
         _client = factory.CreateClient();
         _gameServiceMock = factory.GameServiceMock;
-        _playerDataAccess = factory.MockPlayerAccess;
+        _playerDataAccess = factory.PlayerAccessMock;
         
         _playerDataAccess.Setup(mock => mock.GetPlayer(It.IsAny<Guid>()))
             .Returns(_currentPlayer);

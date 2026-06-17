@@ -16,6 +16,7 @@ import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi'
 import ResourceApi from './services/ApiService/ResourceApi'
 import { useGameStore } from './stores/GameStore'
 import { DailyGameApi } from './services/ApiService/DailyGameApi'
+import { SettingsApi } from '@/services/ApiService/SettingApi.ts';
 
 const i18n = createI18n({
     legacy: false,
@@ -38,6 +39,7 @@ const dailyGameApi = new DailyGameApi();
 const dailyGameService = new DailyGameService(dailyGameApi, gameStore);
 
 const resourceApi = new ResourceApi();
+const settingsApi = new SettingsApi();
 
 new UserApi().authUser();
 
@@ -46,5 +48,6 @@ app.use(i18n);
 app.provide("unlimitedGameService", unlimitedGameService);
 app.provide("dailyGameService", dailyGameService);
 app.provide("resourceApi", resourceApi);
+app.provide("settingsApi", settingsApi);
 
 app.mount('#app');
