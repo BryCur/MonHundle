@@ -67,10 +67,10 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     {
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
-            .Returns(() => null);
+            .Returns(Task.FromResult((Game?)null));
         _gameServiceMock.Setup(g => g.CreateGame(GameModes.Daily, _currentPlayer, defaultMonster))
             .Returns(new Game() {Id = Guid.NewGuid(), Answer = defaultMonster});
-        _monsterServiceMock.Setup(m => m.getDailyMonster(It.IsAny<DateTime>())).Returns(defaultMonster);
+        _monsterServiceMock.Setup(m => m.getDailyMonster(It.IsAny<DateTime>())).Returns(Task.FromResult(defaultMonster));
 
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/daily/start");
         var response = await _client.SendAsync(request);
@@ -86,10 +86,10 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         Game existingFromYesterday = new Game() { Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Today.AddDays(-1) };
         _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
-            .Returns(() => existingFromYesterday);
+            .Returns(Task.FromResult(existingFromYesterday));
         _gameServiceMock.Setup(g => g.CreateGame(GameModes.Daily, _currentPlayer, defaultMonster))
             .Returns(new Game() {Id = Guid.NewGuid(), Answer = defaultMonster});
-        _monsterServiceMock.Setup(m => m.getDailyMonster(It.IsAny<DateTime>())).Returns(defaultMonster);
+        _monsterServiceMock.Setup(m => m.getDailyMonster(It.IsAny<DateTime>())).Returns(Task.FromResult(defaultMonster));
 
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/daily/start");
         var response = await _client.SendAsync(request);
@@ -106,7 +106,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
         GuessableMonster defaultMonster  = getDefaultGuessableMonster();
         Game existingToday = new Game() {Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Now};
         _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
-            .Returns(() => existingToday);
+            .Returns(Task.FromResult(existingToday));
         
         var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/daily/start");
         var response = await _client.SendAsync(request);
@@ -120,7 +120,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     [Fact]
     public async Task GameController_get_game_returns_404_on_non_existing_uuid()
     {
-        _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).Returns((Game?)null);
+        _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).Returns(Task.FromResult((Game?)null));
         
         var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/daily/resume/{Guid.NewGuid().ToString()}");
         var response = await _client.SendAsync(request);
@@ -132,7 +132,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     public async Task GameController_get_game_returns_game_from_guid()
     {
         Game game = new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()};
-        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(game);
+        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(Task.FromResult(game));
         
         var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/daily/resume/{game.Id}");
         var response = await _client.SendAsync(request);

@@ -30,12 +30,12 @@ public class GameService : IGameService
      * <param name="player"> Player starting the game </param>
      * <returns> "bare" Game object with a newly created identifier </returns>
      */
-    public Game CreateUnlimitedGameSessionWithRandomMonster(Player player)
+    public async Task<Game> CreateUnlimitedGameSessionWithRandomMonster(Player player)
     {
         Game game = new Game
         {
             Id = Guid.NewGuid(), 
-            Answer = _monsterService.getRandomMonster(),
+            Answer = await _monsterService.getRandomMonster(),
             GameMode = GameModes.Unlimited,
             PlayerId = player.PlayerUid,
             StartTime = DateTime.Now,
@@ -71,7 +71,7 @@ public class GameService : IGameService
      * <param name="guess"> Monster data of the guess made </param>
      * <returns>Structure containing the necessary information to update client on the game state</returns>
      */
-    public (MonsterGuessDTO, GameStates) MakeGuess(Guid gameId, GuessableMonster guess, Player player)
+    public async Task<(MonsterGuessDTO, GameStates)> MakeGuess(Guid gameId, GuessableMonster guess, Player player)
     {
         if (!player.Id.HasValue)
         {
@@ -80,7 +80,7 @@ public class GameService : IGameService
         }
         
         GameSession game = _gameDataAccess.GetGame(gameId, player.Id.Value);
-        GuessableMonster answerMonster = _monsterService.getMonsterFromId(game.AnswerMonsterId);
+        GuessableMonster answerMonster = await _monsterService.getMonsterFromId(game.AnswerMonsterId);
         MonsterComparisonResult comparisonResult = answerMonster.compareTo(guess);
 
         GameStates stateAfterGuess = GetGameStateAfterGuess(game, guess);
@@ -98,7 +98,7 @@ public class GameService : IGameService
         return (monsterGuessDto, stateAfterGuess);
     }
 
-    public Game? ResumeGame(Guid gameId, Player player)
+    public async Task<Game?> ResumeGame(Guid gameId, Player player)
     {
         if (!player.Id.HasValue)
         {
@@ -107,7 +107,7 @@ public class GameService : IGameService
         }
         
         GameSession gameData = _gameDataAccess.GetGame(gameId, player.Id.Value);
-        GuessableMonster answer = _monsterService.getMonsterFromId(gameData.AnswerMonsterId);
+        GuessableMonster answer = await _monsterService.getMonsterFromId(gameData.AnswerMonsterId);
 
         return GameSessionMapper.ToDto(gameData, player, answer);
     }
@@ -149,7 +149,7 @@ public class GameService : IGameService
         _gameDataAccess.SaveGame(game);
     }
 
-    public Game? GetDailyGameForPlayerAtDate(DateTime date, Player player)
+    public async Task<Game?> GetDailyGameForPlayerAtDate(DateTime date, Player player)
     {
         if (!player.Id.HasValue)
         {
@@ -164,7 +164,7 @@ public class GameService : IGameService
             return null;
         }
         
-        GuessableMonster answer = _monsterService.getMonsterFromId(session.AnswerMonsterId);
+        GuessableMonster answer = await _monsterService.getMonsterFromId(session.AnswerMonsterId);
         
         return GameSessionMapper.ToDto(session, player, answer);
     }

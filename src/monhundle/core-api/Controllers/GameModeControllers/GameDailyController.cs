@@ -28,10 +28,10 @@ public class GameDailyController : ControllerBase
     }
 
     [HttpPost("start")]
-    public IActionResult StartGame()
+    public async Task<IActionResult> StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game? todaysGame = _gameService.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player);
+        Game? todaysGame = await _gameService.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player);
 
         if (todaysGame != null && todaysGame.StartTime.Date.Equals(DateTime.Today.Date))
         {
@@ -39,7 +39,7 @@ public class GameDailyController : ControllerBase
             return Conflict(todaysGame.Id.ToString());
         }
         
-        GuessableMonster dailyMonster = _monsterService.getDailyMonster(DateTime.UtcNow);
+        GuessableMonster dailyMonster = await _monsterService.getDailyMonster(DateTime.UtcNow);
         Game newGame = _gameService.CreateGame(GameModes.Daily, player, dailyMonster);
         
         // return game ID
@@ -48,10 +48,10 @@ public class GameDailyController : ControllerBase
     }
 
     [HttpGet("resume/{gameId:guid}")]
-    public IActionResult ResumeOngoingGame(Guid gameId)
+    public async Task<IActionResult> ResumeOngoingGame(Guid gameId)
     {
         Player player = GetPlayerFromContext();
-        Game? game = _gameService.ResumeGame(gameId, player);
+        Game? game = await _gameService.ResumeGame(gameId, player);
         
         if (game == null)
         {
@@ -67,13 +67,13 @@ public class GameDailyController : ControllerBase
     }
 
     [HttpPost("guess")]
-    public IActionResult MakeGuess([FromBody] MakeGuessBody body)
+    public async Task<IActionResult> MakeGuess([FromBody] MakeGuessBody body)
     {
-        GuessableMonster guess = _monsterService.getMonsterFromCode(body.guessId) ??
+        GuessableMonster guess = await _monsterService.getMonsterFromCode(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
         Player player = GetPlayerFromContext();
-        (MonsterGuessDTO resp, GameStates stateAfterGuess) = _gameService.MakeGuess(body.gameId, guess, player);
+        (MonsterGuessDTO resp, GameStates stateAfterGuess) = await _gameService.MakeGuess(body.gameId, guess, player);
         
         return Ok(new GuessResponse(
             resp.MonsterCode,

@@ -15,9 +15,10 @@ public class DailyGameManagementService(ILogger<DailyGameManagementService> _log
             .ToList();
     }
 
-    public int PickRandomMonsterWithBlacklist(List<int> monsterIdsBlacklist)
+    public async Task<int> PickRandomMonsterWithBlacklist(List<int> monsterIdsBlacklist)
     {
-        List<int> eligibleMonsters = monsterDataAccess.GetAllGuessableMonsterIds().Except(monsterIdsBlacklist).ToList();
+        List<int> allMonsters = await monsterDataAccess.GetAllGuessableMonsterIds();
+        List<int> eligibleMonsters = allMonsters.Except(monsterIdsBlacklist).ToList();
         if (eligibleMonsters.Count < 1)
         {
             _logger.LogError("Tried to pick a random monster, but list was empty after blacklisted monsters exlusion. {blacklisted}", monsterIdsBlacklist);

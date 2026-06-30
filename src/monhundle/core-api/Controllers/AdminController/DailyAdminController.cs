@@ -34,10 +34,10 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
      * chosen, using the answer of the previous days to influence the pool of possible answer
      */
     [HttpPost("generate-answer")]
-    public IActionResult GenerateDailyGameAnswerForDate([FromQuery] DateTime date)
+    public async Task<IActionResult> GenerateDailyGameAnswerForDate([FromQuery] DateTime date)
     {
         List<int> previousAnswers = dailyService.GetLastDailyGameMonstersByDays(DAYS_TO_REWIND);
-        int proposedAnswer = dailyService.PickRandomMonsterWithBlacklist(previousAnswers);
+        int proposedAnswer = await dailyService.PickRandomMonsterWithBlacklist(previousAnswers);
         
         return AttemptUpsertDailyGame(date, proposedAnswer);
     }

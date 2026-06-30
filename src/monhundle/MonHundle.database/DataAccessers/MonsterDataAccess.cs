@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCoreSecondLevelCacheInterceptor;
+using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
@@ -7,60 +8,61 @@ namespace MonHundle.database.DataAccessers;
 
 public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
 {
-    public List<GuessableMonster> GetGuessableMonsterPoolFromGame(String GameCode)
+    public async Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String GameCode)
     {
-        var guessableMonsterPool = dbContext.GuessableMonsters
-            .ToList()
+        return await dbContext.GuessableMonsters
             .Where(gm => gm.GamesList.Contains(GameCode))
+            .Select(m => GuessableMonster.FromData(m))
+            .ToListAsync()
             ;
-        
-        return guessableMonsterPool.Select(m => GuessableMonster.FromData(m)).ToList();
     }
     
-    public GuessableMonster GetGuessableMonsterFromCode(String monsterCode)
+    public async Task<GuessableMonster> GetGuessableMonsterFromCode(String monsterCode)
     {
-        var guessableMonsterData = dbContext.GuessableMonsters
-            .First(gm => gm.MonsterCode.Equals(monsterCode));
+        var guessableMonsterData = await dbContext.GuessableMonsters
+            .Where(gm => gm.MonsterCode.Equals(monsterCode))
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
+            .FirstAsync();
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
     
-    public GuessableMonster? GetGuessableMonsterFromId(int monsterId)
+    public async Task<GuessableMonster?> GetGuessableMonsterFromId(int monsterId)
     {
-        var guessableMonsterData = dbContext.GuessableMonsters
-            .First(gm => gm.MonsterId.Equals(monsterId));
+        var guessableMonsterData = await dbContext.GuessableMonsters
+            .Where(gm => gm.MonsterId.Equals(monsterId))
+            .FirstAsync();
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
 
-    public List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes)
+    public async Task<List<String>> GetGuessableMonsterChoicesFromGames(String[] GameCodes)
     {
         Boolean getAllMonsters = GameCodes.Length < 1;
         
-        var guessableMonsterPool = dbContext.GuessableMonsters
-                .ToList()
+        return await dbContext.GuessableMonsters
                 .Where(gm => getAllMonsters || gm.GamesList.Any( g => GameCodes.Contains(g)))
                 .Select(monster => monster.MonsterCode)
+                .ToListAsync()
             ;
-        return guessableMonsterPool.ToList();
     }
 
-    public GuessableMonster? GetDailyGuessableMonster(DateTime date)
+    public async Task<GuessableMonster?> GetDailyGuessableMonster(DateTime date)
     {
         DateTime justDate = date.Date;
-        GuessableMonsterData? monster = dbContext.Set<DailyMonsterData>()
+        GuessableMonsterData? monster = await dbContext.Set<DailyMonsterData>()
             .Include(dm => dm.monsterData)
             .Where(dm => dm.Date == justDate)
             .Select(dm=> dm.monsterData)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
         
         return monster == null ? null: GuessableMonster.FromData(monster);
     }
 
-    public List<int> GetAllGuessableMonsterIds()
+    public async Task<List<int>> GetAllGuessableMonsterIds()
     {
-        return dbContext.GuessableMonsters
+        return await dbContext.GuessableMonsters
             .Select(m => m.MonsterId)
-            .ToList();
+            .ToListAsync();
     }
 }

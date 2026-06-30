@@ -9,10 +9,10 @@ namespace MonHundle.domain.Services;
 
 public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess monsterDataAccess) : IMonsterService
 {
-    public GuessableMonster getRandomMonster()
+    public async Task<GuessableMonster> getRandomMonster()
     {
         String forcedGame = "MHWilds"; // until more games are ready
-        var monsterList = monsterDataAccess.GetGuessableMonsterPoolFromGame(forcedGame);
+        var monsterList = await monsterDataAccess.GetGuessableMonsterPoolFromGame(forcedGame);
 
         if (monsterList is null || monsterList.Count < 1)
         {
@@ -25,9 +25,9 @@ public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess m
 
     }
 
-    public GuessableMonster getDailyMonster(DateTime date)
+    public async Task<GuessableMonster> getDailyMonster(DateTime date)
     {
-        GuessableMonster monsterForDate = monsterDataAccess.GetDailyGuessableMonster(date);
+        GuessableMonster monsterForDate = await monsterDataAccess.GetDailyGuessableMonster(date);
 
         if (monsterForDate is null)
         {
@@ -38,18 +38,18 @@ public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess m
         return monsterForDate;
     }
 
-    public GuessableMonster? getMonsterFromCode(string code)
+    public async Task<GuessableMonster?> getMonsterFromCode(string code)
     {
-        return monsterDataAccess.GetGuessableMonsterFromCode(code);
+        return await monsterDataAccess.GetGuessableMonsterFromCode(code);
     }
     
-    public GuessableMonster getMonsterFromId(int id)
+    public async Task<GuessableMonster> getMonsterFromId(int id)
     {
-        return monsterDataAccess.GetGuessableMonsterFromId(id) ?? throw new DataNotFoundException($"Could not find monster with id {id}");
+        return await monsterDataAccess.GetGuessableMonsterFromId(id) ?? throw new DataNotFoundException($"Could not find monster with id {id}");
     }
 
-    public List<String> getMonsterChoicesFromGames(string[] gameTitles)
+    public async Task<List<String>> getMonsterChoicesFromGames(string[] gameTitles)
     {
-        return monsterDataAccess.GetGuessableMonsterChoicesFromGames(gameTitles);
+        return await monsterDataAccess.GetGuessableMonsterChoicesFromGames(gameTitles);
     }
 }
