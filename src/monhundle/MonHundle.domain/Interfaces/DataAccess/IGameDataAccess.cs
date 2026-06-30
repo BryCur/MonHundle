@@ -2,7 +2,7 @@
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Enums;
 
-namespace MonHundle.database.Interfaces.DataAccess;
+namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IGameDataAccess
 {

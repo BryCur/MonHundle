@@ -1,9 +1,9 @@
-﻿using MonHundle.database.Interfaces.DataAccess;
-using MonHundle.domain.Entities;
+﻿using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.Mappers;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Exceptions.DAL;
+using MonHundle.domain.Interfaces.DataAccess;
 
 namespace MonHundle.database.DataAccessers;
 
