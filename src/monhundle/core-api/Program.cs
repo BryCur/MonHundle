@@ -1,13 +1,8 @@
 using core_api.Filters;
 using core_api.Middlewares;
-using Microsoft.EntityFrameworkCore;
 using MonHundle.database;
-using MonHundle.database.DataAccessers;
-using MonHundle.database.Interfaces.DataAccess;
-using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
-using Npgsql;
 using Serilog;
 
 namespace core_api;
@@ -27,14 +22,7 @@ public class Program
             builder.Configuration["DB_PWD"]
         );
         
-        builder.Services.AddDbContext<AppDbContext>(options =>
-        {
-            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-            dataSourceBuilder.EnableDynamicJson(); // allows dynamic parsing of json data
-            var dataSource = dataSourceBuilder.Build();
-
-            options.UseNpgsql(dataSource);
-        });
+        builder.Services.AddDataAccessLayer(connectionString);
         
         // logger configuration
         Log.Logger = new LoggerConfiguration()
@@ -56,12 +44,7 @@ public class Program
         builder.Services.AddScoped<IMonsterService, MonsterService>();
         builder.Services.AddScoped<IPlayerService, PlayerService>();
         builder.Services.AddScoped<IDailyGameManagementService, DailyGameManagementService>();
-        builder.Services.AddScoped<IMonsterDataAccess, MonsterDataAccess>();
         builder.Services.AddScoped<IGameTitleService, GameTitleService>();
-        builder.Services.AddScoped<IGameTitleDataAccess, GameTitleDataAccess>();
-        builder.Services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
-        builder.Services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
-        builder.Services.AddScoped<IDailyGameManagementDataAccess, DailyGameManagementDataAccess>();
         builder.Services.AddScoped<ValidateUserFilter>();
         builder.Services.AddScoped<ManagementAuthFilter>();
     
