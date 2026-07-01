@@ -13,6 +13,7 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         return await dbContext.GuessableMonsters
             .Where(gm => gm.GamesList.Contains(GameCode))
             .Select(m => GuessableMonster.FromData(m))
+            .Cacheable(CacheExpirationMode.Absolute,  TimeSpan.FromHours(1))
             .ToListAsync()
             ;
     }
@@ -31,6 +32,7 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
     {
         var guessableMonsterData = await dbContext.GuessableMonsters
             .Where(gm => gm.MonsterId.Equals(monsterId))
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
             .FirstAsync();
         
         return GuessableMonster.FromData(guessableMonsterData);
@@ -43,6 +45,7 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         return await dbContext.GuessableMonsters
                 .Where(gm => getAllMonsters || gm.GamesList.Any( g => GameCodes.Contains(g)))
                 .Select(monster => monster.MonsterCode)
+                .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
                 .ToListAsync()
             ;
     }
@@ -54,6 +57,7 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
             .Include(dm => dm.monsterData)
             .Where(dm => dm.Date == justDate)
             .Select(dm=> dm.monsterData)
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
             .FirstOrDefaultAsync();
         
         return monster == null ? null: GuessableMonster.FromData(monster);
@@ -63,6 +67,7 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
     {
         return await dbContext.GuessableMonsters
             .Select(m => m.MonsterId)
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
             .ToListAsync();
     }
 }

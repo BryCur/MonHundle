@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCoreSecondLevelCacheInterceptor;
+using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.Mappers;
@@ -50,6 +51,7 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         int? p = await dbContext.Players
             .Where(p => p.PlayerUid.Equals(guid))
             .Select(p => p.Id)
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromMinutes(10))
             .FirstOrDefaultAsync();
         
         if (!p.HasValue)

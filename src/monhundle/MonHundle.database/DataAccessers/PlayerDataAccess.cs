@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCoreSecondLevelCacheInterceptor;
+using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 
@@ -22,6 +23,7 @@ public class PlayerDataAccess(AppDbContext dbContext): IPlayerDataAccess
     {
         return await dbContext.Players
             .Where(p => playerId.Equals(p.PlayerUid))
+            .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromMinutes(10))
             .FirstOrDefaultAsync(); 
     }
 }
