@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
 
@@ -8,9 +9,11 @@ public class DailyGameManagementService(ILogger<DailyGameManagementService> _log
     IDailyGameManagementDataAccess dailygameManagementDataAccess,
     IMonsterDataAccess monsterDataAccess) : IDailyGameManagementService
 {
-    public List<int> GetLastDailyGameMonstersByDays(int days)
+    public async Task<List<int>> GetLastDailyGameMonstersByDays(int days)
     {
-        return dailygameManagementDataAccess.GetLastDailyGamesByDays(days)
+        List<DailyMonsterData> LastDailyGame = await dailygameManagementDataAccess.GetLastDailyGamesByDays(days);
+        
+        return LastDailyGame
             .Select(dg => dg.MonsterId)
             .ToList();
     }
@@ -34,14 +37,14 @@ public class DailyGameManagementService(ILogger<DailyGameManagementService> _log
      * fail if game sessions for daily mode were already created for the specified
      * date with a ForbiddenOperationException. 
      */
-    public void InsertDailyGame(DateTime date, int monsterId)
+    public async Task InsertDailyGame(DateTime date, int monsterId)
     {
         _logger.LogInformation("Inserting daily game {date}, {mId}", date, monsterId);
-        dailygameManagementDataAccess.UpsertDailyGame(date, monsterId);
+        await dailygameManagementDataAccess.UpsertDailyGame(date, monsterId);
     }
 
-    public DateTime GetLastDailyGameDate()
+    public async Task<DateTime> GetLastDailyGameDate()
     {
-        return dailygameManagementDataAccess.GetLastDailyGameDate();
+        return await dailygameManagementDataAccess.GetLastDailyGameDate();
     }
 }
