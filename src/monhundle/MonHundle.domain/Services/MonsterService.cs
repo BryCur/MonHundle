@@ -27,7 +27,7 @@ public class MonsterService(ILogger<MonsterService> logger, IMonsterDataAccess m
 
     public async Task<GuessableMonster> getDailyMonster(DateTime date)
     {
-        GuessableMonster monsterForDate = await monsterDataAccess.GetDailyGuessableMonster(date);
+        GuessableMonster? monsterForDate = await monsterDataAccess.GetDailyGuessableMonster(date);
 
         if (monsterForDate is null)
         {
