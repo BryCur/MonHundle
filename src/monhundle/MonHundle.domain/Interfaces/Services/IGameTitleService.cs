@@ -2,5 +2,5 @@
 
 public interface IGameTitleService
 {
-    List<String> GetAllGameTitles();
+    Task<List<String>> GetAllGameTitles();
 }

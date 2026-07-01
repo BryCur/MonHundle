@@ -17,9 +17,9 @@ public class ResourceController : ControllerBase
     }
     
     [HttpGet("game-titles")]
-    public IActionResult GetGameTitles()
+    public async Task<IActionResult> GetGameTitles()
     {
-        return Ok(_gameTitleService.GetAllGameTitles());
+        return Ok(await _gameTitleService.GetAllGameTitles());
     }
 
     [HttpGet("monster-choices")]
