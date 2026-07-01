@@ -14,16 +14,22 @@ public static class DataAccessServiceCollectionExtensions
     public static IServiceCollection AddDataAccessLayer(this IServiceCollection services, string connectionString)
     {
         services.AddEFSecondLevelCache(options =>
-            options.UseMemoryCacheProvider()
+            options
+                .UseMemoryCacheProvider()
+                .UseCacheKeyPrefix(DatabaseCacheService.CachePrefix)
+                // .ConfigureLogging(enable: true)
         );
 
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
+            // var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
             dataSourceBuilder.EnableDynamicJson();
             var dataSource = dataSourceBuilder.Build();
 
             options.UseNpgsql(dataSource)
+                // .UseLoggerFactory(loggerFactory)
                 .AddInterceptors(sp.GetRequiredService<SecondLevelCacheInterceptor>());
         });
 

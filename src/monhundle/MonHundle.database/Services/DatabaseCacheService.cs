@@ -10,13 +10,15 @@ public enum DbCacheKeys
 }
 public class DatabaseCacheService(IEFCacheServiceProvider cacheServiceProvider) : IDatabaseCacheService
 {
+    public const string CachePrefix = "EF_"; 
+
     public static readonly Dictionary<CachedTables, string> AvailableTables = new()
     {
-        { CachedTables.Games, "Games" },
-        { CachedTables.GuessableMonsters, "GuessableMonsters" },
-        { CachedTables.GameSessions, "GameSessions" },
-        { CachedTables.Players, "Players" },
-        { CachedTables.DailyMonsters, "DailyMonsters" },
+        { CachedTables.Games, $"{CachePrefix}Games" },
+        { CachedTables.GuessableMonsters, $"{CachePrefix}GuessableMonsters" },
+        { CachedTables.GameSessions, $"{CachePrefix}GameSessions" },
+        { CachedTables.Players, $"{CachePrefix}Players" },
+        { CachedTables.DailyMonsters, $"{CachePrefix}DailyMonsters" },
     };
 
 
