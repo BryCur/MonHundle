@@ -81,11 +81,11 @@ public class GameServiceTest
         };
         
         _gameDataAccessMock.Setup(mock => mock.GetGame(currentGame.GameUid, _currentPlayer.Id!.Value))
-            .Returns(Task.FromResult(currentGame));
+            .ReturnsAsync(currentGame);
         _gameDataAccessMock.Setup(mock => mock.SaveGame(It.IsAny<GameSession>()))
             .Callback<GameSession>(gameParam => gameAfterGuess = gameParam); // intercept the parameter from the saveGame
         _monsterServiceMock.Setup(mock => mock.getMonsterFromId(currentGame.AnswerMonsterId))
-            .Returns(Task.FromResult(guess));
+            .ReturnsAsync(guess);
         
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
@@ -113,9 +113,9 @@ public class GameServiceTest
         GuessableMonster guess = GetDefaultGuessableMonster();
         
         _gameDataAccessMock.Setup(mock => mock.GetGame(currentGame.GameUid, _currentPlayer.Id!.Value))
-            .Returns(Task.FromResult(currentGame));
+            .ReturnsAsync(currentGame);
         _monsterServiceMock.Setup(mock => mock.getMonsterFromId(currentGame.AnswerMonsterId))
-            .Returns(Task.FromResult(guess));
+            .ReturnsAsync(guess);
         
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         (MonsterGuessDTO guessResult, GameStates stateAfterGuess) = await service.MakeGuess(currentGame.GameUid, guess, _currentPlayer);

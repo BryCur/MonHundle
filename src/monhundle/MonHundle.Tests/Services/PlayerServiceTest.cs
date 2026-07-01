@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.JsonStructs;
@@ -32,7 +31,7 @@ public class PlayerServiceTest
     {
         Player player = new Player() {PlayerUid = Guid.NewGuid()};
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
-            .Returns(Task.FromResult(player));
+            .ReturnsAsync(player);
         _playerDataAccess.Setup(pda => pda.UpdatePlayer(player));
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
@@ -69,7 +68,7 @@ public class PlayerServiceTest
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid))
-            .Returns(Task.FromResult(new Player() { PlayerUid = missingUid, Id = null}));
+            .ReturnsAsync(new Player() { PlayerUid = missingUid, Id = null});
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
@@ -89,13 +88,13 @@ public class PlayerServiceTest
         };
         
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
-            .Returns(Task.FromResult(player));
+            .ReturnsAsync(player);
         _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(player.Id.Value))
-            .Returns(Task.FromResult(new List<GameSession>() {
+            .ReturnsAsync(new List<GameSession>() {
                new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) } 
-            }));
+            });
         _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), player.Id.Value))
-            .Returns(Task.FromResult(new GameSession() {GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing)}));
+            .ReturnsAsync(new GameSession() {GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing)});
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         

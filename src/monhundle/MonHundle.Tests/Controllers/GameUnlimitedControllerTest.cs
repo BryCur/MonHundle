@@ -29,7 +29,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         _playerDataAccess = factory.PlayerAccessMock;
         
         _playerDataAccess.Setup(mock => mock.GetPlayer(It.IsAny<Guid>()))
-            .Returns(Task.FromResult((Player?)_currentPlayer));
+            .ReturnsAsync(_currentPlayer);
     }
 
     private HttpRequestMessage GetRequestWithAuthHeader(HttpMethod method, string uri)
@@ -62,7 +62,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     public async Task GameController_create_game_returns_200_with_id()
     {
         _gameServiceMock.Setup(g => g.CreateUnlimitedGameSessionWithRandomMonster(_currentPlayer))
-            .Returns(Task.FromResult(new Game() { Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster() }));
+            .ReturnsAsync(new Game() { Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster() });
 
         var request = GetRequestWithAuthHeader(HttpMethod.Post, "/game/unlimited/start");
         var response = await _client.SendAsync(request);
@@ -75,7 +75,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     [Fact]
     public async Task GameController_get_game_returns_404_on_non_existing_uuid()
     {
-        _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).Returns(Task.FromResult((Game?)null));
+        _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).ReturnsAsync((Game?)null);
         
         var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{Guid.NewGuid().ToString()}");
         var response = await _client.SendAsync(request);
@@ -87,7 +87,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     public async Task GameController_get_game_returns_game_from_guid()
     {
         Game game = new Game() {Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster()};
-        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(Task.FromResult((Game?)game));
+        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).ReturnsAsync(game);
         
         var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{game.Id}");
         var response = await _client.SendAsync(request);

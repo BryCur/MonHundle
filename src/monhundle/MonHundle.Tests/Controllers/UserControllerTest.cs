@@ -28,7 +28,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Authenticate_creates_user_if_no_cookie()
     {
         Guid  newPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.AuthPlayer(null)).Returns(Task.FromResult(newPlayerId));
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(null)).ReturnsAsync(newPlayerId);
 
         var request = new HttpRequestMessage(HttpMethod.Get, "user/authenticate");
         var response = await _client.SendAsync(request);
@@ -45,7 +45,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).Returns(Task.FromResult(playerId));
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
 
         var request = new HttpRequestMessage(HttpMethod.Get, "user/authenticate");
         request.Headers.Add("Cookie", $"user_id={playerId}");
@@ -77,7 +77,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Validate_returns_ok_when_cookie_parsed_and_valid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(Task.FromResult(true));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
 
         var requestUri = new UriBuilder()
         {
@@ -96,7 +96,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Validate_returns_badrequest_when_cookie_parsed_and_invalid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(Task.FromResult(false));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(false);
         
         var requestUri = new UriBuilder()
         {
@@ -130,7 +130,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task SavePreferences_returns_ok_when_cookie_parsed_and_valid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(Task.FromResult(true));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
 
         var request = new HttpRequestMessage(HttpMethod.Post, "user/preference");
         request.Content = new StringContent(
@@ -150,7 +150,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task SavePreferences_returns_unauthorised_when_cookie_parsed_and_invalid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(Task.FromResult(false));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(false);
         
         var request = new HttpRequestMessage(HttpMethod.Post, "user/preference");
         request.Content = new StringContent(
@@ -187,8 +187,8 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(Task.FromResult(true));
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).Returns(Task.FromResult(true));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).ReturnsAsync(true);
 
         var requestUri = new UriBuilder()
         {
@@ -212,7 +212,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(Task.FromResult(false));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(false);
 
         var requestUri = new UriBuilder()
         {
@@ -253,8 +253,8 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(Task.FromResult(true));
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).Returns(Task.FromResult(false));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).ReturnsAsync(false);
 
         var requestUri = new UriBuilder()
         {
@@ -275,7 +275,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Load_returns_notFound_when_cookie_not_parsed()
     {
         Guid  cookiePlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(Task.FromResult(true));
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
         
 
         var requestUri = new UriBuilder()
