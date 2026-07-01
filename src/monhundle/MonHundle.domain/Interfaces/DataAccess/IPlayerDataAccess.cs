@@ -4,7 +4,7 @@ namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IPlayerDataAccess
 {
-    void UpdatePlayer(Player toSave);
-    void InsertPlayer(Player toSave);
-    Player? GetPlayer(Guid playerId);
+    Task UpdatePlayer(Player toSave);
+    Task InsertPlayer(Player toSave);
+    Task<Player?> GetPlayer(Guid playerId);
 }

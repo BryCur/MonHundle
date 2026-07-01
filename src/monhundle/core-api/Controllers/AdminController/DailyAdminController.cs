@@ -15,18 +15,18 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
     private const int DAYS_TO_REWIND = 30;
     
     [HttpGet("last-date")]
-    public IActionResult GetLastDailyDate()
+    public async Task<IActionResult> GetLastDailyDate()
     {
-        return Ok(dailyService.GetLastDailyGameDate());
+        return Ok(await dailyService.GetLastDailyGameDate());
     }
 
     /**
      * Allows to insert/update a daily challenge by specifying both the date and the answer
      */
     [HttpPost("specific-answer")]
-    public IActionResult SetDailyGameFullAnswer([FromBody] PostDailyAnswerBody body)
+    public async Task<IActionResult> SetDailyGameFullAnswer([FromBody] PostDailyAnswerBody body)
     {
-        return AttemptUpsertDailyGame(body.date, body.monsterId);
+        return await AttemptUpsertDailyGame(body.date, body.monsterId);
     }
 
     /**
@@ -34,20 +34,20 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
      * chosen, using the answer of the previous days to influence the pool of possible answer
      */
     [HttpPost("generate-answer")]
-    public IActionResult GenerateDailyGameAnswerForDate([FromQuery] DateTime date)
+    public async Task<IActionResult> GenerateDailyGameAnswerForDate([FromQuery] DateTime date)
     {
-        List<int> previousAnswers = dailyService.GetLastDailyGameMonstersByDays(DAYS_TO_REWIND);
-        int proposedAnswer = dailyService.PickRandomMonsterWithBlacklist(previousAnswers);
+        List<int> previousAnswers = await dailyService.GetLastDailyGameMonstersByDays(DAYS_TO_REWIND);
+        int proposedAnswer = await dailyService.PickRandomMonsterWithBlacklist(previousAnswers);
         
-        return AttemptUpsertDailyGame(date, proposedAnswer);
+        return await AttemptUpsertDailyGame(date, proposedAnswer);
     }
 
-    private IActionResult AttemptUpsertDailyGame(DateTime date, int monsterId)
+    private async Task<IActionResult> AttemptUpsertDailyGame(DateTime date, int monsterId)
     {
         try
         {
             DateTime utcDate = date.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(date, DateTimeKind.Utc) : date.ToUniversalTime();
-            dailyService.InsertDailyGame(utcDate, monsterId);
+            await dailyService.InsertDailyGame(utcDate, monsterId);
             return Ok();
         }
         catch (ForbiddenOperationException e)

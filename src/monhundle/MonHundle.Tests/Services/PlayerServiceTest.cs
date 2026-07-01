@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
-using MonHundle.database.Interfaces.DataAccess;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.JsonStructs;
 using MonHundle.domain.Enums;
@@ -13,17 +11,9 @@ namespace MonHundle.Tests.Services;
 
 public class PlayerServiceTest
 {
-    private readonly Mock<IPlayerDataAccess> _playerDataAccess;
-    private readonly Mock<IGameDataAccess> _gameDataAccess;
-    private readonly NullLogger<PlayerService> _logger;
-
-    public PlayerServiceTest()
-    {
-        _playerDataAccess = new Mock<IPlayerDataAccess>();
-        _gameDataAccess = new Mock<IGameDataAccess>();
-        _logger = new NullLogger<PlayerService>();
-        
-    }
+    private readonly Mock<IPlayerDataAccess> _playerDataAccess = new ();
+    private readonly Mock<IGameDataAccess> _gameDataAccess = new ();
+    private readonly NullLogger<PlayerService> _logger = new ();
 
     [Fact]
     public void AuthPlayer_creates_new_player_if_uid_is_null()
@@ -37,15 +27,15 @@ public class PlayerServiceTest
     }
 
     [Fact]
-    public void AuthPlayer_returns_existing_record_if_guid_valid()
+    public async Task AuthPlayer_returns_existing_record_if_guid_valid()
     {
         Player player = new Player() {PlayerUid = Guid.NewGuid()};
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
-            .Returns(player);
+            .ReturnsAsync(player);
         _playerDataAccess.Setup(pda => pda.UpdatePlayer(player));
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        Guid result = service.AuthPlayer(player.PlayerUid.ToString());
+        Guid result = await service.AuthPlayer(player.PlayerUid.ToString());
         
         Assert.Equal(player.PlayerUid, result);
     }
@@ -58,7 +48,7 @@ public class PlayerServiceTest
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.Throws<DataNotFoundException>(() => service.AuthPlayer(missingUid.ToString()));
+        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.AuthPlayer(missingUid.ToString()));
     }
     
     [Fact]
@@ -69,7 +59,7 @@ public class PlayerServiceTest
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.Throws<DataNotFoundException>(() => service.GetPlayerProfile(missingUid));
+        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
     
         
@@ -78,15 +68,15 @@ public class PlayerServiceTest
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid))
-            .Returns(new Player() { PlayerUid = missingUid, Id = null});
+            .ReturnsAsync(new Player() { PlayerUid = missingUid, Id = null});
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.Throws<DataNotFoundException>(() => service.GetPlayerProfile(missingUid));
+        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
 
     [Fact]
-    public void GetPlayerProfile_returns_correctly_if_uid_valid()
+    public async Task GetPlayerProfile_returns_correctly_if_uid_valid()
     {
         Player player = new Player() {
             PlayerUid = Guid.NewGuid(), 
@@ -98,15 +88,17 @@ public class PlayerServiceTest
         };
         
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
-            .Returns(player);
+            .ReturnsAsync(player);
         _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(player.Id.Value))
-            .Returns([new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) }]);
+            .ReturnsAsync(new List<GameSession>() {
+               new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) } 
+            });
         _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), player.Id.Value))
-            .Returns(new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) });
+            .ReturnsAsync(new GameSession() {GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing)});
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        var result = service.GetPlayerProfile(player.PlayerUid);
+        var result = await service.GetPlayerProfile(player.PlayerUid);
         
         Assert.NotNull(result);
 

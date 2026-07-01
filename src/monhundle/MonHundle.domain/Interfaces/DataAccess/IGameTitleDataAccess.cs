@@ -2,5 +2,5 @@
 
 public interface IGameTitleDataAccess
 {
-    List<String> GetGameTitles();
+    Task<List<String>> GetGameTitles();
 }

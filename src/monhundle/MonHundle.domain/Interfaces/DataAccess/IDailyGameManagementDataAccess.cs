@@ -4,7 +4,7 @@ namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IDailyGameManagementDataAccess
 {
-    void UpsertDailyGame(DateTime date, int monsterId);
-    List<DailyMonsterData> GetLastDailyGamesByDays(int days);
-    DateTime GetLastDailyGameDate();
+    Task UpsertDailyGame(DateTime date, int monsterId);
+    Task<List<DailyMonsterData>> GetLastDailyGamesByDays(int days);
+    Task<DateTime> GetLastDailyGameDate();
 }

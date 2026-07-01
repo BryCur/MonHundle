@@ -12,8 +12,8 @@ public class GameTitleService: IGameTitleService
         _gameTitleDataAccess = gameTitleDataAccess;
     }
     
-    public List<String> GetAllGameTitles()
+    public async Task<List<String>> GetAllGameTitles()
     {
-        return _gameTitleDataAccess.GetGameTitles();
+        return await _gameTitleDataAccess.GetGameTitles();
     }
 }

@@ -12,14 +12,14 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
 {
     
     [HttpGet("authenticate")]
-    public IActionResult IdentifyUser()
+    public async Task<IActionResult> IdentifyUser()
     {
         // read cookie
         string? sUID = Request.Cookies["user_id"];
         try
         {
 
-            Guid playerUid = playerService.AuthPlayer(sUID);
+            Guid playerUid = await playerService.AuthPlayer(sUID);
 
             CookieOptions options = new CookieOptions
             {
@@ -43,11 +43,11 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     }
 
     [HttpGet("validate")]
-    public IActionResult ValidateUser([FromQuery(Name = "user-id")] string userUuid)
+    public async Task<IActionResult> ValidateUser([FromQuery(Name = "user-id")] string userUuid)
     {
         bool guidParsed = Guid.TryParse(userUuid, out Guid parsedUuid);
 
-        if (!guidParsed || !playerService.CheckPlayerExists(parsedUuid))
+        if (!guidParsed ||  !await playerService.CheckPlayerExists(parsedUuid))
         {
             return BadRequest("invalid user id format"); 
         }
@@ -56,40 +56,40 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     }
 
     [HttpGet("profile/{userUuid}")]
-    public IActionResult GetProfile([FromRoute] string userUuid)
+    public async Task<IActionResult> GetProfile([FromRoute] string userUuid)
     {
         Guid parsedUuid = Guid.Parse(userUuid);
         
-        return Ok(playerService.GetPlayerProfile(parsedUuid));
+        return Ok( await playerService.GetPlayerProfile(parsedUuid));
     }
 
     [HttpPost("preference")]
-    public IActionResult savePreference([FromBody] UserPreferencesBody preferences)
+    public async Task<IActionResult> SavePreference([FromBody] UserPreferencesBody preferences)
     {
         bool guidParsed = Guid.TryParse(Request.Cookies["user_id"], out Guid parsedUuid);
 
-        if (!guidParsed || !playerService.CheckPlayerExists(parsedUuid))
+        if (!guidParsed || ! await playerService.CheckPlayerExists(parsedUuid))
         {
             return Unauthorized("invalid user id format"); 
         }
         
-        playerService.SaveUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
+        await playerService.SaveUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
 
         return Ok();
     }
 
     [HttpGet("load")]
-    public IActionResult LoadUser([FromQuery(Name = "user-id")] string userUuid)
+    public async Task<IActionResult> LoadUser([FromQuery(Name = "user-id")] string userUuid)
     {
         bool currentGuidParsed = Guid.TryParse(Request.Cookies["user_id"], out Guid currentUserUuid);
         bool targetGuidParsed = Guid.TryParse(userUuid, out Guid targetUserUuid);
 
-        if (!currentGuidParsed || !playerService.CheckPlayerExists(currentUserUuid))
+        if (!currentGuidParsed || ! await playerService.CheckPlayerExists(currentUserUuid))
         {
             return Unauthorized("invalid user id format"); 
         }
         
-        if (!targetGuidParsed || !playerService.CheckPlayerExists(targetUserUuid))
+        if (!targetGuidParsed || ! await playerService.CheckPlayerExists(targetUserUuid))
         {
             return NotFound("target user id is invalid");
         }

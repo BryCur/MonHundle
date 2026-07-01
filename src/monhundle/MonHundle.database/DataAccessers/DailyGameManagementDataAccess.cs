@@ -1,4 +1,4 @@
-﻿using MonHundle.domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Exceptions.DAL;
@@ -8,13 +8,13 @@ namespace MonHundle.database.DataAccessers;
 
 public class DailyGameManagementDataAccess(AppDbContext dbContext): IDailyGameManagementDataAccess
 {
-    public void UpsertDailyGame(DateTime date, int monsterId)
+    public async Task UpsertDailyGame(DateTime date, int monsterId)
     {
         DailyMonsterData? toUpdate  = dbContext.DailyMonsters.FirstOrDefault(x => x.Date.Date == date.Date);
 
         if (toUpdate != null)
         {
-            if (DailyGameHasSessions(date))
+            if (await DailyGameHasSessions(date))
             {
                 throw new ForbiddenOperationException($"Upsert daily game is forbidden: {date} already has sessions.");    
             } 
@@ -28,25 +28,26 @@ public class DailyGameManagementDataAccess(AppDbContext dbContext): IDailyGameMa
             dbContext.DailyMonsters.Add(toInsert);
         }
         
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
     
-    public List<DailyMonsterData> GetLastDailyGamesByDays(int days)
+    public async Task<List<DailyMonsterData>> GetLastDailyGamesByDays(int days)
     {
         DateTime minDate = DateTime.Today.AddDays(-days);
-        return dbContext.DailyMonsters
+        return await dbContext.DailyMonsters
             .Where(dm => dm.Date.Date >= minDate.Date)
-            .ToList();
+            .ToListAsync();
     }
 
-    public DateTime GetLastDailyGameDate()
+    public async Task<DateTime> GetLastDailyGameDate()
     {
-        return dbContext.DailyMonsters.Max(x => x.Date).Date;
+        DateTime lastDailyGamedate = await dbContext.DailyMonsters.MaxAsync(x => x.Date);
+        return lastDailyGamedate.Date;
     }
     
-    private bool DailyGameHasSessions(DateTime date)
+    private async Task<bool> DailyGameHasSessions(DateTime date)
     {
         // checks whether the specified date for daily mode has any game session created.
-        return dbContext.GameSessions.Any(gs => gs.StartTime.Date == date.Date && gs.GameMode == GameModes.Daily);
+        return await dbContext.GameSessions.AnyAsync(gs => gs.StartTime.Date == date.Date && gs.GameMode == GameModes.Daily);
     }
 }

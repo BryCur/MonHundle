@@ -28,13 +28,13 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Authenticate_creates_user_if_no_cookie()
     {
         Guid  newPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.AuthPlayer(null)).Returns(newPlayerId);
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(null)).ReturnsAsync(newPlayerId);
 
         var request = new HttpRequestMessage(HttpMethod.Get, "user/authenticate");
         var response = await _client.SendAsync(request);
         
         response.EnsureSuccessStatusCode();
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.NotNull(setCookieString);
         Assert.StartsWith($"user_id={newPlayerId}", setCookieString);
 
@@ -45,14 +45,14 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).Returns(playerId);
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
 
         var request = new HttpRequestMessage(HttpMethod.Get, "user/authenticate");
         request.Headers.Add("Cookie", $"user_id={playerId}");
         var response = await _client.SendAsync(request);
         
         response.EnsureSuccessStatusCode();
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.NotNull(setCookieString);
         Assert.StartsWith($"user_id={playerId}", setCookieString);
         
@@ -69,7 +69,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.Null(setCookieString);
     }
 
@@ -77,7 +77,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Validate_returns_ok_when_cookie_parsed_and_valid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
 
         var requestUri = new UriBuilder()
         {
@@ -96,7 +96,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Validate_returns_badrequest_when_cookie_parsed_and_invalid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(false);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(false);
         
         var requestUri = new UriBuilder()
         {
@@ -114,8 +114,6 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [Fact]
     public async Task Validate_returns_badrequest_when_cookie_unparsed()
     {
-        Guid  playerId = Guid.NewGuid();
-        
         var requestUri = new UriBuilder()
         {
             Path = "user/validate",
@@ -132,7 +130,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task SavePreferences_returns_ok_when_cookie_parsed_and_valid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
 
         var request = new HttpRequestMessage(HttpMethod.Post, "user/preference");
         request.Content = new StringContent(
@@ -152,7 +150,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task SavePreferences_returns_unauthorised_when_cookie_parsed_and_invalid()
     {
         Guid  playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).Returns(false);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(false);
         
         var request = new HttpRequestMessage(HttpMethod.Post, "user/preference");
         request.Content = new StringContent(
@@ -189,8 +187,8 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(true);
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).Returns(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).ReturnsAsync(true);
 
         var requestUri = new UriBuilder()
         {
@@ -203,7 +201,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         response.EnsureSuccessStatusCode();
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.NotNull(setCookieString);
         Assert.StartsWith($"user_id={paramPlayerId}", setCookieString);
     }
@@ -214,7 +212,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(false);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(false);
 
         var requestUri = new UriBuilder()
         {
@@ -227,7 +225,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.Null(setCookieString);
     }
     
@@ -247,7 +245,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.Null(setCookieString);
     }
     [Fact]
@@ -255,8 +253,8 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     {
         Guid  cookiePlayerId = Guid.NewGuid();
         Guid  paramPlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(true);
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).Returns(false);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).ReturnsAsync(false);
 
         var requestUri = new UriBuilder()
         {
@@ -269,7 +267,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.Null(setCookieString);
     }
     
@@ -277,7 +275,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     public async Task Load_returns_notFound_when_cookie_not_parsed()
     {
         Guid  cookiePlayerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).Returns(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(cookiePlayerId)).ReturnsAsync(true);
         
 
         var requestUri = new UriBuilder()
@@ -291,7 +289,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values) ? values.FirstOrDefault() : null;
+        var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.Null(setCookieString);
     }
 }

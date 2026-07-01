@@ -4,11 +4,11 @@ namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IMonsterDataAccess
 {
-    List<GuessableMonster> GetGuessableMonsterPoolFromGame(String GameCode);
-    List<String> GetGuessableMonsterChoicesFromGames(String[] GameCodes);
+    Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String GameCode);
+    Task<List<String>> GetGuessableMonsterChoicesFromGames(String[] GameCodes);
 
-    GuessableMonster? GetGuessableMonsterFromCode(String monsterCode);
-    GuessableMonster? GetGuessableMonsterFromId(int monsterId);
-    GuessableMonster? GetDailyGuessableMonster(DateTime date);
-    List<int> GetAllGuessableMonsterIds();
+    Task<GuessableMonster> GetGuessableMonsterFromCode(String monsterCode);
+    Task<GuessableMonster> GetGuessableMonsterFromId(int monsterId);
+    Task<GuessableMonster?> GetDailyGuessableMonster(DateTime date);
+    Task<List<int>> GetAllGuessableMonsterIds();
 }

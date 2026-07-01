@@ -2,6 +2,59 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "AsyncKeyedLock/8.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Threading.Tasks.Extensions": "4.6.3"
+        },
+        "compile": {
+          "lib/net8.0/AsyncKeyedLock.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AsyncKeyedLock.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "EFCoreSecondLevelCacheInterceptor/5.3.11": {
+        "type": "package",
+        "dependencies": {
+          "AsyncKeyedLock": "8.0.2",
+          "Microsoft.EntityFrameworkCore": "8.0.0",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.0",
+          "Microsoft.Extensions.Caching.Memory": "8.0.1",
+          "System.IO.Hashing": "10.0.8"
+        },
+        "compile": {
+          "lib/net8.0/EFCoreSecondLevelCacheInterceptor.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/EFCoreSecondLevelCacheInterceptor.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "EFCoreSecondLevelCacheInterceptor.MemoryCache/5.3.11": {
+        "type": "package",
+        "dependencies": {
+          "EFCoreSecondLevelCacheInterceptor": "5.3.11",
+          "Microsoft.Extensions.Caching.Memory": "8.0.1"
+        },
+        "compile": {
+          "lib/net8.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/8.0.8": {
         "type": "package",
         "dependencies": {
@@ -671,6 +724,22 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
+      "System.IO.Hashing/10.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.IO.Hashing.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.IO.Hashing.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
       "System.IO.Pipelines/10.0.0": {
         "type": "package",
         "compile": {
@@ -729,10 +798,21 @@
           "buildTransitive/net8.0/System.Text.Json.targets": {}
         }
       },
+      "System.Threading.Tasks.Extensions/4.6.3": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
+        }
+      },
       "MonHundle.database/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "EFCoreSecondLevelCacheInterceptor": "5.3.11",
+          "EFCoreSecondLevelCacheInterceptor.MemoryCache": "5.3.11",
           "Microsoft.EntityFrameworkCore": "9.0.10",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
           "MonHundle.domain": "1.0.0",
@@ -762,6 +842,97 @@
     }
   },
   "libraries": {
+    "AsyncKeyedLock/8.0.2": {
+      "sha512": "QGys5cnIerNryv7V14PDkvGnlLz69kJtTfdnr+Lndcu+lRre397RNyU4FIeAJWgI9u73lTzXL52Qca9B/ncLXw==",
+      "type": "package",
+      "path": "asynckeyedlock/8.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "asynckeyedlock.8.0.2.nupkg.sha512",
+        "asynckeyedlock.nuspec",
+        "lib/net5.0/AsyncKeyedLock.dll",
+        "lib/net5.0/AsyncKeyedLock.xml",
+        "lib/net6.0/AsyncKeyedLock.dll",
+        "lib/net6.0/AsyncKeyedLock.xml",
+        "lib/net7.0/AsyncKeyedLock.dll",
+        "lib/net7.0/AsyncKeyedLock.xml",
+        "lib/net8.0/AsyncKeyedLock.dll",
+        "lib/net8.0/AsyncKeyedLock.xml",
+        "lib/net9.0/AsyncKeyedLock.dll",
+        "lib/net9.0/AsyncKeyedLock.xml",
+        "lib/netstandard2.0/AsyncKeyedLock.dll",
+        "lib/netstandard2.0/AsyncKeyedLock.xml",
+        "lib/netstandard2.1/AsyncKeyedLock.dll",
+        "lib/netstandard2.1/AsyncKeyedLock.xml",
+        "logo.png"
+      ]
+    },
+    "EFCoreSecondLevelCacheInterceptor/5.3.11": {
+      "sha512": "qTJsY0NGSabKRcL48ovdnjksl9UakS7A5mfaUljoK4VxNDq4DmLrQ/W3JO0u8lx9T5Uj3Y6rbVfWZZ4HCcG4TQ==",
+      "type": "package",
+      "path": "efcoresecondlevelcacheinterceptor/5.3.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "efcoresecondlevelcacheinterceptor.5.3.11.nupkg.sha512",
+        "efcoresecondlevelcacheinterceptor.nuspec",
+        "lib/net10.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net10.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net462/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net462/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net5.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net5.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net6.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net6.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net7.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net7.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net8.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net8.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/net9.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/net9.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/netcoreapp3.1/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/netcoreapp3.1/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/netstandard2.0/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/netstandard2.0/EFCoreSecondLevelCacheInterceptor.xml",
+        "lib/netstandard2.1/EFCoreSecondLevelCacheInterceptor.dll",
+        "lib/netstandard2.1/EFCoreSecondLevelCacheInterceptor.xml"
+      ]
+    },
+    "EFCoreSecondLevelCacheInterceptor.MemoryCache/5.3.11": {
+      "sha512": "uK/wDlz5HCStiO6PP/wrzTvzl410AS56zoOUWnK7Vw/jaiVZV3+srLEdNG17FXFseVJZv5cZmBA1YNqQvFRB5A==",
+      "type": "package",
+      "path": "efcoresecondlevelcacheinterceptor.memorycache/5.3.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "efcoresecondlevelcacheinterceptor.memorycache.5.3.11.nupkg.sha512",
+        "efcoresecondlevelcacheinterceptor.memorycache.nuspec",
+        "lib/net10.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net10.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net462/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net462/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net5.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net5.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net6.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net6.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net7.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net7.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net8.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net8.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/net9.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/net9.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/netcoreapp3.1/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/netcoreapp3.1/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/netstandard2.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/netstandard2.0/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml",
+        "lib/netstandard2.1/EFCoreSecondLevelCacheInterceptor.MemoryCache.dll",
+        "lib/netstandard2.1/EFCoreSecondLevelCacheInterceptor.MemoryCache.xml"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/8.0.8": {
       "sha512": "wNHhohqP8rmsQ4UhKbd6jZMD6l+2Q/+DvRBT0Cgqeuglr13aF6sSJWicZKCIhZAUXzuhkdwtHVc95MlPlFk0dA==",
       "type": "package",
@@ -1974,6 +2145,35 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.IO.Hashing/10.0.8": {
+      "sha512": "+dJsbPJ3FyUbTZNplFj0RCKePFizmv6ewDV46JE9q/IVH4c3xTCftHfHelLsAKf0jryIPqgMb5GpS0x7TAY3mg==",
+      "type": "package",
+      "path": "system.io.hashing/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.IO.Hashing.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.IO.Hashing.targets",
+        "lib/net10.0/System.IO.Hashing.dll",
+        "lib/net10.0/System.IO.Hashing.xml",
+        "lib/net462/System.IO.Hashing.dll",
+        "lib/net462/System.IO.Hashing.xml",
+        "lib/net8.0/System.IO.Hashing.dll",
+        "lib/net8.0/System.IO.Hashing.xml",
+        "lib/net9.0/System.IO.Hashing.dll",
+        "lib/net9.0/System.IO.Hashing.xml",
+        "lib/netstandard2.0/System.IO.Hashing.dll",
+        "lib/netstandard2.0/System.IO.Hashing.xml",
+        "system.io.hashing.10.0.8.nupkg.sha512",
+        "system.io.hashing.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.IO.Pipelines/10.0.0": {
       "sha512": "M1eb3nfXntaRJPrrMVM9EFS8I1bDTnt0uvUS6QP/SicZf/ZZjydMD5NiXxfmwW/uQwaMDP/yX2P+zQN1NBHChg==",
       "type": "package",
@@ -2112,6 +2312,27 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.Threading.Tasks.Extensions/4.6.3": {
+      "sha512": "7sCiwilJLYbTZELaKnc7RecBBXWXA+xMLQWZKWawBxYjp6DBlSE3v9/UcvKBvr1vv2tTOhipiogM8rRmxlhrVA==",
+      "type": "package",
+      "path": "system.threading.tasks.extensions/4.6.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "buildTransitive/net461/System.Threading.Tasks.Extensions.targets",
+        "buildTransitive/net462/_._",
+        "lib/net462/System.Threading.Tasks.Extensions.dll",
+        "lib/net462/System.Threading.Tasks.Extensions.xml",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll",
+        "lib/netstandard2.0/System.Threading.Tasks.Extensions.xml",
+        "lib/netstandard2.1/_._",
+        "system.threading.tasks.extensions.4.6.3.nupkg.sha512",
+        "system.threading.tasks.extensions.nuspec"
+      ]
+    },
     "MonHundle.database/1.0.0": {
       "type": "project",
       "path": "../MonHundle.database/MonHundle.database.csproj",
@@ -2136,39 +2357,36 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bryan\\.nuget\\packages\\": {}
+    "C:\\Users\\Bryan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\MonHundle\\src\\monhundle\\core-api\\core-api.csproj",
+      "projectUniqueName": "C:\\project\\MonHundle\\src\\monhundle\\core-api\\core-api.csproj",
       "projectName": "core-api",
-      "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\core-api\\core-api.csproj",
-      "packagesPath": "C:\\Users\\bryan\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\MonHundle\\src\\monhundle\\core-api\\obj\\",
+      "projectPath": "C:\\project\\MonHundle\\src\\monhundle\\core-api\\core-api.csproj",
+      "packagesPath": "C:\\Users\\Bryan\\.nuget\\packages\\",
+      "outputPath": "C:\\project\\MonHundle\\src\\monhundle\\core-api\\obj\\",
       "projectStyle": "PackageReference",
-      "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
-        "C:\\projects\\MonHundle\\src\\monhundle\\NuGet.Config",
-        "C:\\Users\\bryan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\project\\MonHundle\\src\\monhundle\\NuGet.Config",
+        "C:\\Users\\Bryan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj": {
-              "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj"
+            "C:\\project\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj": {
+              "projectPath": "C:\\project\\MonHundle\\src\\monhundle\\MonHundle.database\\MonHundle.database.csproj"
             },
-            "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj": {
-              "projectPath": "C:\\projects\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj"
+            "C:\\project\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj": {
+              "projectPath": "C:\\project\\MonHundle\\src\\monhundle\\MonHundle.domain\\MonHundle.domain.csproj"
             }
           }
         }
@@ -2232,7 +2450,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\8.0.421/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -27,10 +27,10 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpPost("start")]
-    public IActionResult StartGame()
+    public async Task<IActionResult> StartGame()
     {
         Player player = GetPlayerFromContext();
-        Game newGame = _gameService.CreateUnlimitedGameSessionWithRandomMonster(player);
+        Game newGame = await _gameService.CreateUnlimitedGameSessionWithRandomMonster(player);
         
         // return game ID
         _logger.LogInformation("The player {playerId} started a new game", player.Id);
@@ -38,10 +38,10 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpGet("resume/{gameId:guid}")]
-    public IActionResult ResumeOngoingGame(Guid gameId)
+    public async Task<IActionResult> ResumeOngoingGame(Guid gameId)
     {
         Player player = GetPlayerFromContext();
-        Game? game = _gameService.ResumeGame(gameId, player);
+        Game? game = await _gameService.ResumeGame(gameId, player);
         
         if (game == null)
         {
@@ -57,13 +57,13 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpPost("guess")]
-    public IActionResult MakeGuess([FromBody] MakeGuessBody body)
+    public async Task<IActionResult> MakeGuess([FromBody] MakeGuessBody body)
     {
-        GuessableMonster guess = _monsterService.getMonsterFromCode(body.guessId) ??
+        GuessableMonster guess = await _monsterService.getMonsterFromCode(body.guessId) ??
                            throw new InvalidOperationException($"no monster matches id {body.guessId}");
         
         Player player = GetPlayerFromContext();
-        (MonsterGuessDTO resp, GameStates stateAfterGuess) = _gameService.MakeGuess(body.gameId, guess, player);
+        (MonsterGuessDTO resp, GameStates stateAfterGuess) = await _gameService.MakeGuess(body.gameId, guess, player);
         
         return Ok(new GuessResponse(
             resp.MonsterCode,
