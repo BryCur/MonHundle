@@ -55,7 +55,8 @@ public class DbCacheServiceTest
     {
         // Vérifie que les noms dans _tableMap pointent vers de vrais DbSets
         var dbSetNames = GetDbSetNames();
-        var dbCacheDictValue = DatabaseCacheService.AvailableTables.Values;
+        var dbCacheDictValue = DatabaseCacheService.AvailableTables
+            .Values.Select(val => val.Replace(DatabaseCacheService.CachePrefix, ""));
 
         foreach (var dbSetName in dbCacheDictValue)
         {
@@ -92,7 +93,8 @@ public class DbCacheServiceTest
     {
         // Arrange
         var dbSetNames = GetDbSetNames();
-        var mappedDbSetNames = DatabaseCacheService.AvailableTables.Values;
+        var mappedDbSetNames = DatabaseCacheService.AvailableTables
+            .Values.Select(val => val.Replace(DatabaseCacheService.CachePrefix, ""));
 
         // Act & Assert
         foreach (var dbSetName in dbSetNames)
