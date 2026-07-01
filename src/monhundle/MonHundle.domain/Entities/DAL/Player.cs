@@ -10,10 +10,13 @@ public class Player
     [Key]
     [Column("id")] 
     public int? Id { get; set; }
+    
     [Column("player_uid")] 
     public Guid PlayerUid { get; set; }
-    [Column("preferences", TypeName = "json")] 
+    
+    // confirguration for this col made in AppDbContext.cs
     public PlayerPreferencesStruct? JsonPreferences { get; set; }
+    
     [Column("last_connection")]
     public DateTime? last_connection { get; set; }
 }

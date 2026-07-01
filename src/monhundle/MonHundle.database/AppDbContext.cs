@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using MonHundle.database.Converters;
 using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Entities.DAL.JsonStructs;
 
 namespace MonHundle.database;
 
@@ -24,11 +26,21 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder
             .Entity<GameSession>()
-            .HasKey(gs => gs.Id);        
-        
+            .HasKey(gs => gs.Id);
+
         modelBuilder
             .Entity<Player>()
-            .HasKey(p => p.Id);;
+            .HasKey(p => p.Id);
+        
+        modelBuilder.Entity<Player>()
+            .Property(p => p.JsonPreferences)
+            .HasColumnType("json")
+            .HasColumnName("preferences")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
+                v => JsonSerializer.Deserialize<PlayerPreferencesStruct>(v, JsonSerializerOptions.Default)
+            );
+            
 
         modelBuilder
             .Entity<DailyMonsterData>()
