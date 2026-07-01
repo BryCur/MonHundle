@@ -25,7 +25,7 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
     {
         return await dbContext.GameSessions
             .Where(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId)
-            .FirstAsync() 
+            .FirstOrDefaultAsync() 
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
     }
 

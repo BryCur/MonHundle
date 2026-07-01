@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 
 namespace MonHundle.database.DataAccessers;
@@ -23,17 +24,17 @@ public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
         var guessableMonsterData = await dbContext.GuessableMonsters
             .Where(gm => gm.MonsterCode.Equals(monsterCode))
             .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
-            .FirstAsync();
+            .FirstOrDefaultAsync() ?? throw new DataNotFoundException($"Monster code {monsterCode} not found");
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
     
-    public async Task<GuessableMonster?> GetGuessableMonsterFromId(int monsterId)
+    public async Task<GuessableMonster> GetGuessableMonsterFromId(int monsterId)
     {
         var guessableMonsterData = await dbContext.GuessableMonsters
             .Where(gm => gm.MonsterId.Equals(monsterId))
             .Cacheable(CacheExpirationMode.Absolute, TimeSpan.FromHours(1))
-            .FirstAsync();
+            .FirstOrDefaultAsync() ?? throw new DataNotFoundException($"Monster id {monsterId} not found");
         
         return GuessableMonster.FromData(guessableMonsterData);
     }
