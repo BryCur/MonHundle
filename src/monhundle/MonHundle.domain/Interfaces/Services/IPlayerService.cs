@@ -5,8 +5,8 @@ namespace MonHundle.domain.Interfaces.Services;
 
 public interface IPlayerService
 {
-    Guid AuthPlayer(string? playerUid);
-    bool CheckPlayerExists(Guid playerUid);
-    PlayerProfileResponse GetPlayerProfile(Guid playerUid);
-    void SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences);
+    Task<Guid> AuthPlayer(string? playerUid);
+    Task<bool> CheckPlayerExists(Guid playerUid);
+    Task<PlayerProfileResponse> GetPlayerProfile(Guid playerUid);
+    Task SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences);
 }

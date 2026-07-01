@@ -16,10 +16,10 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     private readonly Mock<IGameService> _gameServiceMock;
     private readonly Mock<IPlayerDataAccess> _playerDataAccess;
     
-    private readonly Player _currentPlayer = new Player()
+    private readonly Player _currentPlayer = new ()
     {
         Id = 1,
-        PlayerUid = new Guid()
+        PlayerUid = Guid.NewGuid()
     };
 
     public GameUnlimitedControllerTest(WebApplicationWithMockFactory factory)
@@ -29,10 +29,10 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         _playerDataAccess = factory.PlayerAccessMock;
         
         _playerDataAccess.Setup(mock => mock.GetPlayer(It.IsAny<Guid>()))
-            .Returns(_currentPlayer);
+            .Returns(Task.FromResult((Player?)_currentPlayer));
     }
 
-    private HttpRequestMessage getRequestWithAuthHeader(HttpMethod method, string uri)
+    private HttpRequestMessage GetRequestWithAuthHeader(HttpMethod method, string uri)
     {
         var request = new HttpRequestMessage(method, uri);
         
@@ -41,7 +41,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         return request;
     }
     
-    private GuessableMonster getDefaultGuessableMonster()
+    private GuessableMonster GetDefaultGuessableMonster()
     {
         return new GuessableMonster(
             1,
@@ -62,9 +62,9 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     public async Task GameController_create_game_returns_200_with_id()
     {
         _gameServiceMock.Setup(g => g.CreateUnlimitedGameSessionWithRandomMonster(_currentPlayer))
-            .Returns(Task.FromResult(new Game() { Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster() }));
+            .Returns(Task.FromResult(new Game() { Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster() }));
 
-        var request = getRequestWithAuthHeader(HttpMethod.Post, "/game/unlimited/start");
+        var request = GetRequestWithAuthHeader(HttpMethod.Post, "/game/unlimited/start");
         var response = await _client.SendAsync(request);
         
         response.EnsureSuccessStatusCode();
@@ -77,7 +77,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     {
         _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).Returns(Task.FromResult((Game?)null));
         
-        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{Guid.NewGuid().ToString()}");
+        var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{Guid.NewGuid().ToString()}");
         var response = await _client.SendAsync(request);
         
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -86,10 +86,10 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
     [Fact]
     public async Task GameController_get_game_returns_game_from_guid()
     {
-        Game game = new Game() {Id = Guid.NewGuid(), Answer = getDefaultGuessableMonster()};
-        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(Task.FromResult(game));
+        Game game = new Game() {Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster()};
+        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).Returns(Task.FromResult((Game?)game));
         
-        var request = getRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{game.Id}");
+        var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{game.Id}");
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         Assert.NotEmpty(await response.Content.ReadAsStringAsync());

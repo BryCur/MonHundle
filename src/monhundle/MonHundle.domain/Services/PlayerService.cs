@@ -13,13 +13,13 @@ public class PlayerService(
     IPlayerDataAccess playerDataAccess,
     IGameDataAccess gameDataAccess
 ): IPlayerService {
-    public Guid AuthPlayer(string? playerUid)
+    public async Task<Guid> AuthPlayer(string? playerUid)
     {
         if (playerUid is null)
         {
             logger.LogInformation("New player visiting, creating new uid");
             Player player = new Player { PlayerUid = Guid.NewGuid(), last_connection = DateTime.UtcNow };
-            playerDataAccess.InsertPlayer(player);
+            await playerDataAccess.InsertPlayer(player);
             
             return player.PlayerUid;
         }
@@ -28,7 +28,7 @@ public class PlayerService(
             logger.LogInformation("player returning, verifying {playerId}", playerUid);
 
             Guid pUid = Guid.Parse(playerUid);
-            Player? player = playerDataAccess.GetPlayer(pUid);
+            Player? player = await playerDataAccess.GetPlayer(pUid);
 
             if (player is null)
             {
@@ -38,20 +38,20 @@ public class PlayerService(
             
             logger.LogInformation("Player {playerId} found, refreshing cookie lifespan", playerUid);
             player.last_connection = DateTime.UtcNow;
-            playerDataAccess.UpdatePlayer(player);
+            await playerDataAccess.UpdatePlayer(player);
 
             return player.PlayerUid;
         }
     }
 
-    public bool CheckPlayerExists(Guid playerUid)
+    public async Task<bool> CheckPlayerExists(Guid playerUid)
     {
-        return playerDataAccess.GetPlayer(playerUid) != null;
+        return await playerDataAccess.GetPlayer(playerUid) != null;
     }
 
-    public PlayerProfileResponse GetPlayerProfile(Guid playerUid)
+    public async Task<PlayerProfileResponse> GetPlayerProfile(Guid playerUid)
     {
-        Player? player = playerDataAccess.GetPlayer(playerUid);
+        Player? player = await playerDataAccess.GetPlayer(playerUid);
         if (player is null || player.Id is null)
         {
             throw new DataNotFoundException($"Player {playerUid} not found");
@@ -69,9 +69,9 @@ public class PlayerService(
         );
     }
 
-    public void SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
+    public async Task SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
     {
-        Player? player = playerDataAccess.GetPlayer(playerUid);
+        Player? player = await playerDataAccess.GetPlayer(playerUid);
         if (player is null)
         {
             throw new DataNotFoundException($"Player {playerUid} not found");

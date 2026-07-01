@@ -1,24 +1,27 @@
-﻿using MonHundle.domain.Entities.DAL;
+﻿using Microsoft.EntityFrameworkCore;
+using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 
 namespace MonHundle.database.DataAccessers;
 
 public class PlayerDataAccess(AppDbContext dbContext): IPlayerDataAccess
 {
-    public void InsertPlayer(Player toSave)
+    public async Task InsertPlayer(Player toSave)
     {
         dbContext.Players.Add(toSave);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public void UpdatePlayer(Player toSave)
+    public async Task UpdatePlayer(Player toSave)
     {
         dbContext.Players.Update(toSave);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public Player? GetPlayer(Guid playerId)
+    public async Task<Player?> GetPlayer(Guid playerId)
     {
-        return dbContext.Players.FirstOrDefault(p => playerId.Equals(p.PlayerUid)); 
+        return await dbContext.Players
+            .Where(p => playerId.Equals(p.PlayerUid))
+            .FirstOrDefaultAsync(); 
     }
 }
