@@ -13,13 +13,14 @@ public static class DataAccessServiceCollectionExtensions
 {
     public static IServiceCollection AddDataAccessLayer(this IServiceCollection services, string connectionString)
     {
+        services.AddMemoryCache();
         services.AddEFSecondLevelCache(options =>
             options
                 .UseMemoryCacheProvider()
                 .UseCacheKeyPrefix(DatabaseCacheService.CachePrefix)
                 // .ConfigureLogging(enable: true)
         );
-
+        
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             // var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
