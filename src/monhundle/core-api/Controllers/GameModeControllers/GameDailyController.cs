@@ -1,8 +1,6 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Security.Authentication;
+﻿using System.Security.Authentication;
 using core_api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DTO;
@@ -40,7 +38,7 @@ public class GameDailyController : ControllerBase
         }
         
         GuessableMonster dailyMonster = await _monsterService.getDailyMonster(DateTime.UtcNow);
-        Game newGame = _gameService.CreateGame(GameModes.Daily, player, dailyMonster);
+        Game newGame = await _gameService.CreateGame(GameModes.Daily, player, dailyMonster);
         
         // return game ID
         _logger.LogInformation("The player {playerId} started a new game", player.Id);

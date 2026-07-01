@@ -41,12 +41,12 @@ public class GameService : IGameService
             StartTime = DateTime.Now,
         };
         
-        _gameDataAccess.CreateGame(game);
+        await _gameDataAccess.CreateGame(game);
         _logger.LogInformation("Created game (unlimited mode) {gameId} for {playerId}", game.Id, player.PlayerUid);
         return game;
     }
     
-    public Game CreateGame(GameModes mode, Player player, GuessableMonster monster)
+    public async Task<Game> CreateGame(GameModes mode, Player player, GuessableMonster monster)
     {
         Game game = new Game
         {
@@ -57,7 +57,7 @@ public class GameService : IGameService
             StartTime = DateTime.Now,
         };
         
-        _gameDataAccess.CreateGame(game);
+        await _gameDataAccess.CreateGame(game);
         _logger.LogInformation(
             "Created game ({modeStr} mode) {gameId} for {playerId}",
             mode.ToString(), game.Id, player.PlayerUid
@@ -69,6 +69,7 @@ public class GameService : IGameService
      * <summary>Used to make a game progress, by comparing the guess to the answer and saving the new state</summary>
      * <param name="gameId"> Unique identifier of the game to update </param>
      * <param name="guess"> Monster data of the guess made </param>
+     * <param name="player"> player who made the guess </param>
      * <returns>Structure containing the necessary information to update client on the game state</returns>
      */
     public async Task<(MonsterGuessDTO, GameStates)> MakeGuess(Guid gameId, GuessableMonster guess, Player player)
@@ -79,13 +80,13 @@ public class GameService : IGameService
             throw new AuthenticationException("no game owner provided");
         }
         
-        GameSession game = _gameDataAccess.GetGame(gameId, player.Id.Value);
+        GameSession game = await _gameDataAccess.GetGame(gameId, player.Id.Value);
         GuessableMonster answerMonster = await _monsterService.getMonsterFromId(game.AnswerMonsterId);
         MonsterComparisonResult comparisonResult = answerMonster.compareTo(guess);
 
         GameStates stateAfterGuess = GetGameStateAfterGuess(game, guess);
         
-        saveNewGuess(game, guess, comparisonResult, stateAfterGuess);
+        await SaveNewGuess(game, guess, comparisonResult, stateAfterGuess);
 
         // create response obj
         MonsterGuessDTO monsterGuessDto = new MonsterGuessDTO(
@@ -106,7 +107,7 @@ public class GameService : IGameService
             throw new AuthenticationException("no game owner provided");
         }
         
-        GameSession gameData = _gameDataAccess.GetGame(gameId, player.Id.Value);
+        GameSession gameData = await _gameDataAccess.GetGame(gameId, player.Id.Value);
         GuessableMonster answer = await _monsterService.getMonsterFromId(gameData.AnswerMonsterId);
 
         return GameSessionMapper.ToDto(gameData, player, answer);
@@ -134,9 +135,10 @@ public class GameService : IGameService
      * </summary>
      * <param name="game"> game data object, reflects the game state before the guess</param>
      * <param name="guess"> guess provided by the player </param>
-     * <param name="comparisonResult"> new state of the game </param>
+     * <param name="comparisonResult"> structure containing the result of the comparison of all criterias </param>
+     * <param name="stateAfterGuess"> new state of the game </param>
      */
-    private void saveNewGuess(GameSession game, GuessableMonster guess, MonsterComparisonResult comparisonResult, GameStates stateAfterGuess)
+    private async Task SaveNewGuess(GameSession game, GuessableMonster guess, MonsterComparisonResult comparisonResult, GameStates stateAfterGuess)
     {
         game.LastUpdate = DateTime.UtcNow;
         game.State = stateAfterGuess.ToString();
@@ -146,18 +148,18 @@ public class GameService : IGameService
             Comparisons = new GameComparisonStruct(comparisonResult),
         });
         
-        _gameDataAccess.SaveGame(game);
+        await _gameDataAccess.SaveGame(game);
     }
 
     public async Task<Game?> GetDailyGameForPlayerAtDate(DateTime date, Player player)
     {
         if (!player.Id.HasValue)
         {
-            _logger.LogWarning("Attempted to get daily game for date {gameDate} but game owner not provided", date.ToString());
+            _logger.LogWarning("Attempted to get daily game for date {gameDate} but game owner not provided", date.Date);
             throw new AuthenticationException("no game owner provided");
         }
         
-        GameSession? session = _gameDataAccess.GetDailyGameForPlayerAtDate(date, player.Id.Value);
+        GameSession? session = await _gameDataAccess.GetDailyGameForPlayerAtDate(date, player.Id.Value);
         
         if (session == null)
         {

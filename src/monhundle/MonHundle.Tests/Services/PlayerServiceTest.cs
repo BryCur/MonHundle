@@ -12,17 +12,9 @@ namespace MonHundle.Tests.Services;
 
 public class PlayerServiceTest
 {
-    private readonly Mock<IPlayerDataAccess> _playerDataAccess;
-    private readonly Mock<IGameDataAccess> _gameDataAccess;
-    private readonly NullLogger<PlayerService> _logger;
-
-    public PlayerServiceTest()
-    {
-        _playerDataAccess = new Mock<IPlayerDataAccess>();
-        _gameDataAccess = new Mock<IGameDataAccess>();
-        _logger = new NullLogger<PlayerService>();
-        
-    }
+    private readonly Mock<IPlayerDataAccess> _playerDataAccess = new ();
+    private readonly Mock<IGameDataAccess> _gameDataAccess = new ();
+    private readonly NullLogger<PlayerService> _logger = new ();
 
     [Fact]
     public void AuthPlayer_creates_new_player_if_uid_is_null()
@@ -99,9 +91,11 @@ public class PlayerServiceTest
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
             .Returns(Task.FromResult(player));
         _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(player.Id.Value))
-            .Returns([new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) }]);
+            .Returns(Task.FromResult(new List<GameSession>() {
+               new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) } 
+            }));
         _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), player.Id.Value))
-            .Returns(new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) });
+            .Returns(Task.FromResult(new GameSession() {GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing)}));
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         

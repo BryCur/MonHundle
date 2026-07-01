@@ -1,4 +1,5 @@
-﻿using MonHundle.domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.Mappers;
 using MonHundle.domain.Enums;
@@ -9,44 +10,47 @@ namespace MonHundle.database.DataAccessers;
 
 public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
 
-    public void CreateGame(Game game)
+    public async Task CreateGame(Game game)
     {
-        int playerUid = GetPlayerIdFromGuid(game.PlayerId);
+        int playerUid = await GetPlayerIdFromGuid(game.PlayerId);
         
         var gameSessionEntity = GameSessionMapper.ToEntity(game, playerUid);
         
         dbContext.GameSessions.Add(gameSessionEntity);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public GameSession GetGame(Guid gameId, int playerId)
+    public async Task<GameSession> GetGame(Guid gameId, int playerId)
     {
-        return dbContext.GameSessions.First(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId) 
+        return await dbContext.GameSessions
+            .Where(gs => gs.GameUid.Equals(gameId) && gs.PlayerId == playerId)
+            .FirstAsync() 
                ?? throw new DataNotFoundException("Game not found"); // TODO map entity to domain object
     }
 
-    public GameSession? GetDailyGameForPlayerAtDate(DateTime date, int playerId)
+    public async Task<GameSession?> GetDailyGameForPlayerAtDate(DateTime date, int playerId)
     {
-        return dbContext.GameSessions
-            .FirstOrDefault(gs =>
-                gs.GameMode == GameModes.Daily  // daily mode
-                && gs.PlayerId == playerId // match player
-                && gs.StartTime.Date.Equals(date.Date) // match date
-            );
+        return await dbContext.GameSessions
+            .Where(gs =>
+                    gs.GameMode == GameModes.Daily  // daily mode
+                    && gs.PlayerId == playerId // match player
+                    && gs.StartTime.Date.Equals(date.Date) // match date
+            )
+            .FirstOrDefaultAsync();
     }
 
-    public void SaveGame(GameSession game)
+    public async Task SaveGame(GameSession game)
     {
         dbContext.GameSessions.Update(game);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    private int GetPlayerIdFromGuid(Guid guid)
+    private async Task<int> GetPlayerIdFromGuid(Guid guid)
     {
-        int? p = dbContext.Players
+        int? p = await dbContext.Players
             .Where(p => p.PlayerUid.Equals(guid))
             .Select(p => p.Id)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
         
         if (!p.HasValue)
         {
@@ -57,14 +61,14 @@ public class GameSessionDataAccess(AppDbContext dbContext): IGameDataAccess {
         
     }
 
-    public List<GameSession> GetOngoingUnlimitedGamesForPlayer(int playerId)
+    public async Task<List<GameSession>> GetOngoingUnlimitedGamesForPlayer(int playerId)
     {
-        return dbContext.GameSessions
+        return await dbContext.GameSessions
             .Where(gs => 
                 gs.PlayerId.Equals(playerId) 
                 && gs.State.Equals(nameof(GameStates.Ongoing))
                 && gs.GameMode == GameModes.Unlimited
             )
-            .ToList();
+            .ToListAsync();
     }
 }

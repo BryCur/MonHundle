@@ -6,9 +6,9 @@ namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IGameDataAccess
 {
-    void CreateGame(Game game);
-    GameSession GetGame(Guid gameId, int playerId);
-    void SaveGame(GameSession game);
-    GameSession? GetDailyGameForPlayerAtDate(DateTime date, int playerId);
-    List<GameSession> GetOngoingUnlimitedGamesForPlayer(int playerId);
+    Task CreateGame(Game game);
+    Task<GameSession> GetGame(Guid gameId, int playerId);
+    Task SaveGame(GameSession game);
+    Task<GameSession?> GetDailyGameForPlayerAtDate(DateTime date, int playerId);
+    Task<List<GameSession>> GetOngoingUnlimitedGamesForPlayer(int playerId);
 }

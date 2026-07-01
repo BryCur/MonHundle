@@ -57,9 +57,9 @@ public class PlayerService(
             throw new DataNotFoundException($"Player {playerUid} not found");
         }
         
-        List<GameSession> ongoingUnlimitedGames = gameDataAccess.GetOngoingUnlimitedGamesForPlayer(player.Id.Value);
+        List<GameSession> ongoingUnlimitedGames = await gameDataAccess.GetOngoingUnlimitedGamesForPlayer(player.Id.Value);
         GameSession? latestUnlimited = ongoingUnlimitedGames.MaxBy(gs => gs.StartTime);
-        GameSession? ongoingDaily = gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player.Id!.Value);
+        GameSession? ongoingDaily = await gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player.Id!.Value);
 
         return new PlayerProfileResponse(
             player.JsonPreferences?.enableTableAccessibility ?? false,
