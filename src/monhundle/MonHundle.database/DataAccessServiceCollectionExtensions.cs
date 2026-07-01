@@ -2,7 +2,9 @@ using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MonHundle.database.DataAccessers;
+using MonHundle.database.Services;
 using MonHundle.domain.Interfaces.DataAccess;
+using MonHundle.domain.Interfaces.Services;
 using Npgsql;
 
 namespace MonHundle.database;
@@ -30,6 +32,7 @@ public static class DataAccessServiceCollectionExtensions
         services.AddScoped<IGameDataAccess, GameSessionDataAccess>();
         services.AddScoped<IPlayerDataAccess, PlayerDataAccess>();
         services.AddScoped<IDailyGameManagementDataAccess, DailyGameManagementDataAccess>();
+        services.AddScoped<IDatabaseCacheService, DatabaseCacheService>();
 
         return services;
     }
