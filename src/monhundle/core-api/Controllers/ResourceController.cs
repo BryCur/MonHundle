@@ -23,7 +23,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet("monster-choices")]
-    public IActionResult GetMonsterChoices([FromQuery] string? gameTitles)
+    public async Task<IActionResult> GetMonsterChoices([FromQuery] string? gameTitles)
     {
         String[] gamelist;
 
@@ -36,7 +36,7 @@ public class ResourceController : ControllerBase
             gamelist = gameTitles.Split(',');
         }
         
-        return Ok(_monsterService.getMonsterChoicesFromGames(gamelist));
+        return Ok( await _monsterService.getMonsterChoicesFromGames(gamelist));
     }
     
 }
