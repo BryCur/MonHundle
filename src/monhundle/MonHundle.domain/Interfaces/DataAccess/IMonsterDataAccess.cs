@@ -4,7 +4,7 @@ namespace MonHundle.domain.Interfaces.DataAccess;
 
 public interface IMonsterDataAccess
 {
-    Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String GameCode);
+    Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String gameCode);
     Task<List<String>> GetGuessableMonsterChoicesFromGames(String[] GameCodes);
 
     Task<GuessableMonster> GetGuessableMonsterFromCode(String monsterCode);
