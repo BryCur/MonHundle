@@ -1,7 +1,7 @@
 info:
-  name: User
+  name: Admin cache
   type: folder
-  seq: 4
+  seq: 5
 
 request:
   auth: inherit
