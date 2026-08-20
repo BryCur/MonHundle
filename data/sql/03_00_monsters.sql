@@ -344,11 +344,11 @@ select
     monsters.generation,
     threat_level,
     array_agg( distinct m_classifications.classification_id) classification_list,
-    array_agg( distinct m_weaknesses.weakness_id) weakness_list,
-    array_agg( distinct m_afflictions.affliction_id) affliction_list,
+    coalesce(array_agg( distinct m_weaknesses.weakness_id) FILTER (WHERE m_weaknesses.weakness_id IS NOT NULL), ARRAY[]::integer[]) weakness_list,
+    coalesce(array_agg( distinct m_afflictions.affliction_id) FILTER (WHERE m_afflictions.affliction_id IS NOT NULL), ARRAY[]::integer[]) affliction_list,
     array_agg( distinct m_biomes.biome_id) habitat_list,
-    array_agg( distinct game_titles.code) games_list
-from monsters
+    (array_agg( distinct game_titles.code))::text[] games_list
+from monsters   
          inner join monsters_classifications m_classifications on monsters.id = m_classifications.monster_id
 
          left join monsters_weaknesses m_weaknesses on monsters.id = m_weaknesses.monster_id

@@ -9,10 +9,10 @@ namespace MonHundle.database.DataAccessers;
 
 public class MonsterDataAccess(AppDbContext dbContext) : IMonsterDataAccess
 {
-    public async Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String GameCode)
+    public async Task<List<GuessableMonster>> GetGuessableMonsterPoolFromGame(String gameCode)
     {
         return await dbContext.GuessableMonsters
-            .Where(gm => gm.GamesList.Contains(GameCode))
+            .Where(gm => gm.GamesList.Any(s => s.Equals(gameCode)))
             .Select(m => GuessableMonster.FromData(m))
             .Cacheable(CacheExpirationMode.Absolute,  TimeSpan.FromHours(1))
             .ToListAsync()
