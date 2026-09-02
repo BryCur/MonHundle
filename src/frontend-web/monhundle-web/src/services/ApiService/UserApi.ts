@@ -11,8 +11,15 @@ export class UserApi implements IUserApi {
         return apiFetch("/user/authenticate",
             {
                 method: "GET",
-                credentials: "include", 
+                credentials: "include",
             }
-        ).then( () => {this.authenticated = true}) 
+        ).then( (response) => {
+            if (!response.ok) {
+                this.authenticated = false;
+                throw new Error(`Authentication failed with status ${response.status}`);
+            }
+
+            this.authenticated = true;
+        })
     }
 }
