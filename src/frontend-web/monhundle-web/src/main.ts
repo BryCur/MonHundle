@@ -10,13 +10,13 @@ import { router } from './router'
 import en from './locales/en.json'
 import fr from './locales/fr.json'
 
-import { UserApi } from './services/ApiService/UserApi'
 import { DailyGameService, UnlimitedGameService } from './services/GameService'
 import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi'
 import ResourceApi from './services/ApiService/ResourceApi'
 import { useGameStore } from './stores/GameStore'
 import { DailyGameApi } from './services/ApiService/DailyGameApi'
 import { SettingsApi } from '@/services/ApiService/SettingApi.ts';
+import { authManager } from './services/AuthManagementService.ts'
 
 const i18n = createI18n({
     legacy: false,
@@ -41,7 +41,7 @@ const dailyGameService = new DailyGameService(dailyGameApi, gameStore);
 const resourceApi = new ResourceApi();
 const settingsApi = new SettingsApi();
 
-new UserApi().authUser();
+authManager.authenticate().catch(() => {});
 
 app.use(router);
 app.use(i18n);

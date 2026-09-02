@@ -1,11 +1,11 @@
-import { ComparisonResults } from "@/domain/enums/ComparisonResults";
-import { GameStates } from "@/domain/enums/GameStates";
 import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { CookieKeys, setCookie } from "@/services/CookieService";
 import { msUntilMidnightUTC } from '@/domain/Utils';
+import { GameModes } from "@/domain/enums/GameModes";
+import { DailyGameAlreadyExistsError } from "@/domain/errors/DailyGameAlreadyExistsError";
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -20,7 +20,7 @@ export class UnlimitedGameService {
         return await this.gameApi.newGame().then(res => {
             let gameId: string = res;
 
-            let newGame = new GameStatus(gameId);
+            let newGame = new GameStatus(gameId, GameModes.Unlimited);
             this.gameStore.setGame(newGame);
 
             setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
@@ -47,7 +47,6 @@ export class UnlimitedGameService {
             return false
         })
     }
-
 }
 
 export class DailyGameService {
@@ -61,22 +60,28 @@ export class DailyGameService {
 
     public async startNewGame(): Promise<string> {
         return await this.gameApi.newGame().then(res => {
+            
             let gameId: string = res;
 
-            let newGame = new GameStatus(gameId);
+            let newGame = new GameStatus(gameId, GameModes.Daily);
             this.gameStore.setGame(newGame);
 
             let now = Date.now()
 
             setCookie(CookieKeys.CURRENT_DAILY_GAME, gameId, msUntilMidnightUTC());
             return gameId;
-        }).catch( async err => {
-            let gameSet = await this.resumeGame(err.message)
-            if(gameSet) {
-                return err
-            } else {
-                throw new Error("game could not be set")
+        }).catch( async (err) => {
+            if (!(err instanceof DailyGameAlreadyExistsError)) {
+                throw err;
             }
+
+            const gameSet = await this.resumeGame(err.getExistingGameId);
+            
+            if (!gameSet) {
+                throw new Error("game could not be set");
+            }
+
+            return err.getExistingGameId;
         });
     }
 

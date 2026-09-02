@@ -5,5 +5,6 @@ namespace MonHundle.domain.Entities.DTO;
 public record GameStateResponse(
     Guid GameId,
     GameStates State,
-    List<MonsterGuessDTO> Guesses
+    List<MonsterGuessDTO> Guesses,
+    GameModes GameMode
 ){}

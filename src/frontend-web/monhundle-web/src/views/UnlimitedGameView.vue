@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n';
 import { router } from '../router';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { GameModes } from '@/domain/enums/GameModes.ts';
 
 const { t } = useI18n()
 const gameStore = useGameStore();
@@ -44,7 +45,7 @@ onMounted(async () => {
                 gameId = gameStore.game!.gameId
             }
         })
-    } else if (gameStore.isGameNull()) {
+    } else if (gameStore.isGameNull() || gameStore.game?.gameMode !== GameModes.Unlimited) {
         startNewGame();
     }
 
