@@ -4,6 +4,7 @@ import SelectGamesView from '@/views/SelectGamesView.vue'
 import SettingsView from '@/views/SettingView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import DailyGameView from '@/views/DailyGameView.vue'
+import { authManager } from '@/services/AuthManagementService'
 
 const SiteName= 'MonHundle'
 
@@ -21,6 +22,7 @@ export const router = createRouter({
     {
       path: paths.selectGame,
       name: `${SiteName}: home`,
+
       component: SelectGamesView,
     },
     {
@@ -48,4 +50,17 @@ export const router = createRouter({
       component: SettingsView,
     },
   ],
+  
+})
+
+
+router.beforeEach(async (to) => {
+  try {
+    await authManager.whenAuthenticated
+    return true
+  } catch (err) {
+    console.error('Authentication failed before navigation', err)
+    return true
+    // TODO error page to route; return { path: paths.about }
+  }
 })
