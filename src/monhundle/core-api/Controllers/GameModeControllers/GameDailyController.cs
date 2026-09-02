@@ -60,7 +60,8 @@ public class GameDailyController : ControllerBase
         return Ok(new GameStateResponse(
             game.Id,
             game.State,
-            game.Guesses
+            game.Guesses,
+            game.GameMode
         ));
     }
 
