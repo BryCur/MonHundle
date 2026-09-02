@@ -38,6 +38,24 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         Assert.NotNull(setCookieString);
         Assert.StartsWith($"user_id={newPlayerId}", setCookieString);
 
+        var body = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+        Assert.Equal(newPlayerId.ToString(), body);
+    }
+
+    [Fact]
+    public async Task Authenticate_use_bearer_header_if_present_and_valid()
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "user/authenticate");
+        request.Headers.Add("Authorization", $"Bearer {playerId}");
+        var response = await _client.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+        var body = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+        Assert.Equal(playerId.ToString(), body);
+        _playerServiceMock.Verify(ps => ps.AuthPlayer(playerId.ToString()), Times.Once);
     }
 
     [Fact]
@@ -147,6 +165,26 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     
     
     [Fact]
+    public async Task SavePreferences_returns_ok_when_bearer_header_parsed_and_valid()
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "user/preference");
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(this._preferences),
+            Encoding.UTF8,
+            "application/json"
+        );
+        request.Headers.Add("Authorization", $"Bearer {playerId}");
+
+        var response = await _client.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+    }
+
+
+    [Fact]
     public async Task SavePreferences_returns_unauthorised_when_cookie_parsed_and_invalid()
     {
         Guid  playerId = Guid.NewGuid();
@@ -204,9 +242,35 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var setCookieString = response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values) ? values.FirstOrDefault() : null;
         Assert.NotNull(setCookieString);
         Assert.StartsWith($"user_id={paramPlayerId}", setCookieString);
+
+        var body = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+        Assert.Equal(paramPlayerId.ToString(), body);
     }
-    
-    
+
+    [Fact]
+    public async Task Load_returns_ok_when_bearer_header_and_param_parsed_and_valid()
+    {
+        Guid headerPlayerId = Guid.NewGuid();
+        Guid paramPlayerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(headerPlayerId)).ReturnsAsync(true);
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(paramPlayerId)).ReturnsAsync(true);
+
+        var requestUri = new UriBuilder()
+        {
+            Path = "user/load",
+            Query = $"user-id={paramPlayerId}"
+        };
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUri.Uri);
+        request.Headers.Add("Authorization", $"Bearer {headerPlayerId}");
+
+        var response = await _client.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+        var body = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+        Assert.Equal(paramPlayerId.ToString(), body);
+    }
+
+
     [Fact]
     public async Task Load_returns_unauthorized_when_cookie_parsed_and_invalid()
     {
