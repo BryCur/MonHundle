@@ -9,7 +9,7 @@ export default class GameStatus {
     public state: GameStates;
     public gameMode: GameModes;
     
-    constructor(id: string, guesses: Guess[] = [], gameMode:GameModes, state: GameStates = GameStates.Ongoing) {
+    constructor(id: string, gameMode:GameModes,  guesses: Guess[] = [], state: GameStates = GameStates.Ongoing) {
         this.gameId = id;
         this.guesses = guesses
         this.state = state;

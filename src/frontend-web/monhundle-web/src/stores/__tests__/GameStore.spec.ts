@@ -4,6 +4,7 @@ import { useGameStore } from "@/stores/GameStore"
 import { GameStates } from "@/domain/enums/GameStates"
 import type Guess from "@/domain/Guess"
 import GameStatus from "@/domain/GameStatus"
+import { GameModes } from "@/domain/enums/GameModes"
 
 describe("GameStore", () => {
     beforeEach(() => {
@@ -12,7 +13,7 @@ describe("GameStore", () => {
 
     it("should initialise the gameStore with whatever game we set it to be", () => {
         const store = useGameStore();
-        const game: GameStatus = new GameStatus("abc");
+        const game: GameStatus = new GameStatus("abc", GameModes.Unlimited);
         store.setGame(game as any);
 
         expect(store.game).toStrictEqual(game);
@@ -20,7 +21,7 @@ describe("GameStore", () => {
 
     it("should add a guess to the game guess list", () => {
         const store = useGameStore();
-        const game: GameStatus = new GameStatus("abc");
+        const game: GameStatus = new GameStatus("abc", GameModes.Unlimited);
 
         store.setGame(game as any);
         const guess = { monsterCode: "rathalos" } as Guess;
@@ -33,7 +34,7 @@ describe("GameStore", () => {
 
     it("should update the game state", () => {
         const store = useGameStore();
-        const game: GameStatus = new GameStatus("abc");
+        const game: GameStatus = new GameStatus("abc", GameModes.Unlimited);
         store.setGame(game as any);
         store.setState(GameStates.Win);
 
@@ -42,7 +43,7 @@ describe("GameStore", () => {
 
     it("should indicate whether a game is null correctly", () => {
         const store = useGameStore();
-        const game: GameStatus = new GameStatus("abc");
+        const game: GameStatus = new GameStatus("abc", GameModes.Unlimited);
 
         expect(store.isGameNull()).toBeTruthy();
         store.setGame(game);
@@ -51,7 +52,7 @@ describe("GameStore", () => {
 
     it("should indicate whether a game is ongoing correctly", () => {
         const store = useGameStore();
-        const game: GameStatus = new GameStatus("abc");
+        const game: GameStatus = new GameStatus("abc", GameModes.Unlimited);
         store.setGame(game);
 
         expect(store.isGameOngoing()).toBeTruthy();

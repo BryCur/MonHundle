@@ -29,7 +29,7 @@ export class UnlimitedGameApi implements IGameApi {
         const response: Response = await apiFetch(`/game/unlimited/resume/${gameId}`, { method: "GET", credentials: 'include'})
         if (response.ok) {
             let resp = await response.json() as GameStatus
-            return  new GameStatus(resp.gameId, resp.guesses, resp.state);
+            return  new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
         }
 
         return null;

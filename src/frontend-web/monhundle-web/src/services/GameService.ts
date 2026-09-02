@@ -6,7 +6,8 @@ import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { CookieKeys, setCookie } from "@/services/CookieService";
 import { msUntilMidnightUTC } from '@/domain/Utils';
-import type GameStateResponse from "@/domain/responses/GameStateResponse";
+import GameStateResponse from "@/domain/responses/GameStateResponse";
+import { GameModes } from "@/domain/enums/GameModes";
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -21,7 +22,7 @@ export class UnlimitedGameService {
         return await this.gameApi.newGame().then(res => {
             let gameId: string = res;
 
-            let newGame = new GameStatus(gameId);
+            let newGame = new GameStatus(gameId, GameModes.Unlimited);
             this.gameStore.setGame(newGame);
 
             setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
@@ -64,7 +65,7 @@ export class DailyGameService {
             
             let gameId: string = res;
 
-            let newGame = new GameStatus(gameId);
+            let newGame = new GameStatus(gameId, GameModes.Daily);
             this.gameStore.setGame(newGame);
 
             let now = Date.now()
