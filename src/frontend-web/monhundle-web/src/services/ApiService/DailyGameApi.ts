@@ -4,6 +4,8 @@ import { apiFetch } from "./ApiBaseAccess";
 import type Guess from "@/domain/Guess";
 import type GuessResponse from "@/domain/responses/GuessResponse";
 import GameStatus from "@/domain/GameStatus";
+import { DailyGameAlreadyExistsError } from "@/domain/errors/DailyGameAlreadyExistsError";
+import type GameStateResponse from "@/domain/responses/GameStateResponse";
 
 export class DailyGameApi implements IGameApi {
 
@@ -12,11 +14,13 @@ export class DailyGameApi implements IGameApi {
     public async newGame(): Promise<string> {
         const response = await apiFetch("/game/daily/start", { method: "POST", credentials: 'include'})
 
-        if (response.status === 409) {
-            throw new Error(await response.text());
+        if(response.ok) {
+            return response.json();
+        } else if (response.status === 409) {
+            throw new DailyGameAlreadyExistsError("Could not create daily game for today", await response.json() as string);
+        } else {
+            throw new Error("unexpected error while creating new daily game")
         }
-
-        return response.json() as string;
 
     }
 

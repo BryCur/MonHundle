@@ -1,13 +1,11 @@
-import { ComparisonResults } from "@/domain/enums/ComparisonResults";
-import { GameStates } from "@/domain/enums/GameStates";
 import GameStatus from "@/domain/GameStatus";
 import type Guess from "@/domain/Guess";
 import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { CookieKeys, setCookie } from "@/services/CookieService";
 import { msUntilMidnightUTC } from '@/domain/Utils';
-import GameStateResponse from "@/domain/responses/GameStateResponse";
 import { GameModes } from "@/domain/enums/GameModes";
+import { DailyGameAlreadyExistsError } from "@/domain/errors/DailyGameAlreadyExistsError";
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -72,13 +70,18 @@ export class DailyGameService {
 
             setCookie(CookieKeys.CURRENT_DAILY_GAME, gameId, msUntilMidnightUTC());
             return gameId;
-        }).catch( async err => {
-            let gameSet = await this.resumeGame(err.message)
-            if(gameSet) {
-                return err
-            } else {
-                throw new Error("game could not be set")
+        }).catch( async (err) => {
+            if (!(err instanceof DailyGameAlreadyExistsError)) {
+                throw err;
             }
+
+            const gameSet = await this.resumeGame(err.getExistingGameId);
+            
+            if (!gameSet) {
+                throw new Error("game could not be set");
+            }
+
+            return err.getExistingGameId;
         });
     }
 
