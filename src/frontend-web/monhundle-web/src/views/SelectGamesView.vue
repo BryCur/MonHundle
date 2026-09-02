@@ -17,7 +17,6 @@ const lastRoute = ref<string |null>(null);
 onMounted(async () => {
     ready.value = false;
     const response = await apiFetch("/resources/game-titles", { method: "GET"});
-    console.log("history", window.history);
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;

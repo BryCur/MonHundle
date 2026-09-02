@@ -16,7 +16,8 @@ export class DailyGameApi implements IGameApi {
             throw new Error(await response.text());
         }
 
-        return response.text();
+        return response.json() as string;
+
     }
 
     public async makeGuess(gameId: string, monsterCode: string):  Promise<GuessResponse> {

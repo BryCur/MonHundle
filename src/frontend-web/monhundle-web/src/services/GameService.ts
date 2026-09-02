@@ -6,6 +6,7 @@ import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import { type GameStore } from "@/stores/GameStore";
 import { CookieKeys, setCookie } from "@/services/CookieService";
 import { msUntilMidnightUTC } from '@/domain/Utils';
+import type GameStateResponse from "@/domain/responses/GameStateResponse";
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;
@@ -47,7 +48,6 @@ export class UnlimitedGameService {
             return false
         })
     }
-
 }
 
 export class DailyGameService {
@@ -61,6 +61,7 @@ export class DailyGameService {
 
     public async startNewGame(): Promise<string> {
         return await this.gameApi.newGame().then(res => {
+            
             let gameId: string = res;
 
             let newGame = new GameStatus(gameId);

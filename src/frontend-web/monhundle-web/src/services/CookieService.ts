@@ -8,7 +8,6 @@ export function setCookie(name: string, val: string, durationMs: number = 7 * 24
 
 export function getCookie(name: string) {
     const value = "; " + document.cookie;
-    console.log("cookie", value);
     const parts = value.split("; " + name + "=");
     
     if (parts.length == 2 && parts[1] != undefined) {
