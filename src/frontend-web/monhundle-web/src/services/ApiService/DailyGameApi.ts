@@ -38,7 +38,7 @@ export class DailyGameApi implements IGameApi {
     public async resumeGame (gameId: string): Promise<GameStatus | null> {
         const response: Response = await apiFetch(`/game/daily/resume/${gameId}`, { method: "GET", credentials: 'include'})
         if (response.ok) {
-            let resp = await response.json() as GameStatus
+            let resp = await response.json() as GameStateResponse
             return  new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
         }
 
