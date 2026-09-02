@@ -3,8 +3,8 @@
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
 import { paths, router } from '@/router';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
-import { CookieKeys, getCookie, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
+import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageService';
 import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
 
@@ -25,7 +25,7 @@ onMounted(async () => {
     enableTableA11y.value = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";
 
     // get current UUID
-    currentUUID = getCookie(CookieKeys.USER_ID) ?? "";
+    currentUUID = getStoredUserId() ?? "";
 
 })
 
@@ -64,6 +64,9 @@ async function loadUuid() {
             }else {
                 deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
             }
+
+            // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
+            location.reload();
         } else {
             // TODO error management
             console.error("UUID provided not recognised")

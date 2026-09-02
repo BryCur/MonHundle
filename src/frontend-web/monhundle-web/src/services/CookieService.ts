@@ -33,7 +33,8 @@ export function clearCookies() {
 }
 
 export enum CookieKeys {
-    USER_ID = "user_id",
+    // the player identity now lives in localStorage (see LocalStorageService); only per-device
+    // game progress is still kept in cookies, which stay first-party to the web app origin
     CURRENT_DAILY_GAME = "currentDailyGame",
     CURRENT_UNLIMITED_GAME = "currentUnlimitedGame"
 }
