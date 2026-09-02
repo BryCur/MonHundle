@@ -25,6 +25,12 @@ export class AuthManagementService {
         return this.instance;
     }
 
+    /**
+     * only used for tests
+     */
+    public static reset(): void {
+        this.instance = null;
+    }
 
     /**
      * sends the Auth request if necessary
@@ -37,7 +43,6 @@ export class AuthManagementService {
                 })
                 .catch((err) => {
                     this.authenticated = false;
-                    this.authPromise = null;
                     throw err;
                 });
         }

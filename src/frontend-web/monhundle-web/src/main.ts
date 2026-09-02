@@ -41,7 +41,7 @@ const dailyGameService = new DailyGameService(dailyGameApi, gameStore);
 const resourceApi = new ResourceApi();
 const settingsApi = new SettingsApi();
 
-authManager.authenticate();
+authManager.authenticate().catch(() => {});
 
 app.use(router);
 app.use(i18n);

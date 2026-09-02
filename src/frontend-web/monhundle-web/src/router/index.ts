@@ -60,7 +60,9 @@ router.beforeEach(async (to) => {
     return true
   } catch (err) {
     console.error('Authentication failed before navigation', err)
-    return true
-    // TODO error page to route; return { path: paths.about }
+
+    // TODO error page to route toward instead of the about page.
+    return to.path === paths.about ? true : { path: paths.about }
+    
   }
 })

@@ -12,6 +12,5 @@ export async function apiFetch(
       ...(options.headers || {})
     },
     credentials: 'include', // sends the cookie
-    redirect: "error"
   });
 }
