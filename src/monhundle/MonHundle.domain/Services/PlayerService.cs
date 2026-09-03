@@ -15,33 +15,33 @@ public class PlayerService(
 ): IPlayerService {
     public async Task<Guid> AuthPlayer(string? playerUid)
     {
-        if (playerUid is null)
+        if (!Guid.TryParse(playerUid, out Guid pUid))
         {
-            logger.LogInformation("New player visiting, creating new uid");
-            Player player = new Player { PlayerUid = Guid.NewGuid(), last_connection = DateTime.UtcNow };
-            await playerDataAccess.InsertPlayer(player);
-            
-            return player.PlayerUid;
+            return await CreateNewPlayer();
         }
-        else
+
+        Player? player = await playerDataAccess.GetPlayer(pUid);
+
+        if (player is null)
         {
-            logger.LogInformation("player returning, verifying {playerId}", playerUid);
-
-            Guid pUid = Guid.Parse(playerUid);
-            Player? player = await playerDataAccess.GetPlayer(pUid);
-
-            if (player is null)
-            {
-                logger.LogInformation("Player {playerId} not found, refusing auth", playerUid);
-                throw new DataNotFoundException($"Player {playerUid} not found");
-            }
-            
-            logger.LogInformation("Player {playerId} found, refreshing cookie lifespan", playerUid);
-            player.last_connection = DateTime.UtcNow;
-            await playerDataAccess.UpdatePlayer(player);
-
-            return player.PlayerUid;
+            logger.LogInformation("Player {playerId} not recognised, issuing a fresh identity", playerUid);
+            return await CreateNewPlayer();
         }
+
+        logger.LogInformation("Player {playerId} returning, refreshing last connection", playerUid);
+        player.last_connection = DateTime.UtcNow;
+        await playerDataAccess.UpdatePlayer(player);
+
+        return player.PlayerUid;
+    }
+
+    private async Task<Guid> CreateNewPlayer()
+    {
+        logger.LogInformation("Creating a new player identity");
+        Player player = new Player { PlayerUid = Guid.NewGuid(), last_connection = DateTime.UtcNow };
+        await playerDataAccess.InsertPlayer(player);
+
+        return player.PlayerUid;
     }
 
     public async Task<bool> CheckPlayerExists(Guid playerUid)

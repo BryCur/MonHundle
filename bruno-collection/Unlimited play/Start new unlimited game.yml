@@ -7,8 +7,8 @@ http:
   method: POST
   url: "{{domain_url}}/game/unlimited/start"
   headers:
-    - name: Cookie
-      value: user_id=060d30e1-da14-4fa2-85aa-962112e2a41e
+    - name: Authorization
+      value: Bearer 060d30e1-da14-4fa2-85aa-962112e2a41e
   auth: inherit
 
 settings:

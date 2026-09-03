@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using core_api.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using MonHundle.domain.Entities.DAL.JsonStructs;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Interfaces.DataAccess;
@@ -14,26 +15,13 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpGet("authenticate")]
     public async Task<IActionResult> IdentifyUser()
     {
-        // read cookie
-        string? sUID = Request.Cookies["user_id"];
+        string? sUID = Request.GetUserId();
         try
         {
 
             Guid playerUid = await playerService.AuthPlayer(sUID);
 
-            CookieOptions options = new CookieOptions
-            {
-                MaxAge = TimeSpan.FromDays(30),
-                HttpOnly = false,
-                Secure = true,
-                SameSite = SameSiteMode.None
-            };
-
-
-            Response.Cookies.Append("user_id", playerUid.ToString(), options);
-            // return OK with cookie 1month
-
-            return Ok();
+            return Ok(playerUid);
         }
         catch (Exception e)
         {
@@ -66,13 +54,13 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpPost("preference")]
     public async Task<IActionResult> SavePreference([FromBody] UserPreferencesBody preferences)
     {
-        bool guidParsed = Guid.TryParse(Request.Cookies["user_id"], out Guid parsedUuid);
+        bool guidParsed = Guid.TryParse(Request.GetUserId(), out Guid parsedUuid);
 
         if (!guidParsed || ! await playerService.CheckPlayerExists(parsedUuid))
         {
-            return Unauthorized("invalid user id format"); 
+            return Unauthorized("invalid user id format");
         }
-        
+
         await playerService.SaveUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
 
         return Ok();
@@ -81,7 +69,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpGet("load")]
     public async Task<IActionResult> LoadUser([FromQuery(Name = "user-id")] string userUuid)
     {
-        bool currentGuidParsed = Guid.TryParse(Request.Cookies["user_id"], out Guid currentUserUuid);
+        bool currentGuidParsed = Guid.TryParse(Request.GetUserId(), out Guid currentUserUuid);
         bool targetGuidParsed = Guid.TryParse(userUuid, out Guid targetUserUuid);
 
         if (!currentGuidParsed || ! await playerService.CheckPlayerExists(currentUserUuid))
@@ -93,18 +81,8 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
         {
             return NotFound("target user id is invalid");
         }
-        
-        CookieOptions options = new CookieOptions
-        {
-            MaxAge = TimeSpan.FromDays(30),
-            HttpOnly = false,
-            Secure = true,
-            SameSite = SameSiteMode.None
-        };
 
-
-        Response.Cookies.Append("user_id", targetUserUuid.ToString(), options);
-
-        return Ok();
+        // return the loaded identifier (JSON string) so the caller can persist it and use it as its bearer token
+        return Ok(targetUserUuid);
     }
 }

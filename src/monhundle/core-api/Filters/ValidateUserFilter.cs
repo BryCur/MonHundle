@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using core_api.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MonHundle.database;
 using MonHundle.domain.Entities.DAL;
@@ -11,13 +12,11 @@ public class ValidateUserFilter(IPlayerDataAccess playerDataAccess) : IAsyncActi
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var cookies = context.HttpContext.Request.Cookies;
+        var userId = context.HttpContext.Request.GetUserId();
         Player? player = null;
 
-        if (
-            cookies.TryGetValue("user_id", out var userId) 
-            && Guid.TryParse(userId, out var guid)
-        ){
+        if (Guid.TryParse(userId, out var guid))
+        {
             player = await playerDataAccess.GetPlayer(guid);
         }
 

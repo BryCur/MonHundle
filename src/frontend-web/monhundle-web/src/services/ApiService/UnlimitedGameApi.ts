@@ -10,7 +10,7 @@ export class UnlimitedGameApi implements IGameApi {
     constructor() {}
 
     public async newGame(): Promise<string> {
-        const response = await apiFetch("/game/unlimited/start", { method: "POST", credentials: 'include'})
+        const response = await apiFetch("/game/unlimited/start", { method: "POST" })
         return response.json() as string;
     }
 
@@ -26,7 +26,7 @@ export class UnlimitedGameApi implements IGameApi {
     }
 
     public async resumeGame (gameId: string): Promise<GameStatus | null> {
-        const response: Response = await apiFetch(`/game/unlimited/resume/${gameId}`, { method: "GET", credentials: 'include'})
+        const response: Response = await apiFetch(`/game/unlimited/resume/${gameId}`, { method: "GET" })
         if (response.ok) {
             let resp = await response.json() as GameStatus
             return  new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);

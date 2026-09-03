@@ -55,8 +55,7 @@ public class Program
                 policy => policy
                     .WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials());
+                    .AllowAnyMethod());
         });
 
         var app = builder.Build();
