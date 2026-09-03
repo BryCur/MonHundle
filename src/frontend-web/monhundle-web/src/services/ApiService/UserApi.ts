@@ -12,7 +12,6 @@ export class UserApi implements IUserApi {
         return apiFetch("/user/authenticate",
             {
                 method: "GET",
-                credentials: "include",
             }
         ).then( async (response) => {
             if (!response.ok) {

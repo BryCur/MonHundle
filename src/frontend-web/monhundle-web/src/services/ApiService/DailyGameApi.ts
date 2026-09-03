@@ -12,7 +12,7 @@ export class DailyGameApi implements IGameApi {
     constructor() {}
 
     public async newGame(): Promise<string> {
-        const response = await apiFetch("/game/daily/start", { method: "POST", credentials: 'include'})
+        const response = await apiFetch("/game/daily/start", { method: "POST" })
 
         if(response.ok) {
             return response.json();
@@ -36,7 +36,7 @@ export class DailyGameApi implements IGameApi {
     }
 
     public async resumeGame (gameId: string): Promise<GameStatus | null> {
-        const response: Response = await apiFetch(`/game/daily/resume/${gameId}`, { method: "GET", credentials: 'include'})
+        const response: Response = await apiFetch(`/game/daily/resume/${gameId}`, { method: "GET" })
         if (response.ok) {
             let resp = await response.json() as GameStateResponse
             return  new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);

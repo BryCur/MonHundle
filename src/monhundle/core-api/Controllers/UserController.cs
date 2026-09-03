@@ -15,19 +15,14 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpGet("authenticate")]
     public async Task<IActionResult> IdentifyUser()
     {
-        // read the identifier from the Authorization header, falling back to the legacy cookie
+        // the player id is carried by the Authorization: Bearer header
         string? sUID = Request.GetUserId();
         try
         {
 
             Guid playerUid = await playerService.AuthPlayer(sUID);
 
-            // still emit the cookie for non-Safari clients and future same-site deployments,
-            // but the identifier is now primarily returned in the body so the SPA can store it
-            // and send it back as a bearer token.
-            Response.Cookies.Append("user_id", playerUid.ToString(), BuildUserCookieOptions());
-
-            // returned as a JSON string ("<guid>") so the SPA can read it via response.json()
+            // returned as a JSON string ("<guid>"); the SPA stores it and sends it back as a bearer token
             return Ok(playerUid);
         }
         catch (Exception e)
@@ -89,17 +84,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
             return NotFound("target user id is invalid");
         }
 
-        Response.Cookies.Append("user_id", targetUserUuid.ToString(), BuildUserCookieOptions());
-
-        // return the loaded identifier (JSON string) so the SPA can persist it and use it as a bearer token
+        // return the loaded identifier (JSON string) so the SPA can persist it and use it as its bearer token
         return Ok(targetUserUuid);
     }
-
-    private static CookieOptions BuildUserCookieOptions() => new CookieOptions
-    {
-        MaxAge = TimeSpan.FromDays(30),
-        HttpOnly = false,
-        Secure = true,
-        SameSite = SameSiteMode.None
-    };
 }

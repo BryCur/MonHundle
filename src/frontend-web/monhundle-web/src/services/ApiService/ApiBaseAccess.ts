@@ -13,11 +13,9 @@ export async function apiFetch(
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      // the API identifies the player from this header; the cookie below is only a fallback
-      // for browsers that still accept the cross-site cookie
+      // the API identifies the player from this header (see LocalStorageService for why not a cookie)
       ...(userId ? { Authorization: `Bearer ${userId}` } : {}),
       ...(options.headers || {})
     },
-    credentials: 'include', // sends the cookie when the browser allows it
   });
 }

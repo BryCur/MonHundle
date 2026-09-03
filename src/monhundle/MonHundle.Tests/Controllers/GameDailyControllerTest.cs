@@ -38,9 +38,9 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     private HttpRequestMessage GetRequestWithAuthHeader(HttpMethod method, string uri)
     {
         var request = new HttpRequestMessage(method, uri);
-        
-        request.Headers.Add("Cookie", $"user_id={_currentPlayer.PlayerUid.ToString()}");
-        
+
+        request.Headers.Add("Authorization", $"Bearer {_currentPlayer.PlayerUid.ToString()}");
+
         return request;
     }
     
