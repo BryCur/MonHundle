@@ -41,14 +41,28 @@ public class PlayerServiceTest
     }
 
     [Fact]
-    public void AuthPlayer_throw_DataNotFound_if_uid_not_valid()
+    public async Task AuthPlayer_issues_new_identity_if_uid_not_recognised()
     {
         Guid missingUid = Guid.NewGuid();
-        _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid));
-        
+        _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid)).ReturnsAsync((Player?)null);
+
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        
-        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.AuthPlayer(missingUid.ToString()));
+        Guid result = await service.AuthPlayer(missingUid.ToString());
+
+        Assert.NotEqual(missingUid, result);
+        Assert.NotEqual(Guid.Empty, result);
+        _playerDataAccess.Verify(pda => pda.InsertPlayer(It.Is<Player>(p => p.PlayerUid == result)), Times.Once);
+    }
+
+    [Fact]
+    public async Task AuthPlayer_issues_new_identity_if_uid_unparseable()
+    {
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        Guid result = await service.AuthPlayer("not-a-guid");
+
+        Assert.NotEqual(Guid.Empty, result);
+        _playerDataAccess.Verify(pda => pda.InsertPlayer(It.Is<Player>(p => p.PlayerUid == result)), Times.Once);
+        _playerDataAccess.Verify(pda => pda.GetPlayer(It.IsAny<Guid>()), Times.Never);
     }
     
     [Fact]

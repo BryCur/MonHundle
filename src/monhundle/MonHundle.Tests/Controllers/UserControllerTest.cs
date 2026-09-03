@@ -2,7 +2,6 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using MonHundle.domain.Entities.DTO;
-using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.Tests.Utils;
 using Moq;
@@ -69,10 +68,10 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     }
 
     [Fact]
-    public async Task Authenticate_returns_bad_request_when_identifier_present_but_unknown()
+    public async Task Authenticate_returns_bad_request_when_auth_fails_unexpectedly()
     {
         Guid playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).Throws(new DataNotFoundException("test"));
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).Throws(new InvalidOperationException("boom"));
 
         var response = await _client.SendAsync(BearerRequest(HttpMethod.Get, "user/authenticate", playerId));
 
