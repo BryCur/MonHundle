@@ -1,5 +1,6 @@
 import type IUserApi from "@/domain/interfaces/api-contracts/IUserApi";
 
+import { isUUID } from "@/domain/Utils";
 import { setStoredUserId } from "@/services/LocalStorageService";
 import { apiFetch } from "./ApiBaseAccess";
 
@@ -8,25 +9,32 @@ export class UserApi implements IUserApi {
 
     constructor() {}
 
-    public authUser(): Promise<void> {
-        return apiFetch("/user/authenticate",
-            {
-                method: "GET",
-            }
-        ).then( async (response) => {
-            if (!response.ok) {
-                this.authenticated = false;
-                throw new Error(`Authentication failed with status ${response.status}`);
-            }
+    public async authUser(): Promise<void> {
+        const response = await apiFetch("/user/authenticate", { method: "GET" });
 
-            // the API returns the resolved (possibly newly created) player id; persist it so every
-            // subsequent request can send it as a bearer token, since Safari/iOS drops the cookie
-            const userId = await response.json() as string;
-            if (userId) {
-                setStoredUserId(userId);
-            }
+        if (!response.ok) {
+            this.authenticated = false;
+            throw new Error(`Authentication failed with status ${response.status}`);
+        }
 
-            this.authenticated = true;
-        })
+        // the API returns the resolved (possibly newly created) player id as a JSON string.
+        // Parse defensively: a 200 with an unexpected body (empty, a proxy error page, plain text)
+        // must not crash auth. We only trust the value if it is a well-formed UUID.
+        const rawBody = await response.text();
+        let userId: unknown;
+        try {
+            userId = JSON.parse(rawBody);
+        } catch {
+            userId = undefined;
+        }
+
+        if (typeof userId !== "string" || !isUUID(userId)) {
+            this.authenticated = false;
+            throw new Error("Authentication response did not contain a valid user id");
+        }
+
+        // persist it so every subsequent request can send it as a bearer token
+        setStoredUserId(userId);
+        this.authenticated = true;
     }
 }

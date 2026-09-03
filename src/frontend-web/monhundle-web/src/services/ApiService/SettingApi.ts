@@ -1,6 +1,7 @@
 import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import type { UserSettingsBody } from '@/domain/requestBodies/UserSettingsBody';
 import type SettingsResponse from '@/domain/responses/SettingsResponse';
+import { isUUID } from '@/domain/Utils';
 import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { setStoredUserId } from '@/services/LocalStorageService';
 
@@ -33,9 +34,16 @@ export class SettingsApi implements ISettingApi {
         const response = await apiFetch(`/user/load?${urlParam.toString()}` , {method: 'GET'})
 
         if (response.ok) {
-            // switch the locally stored identity so following requests authenticate as the loaded user
-            const loadedUserId = await response.json() as string;
-            setStoredUserId(loadedUserId || userUid);
+            // switch the locally stored identity so following requests authenticate as the loaded user.
+            // Parse defensively and fall back to the (already validated) requested id.
+            let loadedUserId: unknown;
+            try {
+                loadedUserId = JSON.parse(await response.text());
+            } catch {
+                loadedUserId = undefined;
+            }
+
+            setStoredUserId(typeof loadedUserId === "string" && isUUID(loadedUserId) ? loadedUserId : userUid);
         }
     }
     
