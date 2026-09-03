@@ -15,11 +15,6 @@ public class PlayerService(
 ): IPlayerService {
     public async Task<Guid> AuthPlayer(string? playerUid)
     {
-        // The bearer token comes straight from the client's localStorage. An unparseable or unknown
-        // value almost always means stale local data (a database reset, a different environment, a
-        // cleared profile) rather than an attack: authenticate has no security boundary, so we hand
-        // out a fresh identity instead of locking the client out. Endpoints that must reject an
-        // unknown id (validate, load) keep their own checks.
         if (!Guid.TryParse(playerUid, out Guid pUid))
         {
             return await CreateNewPlayer();

@@ -51,8 +51,6 @@ public class Program
         string[] allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(",") ?? Array.Empty<string>();
         builder.Services.AddCors(options =>
         {
-            // the SPA authenticates with an Authorization: Bearer header, not cookies,
-            // so credentials are not part of cross-origin requests
             options.AddPolicy("AllowFrontend",
                 policy => policy
                     .WithOrigins(allowedOrigins)

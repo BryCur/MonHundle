@@ -2,7 +2,6 @@ import { getStoredUserId } from '@/services/LocalStorageService';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-// Petite fonction utilitaire pour gérer les requêtes
 export async function apiFetch(
   endpoint: string,
   options: RequestInit = {}
@@ -13,7 +12,7 @@ export async function apiFetch(
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      // the API identifies the player from this header (see LocalStorageService for why not a cookie)
+      // the API identifies the player from this header
       ...(userId ? { Authorization: `Bearer ${userId}` } : {}),
       ...(options.headers || {})
     },

@@ -17,9 +17,7 @@ export class UserApi implements IUserApi {
             throw new Error(`Authentication failed with status ${response.status}`);
         }
 
-        // the API returns the resolved (possibly newly created) player id as a JSON string.
-        // Parse defensively: a 200 with an unexpected body (empty, a proxy error page, plain text)
-        // must not crash auth. We only trust the value if it is a well-formed UUID.
+        // parse the body as a string, then verify that it is a well formed UUID.
         const rawBody = await response.text();
         let userId: unknown;
         try {

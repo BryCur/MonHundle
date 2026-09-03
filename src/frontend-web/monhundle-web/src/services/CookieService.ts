@@ -1,7 +1,7 @@
 export function setCookie(name: string, val: string, durationMs: number = 7 * 24 * 60 * 60 * 1000) { // 7 days duration by default
     const date = new Date();
     const value = val;
-    
+
     date.setTime(date.getTime() + durationMs);
     document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
 }
@@ -9,7 +9,7 @@ export function setCookie(name: string, val: string, durationMs: number = 7 * 24
 export function getCookie(name: string) {
     const value = "; " + document.cookie;
     const parts = value.split("; " + name + "=");
-    
+
     if (parts.length == 2 && parts[1] != undefined) {
         return parts.pop()!.split(";").shift();
     }
@@ -33,8 +33,6 @@ export function clearCookies() {
 }
 
 export enum CookieKeys {
-    // the player identity now lives in localStorage (see LocalStorageService); only per-device
-    // game progress is still kept in cookies, which stay first-party to the web app origin
     CURRENT_DAILY_GAME = "currentDailyGame",
     CURRENT_UNLIMITED_GAME = "currentUnlimitedGame"
 }

@@ -15,14 +15,12 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpGet("authenticate")]
     public async Task<IActionResult> IdentifyUser()
     {
-        // the player id is carried by the Authorization: Bearer header
         string? sUID = Request.GetUserId();
         try
         {
 
             Guid playerUid = await playerService.AuthPlayer(sUID);
 
-            // returned as a JSON string ("<guid>"); the SPA stores it and sends it back as a bearer token
             return Ok(playerUid);
         }
         catch (Exception e)
@@ -84,7 +82,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
             return NotFound("target user id is invalid");
         }
 
-        // return the loaded identifier (JSON string) so the SPA can persist it and use it as its bearer token
+        // return the loaded identifier (JSON string) so the caller can persist it and use it as its bearer token
         return Ok(targetUserUuid);
     }
 }
