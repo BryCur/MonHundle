@@ -15,7 +15,7 @@ public class CriteriasTests
     private static readonly HashSet<Habitats> CompSetPartial = [Habitats.Desert, Habitats.Forest ];
     private static readonly HashSet<Habitats> CompSetIncorrect = [Habitats.Savanna, Habitats.Highland ];
     
-    public static IEnumerable<object[]> Data =>
+    public static IEnumerable<object[]> CriteriaSetTestingData =>
         new List<object[]>
         {
             new object[] { RefSet, CompSetCorrect, ComparisonOutcomes.Correct },
@@ -36,7 +36,7 @@ public class CriteriasTests
     }
     
     [Theory]
-    [MemberData(nameof(Data))]
+    [MemberData(nameof(CriteriaSetTestingData))]
     public void CriteriaSet_should_return_correct_comparison_result(HashSet<Habitats> set1, HashSet<Habitats> set2, ComparisonOutcomes expected)
     {
         CriteriaSet<Habitats> crit1 = new CriteriaSet<Habitats>(set1);
