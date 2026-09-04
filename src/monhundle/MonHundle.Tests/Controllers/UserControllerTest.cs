@@ -1,5 +1,4 @@
 using System.Net;
-using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Text.Json;
 using MonHundle.domain.Entities.DTO;
@@ -162,13 +161,13 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
     [InlineData(TokenKind.Valid, true, ParamKind.ValidMissing, HttpStatusCode.NotFound)]
     [InlineData(TokenKind.Valid, true, ParamKind.Unparseable, HttpStatusCode.NotFound)]
     public async Task Load_returns_correct_status_code_based_on_token_and_param_uids(
-        TokenKind brearerKind, bool brearerValidation, ParamKind paramKind, HttpStatusCode expectedStatusCode
+        TokenKind bearerKind, bool bearerValidation, ParamKind paramKind, HttpStatusCode expectedStatusCode
     ) {
 
         Guid paramId = Guid.NewGuid();
-        if (brearerKind == TokenKind.Valid)
+        if (bearerKind == TokenKind.Valid)
         {
-            _playerServiceMock.Setup(ps => ps.CheckPlayerExists(It.IsAny<Guid>())).ReturnsAsync(brearerValidation);
+            _playerServiceMock.Setup(ps => ps.CheckPlayerExists(It.IsAny<Guid>())).ReturnsAsync(bearerValidation);
         }
 
         if (paramKind != ParamKind.Unparseable)
@@ -185,7 +184,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var request = BearerRequest(
             HttpMethod.Get, 
             requestUri.Uri.ToString(), 
-            (brearerKind == TokenKind.None ? null : brearerKind == TokenKind.Valid ? Guid.NewGuid() : "invalid")
+            (bearerKind == TokenKind.None ? null : bearerKind == TokenKind.Valid ? Guid.NewGuid() : "invalid")
         );
         var response = await _client.SendAsync(request);
 

@@ -6,10 +6,10 @@ using MonHundle.database.Services;
 
 namespace MonHundle.Tests.Services;
 
-/**
- * These tests ensure the logic of the DbCache fully covers the db sets available. This is to make sure that the relation
- * between the dbsets, the AvailableTables dictionary, and the CachedTables key enum are fully developped.
- */
+/// <summary>
+/// These tests ensure the logic of the DbCache fully covers the db sets available. This is to make sure that the relation
+/// between the dbsets, the AvailableTables dictionary, and the CachedTables key enum are fully covered.
+/// </summary>
 public class DbCacheServiceTest
 {
     private static IReadOnlyCollection<string> GetDbSetNames()

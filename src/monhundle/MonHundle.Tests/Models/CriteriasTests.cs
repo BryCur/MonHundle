@@ -1,10 +1,6 @@
-﻿
-
-
-using MonHundle.domain.Entities;
+﻿using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.Criterias;
 using MonHundle.domain.Enums;
-using MonHundle.domain.Interfaces;
 
 namespace MonHundle.Tests.Models;
 
