@@ -1,8 +1,11 @@
 ﻿using System.Net;
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.Criterias;
 using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
@@ -18,7 +21,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     private readonly Mock<IMonsterService> _monsterServiceMock;
     private readonly Mock<IPlayerDataAccess> _playerDataAccess;
     
-    private readonly Player _currentPlayer = new Player()
+    private readonly Player _currentPlayer = new ()
     {
         Id = 1,
         PlayerUid = Guid.NewGuid()
@@ -62,7 +65,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }
 
     [Fact]
-    public async Task GameController_create_game_returns_200_with_id_when_no_game_exists()
+    public async Task CreateGame_returns_200_with_id_when_no_game_exists()
     {
         GuessableMonster defaultMonster  = GetDefaultGuessableMonster();
         _gameServiceMock.Setup(g => g.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer))
@@ -80,7 +83,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }
     
     [Fact]
-    public async Task GameController_create_game_returns_200_with_id_when_game_daily_not_started()
+    public async Task CreateGame_returns_200_with_id_when_game_daily_not_started()
     {
         GuessableMonster defaultMonster  = GetDefaultGuessableMonster();
         Game existingFromYesterday = new Game() { Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Today.AddDays(-1) };
@@ -100,7 +103,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }    
     
     [Fact]
-    public async Task GameController_create_game_returns_409_with_id_when_game_daily_exists()
+    public async Task CreateGame_returns_409_with_id_when_game_daily_exists()
     {
         GuessableMonster defaultMonster  = GetDefaultGuessableMonster();
         Game existingToday = new Game() {Id = Guid.NewGuid(), Answer = defaultMonster, StartTime = DateTime.Now};
@@ -117,7 +120,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }
 
     [Fact]
-    public async Task GameController_get_game_returns_404_on_non_existing_uuid()
+    public async Task ResumeOngoingGame_returns_404_on_non_existing_uuid()
     {
         _gameServiceMock.Setup(g => g.ResumeGame(It.IsAny<Guid>(), _currentPlayer)).ReturnsAsync((Game?)null);
         
@@ -128,7 +131,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
     }
     
     [Fact]
-    public async Task GameController_get_game_returns_game_from_guid()
+    public async Task ResumeOngoingGame_returns_game_from_guid()
     {
         Game game = new Game() {Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster()};
         _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).ReturnsAsync(game);
@@ -137,5 +140,62 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         Assert.NotEmpty(await response.Content.ReadAsStringAsync());
+    }
+
+    [Fact]
+    public async Task MakeGuess_returns_200_with_guess_response()
+    {
+        GuessableMonster monster = GetDefaultGuessableMonster();
+        MakeGuessBody body = new(Guid.NewGuid(), monster.GetCode());
+        MonsterGuessDTO guessResult = new MonsterGuessDTO(
+            "test",
+            new MonsterCriteriaDTO(1, 1, Classifications.Amphibian, [], [], []),
+            new MonsterComparisonResult()
+            {
+                Afflictions = ComparisonOutcomes.Incorrect,
+                Classification = ComparisonOutcomes.Incorrect,
+                Generation = ComparisonOutcomes.Incorrect,
+                Habitats = ComparisonOutcomes.Incorrect,
+                Weaknesses = ComparisonOutcomes.Incorrect,
+                ThreatLevel = ComparisonOutcomes.Incorrect
+            }
+        );
+        
+        _monsterServiceMock.Setup(ms => ms.getMonsterFromCode(body.guessId)).ReturnsAsync(monster);
+        _gameServiceMock.Setup(gs => gs.MakeGuess(body.gameId, monster, It.IsAny<Player>()))
+            .ReturnsAsync((guessResult, GameStates.Ongoing));
+        
+        var request = GetRequestWithAuthHeader(HttpMethod.Post, $"/game/daily/guess");
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _client.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+        var respBody = JsonSerializer.Deserialize<GuessResponse?>( await response.Content.ReadAsStringAsync());
+        Assert.NotNull(respBody);
+    }
+    
+    [Fact]
+    public async Task MakeGuess_throws_exception_if_monster_code_is_invalid()
+    {
+        MakeGuessBody body = new(Guid.NewGuid(), "invalid");
+        
+        _monsterServiceMock.Setup(ms => ms.getMonsterFromCode(body.guessId)).ReturnsAsync((GuessableMonster?)null);
+        
+        var request = GetRequestWithAuthHeader(HttpMethod.Post, $"/game/daily/guess");
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _client.SendAsync(request);
+        
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
     }
 }

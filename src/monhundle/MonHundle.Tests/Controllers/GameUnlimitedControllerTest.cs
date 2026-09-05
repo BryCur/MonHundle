@@ -1,7 +1,10 @@
 ﻿using System.Net;
+using System.Text;
+using System.Text.Json;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.Criterias;
 using MonHundle.domain.Entities.DAL;
+using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.domain.Interfaces.Services;
@@ -14,6 +17,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
 {
     private readonly HttpClient _client;
     private readonly Mock<IGameService> _gameServiceMock;
+    private readonly Mock<IMonsterService> _monsterServiceMock;
     private readonly Mock<IPlayerDataAccess> _playerDataAccess;
     
     private readonly Player _currentPlayer = new ()
@@ -27,6 +31,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         _client = factory.CreateClient();
         _gameServiceMock = factory.GameServiceMock;
         _playerDataAccess = factory.PlayerAccessMock;
+        _monsterServiceMock = factory.MonsterServiceMock;
         
         _playerDataAccess.Setup(mock => mock.GetPlayer(It.IsAny<Guid>()))
             .ReturnsAsync(_currentPlayer);
@@ -93,5 +98,74 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         Assert.NotEmpty(await response.Content.ReadAsStringAsync());
+    }
+    
+    [Fact]
+    public async Task ResumeOngoingGame_returns_game_from_guid()
+    {
+        Game game = new Game() {Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster()};
+        _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).ReturnsAsync(game);
+        
+        var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/daily/resume/{game.Id}");
+        var response = await _client.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        Assert.NotEmpty(await response.Content.ReadAsStringAsync());
+    }
+
+    [Fact]
+    public async Task MakeGuess_returns_200_with_guess_response()
+    {
+        GuessableMonster monster = GetDefaultGuessableMonster();
+        MakeGuessBody body = new(Guid.NewGuid(), monster.GetCode());
+        MonsterGuessDTO guessResult = new MonsterGuessDTO(
+            "test",
+            new MonsterCriteriaDTO(1, 1, Classifications.Amphibian, [], [], []),
+            new MonsterComparisonResult()
+            {
+                Afflictions = ComparisonOutcomes.Incorrect,
+                Classification = ComparisonOutcomes.Incorrect,
+                Generation = ComparisonOutcomes.Incorrect,
+                Habitats = ComparisonOutcomes.Incorrect,
+                Weaknesses = ComparisonOutcomes.Incorrect,
+                ThreatLevel = ComparisonOutcomes.Incorrect
+            }
+        );
+        
+        _monsterServiceMock.Setup(ms => ms.getMonsterFromCode(body.guessId)).ReturnsAsync(monster);
+        _gameServiceMock.Setup(gs => gs.MakeGuess(body.gameId, monster, It.IsAny<Player>()))
+            .ReturnsAsync((guessResult, GameStates.Ongoing));
+        
+        var request = GetRequestWithAuthHeader(HttpMethod.Post, $"/game/unlimited/guess");
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _client.SendAsync(request);
+        
+        response.EnsureSuccessStatusCode();
+        var respBody = JsonSerializer.Deserialize<GuessResponse?>( await response.Content.ReadAsStringAsync());
+        Assert.NotNull(respBody);
+    }
+    
+    [Fact]
+    public async Task MakeGuess_throws_exception_if_monster_code_is_invalid()
+    {
+        MakeGuessBody body = new(Guid.NewGuid(), "invalid");
+        
+        _monsterServiceMock.Setup(ms => ms.getMonsterFromCode(body.guessId)).ReturnsAsync((GuessableMonster?)null);
+        
+        var request = GetRequestWithAuthHeader(HttpMethod.Post, $"/game/unlimited/guess");
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _client.SendAsync(request);
+        
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
     }
 }
