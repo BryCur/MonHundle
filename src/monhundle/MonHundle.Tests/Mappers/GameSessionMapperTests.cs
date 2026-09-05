@@ -31,6 +31,15 @@ public class GameSessionMapperTests
 
         Assert.Equal(persistedMode, game.GameMode);
     }
+    
+    [Fact]
+    public void ToDto_should_throw_if_state_not_parsable()
+    {
+        GameSession session = BuildSession(GameModes.Daily);
+        session.State = "unparsable";
+
+        Assert.Throws<ArgumentException>(() => GameSessionMapper.ToDto(session, _player, BuildMonster()));
+    }
 
     [Theory]
     [InlineData(GameModes.Daily)]
