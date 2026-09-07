@@ -150,8 +150,8 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         );
         
         var response = await _client.SendAsync(request);
-
         Assert.Equal(expectedStatusCode, response.StatusCode);
+        
     }
 
     [Theory]
@@ -195,5 +195,33 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         {
             Assert.Equal(paramId.ToString(), ReadIdBody(response));
         }
+    }
+
+    [Fact]
+    public async Task GetProfile_should_return_bad_request_on_invalid_uid()
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
+
+        var response = await _client.SendAsync(BearerRequest(HttpMethod.Get, "user/profile/invalid", playerId));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetProfile_should_return_ok_with_player_profile()
+    {
+        Guid playerId = Guid.NewGuid();
+        Guid requestedId = Guid.NewGuid();
+
+        PlayerProfileResponse profile = new PlayerProfileResponse(true, [], null, null);
+        
+        _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
+        _playerServiceMock.Setup(ps => ps.GetPlayerProfile(requestedId)).ReturnsAsync(profile);
+        
+        var response = await _client.SendAsync(BearerRequest(HttpMethod.Get, $"user/profile/{requestedId}", playerId));
+
+        response.EnsureSuccessStatusCode();
+        _playerServiceMock.Verify(ps => ps.GetPlayerProfile(requestedId), Times.Once());
     }
 }
