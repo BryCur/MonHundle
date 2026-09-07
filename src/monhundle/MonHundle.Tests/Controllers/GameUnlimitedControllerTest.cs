@@ -106,7 +106,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         Game game = new Game() {Id = Guid.NewGuid(), Answer = GetDefaultGuessableMonster()};
         _gameServiceMock.Setup(g => g.ResumeGame(game.Id, _currentPlayer)).ReturnsAsync(game);
         
-        var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/daily/resume/{game.Id}");
+        var request = GetRequestWithAuthHeader(HttpMethod.Get, $"/game/unlimited/resume/{game.Id}");
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         Assert.NotEmpty(await response.Content.ReadAsStringAsync());
@@ -147,6 +147,7 @@ public class GameUnlimitedControllerTest : IClassFixture<WebApplicationWithMockF
         response.EnsureSuccessStatusCode();
         var respBody = JsonSerializer.Deserialize<GuessResponse?>( await response.Content.ReadAsStringAsync());
         Assert.NotNull(respBody);
+        _gameServiceMock.Verify(gs => gs.MakeGuess(body.gameId, monster, It.IsAny<Player>()), Times.Once);
     }
     
     [Fact]

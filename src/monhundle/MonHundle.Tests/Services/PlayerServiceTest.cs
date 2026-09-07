@@ -66,19 +66,19 @@ public class PlayerServiceTest
     }
     
     [Fact]
-    public void GetPlayerProfile_throws_DataNotFound_if_guid_not_valid()
+    public async Task GetPlayerProfile_throws_DataNotFound_if_guid_not_valid()
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid));
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
+        await Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
     
         
     [Fact]
-    public void GetPlayerProfile_throws_DataNotFound_if_player_id_null()
+    public async Task GetPlayerProfile_throws_DataNotFound_if_player_id_null()
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid))
@@ -86,7 +86,7 @@ public class PlayerServiceTest
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
+        await Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
 
     [Fact]

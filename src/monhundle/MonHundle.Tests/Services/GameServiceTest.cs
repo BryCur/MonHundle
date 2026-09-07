@@ -28,7 +28,7 @@ public class GameServiceTest
     };
     
     [Fact]
-    public async Task CreateUnilimitedGame_should_create_a_new_unlimited_game_by_default()
+    public async Task CreateUnlimitedGame_should_create_a_new_unlimited_game_by_default()
     {
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
@@ -125,7 +125,7 @@ public class GameServiceTest
     }
 
     [Fact]
-    public void MakeGuess_should_throw_exception_if_player_not_valid()
+    public async Task MakeGuess_should_throw_exception_if_player_not_valid()
     {
         GameSession currentGame = new GameSession()
         {
@@ -140,12 +140,12 @@ public class GameServiceTest
         
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
 
-        Assert.ThrowsAsync<AuthenticationException>(async () => await service.MakeGuess(
+        await Assert.ThrowsAsync<AuthenticationException>(async () => await service.MakeGuess(
             currentGame.GameUid, guess, new Player() {Id = null, PlayerUid = Guid.Empty}));
     }
     
     [Fact]
-    public async Task ResumeGame_hould_throw_if_player_as_no_id_on_resume_game()
+    public async Task ResumeGame_should_throw_if_player_as_no_id_on_resume_game()
     {
         var badPlayer = new Player()
         {

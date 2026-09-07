@@ -177,6 +177,7 @@ public class GameDailyControllerTest : IClassFixture<WebApplicationWithMockFacto
         response.EnsureSuccessStatusCode();
         var respBody = JsonSerializer.Deserialize<GuessResponse?>( await response.Content.ReadAsStringAsync());
         Assert.NotNull(respBody);
+        _gameServiceMock.Verify(gs => gs.MakeGuess(body.gameId, monster, It.IsAny<Player>()), Times.Once);
     }
     
     [Fact]
