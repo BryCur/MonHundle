@@ -24,6 +24,7 @@ public class GameSessionMapper
                     }
                 ).ToList(),
             State = game.State.ToString(),
+            StartTime = game.StartTime,
             LastUpdate = DateTime.UtcNow
         };
     }

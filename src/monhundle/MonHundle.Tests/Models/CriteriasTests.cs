@@ -1,6 +1,7 @@
 ﻿using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.Criterias;
 using MonHundle.domain.Enums;
+using MonHundle.domain.Interfaces;
 
 namespace MonHundle.Tests.Models;
 
@@ -50,5 +51,40 @@ public class CriteriasTests
         CriteriaObject<Diets> crit2 = new CriteriaObject<Diets>(d2);
 
         Assert.Equal(expected, crit1.Compare(crit2));
+    }
+
+    [Fact]
+    public void CriteriaObject_Compare_throws_when_other_is_null()
+    {
+        CriteriaObject<Diets> crit = new CriteriaObject<Diets>(Diets.Plant);
+
+        Assert.Throws<ArgumentNullException>(() => crit.Compare(null!));
+    }
+
+    [Fact]
+    public void CriteriaObject_Compare_throws_when_other_value_is_null()
+    {
+        CriteriaObject<string> crit = new CriteriaObject<string>("plant");
+        CriteriaObject<string> other = new CriteriaObject<string>(null!);
+
+        Assert.Throws<ArgumentNullException>(() => crit.Compare(other));
+    }
+
+    [Fact]
+    public void ICriteria_Compare_dispatches_to_the_typed_comparison_for_matching_types()
+    {
+        ICriteria crit1 = new CriteriaNumber(2);
+        ICriteria crit2 = new CriteriaNumber(2);
+
+        Assert.Equal(ComparisonOutcomes.Correct, crit1.Compare(crit2));
+    }
+
+    [Fact]
+    public void ICriteria_Compare_throws_when_criteria_types_differ()
+    {
+        ICriteria number = new CriteriaNumber(2);
+        ICriteria obj = new CriteriaObject<Diets>(Diets.Plant);
+
+        Assert.Throws<ArgumentException>(() => number.Compare(obj));
     }
 }

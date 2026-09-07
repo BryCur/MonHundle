@@ -41,6 +41,31 @@ public class GameSessionMapperTests
         Assert.Throws<ArgumentException>(() => GameSessionMapper.ToDto(session, _player, BuildMonster()));
     }
 
+    [Fact]
+    public void ToEntity_should_map_the_StartTime()
+    {
+        DateTime startedAt = new DateTime(2026, 1, 2, 3, 4, 5, DateTimeKind.Utc);
+        Game game = BuildGame(GameModes.Daily);
+        game.StartTime = startedAt;
+
+        GameSession session = GameSessionMapper.ToEntity(game, playerId: _player.Id!.Value);
+
+        Assert.Equal(startedAt, session.StartTime);
+    }
+
+    [Fact]
+    public void ToEntity_then_ToDto_should_preserve_the_StartTime()
+    {
+        DateTime startedAt = new DateTime(2026, 1, 2, 3, 4, 5, DateTimeKind.Utc);
+        Game original = BuildGame(GameModes.Daily);
+        original.StartTime = startedAt;
+
+        GameSession session = GameSessionMapper.ToEntity(original, playerId: _player.Id!.Value);
+        Game roundTripped = GameSessionMapper.ToDto(session, _player, original.Answer);
+
+        Assert.Equal(startedAt, roundTripped.StartTime);
+    }
+
     [Theory]
     [InlineData(GameModes.Daily)]
     [InlineData(GameModes.Unlimited)]

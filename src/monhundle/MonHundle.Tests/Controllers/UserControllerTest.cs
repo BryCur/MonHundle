@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using MonHundle.domain.Entities.DAL.JsonStructs;
 using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.Tests.Utils;
@@ -151,7 +152,31 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         
         var response = await _client.SendAsync(request);
         Assert.Equal(expectedStatusCode, response.StatusCode);
-        
+
+    }
+
+    [Fact]
+    public async Task SavePreferences_forwards_the_mapped_preferences_to_the_service()
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
+
+        var request = BearerRequest(HttpMethod.Post, "user/preference", playerId);
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(_preferences),
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        var response = await _client.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+        _playerServiceMock.Verify(ps => ps.SaveUserPreferences(
+                playerId,
+                It.Is<PlayerPreferencesStruct>(p =>
+                    p.enableTableAccessibility
+                    && p.gameList.SequenceEqual(new[] { "MHWilds", "MHWI", "MHW" }))),
+            Times.Once);
     }
 
     [Theory]

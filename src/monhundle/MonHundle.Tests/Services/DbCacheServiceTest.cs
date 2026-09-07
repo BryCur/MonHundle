@@ -1,8 +1,10 @@
 using System.Reflection;
+using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 using MonHundle.database;
 using MonHundle.database.enums;
 using MonHundle.database.Services;
+using Moq;
 
 namespace MonHundle.Tests.Services;
 
@@ -109,5 +111,35 @@ public class DbCacheServiceTest
                 StringComparer.OrdinalIgnoreCase
             );
         }
+    }
+
+    [Fact]
+    public void TryInvalidateTables_invalidates_known_keys_regardless_of_casing()
+    {
+        Mock<IEFCacheServiceProvider> cacheProvider = new();
+        DatabaseCacheService service = new DatabaseCacheService(cacheProvider.Object);
+
+        bool result = service.TryInvalidateTables(["GAMES"], out var invalidKeys);
+
+        Assert.True(result);
+        Assert.Empty(invalidKeys);
+        cacheProvider.Verify(
+            p => p.InvalidateCacheDependencies(It.Is<EFCacheKey>(
+                k => k.CacheDependencies.Contains($"{DatabaseCacheService.CachePrefix}Games"))),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public void TryInvalidateTables_rejects_unknown_keys_without_invalidating_anything()
+    {
+        Mock<IEFCacheServiceProvider> cacheProvider = new();
+        DatabaseCacheService service = new DatabaseCacheService(cacheProvider.Object);
+
+        bool result = service.TryInvalidateTables(["games", "not-a-table"], out var invalidKeys);
+
+        Assert.False(result);
+        Assert.Contains("not-a-table", invalidKeys);
+        cacheProvider.Verify(p => p.InvalidateCacheDependencies(It.IsAny<EFCacheKey>()), Times.Never);
     }
 }
