@@ -4,6 +4,7 @@ import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
 import type GuessResponse from "@/domain/responses/GuessResponse";
 import type { GameStore } from "@/stores/GameStore";
 import { GameStates } from "@/domain/enums/GameStates";
+import { GameModes } from "@/domain/enums/GameModes";
 import type Guess from "@/domain/Guess";
 import type GameStatus from "@/domain/GameStatus";
 
@@ -53,6 +54,17 @@ describe("GameService", () => {
         expect(setCookie).toHaveBeenCalledWith(CookieKeys.CURRENT_UNLIMITED_GAME, testGameId);
     });
 
+    it("should hand a GameStatus with the returned id and Unlimited mode to the store", async () => {
+        mockedGameApi.newGame.mockResolvedValueOnce("new-game-id");
+
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+        await gameService.startNewGame();
+
+        expect(mockedGameStore.setGame).toHaveBeenCalledWith(
+            expect.objectContaining({ gameId: "new-game-id", gameMode: GameModes.Unlimited })
+        );
+    });
+
     it("should send the guess and update the store", async () =>{
         const testGid = "gid";
         const testMonstercode = "monster";
@@ -70,6 +82,23 @@ describe("GameService", () => {
         expect(mockedGameStore.addGuess).toHaveBeenCalledWith(testGuessResult as any as Guess);
         expect(mockedGameStore.setState).toHaveBeenCalledWith(GameStates.Ongoing);
     });
+
+    it.each([
+        ["Ongoing", GameStates.Ongoing],
+        ["Win", GameStates.Win],
+    ])(
+        "should propagate the post-guess state (%s) from the api response to the store",
+        async (_label, stateAfterGuess) => {
+            const guessResult = { monsterCode: "monster", gameStateAfterGuess: stateAfterGuess };
+            mockedGameApi.makeGuess.mockResolvedValueOnce(guessResult as any as GuessResponse);
+
+            const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+            await gameService.makeGuess("gid", "monster");
+
+            expect(mockedGameStore.addGuess).toHaveBeenCalledWith(guessResult as any as Guess);
+            expect(mockedGameStore.setState).toHaveBeenCalledWith(stateAfterGuess);
+        }
+    );
 
     it("should resume and unfinished game", async () =>{
         const testGid = "gid";
@@ -89,6 +118,26 @@ describe("GameService", () => {
         expect(result).toBeTruthy();
         expect(mockedGameApi.resumeGame).toHaveBeenCalledWith(testGid);
         expect(mockedGameStore.setGame).toHaveBeenCalledWith(testGame as GameStatus);
+        expect(setCookie).toHaveBeenCalledWith(CookieKeys.CURRENT_UNLIMITED_GAME, testGid);
+    });
+
+    it("should return false but still persist a resumed game that is already finished", async () =>{
+        const testGid = "gid";
+        const finishedGame = {
+            gameId: testGid,
+            guesses: [] as Guess[],
+            state: GameStates.Win
+        };
+        let result: boolean = true;
+
+        mockedGameApi.resumeGame.mockResolvedValueOnce(finishedGame as GameStatus);
+        mockedGameStore.isGameOngoing.mockReturnValueOnce(false);
+
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+        await gameService.resumeGame(testGid).then(r => result = r);
+
+        expect(result).toBeFalsy();
+        expect(mockedGameStore.setGame).toHaveBeenCalledWith(finishedGame as GameStatus);
         expect(setCookie).toHaveBeenCalledWith(CookieKeys.CURRENT_UNLIMITED_GAME, testGid);
     });
 
