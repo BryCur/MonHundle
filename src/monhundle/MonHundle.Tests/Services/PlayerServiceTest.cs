@@ -41,6 +41,20 @@ public class PlayerServiceTest
     }
 
     [Fact]
+    public async Task AuthPlayer_refreshes_last_connection_of_returning_player()
+    {
+        Player player = new Player() { PlayerUid = Guid.NewGuid(), last_connection = DateTime.UtcNow.AddDays(-10) };
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        DateTime beforeCall = DateTime.UtcNow;
+        await service.AuthPlayer(player.PlayerUid.ToString());
+
+        Assert.True(player.last_connection >= beforeCall);
+        _playerDataAccess.Verify(pda => pda.UpdatePlayer(player), Times.Once);
+    }
+
+    [Fact]
     public async Task AuthPlayer_issues_new_identity_if_uid_not_recognised()
     {
         Guid missingUid = Guid.NewGuid();
@@ -66,19 +80,19 @@ public class PlayerServiceTest
     }
     
     [Fact]
-    public void GetPlayerProfile_throws_DataNotFound_if_guid_not_valid()
+    public async Task GetPlayerProfile_throws_DataNotFound_if_guid_not_valid()
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid));
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
+        await Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
     
         
     [Fact]
-    public void GetPlayerProfile_throws_DataNotFound_if_player_id_null()
+    public async Task GetPlayerProfile_throws_DataNotFound_if_player_id_null()
     {
         Guid missingUid = Guid.NewGuid();
         _playerDataAccess.Setup(pda => pda.GetPlayer(missingUid))
@@ -86,7 +100,7 @@ public class PlayerServiceTest
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
-        Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
+        await Assert.ThrowsAsync<DataNotFoundException>(async () => await service.GetPlayerProfile(missingUid));
     }
 
     [Fact]
@@ -104,17 +118,104 @@ public class PlayerServiceTest
         _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid))
             .ReturnsAsync(player);
         _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(player.Id.Value))
-            .ReturnsAsync(new List<GameSession>() {
+            .ReturnsAsync([
                new GameSession() { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing) } 
-            });
+            ]);
         _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), player.Id.Value))
             .ReturnsAsync(new GameSession() {GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing)});
         
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         
         var result = await service.GetPlayerProfile(player.PlayerUid);
-        
+
         Assert.NotNull(result);
 
+    }
+
+    [Fact]
+    public async Task GetPlayerProfile_returns_defaults_when_no_games_and_no_preferences()
+    {
+        Player player = new Player() { PlayerUid = Guid.NewGuid(), Id = 1, JsonPreferences = null };
+
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+        _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(1)).ReturnsAsync([]);
+        _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), 1)).ReturnsAsync((GameSession?)null);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        var result = await service.GetPlayerProfile(player.PlayerUid);
+
+        Assert.False(result.enableTableVisualAid);
+        Assert.Empty(result.gameList);
+        Assert.Null(result.currentDailyGameUuid);
+        Assert.Null(result.currentUnlimitedGameUuid);
+    }
+
+    [Fact]
+    public async Task GetPlayerProfile_returns_the_most_recent_ongoing_unlimited_game()
+    {
+        Player player = new Player() { PlayerUid = Guid.NewGuid(), Id = 1 };
+        GameSession older = new GameSession()
+            { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing), StartTime = DateTime.UtcNow.AddHours(-3) };
+        GameSession newer = new GameSession()
+            { GameUid = Guid.NewGuid(), State = nameof(GameStates.Ongoing), StartTime = DateTime.UtcNow };
+
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+        _gameDataAccess.Setup(gda => gda.GetOngoingUnlimitedGamesForPlayer(1)).ReturnsAsync([older, newer]);
+        _gameDataAccess.Setup(gda => gda.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), 1)).ReturnsAsync((GameSession?)null);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        var result = await service.GetPlayerProfile(player.PlayerUid);
+
+        Assert.Equal(newer.GameUid.ToString(), result.currentUnlimitedGameUuid);
+    }
+
+    [Fact]
+    public async Task SaveUserPreferences_calls_update_method_if_guid_valid()
+    {
+        Guid callParam = Guid.NewGuid();
+        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
+            { enableTableAccessibility = true, gameList = [] };
+        Player player = new Player() {
+            PlayerUid = callParam,
+            Id = 1, 
+            JsonPreferences = preferences
+        };
+        
+        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync(player);
+        
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        await service.SaveUserPreferences(callParam, preferences);
+        
+        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
+        _playerDataAccess.Verify(pda => pda.UpdatePlayer(player), Times.Once);
+    }
+    
+    [Fact]
+    public async Task SaveUserPreferences_throws_DataNotFound_if_guid_not_found()
+    {
+        Guid callParam = Guid.NewGuid();
+        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
+            { enableTableAccessibility = true, gameList = [] };
+        
+        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync((Player?) null);
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        
+        await Assert.ThrowsAsync<DataNotFoundException>(() => service.SaveUserPreferences(callParam, preferences));
+        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
+        _playerDataAccess.Verify(pda => pda.UpdatePlayer(It.IsAny<Player>()), Times.Never);
+    }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    public async Task CheckPlayerExists_returns_result_according_to_db(bool playerFound, bool expectedOutcome)
+    {
+        Guid callParam = Guid.NewGuid();
+        Player fromDb = new Player() { PlayerUid = Guid.NewGuid() };
+        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync(playerFound ? fromDb : null);
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        
+        Assert.Equal(expectedOutcome, await service.CheckPlayerExists(callParam));
+        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
     }
 }

@@ -21,14 +21,14 @@ public class GameServiceTest
     private readonly Mock<IGameDataAccess> _gameDataAccessMock = new ();
     private readonly NullLogger<GameService> _loggerMock = new ();
     
-    private readonly Player _currentPlayer = new Player()
+    private readonly Player _currentPlayer = new ()
     {
         Id = 1,
         PlayerUid = Guid.NewGuid()
     };
     
     [Fact]
-    public async Task GameService_should_create_a_new_unlimited_game_by_default()
+    public async Task CreateUnlimitedGame_should_create_a_new_unlimited_game_by_default()
     {
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
@@ -43,7 +43,7 @@ public class GameServiceTest
     }
     
     [Fact]
-    public async Task GameService_should_create_a_new_of_specified_mode()
+    public async Task CreateGame_should_create_a_new_of_specified_mode()
     {
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         GuessableMonster defaultMonster = GetDefaultGuessableMonster();
@@ -59,7 +59,7 @@ public class GameServiceTest
     }
 
     [Fact]
-    public async Task GameService_MakeGuess_should_update_the_game()
+    public async Task MakeGuess_should_update_the_game()
     {
         GameSession currentGame = new GameSession()
         {
@@ -99,7 +99,7 @@ public class GameServiceTest
     }
     
     [Fact]
-    public async Task GameService_MakeGuess_continue_game_if_not_right_answer()
+    public async Task MakeGuess_continue_game_if_not_right_answer()
     {
         GameSession currentGame = new GameSession()
         {
@@ -123,9 +123,29 @@ public class GameServiceTest
         Assert.NotNull(guessResult);
         Assert.Equal(GameStates.Ongoing, stateAfterGuess);
     }
+
+    [Fact]
+    public async Task MakeGuess_should_throw_exception_if_player_not_valid()
+    {
+        GameSession currentGame = new GameSession()
+        {
+            Id = 1,
+            GameUid = Guid.NewGuid(),
+            PlayerId = _currentPlayer.Id!.Value,
+            AnswerMonsterId = 2,
+            State = nameof(GameStates.Ongoing),
+            GameGuesses = [],
+        };
+        GuessableMonster guess = GetDefaultGuessableMonster();
+        
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+
+        await Assert.ThrowsAsync<AuthenticationException>(async () => await service.MakeGuess(
+            currentGame.GameUid, guess, new Player() {Id = null, PlayerUid = Guid.Empty}));
+    }
     
     [Fact]
-    public async Task GameService_should_throw_if_player_as_no_id_on_resume_game()
+    public async Task ResumeGame_should_throw_if_player_as_no_id_on_resume_game()
     {
         var badPlayer = new Player()
         {
@@ -136,6 +156,96 @@ public class GameServiceTest
         GameService service = new GameService( _loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
         
         await Assert.ThrowsAsync<AuthenticationException>(async () => await service.ResumeGame(Guid.NewGuid(), badPlayer));
+    }
+    
+    [Fact]
+    public async Task GetDailyGameForPlayerAtDate_should_throw_if_player_as_no_id()
+    {
+        var badPlayer = new Player()
+        {
+            Id = null,
+            PlayerUid = Guid.NewGuid()
+        };
+
+        GameService service = new GameService( _loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+
+        await Assert.ThrowsAsync<AuthenticationException>(async () => await service.GetDailyGameForPlayerAtDate(DateTime.Today, badPlayer));
+    }
+
+    [Fact]
+    public async Task GetDailyGameForPlayerAtDate_returns_null_when_no_session_exists()
+    {
+        _gameDataAccessMock.Setup(mock => mock.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer.Id!.Value))
+            .ReturnsAsync((GameSession?)null);
+
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+
+        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.Today, _currentPlayer);
+
+        Assert.Null(game);
+        _monsterServiceMock.Verify(mock => mock.getMonsterFromId(It.IsAny<int>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetDailyGameForPlayerAtDate_returns_the_mapped_game_when_a_session_exists()
+    {
+        GameSession session = new GameSession()
+        {
+            Id = 1,
+            GameUid = Guid.NewGuid(),
+            PlayerId = _currentPlayer.Id!.Value,
+            AnswerMonsterId = 1,
+            GameMode = GameModes.Daily,
+            State = nameof(GameStates.Ongoing),
+            GameGuesses = [],
+        };
+        GuessableMonster answer = GetDefaultGuessableMonster();
+
+        _gameDataAccessMock.Setup(mock => mock.GetDailyGameForPlayerAtDate(It.IsAny<DateTime>(), _currentPlayer.Id!.Value))
+            .ReturnsAsync(session);
+        _monsterServiceMock.Setup(mock => mock.getMonsterFromId(session.AnswerMonsterId))
+            .ReturnsAsync(answer);
+
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+
+        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.Today, _currentPlayer);
+
+        Assert.NotNull(game);
+        Assert.Equal(session.GameUid, game.Id);
+        Assert.Equal(GameModes.Daily, game.GameMode);
+        Assert.Equal(GameStates.Ongoing, game.State);
+        Assert.Same(answer, game.Answer);
+    }
+
+    [Fact]
+    public async Task ResumeGame_returns_the_mapped_game()
+    {
+        GameSession session = new GameSession()
+        {
+            Id = 1,
+            GameUid = Guid.NewGuid(),
+            PlayerId = _currentPlayer.Id!.Value,
+            AnswerMonsterId = 1,
+            GameMode = GameModes.Unlimited,
+            State = nameof(GameStates.Ongoing),
+            GameGuesses = [],
+        };
+        GuessableMonster answer = GetDefaultGuessableMonster();
+
+        _gameDataAccessMock.Setup(mock => mock.GetGame(session.GameUid, _currentPlayer.Id!.Value))
+            .ReturnsAsync(session);
+        _monsterServiceMock.Setup(mock => mock.getMonsterFromId(session.AnswerMonsterId))
+            .ReturnsAsync(answer);
+
+        GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
+
+        Game? game = await service.ResumeGame(session.GameUid, _currentPlayer);
+
+        Assert.NotNull(game);
+        Assert.Equal(session.GameUid, game.Id);
+        Assert.Equal(_currentPlayer.PlayerUid, game.PlayerId);
+        Assert.Equal(GameModes.Unlimited, game.GameMode);
+        Assert.Same(answer, game.Answer);
     }
 
     private GuessableMonster GetDefaultGuessableMonster()

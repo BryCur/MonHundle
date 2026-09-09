@@ -46,7 +46,12 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpGet("profile/{userUuid}")]
     public async Task<IActionResult> GetProfile([FromRoute] string userUuid)
     {
-        Guid parsedUuid = Guid.Parse(userUuid);
+         bool parsed = Guid.TryParse(userUuid, out Guid parsedUuid);
+
+         if (!parsed)
+         {
+             return BadRequest("invalid user id format");
+         }
         
         return Ok( await playerService.GetPlayerProfile(parsedUuid));
     }

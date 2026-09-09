@@ -61,7 +61,7 @@ public class GameUnlimitedController : ControllerBase
     public async Task<IActionResult> MakeGuess([FromBody] MakeGuessBody body)
     {
         GuessableMonster guess = await _monsterService.getMonsterFromCode(body.guessId) ??
-                           throw new InvalidOperationException($"no monster matches id {body.guessId}");
+                           throw new InvalidDataException($"no monster matches id {body.guessId}");
         
         Player player = GetPlayerFromContext();
         (MonsterGuessDTO resp, GameStates stateAfterGuess) = await _gameService.MakeGuess(body.gameId, guess, player);

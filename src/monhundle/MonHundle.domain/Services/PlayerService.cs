@@ -78,6 +78,6 @@ public class PlayerService(
         }
 
         player.JsonPreferences = updatedPreferences;
-        playerDataAccess.UpdatePlayer(player);
+        await playerDataAccess.UpdatePlayer(player);
     }
 }
