@@ -185,4 +185,48 @@ describe("GameGuessList", () => {
 
     expect(getFirstRowDataCells(wrapper)[4]!.text()).toContain("-");
   });
+
+  it("shows the translated classification in its cell", () => {
+    const wrapper = mount(GameGuessList, {
+      props: {
+        modelValue: [guessWithDistinctResults]
+      }
+    });
+
+    expect(getFirstRowDataCells(wrapper)[1]!.text()).toBe("game.criteria.classifications.flyingwyvern");
+  });
+
+  it("renders one icon per weakness with its background class", () => {
+    const guess = {
+      ...guessWithDistinctResults,
+      criterias: { ...guessWithDistinctResults.criterias, weaknesses: [Weaknesses.Dragon, Weaknesses.Fire] }
+    } as Guess;
+
+    const wrapper = mount(GameGuessList, {
+      props: {
+        modelValue: [guess]
+      }
+    });
+
+    const icons = getFirstRowDataCells(wrapper)[3]!.findAll("li.icon-item");
+
+    expect(icons.length).toBe(2);
+    expect(icons[0]!.classes()).toContain("bg-dragon");
+    expect(icons[1]!.classes()).toContain("bg-fire");
+  });
+
+  it("joins multiple habitats with a comma", () => {
+    const guess = {
+      ...guessWithDistinctResults,
+      criterias: { ...guessWithDistinctResults.criterias, habitats: [Biomes.Volcano, Biomes.Forest] }
+    } as Guess;
+
+    const wrapper = mount(GameGuessList, {
+      props: {
+        modelValue: [guess]
+      }
+    });
+
+    expect(getFirstRowDataCells(wrapper)[6]!.text()).toBe("game.criteria.biomes.volcano, game.criteria.biomes.forest");
+  });
 })

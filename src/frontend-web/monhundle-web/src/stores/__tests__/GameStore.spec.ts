@@ -77,4 +77,21 @@ describe("GameStore", () => {
         expect(() => store.setState(GameStates.Win)).not.toThrow();
         expect(store.game).toBeNull();
     });
+
+    it("should report a null game as not ongoing", () => {
+        const store = useGameStore();
+
+        expect(store.isGameOngoing()).toBe(false);
+    });
+
+    it("should replace the current game when setGame is called again", () => {
+        const store = useGameStore();
+        store.setGame(new GameStatus("first", GameModes.Unlimited));
+
+        const replacement = new GameStatus("second", GameModes.Daily);
+        store.setGame(replacement);
+
+        expect(store.game).toStrictEqual(replacement);
+        expect(store.game?.gameId).toBe("second");
+    });
 })

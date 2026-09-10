@@ -34,7 +34,7 @@ const mockedGameStore = {
     isGameOngoing: vi.fn()
 }
 
-describe("GameService", () => {
+describe("UnlimitedGameService", () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -154,5 +154,25 @@ describe("GameService", () => {
         expect(mockedGameApi.resumeGame).toHaveBeenCalledWith(testGid);
         expect(mockedGameStore.setGame).not.toHaveBeenCalled();
         expect(setCookie).not.toHaveBeenCalled();
+    });
+
+    it("should propagate the error and touch nothing when creating a game fails", async () => {
+        mockedGameApi.newGame.mockRejectedValueOnce(new Error("api down"));
+
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+
+        await expect(gameService.startNewGame()).rejects.toThrow("api down");
+        expect(mockedGameStore.setGame).not.toHaveBeenCalled();
+        expect(setCookie).not.toHaveBeenCalled();
+    });
+
+    it("should propagate the error and touch nothing when sending a guess fails", async () => {
+        mockedGameApi.makeGuess.mockRejectedValueOnce(new Error("guess failed"));
+
+        const gameService = new UnlimitedGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+
+        await expect(gameService.makeGuess("gid", "monster")).rejects.toThrow("guess failed");
+        expect(mockedGameStore.addGuess).not.toHaveBeenCalled();
+        expect(mockedGameStore.setState).not.toHaveBeenCalled();
     });
 });
