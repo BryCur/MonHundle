@@ -1,15 +1,107 @@
 # monhundle-web
 
-This template should help get you started developing with Vue 3 in Vite.
+MonHundle's Vue 3 / Vite frontend.
+
+## Prerequisites
+
+- **Docker** and **Docker Compose** (Docker Desktop on Windows). That's the only dependency: **Node/npm don't need to be installed the host machine**, everything runs in the containers defined in `docker-compose.yaml` (located in `src/frontend-web/`, one level above this folder).
+- Optional but recommended for a full browser experience: the MonHundle backend (`src/monhundle/`) running locally — otherwise the app loads but API calls fail. Neither the unit tests nor the current Cypress spec need it (they stub the API responses).
+
+## Project setup
+
+From `src/frontend-web/` (where `docker-compose.yaml` lives):
+
+```sh
+docker compose up -d
+```
+
+Then, to enter the development container:
+
+```sh
+docker compose exec frontend sh
+```
+
+And, inside the container, once in this folder (`cd monhundle-web` if needed):
+
+```sh
+npm install
+```
+
+## Compile and Hot-Reload for Development
+
+Still inside the `frontend` container:
+
+```sh
+npm run dev
+```
+
+The app is served at [http://localhost:5173](http://localhost:5173) (the port is mapped to the host by `docker-compose.yaml`).
+
+## Run Unit Tests with [Vitest](https://vitest.dev/)
+
+Inside the `frontend` container:
+
+```sh
+npm run test:unit
+```
+
+To type-check (what CI runs before the tests):
+
+```sh
+npx vue-tsc --noEmit
+```
+
+## Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+
+E2E tests run in a **dedicated container** (`cypress`, official `cypress/included` image), separate from the development container. It never starts with `docker compose up` (it sits behind an `e2e` profile) — it has to be invoked explicitly.
+
+**Prerequisite**: the dev server must already be running in the `frontend` container (`npm run dev`, see above) — the `cypress` container tests against it via `http://frontend:5173`.
+
+From the host (not from inside a container — this command drives Docker itself), in `src/frontend-web/`:
+
+```sh
+docker compose run --rm cypress
+```
+
+Alternative: a container named `cypress-e2e` is created after a first run and stays visible in Docker Desktop — clicking ▶ **Start** on it reruns the suite (test files are volume-mounted, so it always picks up the latest changes).
+
+### Run results
+
+- **Screenshots** of failed tests: `cypress/screenshots/` (nothing is generated for a passing test).
+- **Videos**: disabled by default (`video: false`), nothing in `cypress/videos/` unless enabled in `cypress.config.ts`.
+
+Both folders are in `.gitignore` — they're run artifacts, not source code.
+
+## Type-Check, Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+Runs type-checking (`vue-tsc`) then compiles (`vite build`). This is what CI runs before any deployment.
+
+## Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
+
+## Environment variables
+
+`.env` (local development) and `.env.production` define:
+- `VITE_API_URL` — the backend API's base URL.
+- `VITE_ICON_CDN_URL` — the base URL of the CDN serving monster icons.
+
+These files are already committed with defaults suited for local development; only adjust them if the backend runs elsewhere.
 
 ## Recommended IDE Setup
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if installed).
 
 ## Recommended Browser Setup
 
 - Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
   - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
 - Firefox:
   - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
@@ -17,54 +109,8 @@ This template should help get you started developing with Vue 3 in Vite.
 
 ## Type Support for `.vue` Imports in TS
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+TypeScript cannot handle type information for `.vue` imports by default, so we use `vue-tsc` instead of the `tsc` CLI for type checking. In editors, [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) is needed to make the TypeScript language service aware of `.vue` types.
 
 ## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+See the [Vite Configuration Reference](https://vite.dev/config/).
