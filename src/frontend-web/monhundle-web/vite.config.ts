@@ -15,4 +15,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    // lets the dedicated "cypress" Docker service reach this dev server as
+    // http://frontend:5173 (Vite rejects unrecognised Host headers by default).
+    allowedHosts: ['frontend'],
+  },
 })

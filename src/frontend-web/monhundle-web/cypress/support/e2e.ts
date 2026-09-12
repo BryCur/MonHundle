@@ -1,20 +1,10 @@
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
-
-// Import commands.js using ES2015 syntax:
 import './commands'
+import { FAKE_USER_ID } from './testData'
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// The router's auth guard runs on every navigation in every spec, so stub it globally instead of
+// repeating it per spec. A spec that needs to exercise a *failing* auth (see auth-redirect.cy.ts)
+// registers its own cy.intercept() for the same route right before visiting — Cypress matches new
+// requests against the most recently registered intercept first, so the spec-level one wins.
+beforeEach(() => {
+  cy.mockAuth(FAKE_USER_ID)
+})

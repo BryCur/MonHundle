@@ -30,7 +30,7 @@ const filteredItems = computed(() => {
 
     return props.items
     .filter(code => getMonsterLabel(code).toLowerCase().includes(term))
-    .sort((a, b) => getMonsterLabel(a) > getMonsterLabel(b) ? -1 : 1);
+    .sort((a, b) => getMonsterLabel(a) > getMonsterLabel(b) ? 1 : -1);
 });
 
 function getMonsterLabel(code: string): string {

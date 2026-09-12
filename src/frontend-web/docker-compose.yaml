@@ -1,12 +1,26 @@
 services: # pour entrer dans le conteneur: docker compose exec frontend sh
   frontend:
     image: node:22-alpine
+    container_name: frontend-dev
+    restart: always
     working_dir: /app
     volumes:
       - ./:/app
     ports:
       - "5173:5173" # ou autre port selon le framework
     tty: true
+
+  cypress:
+    image: cypress/included:15.5.0
+    container_name: cypress-e2e
+    working_dir: /app/monhundle-web
+    volumes:
+      - ./:/app
+    environment:
+      CYPRESS_BASE_URL: http://frontend:5173
+    depends_on:
+      - frontend
+    profiles: ["e2e"]
 
 
 # npm init vue@latest
