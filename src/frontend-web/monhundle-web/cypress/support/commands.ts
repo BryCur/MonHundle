@@ -54,6 +54,20 @@ Cypress.Commands.add('startUnlimitedGame', () => {
   cy.wait('@monsterChoices')
 })
 
+// Gets from a fresh visit to `/daily` all the way to a playable daily game screen.
+Cypress.Commands.add('startDailyGame', () => {
+  cy.mockMonsterChoices()
+  cy.intercept('POST', '**/game/daily/start', {
+    statusCode: 200,
+    body: JSON.stringify(FAKE_GAME_ID),
+  }).as('startDaily')
+
+  cy.visit('/daily')
+  cy.wait('@authUser')
+  cy.wait('@startDaily')
+  cy.wait('@monsterChoices')
+})
+
 // Opens the monster selector and picks the option whose code matches `monsterCode`. The option's
 // <img alt="..."> carries the raw (untranslated) monster code, so this is locale-independent.
 Cypress.Commands.add('pickMonster', (monsterCode: string) => {
@@ -84,6 +98,7 @@ declare global {
       mockMonsterChoices(monsters?: string[]): Chainable<void>
       selectGameAndConfirm(index?: number): Chainable<void>
       startUnlimitedGame(): Chainable<void>
+      startDailyGame(): Chainable<void>
       pickMonster(monsterCode: string): Chainable<void>
       sendGuess(monsterCode: string): Chainable<void>
       latestGuessRowCells(): Chainable<JQuery<HTMLElement>>

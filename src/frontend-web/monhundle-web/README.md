@@ -65,6 +65,20 @@ docker compose run --rm cypress
 
 Alternative: a container named `cypress-e2e` is created after a first run and stays visible in Docker Desktop — clicking ▶ **Start** on it reruns the suite (test files are volume-mounted, so it always picks up the latest changes).
 
+### Running against every browser
+
+`cypress/included` bundles Chrome, Edge, and Firefox alongside its default Electron, so a single browser can be targeted with `--browser`:
+
+```sh
+docker compose run --rm cypress --browser chrome
+```
+
+To run the whole suite against all of them in one command (each runs in turn; the command exits non-zero if any browser failed):
+
+```sh
+docker compose run --rm --entrypoint sh cypress -c 'STATUS=0; for b in electron chrome firefox; do cypress run --browser $b || STATUS=1; done; exit $STATUS'
+```
+
 ### Run results
 
 - **Screenshots** of failed tests: `cypress/screenshots/` (nothing is generated for a passing test).
