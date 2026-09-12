@@ -13,7 +13,7 @@ on:
     types: [published]  # When a new release is published
 
 jobs:
-  test-and-check:
+  unit-and-build:
     name: Test and TypeScript Check
     runs-on: ubuntu-latest
     defaults:
@@ -42,3 +42,46 @@ jobs:
 
       - name: Build for production
         run: npm run build
+
+  e2e:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/frontend-web/monhundle-web
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: ./src/frontend-web/monhundle-web/package-lock.json
+
+      - name: Install deps, build & warm Cypress cache
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: ./src/frontend-web/monhundle-web
+          build: npm run build
+          runTests: false   # installe + build, ne lance pas encore les tests
+
+      - name: Start preview server
+        run: npx vite preview --port 4173 &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173
+
+      - name: Run Cypress on all browsers # run each browser sequentially
+        run: |
+          STATUS=0
+          for b in electron chrome firefox; do
+            npx cypress run --browser $b || STATUS=1
+          done
+          exit $STATUS
+
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: ./src/frontend-web/monhundle-web/cypress/screenshots
