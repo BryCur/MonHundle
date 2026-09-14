@@ -57,7 +57,7 @@ If the motivation is still there when the web version is in a good place, here a
 
 This project has been made with love and by passion for the Monster Hunter games, but also to improve my software engineering skills. 
 
-Generative AI (OpenAI's *ChatGPT* and Mistral's *LeChat*) have been used mostly to explain concept, patterns and techniques (especially on devops aspect), but also to generate scripts and simple codes. 
+Generative AI (Anthropic's *Claude Code* and Mistral's *LeChat*) have been used to explain concept, patterns and techniques (especially on devops aspect), but also to generate scripts, simple codes and assist with testing strategies. 
 
 Monsters icons from Monster Hunter Wilds were made by [Gaudium017](https://x.com/Gaudium017).
 
