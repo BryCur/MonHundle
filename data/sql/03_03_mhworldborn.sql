@@ -18,8 +18,6 @@ on conflict do nothing
 ;
     
 --------------------------- afflictions ----------------------------
-insert into afflictions (id, code) VALUES (21, 'effluvium');
-
 insert into monsters_afflictions (affliction_id, monster_id)
 select 0 as affliction_id /* BlastBlight */, id as monster_id from monsters where code in ('teostra', 'dodogama', 'brachydios')
 union all select 1 as affliction_id /* Bleeding */, id as monster_id from monsters where code in ('ebony_odogaron', 'odogaron', 'ruiner_nergigante')
