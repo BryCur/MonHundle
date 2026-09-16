@@ -20,6 +20,7 @@ public class MonsterDataAccessTests(PostgresDatabaseFixture fixture)
 
         monsters.Should().NotBeEmpty();
         monsters.Should().Contain(m => m.GetCode() == "arkveld");
+        monsters.Should().NotContain(m => m.GetCode() == "zinogre");
     }
 
     [Fact]
