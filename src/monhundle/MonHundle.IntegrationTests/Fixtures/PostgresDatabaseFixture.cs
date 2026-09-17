@@ -37,8 +37,21 @@ public class PostgresDatabaseFixture : IAsyncLifetime
     }
 
     // expose CreateScope to let testing scenarios request the relevant DataAcess class,
-    // instead of having a centralised and shared collection of classes.  
+    // instead of having a centralised and shared collection of classes.
     public IServiceScope CreateScope() => _serviceProvider.CreateScope();
+
+    // Tables written to by DataAccess tests - reset between tests to avoid test data leaks.
+    private static readonly string[] TransactionalTables = ["game_sessions", "players", "history_daily_mode"];
+
+    public async Task ResetTransactionalDataAsync()
+    {
+        await using NpgsqlConnection connection = new(_container.GetConnectionString());
+        await connection.OpenAsync();
+
+        string tables = string.Join(", ", TransactionalTables);
+        await using NpgsqlCommand command = new($"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE;", connection);
+        await command.ExecuteNonQueryAsync();
+    }
 
     private async Task ApplyDbScripts()
     {

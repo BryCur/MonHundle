@@ -11,7 +11,7 @@ using MonHundle.IntegrationTests.Fixtures;
 namespace MonHundle.IntegrationTests.DataAccessers;
 
 [Collection(DatabaseCollection.Name)]
-public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
+public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture) : DataAccessTestBase(fixture)
 {
     // A DateTime property gets forced to UTC on write (see DateTimeUtcKindConverter). Using
     // Kind=Unspecified/Local dates here (e.g. DateTime.Today) would silently shift by the
@@ -29,7 +29,7 @@ public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task UpsertDailyGame_inserts_a_new_entry_when_none_exists_for_the_date()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         IDailyGameManagementDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IDailyGameManagementDataAccess>();
         int monsterId = await GetMonsterId(scope.ServiceProvider, "arkveld");
         DateTime date = Utc(2010, 1, 1);
@@ -43,7 +43,7 @@ public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task UpsertDailyGame_updates_the_existing_entry_when_no_session_exists_yet()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         IDailyGameManagementDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IDailyGameManagementDataAccess>();
         int firstMonsterId = await GetMonsterId(scope.ServiceProvider, "arkveld");
         int secondMonsterId = await GetMonsterId(scope.ServiceProvider, "doshaguma");
@@ -60,7 +60,7 @@ public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task UpsertDailyGame_throws_when_a_session_already_exists_for_that_date()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         IDailyGameManagementDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IDailyGameManagementDataAccess>();
         int monsterId = await GetMonsterId(scope.ServiceProvider, "arkveld");
@@ -90,7 +90,7 @@ public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetLastDailyGamesByDays_only_returns_entries_within_the_window()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         IDailyGameManagementDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IDailyGameManagementDataAccess>();
         int monsterId = await GetMonsterId(scope.ServiceProvider, "arkveld");
         DateTime withinWindow = DateTime.UtcNow.Date.AddDays(-1);
@@ -108,10 +108,12 @@ public class DailyGameManagementDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetLastDailyGameDate_returns_the_most_recent_date_across_all_entries()
     {
-        // GetLastDailyGameDate reads the max date across the WHOLE table, which every test
-        // in this class shares (no per-test reset). A date far in the future keeps this
-        // assertion valid no matter what dates the other tests in this class insert.
-        using IServiceScope scope = fixture.CreateScope();
+        // GetLastDailyGameDate reads the max date across the whole table. This test inserts
+        // two dates itself and asserts the later one wins, so it's self-contained regardless
+        // of table state - the far-future date isn't load-bearing against other tests now
+        // that DataAccessTestBase resets this table before every test, it's just here to keep
+        // the two dates unambiguously far apart.
+        using IServiceScope scope = Fixture.CreateScope();
         IDailyGameManagementDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IDailyGameManagementDataAccess>();
         int firstMonsterId = await GetMonsterId(scope.ServiceProvider, "arkveld");
         int secondMonsterId = await GetMonsterId(scope.ServiceProvider, "rathalos");

@@ -8,12 +8,12 @@ using MonHundle.IntegrationTests.Fixtures;
 namespace MonHundle.IntegrationTests.DataAccessers;
 
 [Collection(DatabaseCollection.Name)]
-public class PlayerDataAccessTests(PostgresDatabaseFixture fixture)
+public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccessTestBase(fixture)
 {
     [Fact]
     public async Task InsertPlayer_then_GetPlayer_returns_the_inserted_player()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         IPlayerDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
         Guid playerUid = Guid.NewGuid();
 
@@ -39,7 +39,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetPlayer_returns_null_when_the_player_does_not_exist()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         IPlayerDataAccess dataAccess = scope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
 
         Player? result = await dataAccess.GetPlayer(Guid.NewGuid());
@@ -53,7 +53,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture)
         Guid playerUid = Guid.NewGuid();
         int playerId;
 
-        using (IServiceScope insertScope = fixture.CreateScope())
+        using (IServiceScope insertScope = Fixture.CreateScope())
         {
             IPlayerDataAccess dataAccess = insertScope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
             Player player = new()
@@ -67,7 +67,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture)
             await dataAccess.GetPlayer(playerUid); // primes the second-level cache entry for this guid
         }
 
-        using (IServiceScope updateScope = fixture.CreateScope())
+        using (IServiceScope updateScope = Fixture.CreateScope())
         {
             IPlayerDataAccess dataAccess = updateScope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
             await dataAccess.UpdatePlayer(new Player
@@ -78,7 +78,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture)
             });
         }
 
-        using (IServiceScope readScope = fixture.CreateScope())
+        using (IServiceScope readScope = Fixture.CreateScope())
         {
             IPlayerDataAccess dataAccess = readScope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
             Player afterUpdate = (await dataAccess.GetPlayer(playerUid))!;

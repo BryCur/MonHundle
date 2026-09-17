@@ -10,7 +10,7 @@ using MonHundle.IntegrationTests.Fixtures;
 namespace MonHundle.IntegrationTests.DataAccessers;
 
 [Collection(DatabaseCollection.Name)]
-public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
+public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture) : DataAccessTestBase(fixture)
 {
     private static async Task<(int PlayerId, Guid PlayerUid)> CreatePlayer(IServiceProvider services)
     {
@@ -26,7 +26,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task CreateGame_then_GetGame_returns_the_created_session()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
         GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
         IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
@@ -53,7 +53,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task CreateGame_throws_when_the_player_does_not_exist()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
         IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
 
@@ -78,7 +78,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
         // Loaded and saved from separate scopes, mirroring two distinct HTTP requests each
         // getting their own AppDbContext - SaveGame relies on EF's disconnected-entity
         // Update() to work correctly here, which a single shared context would not exercise.
-        using (IServiceScope arrangeScope = fixture.CreateScope())
+        using (IServiceScope arrangeScope = Fixture.CreateScope())
         {
             (playerId, Guid playerUid) = await CreatePlayer(arrangeScope.ServiceProvider);
             GuessableMonster answer = await GetAnswerMonster(arrangeScope.ServiceProvider);
@@ -94,19 +94,19 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
         }
         
         GameSession loaded;
-        using (IServiceScope loadScope = fixture.CreateScope())
+        using (IServiceScope loadScope = Fixture.CreateScope())
         {
             loaded = await loadScope.ServiceProvider.GetRequiredService<IGameDataAccess>().GetGame(gameId, playerId);
             loaded.State = nameof(GameStates.Win);
             loaded.EndTime = DateTime.UtcNow;
         }
 
-        using (IServiceScope saveScope = fixture.CreateScope())
+        using (IServiceScope saveScope = Fixture.CreateScope())
         {
             await saveScope.ServiceProvider.GetRequiredService<IGameDataAccess>().SaveGame(loaded);
         }
 
-        using IServiceScope assertScope = fixture.CreateScope();
+        using IServiceScope assertScope = Fixture.CreateScope();
         GameSession updated = await assertScope.ServiceProvider.GetRequiredService<IGameDataAccess>().GetGame(gameId, playerId);
 
         updated.State.Should().Be(nameof(GameStates.Win));
@@ -116,7 +116,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetDailyGameForPlayerAtDate_returns_the_matching_daily_game()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
         GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
         IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
@@ -141,7 +141,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetDailyGameForPlayerAtDate_returns_null_when_no_game_matches()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         (int playerId, _) = await CreatePlayer(scope.ServiceProvider);
         IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
 
@@ -153,7 +153,7 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture)
     [Fact]
     public async Task GetOngoingUnlimitedGamesForPlayer_returns_only_ongoing_unlimited_games()
     {
-        using IServiceScope scope = fixture.CreateScope();
+        using IServiceScope scope = Fixture.CreateScope();
         (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
         GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
         IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
