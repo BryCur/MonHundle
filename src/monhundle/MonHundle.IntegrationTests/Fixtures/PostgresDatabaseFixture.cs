@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using MonHundle.database;
+using MonHundle.domain.Interfaces.Services;
 using Npgsql;
 using Testcontainers.PostgreSql;
 
@@ -51,6 +52,9 @@ public class PostgresDatabaseFixture : IAsyncLifetime
         string tables = string.Join(", ", TransactionalTables);
         await using NpgsqlCommand command = new($"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE;", connection);
         await command.ExecuteNonQueryAsync();
+        
+        using IServiceScope scope = CreateScope();
+        scope.ServiceProvider.GetRequiredService<IDatabaseCacheService>().InvalidateAll();
     }
 
     private async Task ApplyDbScripts()
