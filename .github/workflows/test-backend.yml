@@ -30,11 +30,15 @@ jobs:
     - name: Build
       run: dotnet build ./src/monhundle --no-restore
 
-    - name: Test
-      run: dotnet test ./src/monhundle --no-build --verbosity normal
+    - name: Unit Tests
+      run: dotnet test ./src/monhundle/MonHundle.Tests/MonHundle.Tests.csproj --no-build --verbosity normal
+      
+    - name: Integration Tests
+      run: dotnet test ./src/monhundle/MonHundle.IntegrationTests/MonHundle.IntegrationTests.csproj --no-build --verbosity normal
 
   update-docker:
     needs: build-and-test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     defaults:
       run:
