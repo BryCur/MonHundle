@@ -13,7 +13,9 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
 {
     
     [HttpGet("authenticate")]
-    public async Task<IActionResult> IdentifyUser()
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Guid>> IdentifyUser()
     {
         string? sUID = Request.GetUserId();
         try
@@ -31,20 +33,24 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     }
 
     [HttpGet("validate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ValidateUser([FromQuery(Name = "user-id")] string userUuid)
     {
         bool guidParsed = Guid.TryParse(userUuid, out Guid parsedUuid);
 
         if (!guidParsed ||  !await playerService.CheckPlayerExists(parsedUuid))
         {
-            return BadRequest("invalid user id format"); 
+            return BadRequest("invalid user id format");
         }
-        
+
         return Ok();
     }
 
     [HttpGet("profile/{userUuid}")]
-    public async Task<IActionResult> GetProfile([FromRoute] string userUuid)
+    [ProducesResponseType(typeof(PlayerProfileResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<PlayerProfileResponse>> GetProfile([FromRoute] string userUuid)
     {
          bool parsed = Guid.TryParse(userUuid, out Guid parsedUuid);
 
@@ -52,11 +58,13 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
          {
              return BadRequest("invalid user id format");
          }
-        
+
         return Ok( await playerService.GetPlayerProfile(parsedUuid));
     }
 
     [HttpPost("preference")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> SavePreference([FromBody] UserPreferencesBody preferences)
     {
         bool guidParsed = Guid.TryParse(Request.GetUserId(), out Guid parsedUuid);
@@ -72,16 +80,19 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     }
 
     [HttpGet("load")]
-    public async Task<IActionResult> LoadUser([FromQuery(Name = "user-id")] string userUuid)
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Guid>> LoadUser([FromQuery(Name = "user-id")] string userUuid)
     {
         bool currentGuidParsed = Guid.TryParse(Request.GetUserId(), out Guid currentUserUuid);
         bool targetGuidParsed = Guid.TryParse(userUuid, out Guid targetUserUuid);
 
         if (!currentGuidParsed || ! await playerService.CheckPlayerExists(currentUserUuid))
         {
-            return Unauthorized("invalid user id format"); 
+            return Unauthorized("invalid user id format");
         }
-        
+
         if (!targetGuidParsed || ! await playerService.CheckPlayerExists(targetUserUuid))
         {
             return NotFound("target user id is invalid");

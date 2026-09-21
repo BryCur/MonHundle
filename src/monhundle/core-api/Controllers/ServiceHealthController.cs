@@ -7,13 +7,15 @@ namespace core_api.Controllers;
 public class ServiceHealthController
 {
     [HttpGet("Status")]
-    public IActionResult GetServiceStatus()
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public ActionResult<string> GetServiceStatus()
     {
         return new OkObjectResult("Service is alive");
     }
-    
+
     [HttpHead("Status")]
-    public IActionResult GetServiceStatusHead()
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public ActionResult<string> GetServiceStatusHead()
     {
         return new OkObjectResult("Service is alive");
     }
