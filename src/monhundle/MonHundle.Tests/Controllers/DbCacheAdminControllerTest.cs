@@ -32,9 +32,9 @@ public class DbCacheAdminControllerTest
         string[] tables = ["ef_games", "ef_players"];
         _cacheService.Setup(s => s.GetAvailableTables()).Returns(tables);
 
-        IActionResult result = BuildController().GetAvailableTables();
+        ActionResult<IReadOnlyCollection<string>> result = BuildController().GetAvailableTables();
 
-        OkObjectResult ok = Assert.IsType<OkObjectResult>(result);
+        OkObjectResult ok = Assert.IsType<OkObjectResult>(result.Result);
         Assert.Same(tables, ok.Value);
     }
 
