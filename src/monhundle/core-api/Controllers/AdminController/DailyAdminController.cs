@@ -9,6 +9,7 @@ namespace core_api.Controllers.AdminController;
 [ApiController]
 [Route("admin/daily")]
 [ServiceFilter(typeof(ManagementAuthFilter))]
+[ApiExplorerSettings(GroupName = "admin")]
 public class DailyAdminController(ILogger<DailyAdminController> _logger,
     IDailyGameManagementService dailyService) : ControllerBase
 {

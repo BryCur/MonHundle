@@ -7,6 +7,7 @@ namespace core_api.Controllers.AdminController;
 [ApiController]
 [Route("admin/cache")]
 [ServiceFilter(typeof(ManagementAuthFilter))]
+[ApiExplorerSettings(GroupName = "admin")]
 public class DbCacheAdminController(ILogger<DailyAdminController> _logger,
     IDatabaseCacheService dbCacheService) : ControllerBase
 {
