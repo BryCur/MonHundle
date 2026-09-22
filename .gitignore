@@ -66,3 +66,5 @@ src/monhundle/!appsettings.Development.json
 
 src/monhundle/core-api/publish/
 src/monhundle/core-api/logs/
+
+src/monhundle/core-api/openapi/
