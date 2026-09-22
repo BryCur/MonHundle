@@ -7,7 +7,7 @@ services: # pour entrer dans le conteneur: docker compose exec frontend sh
     volumes:
       - ./:/app
       # OpenAPI doc exported by the backend build (see core-api.csproj), used by
-      # `npm run generate:api-types` to (re)generate src/domain/generated/api-types.ts
+      # `npm run generate:api-models` to (re)generate src/domain/generated/models/*.ts
       - ../monhundle/core-api/openapi:/backend-openapi:ro
     environment:
       OPENAPI_CONTRACT_PATH: /backend-openapi/core-api_public.json
