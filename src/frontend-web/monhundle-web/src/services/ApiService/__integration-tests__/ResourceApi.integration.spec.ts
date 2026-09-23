@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
-import { server } from '@/mocks/vitest.setup'
+import { server } from '@test-utils/vitest/setup'
 import {
   GAME_TITLE_MHR,
   GAME_TITLE_MHW,
   MONSTER_CODE_DIABLOS,
   MONSTER_CODE_RATHALOS,
   SAMPLE_GAME_TITLES,
-} from '@/mocks/fixtures'
+} from '@test-utils/vitest/fixtures'
 import ResourceApi from '@/services/ApiService/ResourceApi'
 
 describe('ResourceApi — game titles (integration)', () => {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
 import { createPinia, setActivePinia } from 'pinia'
-import { server } from '@/mocks/vitest.setup'
+import { server } from '@test-utils/vitest/setup'
 import {
   BEARER_TOKEN_USER_ID,
   EXISTING_GAME_ID,
@@ -11,7 +11,7 @@ import {
   SHAPE_TEST_GAME_ID,
   buildGameStateResponse,
   buildGuessResponse,
-} from '@/mocks/fixtures'
+} from '@test-utils/vitest/fixtures'
 import { DailyGameApi } from '@/services/ApiService/DailyGameApi'
 import { DailyGameService } from '@/services/GameService'
 import { useGameStore } from '@/stores/GameStore'

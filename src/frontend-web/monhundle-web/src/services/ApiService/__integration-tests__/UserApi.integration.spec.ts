@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
-import { server } from '@/mocks/vitest.setup'
-import { VALID_UUID } from '@/mocks/fixtures'
+import { server } from '@test-utils/vitest/setup'
+import { VALID_UUID } from '@test-utils/vitest/fixtures'
 import { UserApi } from '@/services/ApiService/UserApi'
 import { clearStoredUserId, getStoredUserId, setStoredUserId } from '@/services/LocalStorageService'
 
