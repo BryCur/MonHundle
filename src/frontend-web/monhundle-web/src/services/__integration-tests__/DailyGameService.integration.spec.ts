@@ -40,9 +40,10 @@ describe('DailyGameService — starting a game (integration)', () => {
   })
 
   it('starts a new game end-to-end: real fetch call, store updated, cookie persisted', async () => {
+    server.use(http.post('*/game/daily/start', () => HttpResponse.json('mocked-daily-game-id')))
+
     const gameId = await new DailyGameService(new DailyGameApi(), useGameStore()).startNewGame()
 
-    // "mocked-daily-game-id" comes from the default handler in src/mocks/handlers.ts.
     expect(gameId).toBe('mocked-daily-game-id')
     expect(useGameStore().game).toMatchObject({ gameId: 'mocked-daily-game-id', gameMode: GameModes.Daily })
     expect(getCookie(CookieKeys.CURRENT_DAILY_GAME)).toBe('mocked-daily-game-id')
@@ -97,7 +98,14 @@ describe('DailyGameService — making a guess (integration)', () => {
     expect(capturedBody).toEqual({ gameId: 'gid-99', guessId: 'nargacuga' } satisfies MakeGuessBody)
   })
 
-  it('sends the guess and records the result in the store (default handler)', async () => {
+  it('sends the guess and records the result in the store', async () => {
+    server.use(
+      http.post('*/game/daily/guess', () => {
+        const response: GuessResponse = { monsterCode: 'rathalos', gameStateAfterGuess: 0 } // GameStates.Ongoing
+        return HttpResponse.json(response)
+      }),
+    )
+
     await new DailyGameService(new DailyGameApi(), useGameStore()).makeGuess('g1', 'rathalos')
 
     const gameStore = useGameStore()
@@ -152,7 +160,13 @@ describe('DailyGameService — resuming a game (integration)', () => {
     expect(capturedGameId).toBe('gid-77')
   })
 
-  it('resumes an ongoing game and reflects it in the store (default handler)', async () => {
+  it('resumes an ongoing game and reflects it in the store', async () => {
+    server.use(
+      http.get('*/game/daily/resume/:gameId', ({ params }) => {
+        return HttpResponse.json({ gameId: params.gameId as string, state: 0, guesses: [], gameMode: 1 }) // Ongoing, Daily
+      }),
+    )
+
     const isOngoing = await new DailyGameService(new DailyGameApi(), useGameStore()).resumeGame('g1')
 
     expect(isOngoing).toBe(true)

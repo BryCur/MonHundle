@@ -26,7 +26,9 @@ describe('ResourceApi — game titles (integration)', () => {
     expect(new URL(capturedUrl!).search).toBe('')
   })
 
-  it('parses the response body into a list of titles (default handler)', async () => {
+  it('parses the response body into a list of titles', async () => {
+    server.use(http.get('*/resources/game-titles', () => HttpResponse.json(['MHW', 'MHR'])))
+
     const titles = await new ResourceApi().getGameTitles()
 
     expect(titles).toEqual(['MHW', 'MHR'])
@@ -65,7 +67,9 @@ describe('ResourceApi — monster choices (integration)', () => {
     expect(new URL(capturedUrl!).searchParams.get('gameTitles')).toBe('MHW,MHR')
   })
 
-  it('parses the response body into a list of monster codes (default handler)', async () => {
+  it('parses the response body into a list of monster codes', async () => {
+    server.use(http.get('*/resources/monster-choices', () => HttpResponse.json(['rathalos', 'diablos'])))
+
     const monsters = await new ResourceApi().getMonstersOptions(['MHW'])
 
     expect(monsters).toEqual(['rathalos', 'diablos'])

@@ -54,15 +54,17 @@ describe('SettingsApi.getProfile (integration)', () => {
     expect(new URL(capturedUrl!).pathname).toBe(`/user/profile/${VALID_UUID}`)
   })
 
-  it('returns the parsed profile on success (default handler)', async () => {
-    const profile = await new SettingsApi().getProfile(VALID_UUID)
-
+  it('returns the parsed profile on success', async () => {
     const expected: PlayerProfileResponse = {
       enableTableVisualAid: false,
       gameList: ['MHW'],
       currentDailyGameUuid: null,
       currentUnlimitedGameUuid: null,
     }
+    server.use(http.get('*/user/profile/:playerUid', () => HttpResponse.json(expected)))
+
+    const profile = await new SettingsApi().getProfile(VALID_UUID)
+
     expect(profile).toEqual(expected)
   })
 
@@ -91,7 +93,9 @@ describe('SettingsApi.validateUser (integration)', () => {
     expect(new URL(capturedUrl!).searchParams.get('user-id')).toBe(VALID_UUID)
   })
 
-  it('returns true on a 200 response (default handler)', async () => {
+  it('returns true on a 200 response', async () => {
+    server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 200 })))
+
     await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(true)
   })
 
@@ -124,10 +128,11 @@ describe('SettingsApi.loadUser (integration)', () => {
     expect(new URL(capturedUrl!).searchParams.get('user-id')).toBe(VALID_UUID)
   })
 
-  it('stores the loaded id when the response body is a valid uuid (default handler)', async () => {
+  it('stores the loaded id when the response body is a valid uuid', async () => {
+    server.use(http.get('*/user/load', () => HttpResponse.json('22222222-2222-2222-2222-222222222222')))
+
     await new SettingsApi().loadUser('33333333-3333-3333-3333-333333333333')
 
-    // "22222222-2222-2222-2222-222222222222" comes from the default handler.
     expect(getStoredUserId()).toBe('22222222-2222-2222-2222-222222222222')
   })
 

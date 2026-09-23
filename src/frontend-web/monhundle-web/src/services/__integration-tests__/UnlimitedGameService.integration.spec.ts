@@ -23,6 +23,8 @@ describe('UnlimitedGameService — starting a game (integration)', () => {
   })
 
   it('starts a new game end-to-end: real fetch call, store updated, cookie persisted', async () => {
+    server.use(http.post('*/game/unlimited/start', () => HttpResponse.json('mocked-unlimited-game-id')))
+
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
     const gameId = await gameService.startNewGame()
@@ -103,7 +105,14 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
     expect(capturedBody).toEqual({ gameId: 'gid-99', guessId: 'nargacuga' } satisfies MakeGuessBody)
   })
 
-  it('sends the guess and records the result in the store (default handler)', async () => {
+  it('sends the guess and records the result in the store', async () => {
+    server.use(
+      http.post('*/game/unlimited/guess', () => {
+        const response: GuessResponse = { monsterCode: 'rathalos', gameStateAfterGuess: 0 } // GameStates.Ongoing
+        return HttpResponse.json(response)
+      }),
+    )
+
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
     await gameService.makeGuess('g1', 'rathalos')
@@ -111,7 +120,6 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
     const gameStore = useGameStore()
     expect(gameStore.game?.guesses).toHaveLength(1)
     expect(gameStore.game?.guesses[0]).toMatchObject({ monsterCode: 'rathalos' })
-    // The default handler in handlers.ts answers with GameStates.Ongoing (0).
     expect(gameStore.game?.state).toBe(GameStates.Ongoing)
   })
 
@@ -162,7 +170,19 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
     expect(capturedGameId).toBe('gid-77')
   })
 
-  it('resumes an ongoing game and reflects it in the store (default handler)', async () => {
+  it('resumes an ongoing game and reflects it in the store', async () => {
+    server.use(
+      http.get('*/game/unlimited/resume/:gameId', ({ params }) => {
+        const response: GameStateResponse = {
+          gameId: params.gameId as string,
+          state: 0, // GameStates.Ongoing
+          guesses: [],
+          gameMode: 0, // GameModes.Unlimited
+        }
+        return HttpResponse.json(response)
+      }),
+    )
+
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
     const isOngoing = await gameService.resumeGame('g1')

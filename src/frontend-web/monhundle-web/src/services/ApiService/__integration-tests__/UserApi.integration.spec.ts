@@ -47,13 +47,13 @@ describe('UserApi.authUser (integration)', () => {
     expect(capturedAuthHeader).toBe('Bearer 11111111-1111-1111-1111-111111111111')
   })
 
-  it('stores the returned id and marks itself authenticated on a valid response (default handler)', async () => {
+  it('stores the returned id and marks itself authenticated on a valid response', async () => {
+    server.use(http.get('*/user/authenticate', () => HttpResponse.json(VALID_UUID)))
+
     const api = new UserApi()
 
     await api.authUser()
 
-    // "11111111-1111-1111-1111-111111111111" comes from the default handler in
-    // src/mocks/handlers.ts, parsed through a real fetch Response, not a hand-built one.
     expect(getStoredUserId()).toBe(VALID_UUID)
     expect(api.authenticated).toBe(true)
   })
