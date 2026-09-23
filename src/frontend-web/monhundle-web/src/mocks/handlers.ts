@@ -1,6 +1,7 @@
 import { HttpResponse, http } from 'msw'
 import type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse'
 import type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse'
+import type { PlayerProfileResponse } from '@/domain/generated/response/objects/PlayerProfileResponse'
 
 // Default, happy-path handlers. Individual tests override these via `server.use(...)`
 // (see afterEach(() => server.resetHandlers()) in vitest.setup.ts) when they need a
@@ -56,5 +57,39 @@ export const handlers = [
       gameMode: 1, // GameModes.Daily
     }
     return HttpResponse.json(response)
+  }),
+
+  http.get('*/resources/game-titles', () => {
+    return HttpResponse.json(['MHW', 'MHR'])
+  }),
+
+  http.get('*/resources/monster-choices', () => {
+    return HttpResponse.json(['rathalos', 'diablos'])
+  }),
+
+  http.get('*/user/authenticate', () => {
+    return HttpResponse.json('11111111-1111-1111-1111-111111111111')
+  }),
+
+  http.post('*/user/preference', () => {
+    return new HttpResponse(null, { status: 200 })
+  }),
+
+  http.get('*/user/profile/:playerUid', () => {
+    const response: PlayerProfileResponse = {
+      enableTableVisualAid: false,
+      gameList: ['MHW'],
+      currentDailyGameUuid: null,
+      currentUnlimitedGameUuid: null,
+    }
+    return HttpResponse.json(response)
+  }),
+
+  http.get('*/user/validate', () => {
+    return new HttpResponse(null, { status: 200 })
+  }),
+
+  http.get('*/user/load', () => {
+    return HttpResponse.json('22222222-2222-2222-2222-222222222222')
   }),
 ]

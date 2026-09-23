@@ -9,7 +9,7 @@ export class SettingsApi implements ISettingApi {
 
     public async saveSettings(enableTableVisualAid: boolean, gameTitles: string[]): Promise<void> {
         const settingsBody: UserSettingsBody = {enableTableVisualAid, gameTitles}
-        apiFetch('/user/preference', {method: 'POST', body: JSON.stringify(settingsBody)})
+        await apiFetch('/user/preference', {method: 'POST', body: JSON.stringify(settingsBody)}) // TOFIX check if response ok ? 
     }
 
     public async getProfile(playerUid: string): Promise<SettingsResponse | null> {
