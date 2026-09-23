@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
 import { server } from '@/mocks/vitest.setup'
+import {
+  GAME_TITLE_MHR,
+  GAME_TITLE_MHW,
+  MONSTER_CODE_DIABLOS,
+  MONSTER_CODE_RATHALOS,
+  SAMPLE_GAME_TITLES,
+} from '@/mocks/fixtures'
 import ResourceApi from '@/services/ApiService/ResourceApi'
-
 
 describe('ResourceApi — game titles (integration)', () => {
   beforeEach(() => {
@@ -27,11 +33,11 @@ describe('ResourceApi — game titles (integration)', () => {
   })
 
   it('parses the response body into a list of titles', async () => {
-    server.use(http.get('*/resources/game-titles', () => HttpResponse.json(['MHW', 'MHR'])))
+    server.use(http.get('*/resources/game-titles', () => HttpResponse.json(SAMPLE_GAME_TITLES)))
 
     const titles = await new ResourceApi().getGameTitles()
 
-    expect(titles).toEqual(['MHW', 'MHR'])
+    expect(titles).toEqual(SAMPLE_GAME_TITLES)
   })
 })
 
@@ -62,16 +68,20 @@ describe('ResourceApi — monster choices (integration)', () => {
       }),
     )
 
-    await new ResourceApi().getMonstersOptions(['MHW', 'MHR'])
+    await new ResourceApi().getMonstersOptions(SAMPLE_GAME_TITLES)
 
-    expect(new URL(capturedUrl!).searchParams.get('gameTitles')).toBe('MHW,MHR')
+    expect(new URL(capturedUrl!).searchParams.get('gameTitles')).toBe(`${GAME_TITLE_MHW},${GAME_TITLE_MHR}`)
   })
 
   it('parses the response body into a list of monster codes', async () => {
-    server.use(http.get('*/resources/monster-choices', () => HttpResponse.json(['rathalos', 'diablos'])))
+    server.use(
+      http.get('*/resources/monster-choices', () =>
+        HttpResponse.json([MONSTER_CODE_RATHALOS, MONSTER_CODE_DIABLOS]),
+      ),
+    )
 
-    const monsters = await new ResourceApi().getMonstersOptions(['MHW'])
+    const monsters = await new ResourceApi().getMonstersOptions([GAME_TITLE_MHW])
 
-    expect(monsters).toEqual(['rathalos', 'diablos'])
+    expect(monsters).toEqual([MONSTER_CODE_RATHALOS, MONSTER_CODE_DIABLOS])
   })
 })

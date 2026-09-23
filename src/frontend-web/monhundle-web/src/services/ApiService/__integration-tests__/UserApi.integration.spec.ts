@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
 import { server } from '@/mocks/vitest.setup'
+import { VALID_UUID } from '@/mocks/fixtures'
 import { UserApi } from '@/services/ApiService/UserApi'
 import { clearStoredUserId, getStoredUserId, setStoredUserId } from '@/services/LocalStorageService'
-
-const VALID_UUID = '11111111-1111-1111-1111-111111111111'
 
 describe('UserApi.authUser (integration)', () => {
   beforeEach(() => {
@@ -32,7 +31,7 @@ describe('UserApi.authUser (integration)', () => {
   })
 
   it('sends the previously stored id as a Bearer token when one already exists', async () => {
-    setStoredUserId('11111111-1111-1111-1111-111111111111')
+    setStoredUserId(VALID_UUID)
 
     let capturedAuthHeader: string | null = null
     server.use(
@@ -44,7 +43,7 @@ describe('UserApi.authUser (integration)', () => {
 
     await new UserApi().authUser()
 
-    expect(capturedAuthHeader).toBe('Bearer 11111111-1111-1111-1111-111111111111')
+    expect(capturedAuthHeader).toBe(`Bearer ${VALID_UUID}`)
   })
 
   it('stores the returned id and marks itself authenticated on a valid response', async () => {

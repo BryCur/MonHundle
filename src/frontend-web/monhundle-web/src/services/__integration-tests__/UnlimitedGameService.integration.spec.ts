@@ -2,6 +2,16 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
 import { createPinia, setActivePinia } from 'pinia'
 import { server } from '@/mocks/vitest.setup'
+import {
+  BEARER_TOKEN_USER_ID,
+  EXISTING_GAME_ID,
+  MOCK_UNLIMITED_START_GAME_ID,
+  MONSTER_CODE_NARGACUGA,
+  MONSTER_CODE_RATHALOS,
+  SHAPE_TEST_GAME_ID,
+  buildGameStateResponse,
+  buildGuessResponse,
+} from '@/mocks/fixtures'
 import { UnlimitedGameApi } from '@/services/ApiService/UnlimitedGameApi'
 import { UnlimitedGameService } from '@/services/GameService'
 import { useGameStore } from '@/stores/GameStore'
@@ -10,8 +20,6 @@ import { GameModes } from '@/domain/enums/GameModes'
 import { GameStates } from '@/domain/enums/GameStates'
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService'
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService'
-import type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse'
-import type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse'
 import type { MakeGuessBody } from '@/domain/generated/request-params/MakeGuessBody'
 
 // Test the whole code chaine from the service layer with only network calls (fetch) faked.
@@ -23,21 +31,21 @@ describe('UnlimitedGameService — starting a game (integration)', () => {
   })
 
   it('starts a new game end-to-end: real fetch call, store updated, cookie persisted', async () => {
-    server.use(http.post('*/game/unlimited/start', () => HttpResponse.json('mocked-unlimited-game-id')))
+    server.use(http.post('*/game/unlimited/start', () => HttpResponse.json(MOCK_UNLIMITED_START_GAME_ID)))
 
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
     const gameId = await gameService.startNewGame()
 
-    expect(gameId).toBe('mocked-unlimited-game-id')
+    expect(gameId).toBe(MOCK_UNLIMITED_START_GAME_ID)
 
     const gameStore = useGameStore()
     expect(gameStore.game).toMatchObject({
-      gameId: 'mocked-unlimited-game-id',
+      gameId: MOCK_UNLIMITED_START_GAME_ID,
       gameMode: GameModes.Unlimited,
     })
 
-    expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe('mocked-unlimited-game-id')
+    expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe(MOCK_UNLIMITED_START_GAME_ID)
   })
 
   it('sends a well-formed request to start a game: POST, no body', async () => {
@@ -47,7 +55,7 @@ describe('UnlimitedGameService — starting a game (integration)', () => {
       http.post('*/game/unlimited/start', async ({ request }) => {
         capturedMethod = request.method
         capturedBody = await request.text()
-        return HttpResponse.json('game-id')
+        return HttpResponse.json(MOCK_UNLIMITED_START_GAME_ID)
       }),
     )
 
@@ -58,19 +66,19 @@ describe('UnlimitedGameService — starting a game (integration)', () => {
   })
 
   it('sends the stored user id as a Bearer token on the real request', async () => {
-    setStoredUserId('player-42')
+    setStoredUserId(BEARER_TOKEN_USER_ID)
 
     let receivedAuthHeader: string | null = null
     server.use(
       http.post('*/game/unlimited/start', ({ request }) => {
         receivedAuthHeader = request.headers.get('Authorization')
-        return HttpResponse.json('another-game-id')
+        return HttpResponse.json(MOCK_UNLIMITED_START_GAME_ID)
       }),
     )
 
     await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).startNewGame()
 
-    expect(receivedAuthHeader).toBe('Bearer player-42')
+    expect(receivedAuthHeader).toBe(`Bearer ${BEARER_TOKEN_USER_ID}`)
   })
 
   it('propagates a backend error instead of silently creating a game', async () => {
@@ -87,7 +95,7 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
     // makeGuess() only ever mutates an existing game (addGuess/setState) — it never creates one
-    useGameStore().setGame(new GameStatus('g1', GameModes.Unlimited))
+    useGameStore().setGame(new GameStatus(EXISTING_GAME_ID, GameModes.Unlimited))
   })
 
   it('sends a well-formed guess request body', async () => {
@@ -95,43 +103,49 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
     server.use(
       http.post('*/game/unlimited/guess', async ({ request }) => {
         capturedBody = (await request.json()) as MakeGuessBody
-        const response: GuessResponse = { monsterCode: 'nargacuga', gameStateAfterGuess: 0 }
-        return HttpResponse.json(response)
+        return HttpResponse.json(buildGuessResponse({ monsterCode: MONSTER_CODE_NARGACUGA }))
       }),
     )
 
-    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess('gid-99', 'nargacuga')
+    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
+      SHAPE_TEST_GAME_ID,
+      MONSTER_CODE_NARGACUGA,
+    )
 
-    expect(capturedBody).toEqual({ gameId: 'gid-99', guessId: 'nargacuga' } satisfies MakeGuessBody)
+    expect(capturedBody).toEqual({
+      gameId: SHAPE_TEST_GAME_ID,
+      guessId: MONSTER_CODE_NARGACUGA,
+    } satisfies MakeGuessBody)
   })
 
   it('sends the guess and records the result in the store', async () => {
     server.use(
       http.post('*/game/unlimited/guess', () => {
-        const response: GuessResponse = { monsterCode: 'rathalos', gameStateAfterGuess: 0 } // GameStates.Ongoing
-        return HttpResponse.json(response)
+        return HttpResponse.json(buildGuessResponse({ gameStateAfterGuess: GameStates.Ongoing }))
       }),
     )
 
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
-    await gameService.makeGuess('g1', 'rathalos')
+    await gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS)
 
     const gameStore = useGameStore()
     expect(gameStore.game?.guesses).toHaveLength(1)
-    expect(gameStore.game?.guesses[0]).toMatchObject({ monsterCode: 'rathalos' })
+    expect(gameStore.game?.guesses[0]).toMatchObject({ monsterCode: MONSTER_CODE_RATHALOS })
     expect(gameStore.game?.state).toBe(GameStates.Ongoing)
   })
 
   it('propagates a Win state from the response to the store', async () => {
     server.use(
       http.post('*/game/unlimited/guess', () => {
-        const response: GuessResponse = { monsterCode: 'rathalos', gameStateAfterGuess: 1 } // GameStates.Win
-        return HttpResponse.json(response)
+        return HttpResponse.json(buildGuessResponse({ gameStateAfterGuess: GameStates.Win }))
       }),
     )
 
-    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess('g1', 'rathalos')
+    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
+      EXISTING_GAME_ID,
+      MONSTER_CODE_RATHALOS,
+    )
 
     expect(useGameStore().game?.state).toBe(GameStates.Win)
   })
@@ -141,7 +155,7 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
 
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
-    await expect(gameService.makeGuess('g1', 'rathalos')).rejects.toThrow()
+    await expect(gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS)).rejects.toThrow()
     expect(useGameStore().game?.guesses).toHaveLength(0)
   })
 })
@@ -159,48 +173,46 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
       http.get('*/game/unlimited/resume/:gameId', ({ request, params }) => {
         capturedMethod = request.method
         capturedGameId = params.gameId as string
-        const response: GameStateResponse = { gameId: 'gid-77', state: 0, guesses: [], gameMode: 0 }
-        return HttpResponse.json(response)
+        return HttpResponse.json(buildGameStateResponse({ gameId: SHAPE_TEST_GAME_ID }))
       }),
     )
 
-    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).resumeGame('gid-77')
+    await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).resumeGame(SHAPE_TEST_GAME_ID)
 
     expect(capturedMethod).toBe('GET')
-    expect(capturedGameId).toBe('gid-77')
+    expect(capturedGameId).toBe(SHAPE_TEST_GAME_ID)
   })
 
   it('resumes an ongoing game and reflects it in the store', async () => {
     server.use(
       http.get('*/game/unlimited/resume/:gameId', ({ params }) => {
-        const response: GameStateResponse = {
-          gameId: params.gameId as string,
-          state: 0, // GameStates.Ongoing
-          guesses: [],
-          gameMode: 0, // GameModes.Unlimited
-        }
-        return HttpResponse.json(response)
+        return HttpResponse.json(
+          buildGameStateResponse({ gameId: params.gameId as string, gameMode: GameModes.Unlimited }),
+        )
       }),
     )
 
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
-    const isOngoing = await gameService.resumeGame('g1')
+    const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID)
 
     expect(isOngoing).toBe(true)
-    expect(useGameStore().game).toMatchObject({ gameId: 'g1', gameMode: GameModes.Unlimited })
-    expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe('g1')
+    expect(useGameStore().game).toMatchObject({ gameId: EXISTING_GAME_ID, gameMode: GameModes.Unlimited })
+    expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe(EXISTING_GAME_ID)
   })
 
   it('returns false but still persists an already-finished game', async () => {
     server.use(
       http.get('*/game/unlimited/resume/:gameId', () => {
-        const response: GameStateResponse = { gameId: 'g1', state: 1, guesses: [], gameMode: 0 } // Win, Unlimited
-        return HttpResponse.json(response)
+        return HttpResponse.json(
+          buildGameStateResponse({ gameId: EXISTING_GAME_ID, state: GameStates.Win, gameMode: GameModes.Unlimited }),
+        )
       }),
     )
 
-    const isOngoing = await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).resumeGame('g1')
+    const isOngoing = await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).resumeGame(
+      EXISTING_GAME_ID,
+    )
 
     expect(isOngoing).toBe(false)
     expect(useGameStore().game?.state).toBe(GameStates.Win)
@@ -211,7 +223,7 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
 
     const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore())
 
-    const isOngoing = await gameService.resumeGame('g1')
+    const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID)
 
     expect(isOngoing).toBe(false)
     expect(useGameStore().isGameNull()).toBe(true)

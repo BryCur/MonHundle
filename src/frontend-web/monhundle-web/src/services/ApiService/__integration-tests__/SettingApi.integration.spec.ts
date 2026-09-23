@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { HttpResponse, http } from 'msw'
 import { server } from '@/mocks/vitest.setup'
+import { GAME_TITLE_MHW, LOADED_USER_UUID, REQUESTING_USER_UUID, SAMPLE_GAME_TITLES, VALID_UUID } from '@/mocks/fixtures'
 import { SettingsApi } from '@/services/ApiService/SettingApi'
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService'
 import type { UserPreferencesBody } from '@/domain/generated/request-params/UserPreferencesBody'
 import type { PlayerProfileResponse } from '@/domain/generated/response/objects/PlayerProfileResponse'
-
-const VALID_UUID = '11111111-1111-1111-1111-111111111111'
 
 describe('SettingsApi.saveSettings (integration)', () => {
   it('sends a well-formed preference request', async () => {
@@ -20,12 +19,12 @@ describe('SettingsApi.saveSettings (integration)', () => {
       }),
     )
 
-    await new SettingsApi().saveSettings(true, ['MHW', 'MHR'])
+    await new SettingsApi().saveSettings(true, SAMPLE_GAME_TITLES)
 
     expect(capturedMethod).toBe('POST')
     expect(capturedBody).toEqual({
       enableTableVisualAid: true,
-      gameTitles: ['MHW', 'MHR'],
+      gameTitles: SAMPLE_GAME_TITLES,
     } satisfies UserPreferencesBody)
   })
 
@@ -57,7 +56,7 @@ describe('SettingsApi.getProfile (integration)', () => {
   it('returns the parsed profile on success', async () => {
     const expected: PlayerProfileResponse = {
       enableTableVisualAid: false,
-      gameList: ['MHW'],
+      gameList: [GAME_TITLE_MHW],
       currentDailyGameUuid: null,
       currentUnlimitedGameUuid: null,
     }
@@ -129,11 +128,11 @@ describe('SettingsApi.loadUser (integration)', () => {
   })
 
   it('stores the loaded id when the response body is a valid uuid', async () => {
-    server.use(http.get('*/user/load', () => HttpResponse.json('22222222-2222-2222-2222-222222222222')))
+    server.use(http.get('*/user/load', () => HttpResponse.json(LOADED_USER_UUID)))
 
-    await new SettingsApi().loadUser('33333333-3333-3333-3333-333333333333')
+    await new SettingsApi().loadUser(REQUESTING_USER_UUID)
 
-    expect(getStoredUserId()).toBe('22222222-2222-2222-2222-222222222222')
+    expect(getStoredUserId()).toBe(LOADED_USER_UUID)
   })
 
   // it is assumed that the validate user had been called before the load user is.
