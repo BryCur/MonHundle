@@ -71,6 +71,7 @@ public class GameDailyController : ControllerBase
 
     [HttpPost("guess")]
     [ProducesResponseType(typeof(GuessResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GuessResponse>> MakeGuess([FromBody] MakeGuessBody body)
     {
         GuessableMonster guess = await _monsterService.getMonsterFromCode(body.guessId) ??
