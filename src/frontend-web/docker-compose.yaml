@@ -15,6 +15,26 @@ services: # pour entrer dans le conteneur: docker compose exec frontend sh
       - "5173:5173" # ou autre port selon le framework
     tty: true
 
+  # Watches the backend's exported OpenAPI doc and regenerates the frontend models
+  # automatically whenever the backend rebuilds — `dotnet build`/`dotnet watch` on the
+  # backend refreshes core-api/openapi/*.json, which this container picks up and reacts
+  # to, so no manual `npm run generate:api-models` is needed during day-to-day dev.
+  # Shares node_modules with `frontend` via the same bind mount: run `npm install` in
+  # either container at least once before relying on this.
+  api-models-watcher:
+    image: node:22-alpine
+    container_name: api-models-watcher
+    working_dir: /app/monhundle-web
+    volumes:
+      - ./:/app
+      - ../monhundle/core-api/openapi:/backend-openapi:ro
+    environment:
+      OPENAPI_CONTRACT_PATH: /backend-openapi/core-api_public.json
+      # chokidar-cli spawns its -c command through $SHELL; the container's minimal
+      # environment doesn't set it by default outside an interactive login shell.
+      SHELL: /bin/sh
+    command: sh -c "npm run watch:api-models"
+
   cypress:
     image: cypress/included:15.5.0
     container_name: cypress-e2e

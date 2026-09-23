@@ -18,7 +18,8 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "generate:api-models": "tsx scripts/generate-api-models.ts"
+    "generate:api-models": "tsx scripts/generate-api-models.ts",
+    "watch:api-models": "chokidar \"$OPENAPI_CONTRACT_PATH\" -c \"npm run generate:api-models\" --initial --polling --poll-interval 500"
   },
   "dependencies": {
     "pinia": "^3.0.3",
@@ -36,6 +37,7 @@
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
+    "chokidar-cli": "^3.0.0",
     "cypress": "^15.3.0",
     "eslint": "^9.33.0",
     "eslint-plugin-cypress": "^5.1.1",

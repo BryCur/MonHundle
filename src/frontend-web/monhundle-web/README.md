@@ -6,6 +6,7 @@ MonHundle's Vue 3 / Vite frontend.
 
 - **Docker** and **Docker Compose** (Docker Desktop on Windows). That's the only dependency: **Node/npm don't need to be installed the host machine**, everything runs in the containers defined in `docker-compose.yaml` (located in `src/frontend-web/`, one level above this folder).
 - Optional but recommended for a full browser experience: the MonHundle backend (`src/monhundle/`) running locally — otherwise the app loads but API calls fail. Neither the unit tests nor the current Cypress spec need it (they stub the API responses).
+- To (re)generate the API types described below, the backend needs to have been built at least once (`dotnet build` in `src/monhundle/core-api`, or an IDE build) — that's what produces the OpenAPI contract the generator reads from.
 
 ## Project setup
 
@@ -26,6 +27,30 @@ And, inside the container, once in this folder (`cd monhundle-web` if needed):
 ```sh
 npm install
 ```
+
+## Generated API Types (`src/domain/generated/`)
+
+Request/response types are **generated from the backend's OpenAPI contract**, not written by hand, so they can't silently drift from what the API actually returns.
+
+The backend exports its contract automatically on every build (`core-api/openapi/core-api_public.json`, see `core-api.csproj` — `AdminController` endpoints are excluded, since the frontend never calls them). `scripts/generate-api-models.ts` reads that file and writes **one `.ts` file per DTO/enum**, organized by how it's actually used in `paths`:
+
+- `enum/` — enums (backend `int` enums, rendered as numeric union types)
+- `request-params/` — request bodies/params (e.g. `MakeGuessBody`)
+- `response/objects/` — success response shapes (e.g. `GuessResponse`)
+- `response/errors/` — error response shapes (e.g. `ProblemDetails`)
+- `models/` — everything else: a DTO nested inside another one (like `MonsterCriteriaDTO`, only ever a field of `GuessResponse`) or, in the future, one genuinely used on both the request and response side
+
+These files **are committed** — they're what you actually open and read (e.g. `src/domain/generated/response/objects/GuessResponse.ts`), not a build artifact, so a contract change shows up in the diff of a PR like any other code change.
+
+**Regenerating manually**, inside the `frontend` container:
+
+```sh
+npm run generate:api-models
+```
+
+**Regenerating automatically**: the `api-models-watcher` container (starts with `docker compose up`, alongside `frontend`) watches the backend's exported contract and reruns the generator whenever it changes — so a plain `dotnet build` (or `dotnet watch build`) on the backend is enough to keep these types in sync, no manual step needed during day-to-day dev.
+
+A custom script is used here rather than an established generator (`openapi-generator-cli`) — tried and compared on the `spike/openapi-generator-cli` branch. Its TypeScript generators aren't meant to be used in a "models only" mode: restricting them to just the DTOs produces code with dangling imports to the HTTP client files it also normally generates (`Cannot find module '../runtime'`), so it only compiles if the full generated client replaces `ApiBaseAccess.ts` entirely — a much larger change than intended here.
 
 ## Compile and Hot-Reload for Development
 
