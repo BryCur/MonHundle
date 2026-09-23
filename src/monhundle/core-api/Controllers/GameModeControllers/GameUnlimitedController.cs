@@ -27,7 +27,8 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpPost("start")]
-    public async Task<IActionResult> StartGame()
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    public async Task<ActionResult<Guid>> StartGame()
     {
         Player player = GetPlayerFromContext();
         Game newGame = await _gameService.CreateUnlimitedGameSessionWithRandomMonster(player);
@@ -38,7 +39,9 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpGet("resume/{gameId:guid}")]
-    public async Task<IActionResult> ResumeOngoingGame(Guid gameId)
+    [ProducesResponseType(typeof(GameStateResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<GameStateResponse>> ResumeOngoingGame(Guid gameId)
     {
         Player player = GetPlayerFromContext();
         Game? game = await _gameService.ResumeGame(gameId, player);
@@ -58,7 +61,9 @@ public class GameUnlimitedController : ControllerBase
     }
 
     [HttpPost("guess")]
-    public async Task<IActionResult> MakeGuess([FromBody] MakeGuessBody body)
+    [ProducesResponseType(typeof(GuessResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<GuessResponse>> MakeGuess([FromBody] MakeGuessBody body)
     {
         GuessableMonster guess = await _monsterService.getMonsterFromCode(body.guessId) ??
                            throw new InvalidDataException($"no monster matches id {body.guessId}");

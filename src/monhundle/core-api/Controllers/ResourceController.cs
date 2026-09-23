@@ -17,13 +17,15 @@ public class ResourceController : ControllerBase
     }
     
     [HttpGet("game-titles")]
-    public async Task<IActionResult> GetGameTitles()
+    [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<string>>> GetGameTitles()
     {
         return Ok(await _gameTitleService.GetAllGameTitles());
     }
 
     [HttpGet("monster-choices")]
-    public async Task<IActionResult> GetMonsterChoices([FromQuery] string? gameTitles)
+    [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<string>>> GetMonsterChoices([FromQuery] string? gameTitles)
     {
         String[] gamelist;
 

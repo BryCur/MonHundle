@@ -21,9 +21,9 @@ public class DailyAdminControllerTest
         DateTime expected = new(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         _dailyService.Setup(s => s.GetLastDailyGameDate()).ReturnsAsync(expected);
 
-        IActionResult result = await BuildController().GetLastDailyDate();
+        ActionResult<DateTime> result = await BuildController().GetLastDailyDate();
 
-        OkObjectResult ok = Assert.IsType<OkObjectResult>(result);
+        OkObjectResult ok = Assert.IsType<OkObjectResult>(result.Result);
         Assert.Equal(expected, ok.Value);
     }
 

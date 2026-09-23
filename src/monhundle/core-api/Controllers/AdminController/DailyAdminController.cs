@@ -9,13 +9,15 @@ namespace core_api.Controllers.AdminController;
 [ApiController]
 [Route("admin/daily")]
 [ServiceFilter(typeof(ManagementAuthFilter))]
+[ApiExplorerSettings(GroupName = "admin")]
 public class DailyAdminController(ILogger<DailyAdminController> _logger,
     IDailyGameManagementService dailyService) : ControllerBase
 {
     private const int DAYS_TO_REWIND = 30;
     
     [HttpGet("last-date")]
-    public async Task<IActionResult> GetLastDailyDate()
+    [ProducesResponseType(typeof(DateTime), StatusCodes.Status200OK)]
+    public async Task<ActionResult<DateTime>> GetLastDailyDate()
     {
         return Ok(await dailyService.GetLastDailyGameDate());
     }
@@ -24,6 +26,8 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
      * Allows to insert/update a daily challenge by specifying both the date and the answer
      */
     [HttpPost("specific-answer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SetDailyGameFullAnswer([FromBody] PostDailyAnswerBody body)
     {
         return await AttemptUpsertDailyGame(body.date, body.monsterId);
@@ -34,6 +38,8 @@ public class DailyAdminController(ILogger<DailyAdminController> _logger,
      * chosen, using the answer of the previous days to influence the pool of possible answer
      */
     [HttpPost("generate-answer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GenerateDailyGameAnswerForDate([FromQuery] DateTime date)
     {
         List<int> previousAnswers = await dailyService.GetLastDailyGameMonstersByDays(DAYS_TO_REWIND);

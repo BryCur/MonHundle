@@ -21,10 +21,6 @@ export class UnlimitedGameApi implements IGameApi {
         return guessResponse.json() as GuessResponse;
     }
 
-    public async saveGame (game: GameStatus): Promise<void> {
-        return await apiFetch("", {})
-    }
-
     public async resumeGame (gameId: string): Promise<GameStatus | null> {
         const response: Response = await apiFetch(`/game/unlimited/resume/${gameId}`, { method: "GET" })
         if (response.ok) {

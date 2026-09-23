@@ -36,7 +36,14 @@ public class Program
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "core-api", Version = "v1" });
+            // "public" excludes admin-only endpoints; this is the document exported to the frontend.
+            options.SwaggerDoc("public", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "core-api (public)", Version = "v1" });
+            options.DocInclusionPredicate((docName, apiDesc) =>
+                docName == "v1" || apiDesc.GroupName != "admin");
+        });
         builder.Services.AddControllers();
 
         // define the injectable classes
