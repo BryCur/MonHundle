@@ -87,7 +87,7 @@ export class DailyGameService {
 
     public async makeGuess(gameId: string, guessCode: string): Promise<void>{
         await this.gameApi.makeGuess(gameId, guessCode).then(res => {
-            let guessResult: Guess = res
+            let guessResult: Guess = res // TOFIX could be missing: ok verification before reading the response
             this.gameStore.addGuess(guessResult);
             this.gameStore.setState(res.gameStateAfterGuess)
         });

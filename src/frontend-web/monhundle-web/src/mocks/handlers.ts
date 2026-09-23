@@ -38,4 +38,23 @@ export const handlers = [
     }
     return HttpResponse.json(response)
   }),
+
+  http.post('*/game/daily/start', () => {
+    return HttpResponse.json('mocked-daily-game-id')
+  }),
+
+  http.post('*/game/daily/guess', () => {
+    const response: GuessResponse = { monsterCode: 'rathalos', gameStateAfterGuess: 0 } // GameStates.Ongoing
+    return HttpResponse.json(response)
+  }),
+
+  http.get('*/game/daily/resume/:gameId', ({ params }) => {
+    const response: GameStateResponse = {
+      gameId: params.gameId as string,
+      state: 0, // GameStates.Ongoing
+      guesses: [],
+      gameMode: 1, // GameModes.Daily
+    }
+    return HttpResponse.json(response)
+  }),
 ]
