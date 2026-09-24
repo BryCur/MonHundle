@@ -25,9 +25,11 @@ function getComparisonResultsClass(val: ComparisonResults): string {
     return classes;
 }
 
+// Not wired yet: builds the screen reader label of a result cell, for upcoming accessibility work.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getResultAriaTranslation(
     result: ComparisonResults,
-    criteria: any,
+    criteria: NamedEnum,
     value: number | number[],
 ) {
     let translatedValue: string;
