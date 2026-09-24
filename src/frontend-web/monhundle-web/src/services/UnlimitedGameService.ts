@@ -30,7 +30,7 @@ export class UnlimitedGameService {
         this.gameStore.addGuess(guessResult);
         this.gameStore.setState(res.gameStateAfterGuess);
     }
-    
+
     public async resumeGame(gameId: string): Promise<boolean> {
         const res = await this.gameApi.resumeGame(gameId);
         if (res !== null) {
