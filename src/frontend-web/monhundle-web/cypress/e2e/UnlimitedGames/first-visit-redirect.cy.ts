@@ -2,12 +2,12 @@
 // back to the game-selection screen instead of seeing a broken game page.
 
 describe('First-time visitor without a selected game list', () => {
-  it('redirects /unlimited to the game-selection screen', () => {
-    cy.mockGameTitles() // needed once redirected back to '/'
+    it('redirects /unlimited to the game-selection screen', () => {
+        cy.mockGameTitles(); // needed once redirected back to '/'
 
-    cy.visit('/unlimited')
-    cy.wait('@authUser')
+        cy.visit('/unlimited');
+        cy.wait('@authUser');
 
-    cy.location('pathname').should('eq', '/')
-  })
-})
+        cy.location('pathname').should('eq', '/');
+    });
+});

@@ -11,43 +11,45 @@ import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 
-const { t } = useI18n()
+const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = inject<DailyGameService>('dailyGameService');
 const resourceApi = inject<ResourceApi>('resourceApi');
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
-const gameGuesses = computed(() => gameStore.isGameNull() ? [] : gameStore.game?.guesses);
+const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
 
 let ready = ref(false);
 let monsterList = ref<string[]>([]);
 let selectedMonster = ref<string | undefined>(undefined);
-let gameId :string | undefined; 
-let  enableTableA11y = false;
+let gameId: string | undefined;
+let enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
 
-    enableTableA11y = localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === "true";    
+    enableTableA11y =
+        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
     let gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
-    if(gameIdFromCookie){
-        await gameService?.resumeGame(gameIdFromCookie).then(async gameSet => {
+    if (gameIdFromCookie) {
+        await gameService?.resumeGame(gameIdFromCookie).then(async (gameSet) => {
             if (!gameSet) {
-               startNewGame();
+                startNewGame();
             } else {
-                gameId = gameStore.game!.gameId
+                gameId = gameStore.game!.gameId;
             }
-        })
+        });
     } else {
         startNewGame();
     }
 
-    await resourceApi?.getMonstersOptions([]) // empty list -> all options
-        .then(list => monsterList.value = list)
-    
+    await resourceApi
+        ?.getMonstersOptions([]) // empty list -> all options
+        .then((list) => (monsterList.value = list));
+
     ready.value = true;
-}) 
+});
 
 async function sendGuess() {
     gameService?.makeGuess(gameId!, selectedMonster.value!);
@@ -55,22 +57,26 @@ async function sendGuess() {
 }
 
 function startNewGame() {
-    gameService?.startNewGame().then(resp => gameId = resp);
+    gameService?.startNewGame().then((resp) => (gameId = resp));
 }
 
-function getLastGuessIcon(){
-    if(gameStore.isGameNull() || gameStore.isGameOngoing()){
-        return getLatestIconForMonster("unknown");
+function getLastGuessIcon() {
+    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
+        return getLatestIconForMonster('unknown');
     } else {
-        return getLatestIconForMonster(gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode);
+        return getLatestIconForMonster(
+            gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode,
+        );
     }
 }
 
-function getLastGuessName(): string{
-    if(gameStore.isGameNull() || gameStore.isGameOngoing()){
-        return t("game.monsters.unknown.name");
+function getLastGuessName(): string {
+    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
+        return t('game.monsters.unknown.name');
     } else {
-        return t(`game.monster.${gameStore.game!.guesses[gameStore.game!.guesses.length-1]?.monsterCode}.name`);
+        return t(
+            `game.monster.${gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode}.name`,
+        );
     }
 }
 
@@ -78,10 +84,10 @@ function getLastGuessName(): string{
 function shareGame(): void {
     const guessCount = gameStore.game?.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
-    const Url = "https://" + window.location.host + window.location.pathname;
+    const Url = 'https://' + window.location.host + window.location.pathname;
 
-    const shareStr = t("ui.game.share.daily", {guessCount, guessesStr, Url})
-    
+    const shareStr = t('ui.game.share.daily', { guessCount, guessesStr, Url });
+
     navigator.clipboard.writeText(shareStr);
 }
 </script>
@@ -90,34 +96,44 @@ function shareGame(): void {
     <div v-if="ready" class="game-page-container">
         <div class="introduction fit-screen" v-if="!isGameOver">
             <img class="introduction-icon" :src="getLatestIconForMonster('unknown')" />
-            <div v-html="t('ui.game.rules.unlimited')" class="introduction-content">
-            </div>
+            <div v-html="t('ui.game.rules.unlimited')" class="introduction-content"></div>
         </div>
         <div v-if="!isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
-                <span>{{ $t("ui.generic.sendguess")}}</span>
+                <span>{{ $t('ui.generic.sendguess') }}</span>
             </button>
         </div>
-        <div v-else class="option-game-over-container"> 
+        <div v-else class="option-game-over-container">
             <img class="game-over-icon" :src="getLastGuessIcon()" />
             <div class="game-over-content">
-                <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
-                <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
+                <p>
+                    <b>{{ $t('ui.game.over.congrats') }}</b>
+                </p>
+                <p>
+                    {{
+                        $t('ui.game.over.answer', {
+                            monster: getLastGuessName(),
+                            attempts: gameStore.game?.guesses.length,
+                        })
+                    }}
+                </p>
             </div>
             <button @click="shareGame()">
-                <span> {{ $t("ui.generic.share") }}</span>
+                <span> {{ $t('ui.generic.share') }}</span>
             </button>
         </div>
         <div class="game-progress-container fit-screen">
-            <GameGuessList v-model="gameGuesses" :accessibility-enabled="enableTableA11y"></GameGuessList>
+            <GameGuessList
+                v-model="gameGuesses"
+                :accessibility-enabled="enableTableA11y"
+            ></GameGuessList>
         </div>
     </div>
-    <div v-else> loading... </div>
+    <div v-else>loading...</div>
 </template>
 
 <style lang="scss" scoped>
-
 .game-page-container {
     width: 100%;
     display: flex;
@@ -127,11 +143,11 @@ function shareGame(): void {
     .introduction {
         text-align: center;
         margin-bottom: 2rem;
-        font-size: .8rem;
+        font-size: 0.8rem;
         display: flex;
         align-content: center;
         justify-content: center;
-        gap:2rem;
+        gap: 2rem;
 
         .introduction-icon {
             height: 6rem;
@@ -139,20 +155,21 @@ function shareGame(): void {
         }
 
         .introduction-content {
-            display:flex;
+            display: flex;
             flex-direction: column;
             justify-content: space-around;
 
             p {
-                margin-bottom: .5rem;
+                margin-bottom: 0.5rem;
             }
         }
     }
 
-    .option-selector-container, .game-progress-container {
+    .option-selector-container,
+    .game-progress-container {
         display: flex;
         justify-content: center;
-        gap:1rem;
+        gap: 1rem;
     }
 
     .game-progress-container {
@@ -160,37 +177,36 @@ function shareGame(): void {
         flex-direction: column;
     }
 
-    .option-game-over-container{
+    .option-game-over-container {
         text-align: center;
-        
+
         .game-over-icon {
             height: 8rem;
             width: 8rem;
         }
 
         .game-over-content > * {
-            margin-bottom: .5rem;
+            margin-bottom: 0.5rem;
         }
     }
 }
 
 @media (min-width: 1024px) {
-.game-page-container {
-    .introduction {
-        text-align: center;
-        margin-bottom: 2rem;
-        font-size: .8rem;
+    .game-page-container {
+        .introduction {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
 
+            .introduction-icon {
+                height: 8rem;
+                width: 8rem;
+            }
 
-        .introduction-icon {
-            height: 8rem;
-            width: 8rem;
-        }
-
-        .introduction-content > * {
-            margin-bottom: .5rem;
+            .introduction-content > * {
+                margin-bottom: 0.5rem;
+            }
         }
     }
-}
 }
 </style>

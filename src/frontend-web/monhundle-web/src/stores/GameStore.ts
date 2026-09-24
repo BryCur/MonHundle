@@ -1,38 +1,37 @@
-import { GameStates } from '@/domain/enums/GameStates'
-import GameStatus from '@/domain/GameStatus'
-import type Guess from '@/domain/Guess'
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { GameStates } from '@/domain/enums/GameStates';
+import GameStatus from '@/domain/GameStatus';
+import type Guess from '@/domain/Guess';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useGameStore = defineStore('game', () => {
-  const game = ref<GameStatus | null>(null)
+    const game = ref<GameStatus | null>(null);
 
-  function setGame(newGame: GameStatus) {
-    game.value = newGame
-  }
-
-  function addGuess(guess: Guess){
-    game.value?.addguess(guess);
-  }
-
-  function setState(state: GameStates) {
-    if(!game.value){
-      return;
+    function setGame(newGame: GameStatus) {
+        game.value = newGame;
     }
 
-    game.value.state = state;
-  }
+    function addGuess(guess: Guess) {
+        game.value?.addguess(guess);
+    }
 
-  function isGameNull(): boolean {
-    return game.value === null
-  }
+    function setState(state: GameStates) {
+        if (!game.value) {
+            return;
+        }
 
-  function isGameOngoing(): boolean {
-    return game.value?.state === GameStates.Ongoing
-  }
+        game.value.state = state;
+    }
 
-  return { game, setGame, addGuess, setState, isGameNull, isGameOngoing }
-})
+    function isGameNull(): boolean {
+        return game.value === null;
+    }
 
+    function isGameOngoing(): boolean {
+        return game.value?.state === GameStates.Ongoing;
+    }
+
+    return { game, setGame, addGuess, setState, isGameNull, isGameOngoing };
+});
 
 export type GameStore = ReturnType<typeof useGameStore>;

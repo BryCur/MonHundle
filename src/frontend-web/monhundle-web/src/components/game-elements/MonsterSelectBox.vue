@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 const props = defineProps<{
-    items: string[]
-}>()
+    items: string[];
+}>();
 
 const model = defineModel<string>(); // v-model value
 const isDropdownOpen = ref(false);
-const searchInput = ref<string | undefined>("");
+const searchInput = ref<string | undefined>('');
 const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 
-
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string | undefined): void
+    (e: 'update:modelValue', value: string | undefined): void;
 }>();
 
 const filteredItems = computed(() => {
@@ -29,135 +28,140 @@ const filteredItems = computed(() => {
     const term = searchInput.value.toLowerCase();
 
     return props.items
-    .filter(code => getMonsterLabel(code).toLowerCase().includes(term))
-    .sort((a, b) => getMonsterLabel(a) > getMonsterLabel(b) ? 1 : -1);
+        .filter((code) => getMonsterLabel(code).toLowerCase().includes(term))
+        .sort((a, b) => (getMonsterLabel(a) > getMonsterLabel(b) ? 1 : -1));
 });
 
 function getMonsterLabel(code: string): string {
-  return t(`game.monster.${code}.name`);
+    return t(`game.monster.${code}.name`);
 }
 
 function open() {
-  isDropdownOpen.value = true
+    isDropdownOpen.value = true;
 
-  // Met le highlight sur l’élément sélectionné ou le premier résultat
-  nextTick(() => {
-    if (filteredItems.value.length === 0) {
-      highlightedIndex.value = -1;
-      return;
-    }
-    if (model.value) {
-      const idx = filteredItems.value.indexOf(model.value);
-      highlightedIndex.value = idx >= 0 ? idx : 0;
-    } else {
-      highlightedIndex.value = 0;
-    }
+    // Met le highlight sur l’élément sélectionné ou le premier résultat
+    nextTick(() => {
+        if (filteredItems.value.length === 0) {
+            highlightedIndex.value = -1;
+            return;
+        }
+        if (model.value) {
+            const idx = filteredItems.value.indexOf(model.value);
+            highlightedIndex.value = idx >= 0 ? idx : 0;
+        } else {
+            highlightedIndex.value = 0;
+        }
 
-    
-    monsterSearchInputRef.value?.focus()
-  })
+        monsterSearchInputRef.value?.focus();
+    });
 }
 
 function close() {
-  isDropdownOpen.value = false;
+    isDropdownOpen.value = false;
 }
 
 function selectValue(monsterCode: string) {
-    model.value=  monsterCode;
+    model.value = monsterCode;
     searchInput.value = getMonsterLabel(monsterCode);
     close();
-};
-
-function toggleOpen() {
-  if (isDropdownOpen.value) close();
-  else open();
 }
 
-function onInputFocus(e: Event){
+function toggleOpen() {
+    if (isDropdownOpen.value) close();
+    else open();
+}
+
+function onInputFocus(e: Event) {
     if (!isDropdownOpen.value) {
         open();
     }
 }
 
 function onClickOutside(event: MouseEvent) {
-    if (!containerRef.value) return
+    if (!containerRef.value) return;
     if (!containerRef.value.contains(event.target as Node)) {
-        if(model.value !== undefined) {
-            selectValue(model.value)
+        if (model.value !== undefined) {
+            selectValue(model.value);
         } else {
-            close()
+            close();
         }
     }
 }
 
 function onKeydown(e: KeyboardEvent) {
     if (!isDropdownOpen.value && (e.key === 'ArrowDown' || e.key === 'Enter')) {
-        e.preventDefault()
-        open()
-        return
+        e.preventDefault();
+        open();
+        return;
     }
 
-    if (!isDropdownOpen.value) return
+    if (!isDropdownOpen.value) return;
 
     switch (e.key) {
         case 'Escape':
-                e.preventDefault()
-                if(model.value !== undefined) {
-                    selectValue(model.value)
-                }
-        break
+            e.preventDefault();
+            if (model.value !== undefined) {
+                selectValue(model.value);
+            }
+            break;
 
         case 'ArrowDown':
-            e.preventDefault()
-            if (filteredItems.value.length === 0) return
-            highlightedIndex.value = (highlightedIndex.value + 1) % filteredItems.value.length
-        break
+            e.preventDefault();
+            if (filteredItems.value.length === 0) return;
+            highlightedIndex.value = (highlightedIndex.value + 1) % filteredItems.value.length;
+            break;
 
         case 'ArrowUp':
-            e.preventDefault()
-            if (filteredItems.value.length === 0) return
-            highlightedIndex.value = (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length
-        break
+            e.preventDefault();
+            if (filteredItems.value.length === 0) return;
+            highlightedIndex.value =
+                (highlightedIndex.value - 1 + filteredItems.value.length) %
+                filteredItems.value.length;
+            break;
 
         case 'Enter':
-            e.preventDefault()
+            e.preventDefault();
             if (
                 highlightedIndex.value >= 0 &&
                 highlightedIndex.value < filteredItems.value.length
             ) {
-                selectValue(filteredItems.value[highlightedIndex.value]!)
+                selectValue(filteredItems.value[highlightedIndex.value]!);
             }
-        break
+            break;
     }
 }
 onMounted(() => {
-  document.addEventListener('click', onClickOutside)
-})
+    document.addEventListener('click', onClickOutside);
+});
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', onClickOutside)
-})
+    document.removeEventListener('click', onClickOutside);
+});
 
-watch(model, (newval, oldval) => {
-    if(newval == undefined) {
-        searchInput.value = undefined
-    } else {
-      searchInput.value = getMonsterLabel(newval)
-    }
-}, {immediate: true})
+watch(
+    model,
+    (newval, oldval) => {
+        if (newval == undefined) {
+            searchInput.value = undefined;
+        } else {
+            searchInput.value = getMonsterLabel(newval);
+        }
+    },
+    { immediate: true },
+);
 </script>
 
 <template>
     <div class="monster-selector-container" ref="containerRef">
         <div class="monster-selector-control">
             <div class="monster-selector-wrapper">
-                <img 
-                    v-if="!isDropdownOpen && model !== undefined && model !== ''" 
-                    :src="model ? getLatestIconForMonster(model) : ''" 
+                <img
+                    v-if="!isDropdownOpen && model !== undefined && model !== ''"
+                    :src="model ? getLatestIconForMonster(model) : ''"
                     :alt="model"
                     class="monster-select-input-icon"
                 />
-                
+
                 <input
                     v-model="searchInput"
                     type="text"
@@ -174,14 +178,25 @@ watch(model, (newval, oldval) => {
                     @click="toggleOpen"
                     :aria-expanded="isDropdownOpen"
                     aria-haspopup="listbox"
-                >v</button>
+                >
+                    v
+                </button>
             </div>
         </div>
 
         <!-- dropdown -->
         <div v-if="isDropdownOpen" class="monster-option-list">
-            <button v-for="monsterCode in filteredItems" class="monster-option" @click="selectValue(monsterCode)">
-                <img class="monster-option-icon" loading="lazy" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode" />
+            <button
+                v-for="monsterCode in filteredItems"
+                class="monster-option"
+                @click="selectValue(monsterCode)"
+            >
+                <img
+                    class="monster-option-icon"
+                    loading="lazy"
+                    :src="getLatestIconForMonster(monsterCode)"
+                    :alt="monsterCode"
+                />
                 <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
         </div>
@@ -189,7 +204,7 @@ watch(model, (newval, oldval) => {
 </template>
 
 <style lang="scss" scoped>
-.monster-selector-container{
+.monster-selector-container {
     width: 80vw;
     max-width: 512px;
     min-height: 36px;
@@ -208,7 +223,6 @@ watch(model, (newval, oldval) => {
         width: 100%;
         height: 100%;
 
-        
         .monster-selector-wrapper {
             display: flex;
             align-items: center;
@@ -223,14 +237,14 @@ watch(model, (newval, oldval) => {
             object-fit: contain;
             border-radius: 0.25rem;
         }
-        
+
         .monster-search-input {
             flex: 1;
             border: none;
             background: transparent;
             color: #f5f5f5;
             outline: none;
-        
+
             &::placeholder {
                 color: #888;
             }
@@ -242,14 +256,13 @@ watch(model, (newval, oldval) => {
             background: transparent;
             color: #f5f5f5;
             cursor: pointer;
-            
+
             :hover {
                 background: #3d3d3d;
             }
         }
-
     }
-    
+
     /* Dropdown */
     .monster-option-list {
         position: absolute;
@@ -282,7 +295,7 @@ watch(model, (newval, oldval) => {
                 object-fit: contain;
                 border-radius: 0.25rem;
             }
-            
+
             .monster-option-label {
                 flex: 1;
                 white-space: nowrap;
@@ -294,11 +307,11 @@ watch(model, (newval, oldval) => {
         .monster-select-option.is-highlighted {
             background: #333;
         }
-    
+
         .monster-select-option.is-selected {
             background: #2d3a5c;
         }
-    
+
         .monster-select-empty {
             padding: 0.5rem 0.75rem;
             color: #aaa;

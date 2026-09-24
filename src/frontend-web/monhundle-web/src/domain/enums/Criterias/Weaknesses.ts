@@ -1,5 +1,4 @@
-export enum Weaknesses
-{
+export enum Weaknesses {
     Fire,
     Ice,
     Thunder,
@@ -14,5 +13,5 @@ export enum Weaknesses
 
 // to easily get the name of the enum, used for translations keys
 export namespace Weaknesses {
-    export const enumName: string = "Weaknesses"
+    export const enumName: string = 'Weaknesses';
 }

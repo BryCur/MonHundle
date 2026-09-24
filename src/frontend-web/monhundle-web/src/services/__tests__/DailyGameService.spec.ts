@@ -1,55 +1,55 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { DailyGameService } from "@/services/GameService";
-import type IGameApi from "@/domain/interfaces/api-contracts/IGameApi";
-import type { GameStore } from "@/stores/GameStore";
-import type GameStatus from "@/domain/GameStatus";
-import { DailyGameAlreadyExistsError } from "@/domain/errors/DailyGameAlreadyExistsError";
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DailyGameService } from '@/services/GameService';
+import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
+import type { GameStore } from '@/stores/GameStore';
+import type GameStatus from '@/domain/GameStatus';
+import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExistsError';
 
 const mockedGameApi = {
-  newGame: vi.fn(),
-  makeGuess: vi.fn(),
-  saveGame: vi.fn(),
-  resumeGame: vi.fn(),
+    newGame: vi.fn(),
+    makeGuess: vi.fn(),
+    saveGame: vi.fn(),
+    resumeGame: vi.fn(),
 };
 
 const mockedGameStore = {
-  game: null as any,
-  setGame: vi.fn(),
+    game: null as any,
+    setGame: vi.fn(),
 };
 
 function buildService() {
-  return new DailyGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+    return new DailyGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
 }
 
-describe("DailyGameService — conflict recovery on startNewGame()", () => {
-  beforeEach(() => vi.clearAllMocks());
+describe('DailyGameService — conflict recovery on startNewGame()', () => {
+    beforeEach(() => vi.clearAllMocks());
 
-  it("recovers by resuming the existing game when the day already has one", async () => {
-    mockedGameApi.newGame.mockRejectedValueOnce(
-      new DailyGameAlreadyExistsError("already exists", "existing-game")
-    );
-    mockedGameApi.resumeGame.mockResolvedValueOnce({ gameId: "existing-game" } as GameStatus);
+    it('recovers by resuming the existing game when the day already has one', async () => {
+        mockedGameApi.newGame.mockRejectedValueOnce(
+            new DailyGameAlreadyExistsError('already exists', 'existing-game'),
+        );
+        mockedGameApi.resumeGame.mockResolvedValueOnce({ gameId: 'existing-game' } as GameStatus);
 
-    const id = await buildService().startNewGame();
+        const id = await buildService().startNewGame();
 
-    expect(id).toBe("existing-game");
-    expect(mockedGameApi.resumeGame).toHaveBeenCalledWith("existing-game");
-    expect(mockedGameStore.setGame).toHaveBeenCalledWith({ gameId: "existing-game" });
-  });
+        expect(id).toBe('existing-game');
+        expect(mockedGameApi.resumeGame).toHaveBeenCalledWith('existing-game');
+        expect(mockedGameStore.setGame).toHaveBeenCalledWith({ gameId: 'existing-game' });
+    });
 
-  it("throws when the recovery resume finds no game", async () => {
-    mockedGameApi.newGame.mockRejectedValueOnce(
-      new DailyGameAlreadyExistsError("already exists", "existing-game")
-    );
-    mockedGameApi.resumeGame.mockResolvedValueOnce(null);
+    it('throws when the recovery resume finds no game', async () => {
+        mockedGameApi.newGame.mockRejectedValueOnce(
+            new DailyGameAlreadyExistsError('already exists', 'existing-game'),
+        );
+        mockedGameApi.resumeGame.mockResolvedValueOnce(null);
 
-    await expect(buildService().startNewGame()).rejects.toThrow("game could not be set");
-  });
+        await expect(buildService().startNewGame()).rejects.toThrow('game could not be set');
+    });
 
-  it("re-throws any error that is not a DailyGameAlreadyExistsError", async () => {
-    mockedGameApi.newGame.mockRejectedValueOnce(new Error("network"));
+    it('re-throws any error that is not a DailyGameAlreadyExistsError', async () => {
+        mockedGameApi.newGame.mockRejectedValueOnce(new Error('network'));
 
-    await expect(buildService().startNewGame()).rejects.toThrow("network");
-    expect(mockedGameApi.resumeGame).not.toHaveBeenCalled();
-  });
+        await expect(buildService().startNewGame()).rejects.toThrow('network');
+        expect(mockedGameApi.resumeGame).not.toHaveBeenCalled();
+    });
 });

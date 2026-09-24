@@ -1,8 +1,8 @@
-import type { ComparisonResults } from "../enums/ComparisonResults";
+import type { ComparisonResults } from '../enums/ComparisonResults';
 
 export interface ComparisonResult {
     generation: ComparisonResults;
-    threatLevel : ComparisonResults;
+    threatLevel: ComparisonResults;
     classification: ComparisonResults;
     weaknesses: ComparisonResults;
     afflictions: ComparisonResults;

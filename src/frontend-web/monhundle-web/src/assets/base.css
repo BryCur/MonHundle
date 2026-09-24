@@ -1,97 +1,97 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --light-bg: #ffffff;
-  --light-bg-soft: #f8f8f8;
-  --light-bg-mute: #f2f2f2;
-  --light-text-color: rgb(39, 25, 0);
-  --light-link-color: #744911;
+    --light-bg: #ffffff;
+    --light-bg-soft: #f8f8f8;
+    --light-bg-mute: #f2f2f2;
+    --light-text-color: rgb(39, 25, 0);
+    --light-link-color: #744911;
 
-  --dark-bg: #3f2502;
-  --dark-bg-soft: #472a05;
-  --dark-bg-mute: #3f2502;
-  --dark-text-color: rgb(231, 231, 231);
-  --dark-link-color: #e49a38;
+    --dark-bg: #3f2502;
+    --dark-bg-soft: #472a05;
+    --dark-bg-mute: #3f2502;
+    --dark-text-color: rgb(231, 231, 231);
+    --dark-link-color: #e49a38;
 
-  --vt-c-indigo: #2c3e50;
+    --vt-c-indigo: #2c3e50;
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+    --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+    --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
 
-  --vt-c-txt-lighte-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--light-bg);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+    --vt-c-txt-lighte-1: var(--vt-c-indigo);
+    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+    --vt-c-text-dark-1: var(--light-bg);
+    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
-  --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
+    --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
 
-  --bg-incorrect: #6d0d0d;
-  --bg-partial: #6d5b0a;
-  --bg-correct: #086b05;
+    --bg-incorrect: #6d0d0d;
+    --bg-partial: #6d5b0a;
+    --bg-correct: #086b05;
 }
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--light-bg);
-  --color-background-soft: var(--light-bg-soft);
-  --color-background-mute: var(--light-bg-mute);
+    --color-background: var(--light-bg);
+    --color-background-soft: var(--light-bg-soft);
+    --color-background-mute: var(--light-bg-mute);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
+    --color-border: var(--vt-c-divider-light-2);
+    --color-border-hover: var(--vt-c-divider-light-1);
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+    --color-heading: var(--vt-c-text-light-1);
+    --color-text: var(--vt-c-text-light-1);
 
-  --section-gap: 160px;
+    --section-gap: 160px;
 
-  --incorrect-arrow: #2c0000;
+    --incorrect-arrow: #2c0000;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--dark-bg);
-    --color-background-soft: var(--dark-bg-soft);
-    --color-background-mute: var(--dark-bg-mute);
+    :root {
+        --color-background: var(--dark-bg);
+        --color-background-soft: var(--dark-bg-soft);
+        --color-background-mute: var(--dark-bg-mute);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+        --color-border: var(--vt-c-divider-dark-2);
+        --color-border-hover: var(--vt-c-divider-dark-1);
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--dark-text-color);
-  }
+        --color-heading: var(--vt-c-text-dark-1);
+        --color-text: var(--dark-text-color);
+    }
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    color: var(--color-text);
+    background: var(--color-background);
+    transition:
+        color 0.5s,
+        background-color 0.5s;
+    line-height: 1.6;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        'Fira Sans',
+        'Droid Sans',
+        'Helvetica Neue',
+        sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

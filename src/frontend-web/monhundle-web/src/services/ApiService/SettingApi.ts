@@ -6,14 +6,13 @@ import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { setStoredUserId } from '@/services/LocalStorageService';
 
 export class SettingsApi implements ISettingApi {
-
     public async saveSettings(enableTableVisualAid: boolean, gameTitles: string[]): Promise<void> {
-        const settingsBody: UserSettingsBody = {enableTableVisualAid, gameTitles}
-        await apiFetch('/user/preference', {method: 'POST', body: JSON.stringify(settingsBody)}) // TOFIX check if response ok ? 
+        const settingsBody: UserSettingsBody = { enableTableVisualAid, gameTitles };
+        await apiFetch('/user/preference', { method: 'POST', body: JSON.stringify(settingsBody) }); // TOFIX check if response ok ?
     }
 
     public async getProfile(playerUid: string): Promise<SettingsResponse | null> {
-        const response = await apiFetch(`/user/profile/${playerUid}`, {method: 'GET'});
+        const response = await apiFetch(`/user/profile/${playerUid}`, { method: 'GET' });
 
         if (response.ok) {
             return response.json() as SettingsResponse;
@@ -22,16 +21,16 @@ export class SettingsApi implements ISettingApi {
         return null;
     }
 
-    public async validateUser(userUid: string) : Promise<boolean> {
-        const urlParam = new URLSearchParams({'user-id': userUid});
-        const response = await apiFetch(`/user/validate?${urlParam.toString()}`, {method: 'GET'})
+    public async validateUser(userUid: string): Promise<boolean> {
+        const urlParam = new URLSearchParams({ 'user-id': userUid });
+        const response = await apiFetch(`/user/validate?${urlParam.toString()}`, { method: 'GET' });
 
         return response.status === 200;
     }
 
     public async loadUser(userUid: string): Promise<void> {
-        const urlParam = new URLSearchParams({'user-id': userUid});
-        const response = await apiFetch(`/user/load?${urlParam.toString()}` , {method: 'GET'})
+        const urlParam = new URLSearchParams({ 'user-id': userUid });
+        const response = await apiFetch(`/user/load?${urlParam.toString()}`, { method: 'GET' });
 
         if (response.ok) {
             // switch the locally stored identity so following requests authenticate as the loaded user.
@@ -43,8 +42,9 @@ export class SettingsApi implements ISettingApi {
                 loadedUserId = undefined;
             }
 
-            setStoredUserId(typeof loadedUserId === "string" && isUUID(loadedUserId) ? loadedUserId : userUid);
+            setStoredUserId(
+                typeof loadedUserId === 'string' && isUUID(loadedUserId) ? loadedUserId : userUid,
+            );
         }
     }
-    
 }
