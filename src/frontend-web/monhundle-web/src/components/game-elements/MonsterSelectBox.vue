@@ -156,7 +156,7 @@ watch(model, (newval, oldval) => {
                     :src="model ? getLatestIconForMonster(model) : ''" 
                     :alt="model"
                     class="monster-select-input-icon"
-                ></img>
+                />
                 
                 <input
                     v-model="searchInput"
@@ -166,7 +166,7 @@ watch(model, (newval, oldval) => {
                     :placeholder="t('ui.placeholder.monsterSelector')"
                     @focus="onInputFocus"
                     @keydown="onKeydown"
-                ></input>
+                />
 
                 <button
                     type="button"
@@ -181,7 +181,7 @@ watch(model, (newval, oldval) => {
         <!-- dropdown -->
         <div v-if="isDropdownOpen" class="monster-option-list">
             <button v-for="monsterCode in filteredItems" class="monster-option" @click="selectValue(monsterCode)">
-                <img class="monster-option-icon" loading="lazy" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode"></img>
+                <img class="monster-option-icon" loading="lazy" :src="getLatestIconForMonster(monsterCode)" :alt="monsterCode" />
                 <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
         </div>

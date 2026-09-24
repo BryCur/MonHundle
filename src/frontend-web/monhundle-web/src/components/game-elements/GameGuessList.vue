@@ -98,7 +98,7 @@ const hasGuesses = computed<boolean>(() => {
         <div v-for="guess in model?.slice().reverse()" class="guess-table-row" :class="getA11yClasses()" role="row">
             <div role="rowheader" class="guess-table-cell guess-table-monster-cell">
                 
-                <img :src="getLatestIconForMonster(guess.monsterCode)" class="table-guess-monster-icon"></img>
+                <img :src="getLatestIconForMonster(guess.monsterCode)" class="table-guess-monster-icon" />
                 <span class="guess-table-cell-content">{{ t(`game.monster.${guess.monsterCode}.name`) }} </span>
             </div>
             <div :class="getComparisonResultsClass(guess.comparisonResult.classification)" class="guess-table-cell" role="cell">

@@ -66,7 +66,7 @@ function randomTilt(element: HTMLElement) {
             @mouseenter="(e) => randomTilt(e.currentTarget as HTMLElement)"
             @mouseleave="(e) => (e.currentTarget as HTMLElement).style.transform = ''"
             >
-                <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo"></img>
+                <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo" />
                 <div class="game-title">{{ $t("game.titles." + game) }}</div>
             </div>
             <div class="button container">

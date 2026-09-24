@@ -89,7 +89,7 @@ function shareGame(): void {
 <template>
     <div v-if="ready" class="game-page-container">
         <div class="introduction fit-screen" v-if="!isGameOver">
-            <img class="introduction-icon" :src="getLatestIconForMonster('unknown')"></img>
+            <img class="introduction-icon" :src="getLatestIconForMonster('unknown')" />
             <div v-html="t('ui.game.rules.unlimited')" class="introduction-content">
             </div>
         </div>
@@ -100,7 +100,7 @@ function shareGame(): void {
             </button>
         </div>
         <div v-else class="option-game-over-container"> 
-            <img class="game-over-icon" :src="getLastGuessIcon()"></img>
+            <img class="game-over-icon" :src="getLastGuessIcon()" />
             <div class="game-over-content">
                 <p><b>{{ $t("ui.game.over.congrats") }}</b></p>
                 <p> {{ $t("ui.game.over.answer", {monster: getLastGuessName(), attempts: gameStore.game?.guesses.length}) }}</p>
