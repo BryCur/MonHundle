@@ -7,8 +7,8 @@ import type { GameStates } from '../../enum/GameStates';
 import type { MonsterComparisonResult } from '../../models/MonsterComparisonResult';
 import type { MonsterCriteriaDTO } from '../../models/MonsterCriteriaDTO';
 export interface GuessResponse {
-  monsterCode?: string | null;
-  criterias?: MonsterCriteriaDTO;
-  comparisonResult?: MonsterComparisonResult;
-  gameStateAfterGuess?: GameStates;
+    monsterCode?: string | null;
+    criterias?: MonsterCriteriaDTO;
+    comparisonResult?: MonsterComparisonResult;
+    gameStateAfterGuess?: GameStates;
 }

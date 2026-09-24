@@ -5,10 +5,10 @@
 
 import type { ComparisonOutcomes } from '../enum/ComparisonOutcomes';
 export interface MonsterComparisonResult {
-  generation?: ComparisonOutcomes;
-  threatLevel?: ComparisonOutcomes;
-  classification?: ComparisonOutcomes;
-  weaknesses?: ComparisonOutcomes;
-  afflictions?: ComparisonOutcomes;
-  habitats?: ComparisonOutcomes;
+    generation?: ComparisonOutcomes;
+    threatLevel?: ComparisonOutcomes;
+    classification?: ComparisonOutcomes;
+    weaknesses?: ComparisonOutcomes;
+    afflictions?: ComparisonOutcomes;
+    habitats?: ComparisonOutcomes;
 }
