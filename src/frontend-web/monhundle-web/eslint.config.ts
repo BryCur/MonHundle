@@ -24,6 +24,15 @@ export default defineConfigWithVueTs(
     vueTsConfigs.recommended,
 
     {
+        // Each enum merges with a namespace exposing its `enumName`, used to build translation keys.
+        // Kept on purpose until the enums are reworked around the generated API models.
+        files: ['src/domain/enums/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-namespace': 'off',
+        },
+    },
+
+    {
         ...pluginVitest.configs.recommended,
         files: ['src/**/__tests__/*'],
     },

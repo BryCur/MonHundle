@@ -6,7 +6,7 @@ import { Afflictions } from '../../domain/enums/Criterias/Afflictions';
 import { Weaknesses } from '../../domain/enums/Criterias/Weaknesses';
 import { Classifications } from '../../domain/enums/Criterias/Classifications';
 import { Biomes } from '../../domain/enums/Criterias/Biomes';
-import { enumValueToKeyLower } from '../../domain/enums/EnumUtils';
+import { enumValueToKeyLower, type NamedEnum } from '../../domain/enums/EnumUtils';
 import type Guess from '../../domain/Guess';
 import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
@@ -47,7 +47,7 @@ function getResultAriaTranslation(
     });
 }
 
-function getEnumTranslationKey(enumType: any, enumVal: number): string {
+function getEnumTranslationKey(enumType: NamedEnum, enumVal: number): string {
     if (!enumType.enumName) {
         return '';
     }
