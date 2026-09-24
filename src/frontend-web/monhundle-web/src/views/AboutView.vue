@@ -1,10 +1,3 @@
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import LocaleSelector from '../components/LocaleSelector.vue';
-
-const { t, locale } = useI18n();
-</script>
-
 <template>
     <div class="about">
         <h1>About</h1>

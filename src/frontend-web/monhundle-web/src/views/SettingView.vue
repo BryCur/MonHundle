@@ -7,7 +7,7 @@ import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageServic
 import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const settingsApi = inject<SettingsApi>('settingsApi');
 
 const gameList = ref<string[]>([]);

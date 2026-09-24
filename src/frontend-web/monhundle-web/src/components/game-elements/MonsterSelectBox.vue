@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getLatestIconForMonster } from '@/services/MonsterIconeService';
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -15,10 +15,6 @@ const searchInput = ref<string | undefined>('');
 const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
-
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: string | undefined): void;
-}>();
 
 const filteredItems = computed(() => {
     if (searchInput.value === undefined || !searchInput.value.trim()) {
@@ -71,7 +67,7 @@ function toggleOpen() {
     else open();
 }
 
-function onInputFocus(e: Event) {
+function onInputFocus() {
     if (!isDropdownOpen.value) {
         open();
     }
@@ -140,7 +136,7 @@ onBeforeUnmount(() => {
 
 watch(
     model,
-    (newval, oldval) => {
+    (newval) => {
         if (newval == undefined) {
             searchInput.value = undefined;
         } else {

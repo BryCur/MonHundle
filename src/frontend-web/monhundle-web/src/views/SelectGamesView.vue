@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { apiFetch } from '../services/ApiService/ApiBaseAccess';
-import { useI18n } from 'vue-i18n';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 
-const { t } = useI18n();
 const router = useRouter();
 
 const ready = ref(false);
