@@ -4,6 +4,11 @@
   "exclude": ["./support/component.*"],
   "compilerOptions": {
     "isolatedModules": false,
-    "types": ["cypress"]
+    "types": ["cypress"],
+    // Cypress' bundled tsconfig-paths plugin ignores `paths` unless a `baseUrl` is set.
+    "baseUrl": ".",
+    "paths": {
+      "@cypress-support/*": ["./support/*"]
+    }
   }
 }

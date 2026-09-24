@@ -1,4 +1,4 @@
-import { buildGuessResponse, ComparisonResults, GameStates } from '../../support/testData'
+import { buildGuessResponse, ComparisonResults, GameStates } from '@cypress-support/testData'
 
 describe('Making a guess in the daily challenge', () => {
   it('adds the guess to the table with the result of each criterion', () => {

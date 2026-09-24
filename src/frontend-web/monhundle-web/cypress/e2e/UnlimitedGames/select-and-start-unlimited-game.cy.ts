@@ -1,7 +1,7 @@
 // pick a game on the home screen -> confirm -> land on the Unlimited game
 // screen with the game started and the monster selector populated.
 
-import { DEFAULT_GAME_TITLES, DEFAULT_MONSTERS, FAKE_GAME_ID } from '../../support/testData'
+import { DEFAULT_GAME_TITLES, DEFAULT_MONSTERS, FAKE_GAME_ID } from '@cypress-support/testData'
 
 describe('Choosing a game and starting an unlimited run', () => {
   beforeEach(() => {

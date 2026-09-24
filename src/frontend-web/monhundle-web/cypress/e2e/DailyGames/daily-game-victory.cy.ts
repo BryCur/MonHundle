@@ -1,4 +1,4 @@
-import { buildGuessResponse, GameStates } from '../../support/testData'
+import { buildGuessResponse, GameStates } from '@cypress-support/testData'
 
 function winTheDailyChallenge() {
   cy.startDailyGame()

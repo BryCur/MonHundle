@@ -1,4 +1,4 @@
-import { buildGuessResponse, ComparisonResults, GameStates } from '../../support/testData'
+import { buildGuessResponse, ComparisonResults, GameStates } from '@cypress-support/testData'
 
 // Ensure an ongoing game can make guesses. And guesses are correctly added to the table
 describe('Making a guess in an unlimited game', () => {
