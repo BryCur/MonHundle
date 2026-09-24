@@ -184,6 +184,7 @@ watch(
         <div v-if="isDropdownOpen" class="monster-option-list">
             <button
                 v-for="monsterCode in filteredItems"
+                :key="monsterCode"
                 class="monster-option"
                 @click="selectValue(monsterCode)"
             >

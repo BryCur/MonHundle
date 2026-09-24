@@ -148,8 +148,12 @@ const hasGuesses = computed<boolean>(() => {
                 </div>
             </div>
 
+            <!-- keyed by the guess' position in the original (non-reversed) list, which stays stable
+                 as new guesses come in; the monster code alone isn't unique, since nothing prevents
+                 guessing the same monster twice -->
             <div
-                v-for="guess in model?.slice().reverse()"
+                v-for="(guess, index) in model?.slice().reverse()"
+                :key="(model?.length ?? 0) - index"
                 class="guess-table-row"
                 :class="getA11yClasses()"
                 role="row"
@@ -194,6 +198,7 @@ const hasGuesses = computed<boolean>(() => {
                         <ul class="icon-list">
                             <li
                                 v-for="weakness in guess.criterias.weaknesses"
+                                :key="weakness"
                                 :class="'bg-' + enumValueToKeyLower(Weaknesses, weakness)"
                                 :aria-label="t(getEnumTranslationKey(Weaknesses, weakness))"
                                 :title="t(getEnumTranslationKey(Weaknesses, weakness))"
@@ -217,6 +222,7 @@ const hasGuesses = computed<boolean>(() => {
                         <ul class="icon-list">
                             <li
                                 v-for="affliction in guess.criterias.afflictions"
+                                :key="affliction"
                                 :class="'bg-' + enumValueToKeyLower(Afflictions, affliction)"
                                 :aria-label="t(getEnumTranslationKey(Afflictions, affliction))"
                                 :title="t(getEnumTranslationKey(Afflictions, affliction))"

@@ -62,6 +62,7 @@ function randomTilt(element: HTMLElement) {
         <div v-else class="list-container" :class="{ 'has-selection': selectedGames.size > 0 }">
             <div
                 v-for="game in gameList"
+                :key="game"
                 @click="toggleGameSelection(game)"
                 class="list-item"
                 :class="{ selected: selectedGames.has(game) }"
