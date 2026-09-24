@@ -30,7 +30,7 @@ function getResultAriaTranslation(
     criteria: any,
     value: number | number[],
 ) {
-    let translatedValue: String;
+    let translatedValue: string;
     if (typeof value === 'number') {
         translatedValue = enumValueToKeyLower(criteria, value) ?? '';
     } else {
