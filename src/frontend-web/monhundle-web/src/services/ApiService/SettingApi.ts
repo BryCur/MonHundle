@@ -15,7 +15,7 @@ export class SettingsApi implements ISettingApi {
         const response = await apiFetch(`/user/profile/${playerUid}`, { method: 'GET' });
 
         if (response.ok) {
-            return response.json() as SettingsResponse;
+            return (await response.json()) as SettingsResponse;
         }
 
         return null;

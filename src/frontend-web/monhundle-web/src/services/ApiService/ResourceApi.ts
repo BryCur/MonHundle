@@ -6,11 +6,11 @@ export default class ResourceApi implements IResourceApi {
         const path = '/resources/monster-choices';
         const pathParam = gameTitles.length > 0 ? `?gameTitles=${gameTitles.join(',')}` : '';
         const response = await apiFetch(path + pathParam, { method: 'GET' });
-        return response.json() as string[];
+        return (await response.json()) as string[];
     }
 
     public async getGameTitles(): Promise<string[]> {
         const response = await apiFetch('/resources/game-titles', { method: 'GET' });
-        return response.json() as string[];
+        return (await response.json()) as string[];
     }
 }

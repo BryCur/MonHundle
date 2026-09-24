@@ -32,7 +32,7 @@ export class DailyGameApi implements IGameApi {
             body: JSON.stringify(guessRequestBody),
         });
 
-        return guessResponse.json() as GuessResponse;
+        return (await guessResponse.json()) as GuessResponse;
     }
 
     public async resumeGame(gameId: string): Promise<GameStatus | null> {
