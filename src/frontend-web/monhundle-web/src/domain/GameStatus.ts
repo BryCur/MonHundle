@@ -28,7 +28,7 @@ export default class GameStatus {
     public convertGameToShareableString(): string {
         let guessesString: string = '';
 
-        for (let guess of this.guesses) {
+        for (const guess of this.guesses) {
             guessesString += this.getStringForResult(guess.comparisonResult.classification);
             guessesString += this.getStringForResult(guess.comparisonResult.generation);
             guessesString += this.getStringForResult(guess.comparisonResult.weaknesses);

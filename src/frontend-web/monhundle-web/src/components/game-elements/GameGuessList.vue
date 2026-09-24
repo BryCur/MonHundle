@@ -34,8 +34,8 @@ function getResultAriaTranslation(
     if (typeof value === 'number') {
         translatedValue = enumValueToKeyLower(criteria, value) ?? '';
     } else {
-        let keyArray: string[] = value.map((v) => enumValueToKeyLower(criteria, v) ?? '');
-        let enumname: string = criteria.enumName;
+        const keyArray: string[] = value.map((v) => enumValueToKeyLower(criteria, v) ?? '');
+        const enumname: string = criteria.enumName;
 
         translatedValue = keyArray
             .map((k) => t(`game.criteria.${enumname.toLowerCase()}.${k}`))

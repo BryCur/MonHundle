@@ -10,7 +10,7 @@ const { t } = useI18n();
 const router = useRouter();
 
 const ready = ref(false);
-let selectedGames = ref(new Set<string>([]));
+const selectedGames = ref(new Set<string>([]));
 let gameList: string[];
 const lastRoute = ref<string | null>(null);
 

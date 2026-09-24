@@ -28,7 +28,7 @@ export class UnlimitedGameApi implements IGameApi {
             method: 'GET',
         });
         if (response.ok) {
-            let resp = (await response.json()) as GameStatus;
+            const resp = (await response.json()) as GameStatus;
             return new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
         }
 

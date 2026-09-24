@@ -40,7 +40,7 @@ export class DailyGameApi implements IGameApi {
             method: 'GET',
         });
         if (response.ok) {
-            let resp = (await response.json()) as GameStateResponse;
+            const resp = (await response.json()) as GameStateResponse;
             return new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
         }
 

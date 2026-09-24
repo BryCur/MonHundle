@@ -19,9 +19,9 @@ const resourceApi = inject<ResourceApi>('resourceApi');
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
 const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
 
-let ready = ref(false);
-let monsterList = ref<string[]>([]);
-let selectedMonster = ref<string | undefined>(undefined);
+const ready = ref(false);
+const monsterList = ref<string[]>([]);
+const selectedMonster = ref<string | undefined>(undefined);
 let gameId: string | undefined;
 let enableTableA11y = false;
 
@@ -30,7 +30,7 @@ onMounted(async () => {
 
     enableTableA11y =
         localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    let gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
+    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
     if (gameIdFromCookie) {
         await gameService?.resumeGame(gameIdFromCookie).then(async (gameSet) => {

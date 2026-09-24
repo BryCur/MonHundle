@@ -21,9 +21,9 @@ const resourceApi = inject<ResourceApi>('resourceApi');
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
 const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
 
-let ready = ref(false);
-let monsterList = ref<string[]>([]);
-let selectedMonster = ref<string | undefined>(undefined);
+const ready = ref(false);
+const monsterList = ref<string[]>([]);
+const selectedMonster = ref<string | undefined>(undefined);
 let gameId: string | undefined;
 let enableTableA11y = false;
 
@@ -31,12 +31,12 @@ onMounted(async () => {
     ready.value = false;
     enableTableA11y =
         localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    let storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
+    const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
     if (storedGameList === null) {
         router.push('/');
     }
 
-    let gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
+    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
 
     if (gameIdFromCookie) {
         await gameService?.resumeGame(gameIdFromCookie).then(async (gameSet) => {
@@ -50,7 +50,7 @@ onMounted(async () => {
         startNewGame();
     }
 
-    let gameList = JSON.parse(storedGameList!) as string[];
+    const gameList = JSON.parse(storedGameList!) as string[];
     await resourceApi?.getMonstersOptions(gameList).then((list) => (monsterList.value = list));
 
     ready.value = true;
