@@ -34,6 +34,12 @@ export default defineConfigWithVueTs(
             'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}',
             'cypress/support/**/*.{js,ts,jsx,tsx}',
         ],
+        rules: {
+            ...pluginCypress.configs.recommended.rules,
+            // `declare global { namespace Cypress { ... } }` is how Cypress custom commands get
+            // typed: a type-only declaration, which the rule flags unless explicitly allowed.
+            '@typescript-eslint/no-namespace': ['error', { allowDeclarations: true }],
+        },
     },
     skipFormatting,
 );
