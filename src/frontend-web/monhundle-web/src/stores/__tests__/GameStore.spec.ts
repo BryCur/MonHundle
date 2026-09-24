@@ -14,7 +14,7 @@ describe('GameStore', () => {
     it('should initialise the gameStore with whatever game we set it to be', () => {
         const store = useGameStore();
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
-        store.setGame(game as any);
+        store.setGame(game);
 
         expect(store.game).toStrictEqual(game);
     });
@@ -23,7 +23,7 @@ describe('GameStore', () => {
         const store = useGameStore();
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
 
-        store.setGame(game as any);
+        store.setGame(game);
         const guess = { monsterCode: 'rathalos' } as Guess;
 
         store.addGuess(guess);
@@ -35,7 +35,7 @@ describe('GameStore', () => {
     it('should update the game state', () => {
         const store = useGameStore();
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
-        store.setGame(game as any);
+        store.setGame(game);
         store.setState(GameStates.Win);
 
         expect(store.game?.state).toStrictEqual(GameStates.Win);

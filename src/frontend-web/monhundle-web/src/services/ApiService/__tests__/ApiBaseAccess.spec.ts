@@ -24,7 +24,7 @@ describe('apiFetch', () => {
         vi.unstubAllGlobals();
     });
 
-    function lastCallOptions(): any {
+    function lastCallOptions(): RequestInit & { headers: Record<string, string> } {
         return fetchMock.mock.calls[0]![1];
     }
 

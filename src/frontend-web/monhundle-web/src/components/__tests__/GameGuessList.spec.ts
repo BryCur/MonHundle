@@ -81,7 +81,7 @@ const guessWithDistinctResults = {
 
 // data rows live under .guess-container; the first one is the sticky column header.
 // cells: [0] monster, then classification, generation, weaknesses, afflictions, threatLevel, habitats
-function getFirstRowDataCells(wrapper: VueWrapper<any>) {
+function getFirstRowDataCells(wrapper: VueWrapper) {
     const rows = wrapper.findAll('.guess-container .guess-table-row') as DOMWrapper<Element>[];
     const row = rows.find((r) => !r.classes().includes('table-header'))!;
     return row.findAll('.guess-table-cell');

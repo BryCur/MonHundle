@@ -10,7 +10,7 @@ import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExi
 
 const apiFetchMock = apiFetch as unknown as ReturnType<typeof vi.fn>;
 
-async function rejection(promise: Promise<unknown>): Promise<any> {
+async function rejection<E = unknown>(promise: Promise<unknown>): Promise<E> {
     return promise.then(
         () => {
             throw new Error('expected the promise to reject');
@@ -25,7 +25,7 @@ describe('DailyGameApi', () => {
     it('newGame() throws DailyGameAlreadyExistsError carrying the existing id on a 409', async () => {
         apiFetchMock.mockResolvedValue({ ok: false, status: 409, json: async () => 'existing-9' });
 
-        const error = await rejection(new DailyGameApi().newGame());
+        const error = await rejection<DailyGameAlreadyExistsError>(new DailyGameApi().newGame());
 
         expect(error).toBeInstanceOf(DailyGameAlreadyExistsError);
         expect(error.getExistingGameId).toBe('existing-9');

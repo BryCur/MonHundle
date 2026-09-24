@@ -13,12 +13,12 @@ const mockedGameApi = {
 };
 
 const mockedGameStore = {
-    game: null as any,
+    game: null as GameStatus | null,
     setGame: vi.fn(),
 };
 
 function buildService() {
-    return new DailyGameService(mockedGameApi as IGameApi, mockedGameStore as any as GameStore);
+    return new DailyGameService(mockedGameApi as IGameApi, mockedGameStore as unknown as GameStore);
 }
 
 describe('DailyGameService — conflict recovery on startNewGame()', () => {
