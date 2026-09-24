@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DailyGameService } from '@/services/GameService';
+import { DailyGameService } from '@/services/DailyGameService';
 import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 import type { GameStore } from '@/stores/GameStore';
 import type GameStatus from '@/domain/GameStatus';

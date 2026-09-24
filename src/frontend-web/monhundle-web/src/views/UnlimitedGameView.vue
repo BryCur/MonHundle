@@ -3,7 +3,7 @@ import { computed, inject, onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '../services/CookieService';
 import GameGuessList from '../components/game-elements/GameGuessList.vue';
 import { useGameStore } from '../stores/GameStore';
-import type { UnlimitedGameService } from '../services/GameService';
+import type { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import type ResourceApi from '../services/ApiService/ResourceApi';
 import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';

@@ -13,7 +13,7 @@ import {
     buildGuessResponse,
 } from '@test-utils/vitest/fixtures';
 import { UnlimitedGameApi } from '@/services/ApiService/UnlimitedGameApi';
-import { UnlimitedGameService } from '@/services/GameService';
+import { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import { useGameStore } from '@/stores/GameStore';
 import GameStatus from '@/domain/GameStatus';
 import { GameModes } from '@/domain/enums/GameModes';

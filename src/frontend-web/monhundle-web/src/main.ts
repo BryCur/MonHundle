@@ -10,7 +10,8 @@ import { router } from './router';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
 
-import { DailyGameService, UnlimitedGameService } from './services/GameService';
+import { DailyGameService } from '@/services/DailyGameService';
+import { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi';
 import ResourceApi from './services/ApiService/ResourceApi';
 import { useGameStore } from './stores/GameStore';
