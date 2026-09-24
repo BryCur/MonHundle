@@ -1,6 +1,7 @@
 import { compile } from 'json-schema-to-typescript';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import prettier from 'prettier';
 
 interface JsonSchemaNode {
   $ref?: string;
@@ -183,6 +184,8 @@ for (const [name, schema] of Object.entries(rewrittenSchemas)) {
     bannerComment: '',
     declareExternallyReferenced: false,
     additionalProperties: false,
+    // formatted below, once the header and imports are prepended
+    format: false,
   });
 
   const importLines = [...deps]
@@ -198,6 +201,12 @@ for (const [name, schema] of Object.entries(rewrittenSchemas)) {
     '',
   ].join('\n');
 
-  await fs.writeFile(path.join(outRoot, folder, `${name}.ts`), header + body);
+  // Format the whole file with the project's Prettier config, so the generated models follow the
+  // same style as the rest of the codebase and `npm run format` leaves them untouched.
+  const filePath = path.join(outRoot, folder, `${name}.ts`);
+  const prettierConfig = await prettier.resolveConfig(filePath);
+  const formatted = await prettier.format(header + body, { ...prettierConfig, filepath: filePath });
+
+  await fs.writeFile(filePath, formatted);
   console.log('wrote', `${folder}/${name}.ts`, deps.size ? `(imports: ${[...deps].join(', ')})` : '');
 }

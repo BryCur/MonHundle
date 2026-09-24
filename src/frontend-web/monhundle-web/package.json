@@ -17,7 +17,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "generate:api-models": "tsx scripts/generate-api-models.ts",
     "watch:api-models": "chokidar \"$OPENAPI_CONTRACT_PATH\" -c \"npm run generate:api-models\" --initial --polling --poll-interval 500"
   },
