@@ -68,7 +68,7 @@ All the commands below run inside the `frontend` container. Each check comes in 
 
 ### Format with [Prettier](https://prettier.io/)
 
-The style (semicolons, 4-space indentation, single quotes, 100-character lines) is defined in `.prettierrc.json`; `.editorconfig` mirrors it for editors, and VS Code formats on save with the recommended Prettier extension.
+The style (semicolons, 4-space indentation, single quotes, 100-character lines) is defined in `.prettierrc.json`; `.editorconfig` mirrors it for editors, and VS Code formats on save (see [Recommended IDE Setup](#recommended-ide-setup)).
 
 ```sh
 npm run format        # rewrites every file to the expected style
@@ -167,6 +167,15 @@ These files are already committed with defaults suited for local development; on
 ## Recommended IDE Setup
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if installed).
+
+The project's VS Code settings are committed in `.vscode/`:
+
+- `extensions.json` — the recommended extensions (Vue, Vitest, ESLint, EditorConfig, Prettier), which VS Code offers to install when opening the project.
+- `settings.json` — the shared workspace settings:
+    - files are formatted with Prettier on save, and ESLint's automatic fixes are applied on save;
+    - auto-imports use the path aliases (`@/...`) rather than relative paths, in line with the ESLint rule forbidding `../` imports.
+
+VS Code only reads the `.vscode/` folder at the root of the opened workspace: open **this folder** (`src/frontend-web/monhundle-web`) in VS Code — or add it to a multi-root workspace — for these settings to apply. Opening the repository root instead ignores them.
 
 ## Recommended Browser Setup
 
