@@ -62,18 +62,54 @@ npm run dev
 
 The app is served at [http://localhost:5173](http://localhost:5173) (the port is mapped to the host by `docker-compose.yaml`).
 
+## Code Quality Checks
+
+All the commands below run inside the `frontend` container. Each check comes in two flavors: one that **fixes** what it can (for day-to-day use), and a `:check` one that only **reports** — the one CI runs.
+
+### Format with [Prettier](https://prettier.io/)
+
+The style (semicolons, 4-space indentation, single quotes, 100-character lines) is defined in `.prettierrc.json`; `.editorconfig` mirrors it for editors, and VS Code formats on save with the recommended Prettier extension.
+
+```sh
+npm run format        # rewrites every file to the expected style
+npm run format:check  # only lists the files that aren't formatted (fails if any)
+```
+
+The commit that first applied this formatting to the whole codebase is listed in `.git-blame-ignore-revs` (at the repository root), so that `git blame` skips it. GitHub applies it automatically; locally, enable it once per clone with:
+
+```sh
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint        # fixes what can be fixed automatically, reports the rest
+npm run lint:check  # only reports (fails on errors; warnings are reported but don't fail)
+```
+
+### Type-check with `vue-tsc`
+
+```sh
+npm run type-check
+```
+
+Checks every TypeScript project referenced by `tsconfig.json`: the app, the Vitest tests, the Cypress tests and the tooling configs/scripts.
+
+### Run every check, in CI order
+
+```sh
+npm run format:check && npm run lint:check && npm run type-check && npm run test:unit && npm run build
+```
+
+End-to-end tests run separately, from the host (see [below](#run-end-to-end-tests-with-cypress)).
+
 ## Run Unit Tests with [Vitest](https://vitest.dev/)
 
 Inside the `frontend` container:
 
 ```sh
 npm run test:unit
-```
-
-To type-check (what CI runs before the tests):
-
-```sh
-npx vue-tsc --noEmit
 ```
 
 ## Run End-to-End Tests with [Cypress](https://www.cypress.io/)
@@ -118,12 +154,6 @@ npm run build
 ```
 
 Runs type-checking (`vue-tsc`) then compiles (`vite build`). This is what CI runs before any deployment.
-
-## Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
 
 ## Environment variables
 
