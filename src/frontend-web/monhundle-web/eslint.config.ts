@@ -1,11 +1,11 @@
-import { globalIgnores } from 'eslint/config'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import pluginVue from 'eslint-plugin-vue'
-import pluginVitest from '@vitest/eslint-plugin'
+import { globalIgnores } from 'eslint/config';
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import pluginVue from 'eslint-plugin-vue';
+import pluginVitest from '@vitest/eslint-plugin';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import pluginCypress from 'eslint-plugin-cypress'
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import pluginCypress from 'eslint-plugin-cypress';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -13,27 +13,62 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
 export default defineConfigWithVueTs(
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{ts,mts,tsx,vue}'],
-  },
+    {
+        name: 'app/files-to-lint',
+        files: ['**/*.{ts,mts,tsx,vue}'],
+    },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+    globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
 
-  pluginVue.configs['flat/essential'],
-  vueTsConfigs.recommended,
-  
-  {
-    ...pluginVitest.configs.recommended,
-    files: ['src/**/__tests__/*'],
-  },
-  
-  {
-    ...pluginCypress.configs.recommended,
-    files: [
-      'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}',
-      'cypress/support/**/*.{js,ts,jsx,tsx}'
-    ],
-  },
-  skipFormatting,
-)
+    pluginVue.configs['flat/essential'],
+    vueTsConfigs.recommended,
+
+    {
+        name: 'app/no-parent-relative-imports',
+        // The generated models are a self-contained folder, rewritten by the generator.
+        ignores: ['src/domain/generated/**'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        {
+                            group: ['../*'],
+                            message:
+                                'Use an alias (@/..., @cypress-support/...) instead of a parent-relative path.',
+                        },
+                    ],
+                },
+            ],
+        },
+    },
+
+    {
+        // Each enum merges with a namespace exposing its `enumName`, used to build translation keys.
+        // Kept on purpose until the enums are reworked around the generated API models.
+        files: ['src/domain/enums/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-namespace': 'off',
+        },
+    },
+
+    {
+        ...pluginVitest.configs.recommended,
+        files: ['src/**/__tests__/*'],
+    },
+
+    {
+        ...pluginCypress.configs.recommended,
+        files: [
+            'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}',
+            'cypress/support/**/*.{js,ts,jsx,tsx}',
+        ],
+        rules: {
+            ...pluginCypress.configs.recommended.rules,
+            // `declare global { namespace Cypress { ... } }` is how Cypress custom commands get
+            // typed: a type-only declaration, which the rule flags unless explicitly allowed.
+            '@typescript-eslint/no-namespace': ['error', { allowDeclarations: true }],
+        },
+    },
+    skipFormatting,
+);

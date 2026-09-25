@@ -1,4 +1,3 @@
-
 export enum Biomes {
     Cave,
     Desert,
@@ -12,10 +11,10 @@ export enum Biomes {
     Special,
     Unique,
     Swamp,
-    Volcano
+    Volcano,
 }
 
 // to easily get the name of the enum, used for translations keys
 export namespace Biomes {
-    export const enumName: string = "Biomes"
+    export const enumName: string = 'Biomes';
 }

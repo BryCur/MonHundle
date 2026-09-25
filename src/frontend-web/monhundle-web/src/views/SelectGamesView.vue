@@ -1,35 +1,35 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { apiFetch } from '../services/ApiService/ApiBaseAccess';
-import { useI18n } from 'vue-i18n'
+import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
-const router = useRouter()
+const router = useRouter();
+const { t } = useI18n();
 
 const ready = ref(false);
-let selectedGames = ref(new Set<string>([]));
+const selectedGames = ref(new Set<string>([]));
 let gameList: string[];
-const lastRoute = ref<string |null>(null);
+const lastRoute = ref<string | null>(null);
 
 onMounted(async () => {
     ready.value = false;
-    const response = await apiFetch("/resources/game-titles", { method: "GET"});
+    const response = await apiFetch('/resources/game-titles', { method: 'GET' });
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;
-    if(lastRoute.value !== paths.unlimited && lastRoute.value !== paths.settings) {
+    if (lastRoute.value !== paths.unlimited && lastRoute.value !== paths.settings) {
         lastRoute.value = paths.unlimited;
     }
 
     gameList = (await response.json()) as string[];
     ready.value = true;
-}) 
+});
 
 function toggleGameSelection(game: string) {
-    if(selectedGames.value.has(game)) {
+    if (selectedGames.value.has(game)) {
         selectedGames.value.delete(game);
     } else {
         selectedGames.value.add(game);
@@ -37,102 +37,108 @@ function toggleGameSelection(game: string) {
 }
 
 function confirmSelection() {
-    if(selectedGames.value.size > 0) {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(Array.from(selectedGames.value)))
+    if (selectedGames.value.size > 0) {
+        localStorage.setItem(
+            LocalStorageKeys.GAME_LIST,
+            JSON.stringify(Array.from(selectedGames.value)),
+        );
     } else {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList))
+        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList));
     }
 
     router.push(lastRoute.value ?? paths.unlimited);
 }
 
 function randomTilt(element: HTMLElement) {
-  const randomAngle = Math.random() < 0.5
-      ? -(5 + Math.random() * 5) // entre -10 et -5
-      : 5 + Math.random() * 5;   // entre 5 et 10;
-  element.style.transform = `scale(1.05) rotate(${randomAngle}deg)`;
+    const randomAngle =
+        Math.random() < 0.5
+            ? -(5 + Math.random() * 5) // entre -10 et -5
+            : 5 + Math.random() * 5; // entre 5 et 10;
+    element.style.transform = `scale(1.05) rotate(${randomAngle}deg)`;
 }
 </script>
 
 <template>
     <div class="gamelist-root-container">
-        <div v-if="!ready"> loading... </div>
+        <div v-if="!ready">loading...</div>
         <div v-else class="list-container" :class="{ 'has-selection': selectedGames.size > 0 }">
-            <div 
-            v-for="game in gameList" 
-            @click="toggleGameSelection(game)" 
-            class="list-item"
-            :class="{ selected: selectedGames.has(game) }"
-            @mouseenter="(e) => randomTilt(e.currentTarget as HTMLElement)"
-            @mouseleave="(e) => (e.currentTarget as HTMLElement).style.transform = ''"
+            <div
+                v-for="game in gameList"
+                :key="game"
+                @click="toggleGameSelection(game)"
+                class="list-item"
+                :class="{ selected: selectedGames.has(game) }"
+                @mouseenter="(e) => randomTilt(e.currentTarget as HTMLElement)"
+                @mouseleave="(e) => ((e.currentTarget as HTMLElement).style.transform = '')"
             >
-                <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo"></img>
-                <div class="game-title">{{ $t("game.titles." + game) }}</div>
+                <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo" />
+                <div class="game-title">{{ t('game.titles.' + game) }}</div>
             </div>
             <div class="button container">
                 <button @click="confirmSelection()" class="btn btn-confirm">
-                    {{ $t("ui.generic.confirm") }}
+                    {{ t('ui.generic.confirm') }}
                 </button>
             </div>
         </div>
-
     </div>
 </template>
 
 <style lang="scss" scoped>
 .list-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-  padding: 1.5rem;
-  background-color: #1a1a1a;
-  border-radius: 1rem;
-
-  &.has-selection {
-    .list-item:not(.selected) {
-      opacity: 0.5;
-      transform: scale(0.95);
-      filter: grayscale(50%);
-    }
-  }
-
-  .list-item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 180px;
-    padding: 1rem;
-    background-color: #2a2a2a;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: #1a1a1a;
+    border-radius: 1rem;
 
-    &:hover {
-      background-color: #353535;
+    &.has-selection {
+        .list-item:not(.selected) {
+            opacity: 0.5;
+            transform: scale(0.95);
+            filter: grayscale(50%);
+        }
     }
 
-    &.selected {
-      background-color: #5a5a5a;
-      color: white;
-      transform: scale(1.07);
-      box-shadow: 0 0 10px rgba(74, 140, 255, 0.5);
-    }
+    .list-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 180px;
+        padding: 1rem;
+        background-color: #2a2a2a;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            transform 0.1s ease;
 
-    .game-logo {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-    }
+        &:hover {
+            background-color: #353535;
+        }
 
-    .game-title {
-      font-weight: 500;
-      color: #f0f0f0;
-      text-align: center;
+        &.selected {
+            background-color: #5a5a5a;
+            color: white;
+            transform: scale(1.07);
+            box-shadow: 0 0 10px rgba(74, 140, 255, 0.5);
+        }
+
+        .game-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .game-title {
+            font-weight: 500;
+            color: #f0f0f0;
+            text-align: center;
+        }
     }
-  }
 }
 </style>

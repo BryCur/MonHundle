@@ -1,7 +1,6 @@
 import type IUserApi from '@/domain/interfaces/api-contracts/IUserApi';
 import { UserApi } from '@/services/ApiService/UserApi';
 
-
 export class AuthManagementService {
     private static instance: AuthManagementService | null = null;
 
@@ -37,7 +36,8 @@ export class AuthManagementService {
      */
     public authenticate(): Promise<void> {
         if (this.authPromise === null) {
-            this.authPromise = this.userApi.authUser()
+            this.authPromise = this.userApi
+                .authUser()
                 .then(() => {
                     this.authenticated = true;
                 })
@@ -74,6 +74,5 @@ export class AuthManagementService {
         return this.authenticate();
     }
 }
-
 
 export const authManager = AuthManagementService.getInstance();

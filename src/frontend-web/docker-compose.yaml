@@ -11,6 +11,9 @@ services: # pour entrer dans le conteneur: docker compose exec frontend sh
       - ../monhundle/core-api/openapi:/backend-openapi:ro
     environment:
       OPENAPI_CONTRACT_PATH: /backend-openapi/core-api_public.json
+      # E2E tests run in the dedicated `cypress` container, which ships its own binary:
+      # skip downloading it on every `npm install` made from this container.
+      CYPRESS_INSTALL_BINARY: 0
     ports:
       - "5173:5173" # ou autre port selon le framework
     tty: true
@@ -33,6 +36,7 @@ services: # pour entrer dans le conteneur: docker compose exec frontend sh
       # chokidar-cli spawns its -c command through $SHELL; the container's minimal
       # environment doesn't set it by default outside an interactive login shell.
       SHELL: /bin/sh
+      CYPRESS_INSTALL_BINARY: 0 # same reason as in the `frontend` service
     command: sh -c "npm run watch:api-models"
 
   cypress:

@@ -1,9 +1,15 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["./e2e/**/*", "./support/**/*"],
-  "exclude": ["./support/component.*"],
-  "compilerOptions": {
-    "isolatedModules": false,
-    "types": ["cypress"]
-  }
+    "extends": "@vue/tsconfig/tsconfig.dom.json",
+    "include": ["./e2e/**/*", "./support/**/*"],
+    "exclude": ["./support/component.*"],
+    "compilerOptions": {
+        "isolatedModules": false,
+        "types": ["cypress"],
+        "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.cypress.tsbuildinfo",
+        // Cypress' bundled tsconfig-paths plugin ignores `paths` unless a `baseUrl` is set.
+        "baseUrl": ".",
+        "paths": {
+            "@cypress-support/*": ["./support/*"]
+        }
+    }
 }

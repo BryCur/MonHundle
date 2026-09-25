@@ -1,31 +1,34 @@
-import './assets/main.css'
+import './assets/main.css';
 
-import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-import { createPinia } from 'pinia'
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
+import { createPinia } from 'pinia';
 
-import App from './App.vue'
-import { router } from './router'
+import App from './App.vue';
+import { router } from './router';
 
-import en from './locales/en.json'
-import fr from './locales/fr.json'
+import en from './locales/en.json';
+import fr from './locales/fr.json';
 
-import { DailyGameService, UnlimitedGameService } from './services/GameService'
-import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi'
-import ResourceApi from './services/ApiService/ResourceApi'
-import { useGameStore } from './stores/GameStore'
-import { DailyGameApi } from './services/ApiService/DailyGameApi'
+import { DailyGameService } from '@/services/DailyGameService';
+import { UnlimitedGameService } from '@/services/UnlimitedGameService';
+import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi';
+import ResourceApi from './services/ApiService/ResourceApi';
+import { useGameStore } from './stores/GameStore';
+import { DailyGameApi } from './services/ApiService/DailyGameApi';
 import { SettingsApi } from '@/services/ApiService/SettingApi.ts';
-import { authManager } from './services/AuthManagementService.ts'
+import { authManager } from './services/AuthManagementService.ts';
 
 const i18n = createI18n({
     legacy: false,
+    // no global $t/$d/$n in templates: components get `t` from useI18n() explicitly
+    globalInjection: false,
     locale: 'en', // langue par défaut
     fallbackLocale: 'en', // langue de secours
     messages: {
         en: en,
-        fr: fr
-    }
+        fr: fr,
+    },
 });
 
 const app = createApp(App);
@@ -45,9 +48,9 @@ authManager.authenticate().catch(() => {});
 
 app.use(router);
 app.use(i18n);
-app.provide("unlimitedGameService", unlimitedGameService);
-app.provide("dailyGameService", dailyGameService);
-app.provide("resourceApi", resourceApi);
-app.provide("settingsApi", settingsApi);
+app.provide('unlimitedGameService', unlimitedGameService);
+app.provide('dailyGameService', dailyGameService);
+app.provide('resourceApi', resourceApi);
+app.provide('settingsApi', settingsApi);
 
 app.mount('#app');

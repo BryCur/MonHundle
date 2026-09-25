@@ -62,18 +62,54 @@ npm run dev
 
 The app is served at [http://localhost:5173](http://localhost:5173) (the port is mapped to the host by `docker-compose.yaml`).
 
+## Code Quality Checks
+
+All the commands below run inside the `frontend` container. Each check comes in two flavors: one that **fixes** what it can (for day-to-day use), and a `:check` one that only **reports** — the one CI runs.
+
+### Format with [Prettier](https://prettier.io/)
+
+The style (semicolons, 4-space indentation, single quotes, 100-character lines) is defined in `.prettierrc.json`; `.editorconfig` mirrors it for editors, and VS Code formats on save (see [Recommended IDE Setup](#recommended-ide-setup)).
+
+```sh
+npm run format        # rewrites every file to the expected style
+npm run format:check  # only lists the files that aren't formatted (fails if any)
+```
+
+The commit that first applied this formatting to the whole codebase is listed in `.git-blame-ignore-revs` (at the repository root), so that `git blame` skips it. GitHub applies it automatically; locally, enable it once per clone with:
+
+```sh
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint        # fixes what can be fixed automatically, reports the rest
+npm run lint:check  # only reports (fails on errors; warnings are reported but don't fail)
+```
+
+### Type-check with `vue-tsc`
+
+```sh
+npm run type-check
+```
+
+Checks every TypeScript project referenced by `tsconfig.json`: the app, the Vitest tests, the Cypress tests and the tooling configs/scripts.
+
+### Run every check, in CI order
+
+```sh
+npm run format:check && npm run lint:check && npm run type-check && npm run test:unit && npm run build
+```
+
+End-to-end tests run separately, from the host (see [below](#run-end-to-end-tests-with-cypress)).
+
 ## Run Unit Tests with [Vitest](https://vitest.dev/)
 
 Inside the `frontend` container:
 
 ```sh
 npm run test:unit
-```
-
-To type-check (what CI runs before the tests):
-
-```sh
-npx vue-tsc --noEmit
 ```
 
 ## Run End-to-End Tests with [Cypress](https://www.cypress.io/)
@@ -119,15 +155,10 @@ npm run build
 
 Runs type-checking (`vue-tsc`) then compiles (`vite build`). This is what CI runs before any deployment.
 
-## Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
 ## Environment variables
 
 `.env` (local development) and `.env.production` define:
+
 - `VITE_API_URL` — the backend API's base URL.
 - `VITE_ICON_CDN_URL` — the base URL of the CDN serving monster icons.
 
@@ -137,14 +168,23 @@ These files are already committed with defaults suited for local development; on
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if installed).
 
+The project's VS Code settings are committed in `.vscode/`:
+
+- `extensions.json` — the recommended extensions (Vue, Vitest, ESLint, EditorConfig, Prettier), which VS Code offers to install when opening the project.
+- `settings.json` — the shared workspace settings:
+    - files are formatted with Prettier on save, and ESLint's automatic fixes are applied on save;
+    - auto-imports use the path aliases (`@/...`) rather than relative paths, in line with the ESLint rule forbidding `../` imports.
+
+VS Code only reads the `.vscode/` folder at the root of the opened workspace: open **this folder** (`src/frontend-web/monhundle-web`) in VS Code — or add it to a multi-root workspace — for these settings to apply. Opening the repository root instead ignores them.
+
 ## Recommended Browser Setup
 
 - Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+    - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+    - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
 - Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+    - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+    - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
 ## Type Support for `.vue` Imports in TS
 

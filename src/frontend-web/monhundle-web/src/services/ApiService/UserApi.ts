@@ -1,16 +1,16 @@
-import type IUserApi from "@/domain/interfaces/api-contracts/IUserApi";
+import type IUserApi from '@/domain/interfaces/api-contracts/IUserApi';
 
-import { isUUID } from "@/domain/Utils";
-import { setStoredUserId } from "@/services/LocalStorageService";
-import { apiFetch } from "./ApiBaseAccess";
+import { isUUID } from '@/domain/Utils';
+import { setStoredUserId } from '@/services/LocalStorageService';
+import { apiFetch } from './ApiBaseAccess';
 
 export class UserApi implements IUserApi {
-    public authenticated: boolean = false
+    public authenticated: boolean = false;
 
     constructor() {}
 
     public async authUser(): Promise<void> {
-        const response = await apiFetch("/user/authenticate", { method: "GET" });
+        const response = await apiFetch('/user/authenticate', { method: 'GET' });
 
         if (!response.ok) {
             this.authenticated = false;
@@ -26,9 +26,9 @@ export class UserApi implements IUserApi {
             userId = undefined;
         }
 
-        if (typeof userId !== "string" || !isUUID(userId)) {
+        if (typeof userId !== 'string' || !isUUID(userId)) {
             this.authenticated = false;
-            throw new Error("Authentication response did not contain a valid user id");
+            throw new Error('Authentication response did not contain a valid user id');
         }
 
         // persist it so every subsequent request can send it as a bearer token

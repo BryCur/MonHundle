@@ -7,5 +7,7 @@ export class DailyGameAlreadyExistsError extends Error {
         Object.setPrototypeOf(this, DailyGameAlreadyExistsError.prototype);
     }
 
-    public get getExistingGameId(): string {return this.existingGameId; }
+    public get getExistingGameId(): string {
+        return this.existingGameId;
+    }
 }

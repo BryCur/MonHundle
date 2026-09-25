@@ -14,8 +14,8 @@ src/monhundle/*.suo
 src/monhundle/*.userosscache
 src/monhundle/*.sln.docstates
 
-# VS Code settings
-.vscode/
+# VS Code settings (a sub-project can still share some of them, see its own .gitignore)
+**/.vscode/*
 
 # Rider logs
 src/monhundle/.idea/.idea_modules/

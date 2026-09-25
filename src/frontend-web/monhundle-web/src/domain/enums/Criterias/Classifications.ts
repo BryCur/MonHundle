@@ -1,4 +1,4 @@
-export enum Classifications { 
+export enum Classifications {
     Amphibian,
     BirdWyvern,
     BruteWyvern,
@@ -22,5 +22,5 @@ export enum Classifications {
 
 // to easily get the name of the enum, used for translations keys
 export namespace Classifications {
-    export const enumName: string = "Classifications"
+    export const enumName: string = 'Classifications';
 }
