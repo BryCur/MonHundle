@@ -21,6 +21,8 @@ import { authManager } from './services/AuthManagementService.ts';
 
 const i18n = createI18n({
     legacy: false,
+    // no global $t/$d/$n in templates: components get `t` from useI18n() explicitly
+    globalInjection: false,
     locale: 'en', // langue par défaut
     fallbackLocale: 'en', // langue de secours
     messages: {

@@ -4,10 +4,10 @@ import { createI18n } from 'vue-i18n';
 import SettingView from '@/views/SettingView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 
-// real (empty) i18n so both `t()` and the template's `$t()` resolve to the key path
+// real (empty) i18n so `t()` resolves to the key path
 const i18n = createI18n({
     legacy: false,
-    globalInjection: true,
+    globalInjection: false,
     missingWarn: false,
     fallbackWarn: false,
     locale: 'en',

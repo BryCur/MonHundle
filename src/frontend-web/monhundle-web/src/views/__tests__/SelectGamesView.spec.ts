@@ -20,7 +20,7 @@ import { LocalStorageKeys } from '@/services/LocalStorageService';
 
 const i18n = createI18n({
     legacy: false,
-    globalInjection: true,
+    globalInjection: false,
     missingWarn: false,
     fallbackWarn: false,
     locale: 'en',

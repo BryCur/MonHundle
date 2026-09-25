@@ -4,8 +4,10 @@ import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
+const { t } = useI18n();
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -70,11 +72,11 @@ function randomTilt(element: HTMLElement) {
                 @mouseleave="(e) => ((e.currentTarget as HTMLElement).style.transform = '')"
             >
                 <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo" />
-                <div class="game-title">{{ $t('game.titles.' + game) }}</div>
+                <div class="game-title">{{ t('game.titles.' + game) }}</div>
             </div>
             <div class="button container">
                 <button @click="confirmSelection()" class="btn btn-confirm">
-                    {{ $t('ui.generic.confirm') }}
+                    {{ t('ui.generic.confirm') }}
                 </button>
             </div>
         </div>

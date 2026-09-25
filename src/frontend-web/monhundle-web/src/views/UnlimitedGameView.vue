@@ -106,18 +106,18 @@ function shareGame(): void {
         <div v-if="!isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
-                <span>{{ $t('ui.generic.sendguess') }}</span>
+                <span>{{ t('ui.generic.sendguess') }}</span>
             </button>
         </div>
         <div v-else class="option-game-over-container">
             <img class="game-over-icon" :src="getLastGuessIcon()" />
             <div class="game-over-content">
                 <p>
-                    <b>{{ $t('ui.game.over.congrats') }}</b>
+                    <b>{{ t('ui.game.over.congrats') }}</b>
                 </p>
                 <p>
                     {{
-                        $t('ui.game.over.answer', {
+                        t('ui.game.over.answer', {
                             monster: getLastGuessName(),
                             attempts: gameStore.game?.guesses.length,
                         })
@@ -126,10 +126,10 @@ function shareGame(): void {
             </div>
 
             <button @click="startNewGame()">
-                <span> {{ $t('ui.generic.newGame') }}</span>
+                <span> {{ t('ui.generic.newGame') }}</span>
             </button>
             <button @click="shareGame()">
-                <span> {{ $t('ui.generic.share') }}</span>
+                <span> {{ t('ui.generic.share') }}</span>
             </button>
         </div>
         <div class="game-progress-container fit-screen">

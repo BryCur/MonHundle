@@ -113,56 +113,56 @@ function getGameListString() {
 
 <template>
     <div class="setting-list">
-        <h2>{{ $t('ui.settings.titles.preferences') }}</h2>
+        <h2>{{ t('ui.settings.titles.preferences') }}</h2>
         <div class="setting-line">
-            <label>{{ $t('ui.settings.visualAccessibility.label') }}</label>
+            <label>{{ t('ui.settings.visualAccessibility.label') }}</label>
             <input @change="toggleA11y()" v-model="enableTableA11y" type="checkbox" />
             <span class="setting-description">{{
-                $t('ui.settings.visualAccessibility.description')
+                t('ui.settings.visualAccessibility.description')
             }}</span>
         </div>
         <div class="setting-line">
             <label> {{ getGameListString() }}</label>
             <button @click="router.push(paths.selectGame)">
-                {{ $t('ui.settings.gameList.button') }}
+                {{ t('ui.settings.gameList.button') }}
             </button>
-            <span class="setting-description">{{ $t('ui.settings.gameList.description') }}</span>
+            <span class="setting-description">{{ t('ui.settings.gameList.description') }}</span>
         </div>
         <div class="setting-line">
-            <label> {{ $t('ui.settings.savePreferences.label') }}</label>
+            <label> {{ t('ui.settings.savePreferences.label') }}</label>
             <button @click="savePreferenceToProfile()">
-                {{ $t('ui.settings.savePreferences.button') }}
+                {{ t('ui.settings.savePreferences.button') }}
             </button>
             <span class="setting-description">{{
-                $t('ui.settings.savePreferences.description')
+                t('ui.settings.savePreferences.description')
             }}</span>
         </div>
     </div>
     <div class="setting-list">
-        <h2>{{ $t('ui.settings.titles.data') }}</h2>
+        <h2>{{ t('ui.settings.titles.data') }}</h2>
         <div class="setting-line">
-            <label>{{ $t('ui.settings.copyUUID.label') }}</label>
-            <button @click="copyUUID()">{{ $t('ui.settings.copyUUID.button') }}</button>
-            <span class="setting-description">{{ $t('ui.settings.copyUUID.description') }}</span>
+            <label>{{ t('ui.settings.copyUUID.label') }}</label>
+            <button @click="copyUUID()">{{ t('ui.settings.copyUUID.button') }}</button>
+            <span class="setting-description">{{ t('ui.settings.copyUUID.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>{{ $t('ui.settings.setUUID.label') }}</label>
+            <label>{{ t('ui.settings.setUUID.label') }}</label>
             <span class="composed-field">
                 <input
                     type="text"
                     v-model="inputUuid"
                     :placeholder="t('ui.settings.setUUID.placeholder')"
                 />
-                <button @click="loadUuid()">{{ $t('ui.settings.setUUID.button') }}</button>
+                <button @click="loadUuid()">{{ t('ui.settings.setUUID.button') }}</button>
             </span>
-            <span class="setting-description">{{ $t('ui.settings.setUUID.description') }}</span>
+            <span class="setting-description">{{ t('ui.settings.setUUID.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>{{ $t('ui.settings.deleteUUID.label') }}</label>
+            <label>{{ t('ui.settings.deleteUUID.label') }}</label>
             <button @click="deleteStoredData()" class="danger">
-                {{ $t('ui.settings.deleteUUID.button') }}
+                {{ t('ui.settings.deleteUUID.button') }}
             </button>
-            <span class="setting-description">{{ $t('ui.settings.deleteUUID.description') }}</span>
+            <span class="setting-description">{{ t('ui.settings.deleteUUID.description') }}</span>
         </div>
     </div>
 </template>
