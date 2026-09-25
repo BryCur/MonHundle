@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { apiFetch } from '../services/ApiService/ApiBaseAccess';
+import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';

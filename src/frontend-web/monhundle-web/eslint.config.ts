@@ -24,6 +24,26 @@ export default defineConfigWithVueTs(
     vueTsConfigs.recommended,
 
     {
+        name: 'app/no-parent-relative-imports',
+        // The generated models are a self-contained folder, rewritten by the generator.
+        ignores: ['src/domain/generated/**'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        {
+                            group: ['../*'],
+                            message:
+                                'Use an alias (@/..., @cypress-support/...) instead of a parent-relative path.',
+                        },
+                    ],
+                },
+            ],
+        },
+    },
+
+    {
         // Each enum merges with a namespace exposing its `enumName`, used to build translation keys.
         // Kept on purpose until the enums are reworked around the generated API models.
         files: ['src/domain/enums/**/*.ts'],

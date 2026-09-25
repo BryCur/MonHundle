@@ -1,6 +1,6 @@
-import type { GameModes } from '../enums/GameModes';
-import type { GameStates } from '../enums/GameStates';
-import type Guess from '../Guess';
+import type { GameModes } from '@/domain/enums/GameModes';
+import type { GameStates } from '@/domain/enums/GameStates';
+import type Guess from '@/domain/Guess';
 
 export default class GameStateResponse {
     public readonly gameId: string;

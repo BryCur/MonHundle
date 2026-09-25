@@ -1,4 +1,4 @@
-import type { ComparisonResults } from '../enums/ComparisonResults';
+import type { ComparisonResults } from '@/domain/enums/ComparisonResults';
 
 export interface ComparisonResult {
     generation: ComparisonResults;
