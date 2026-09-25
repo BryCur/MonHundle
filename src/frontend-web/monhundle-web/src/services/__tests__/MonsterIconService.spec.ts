@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { getLatestIconForMonster } from '@/services/MonsterIconService';
 
 const CDN = import.meta.env.VITE_ICON_CDN_URL;
 

@@ -12,7 +12,7 @@ export const useGameStore = defineStore('game', () => {
     }
 
     function addGuess(guess: Guess) {
-        game.value?.addguess(guess);
+        game.value?.addGuess(guess);
     }
 
     function setState(state: GameStates) {

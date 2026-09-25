@@ -21,7 +21,7 @@ export default class GameStatus {
         this.gameMode = gameMode;
     }
 
-    public addguess(guess: Guess) {
+    public addGuess(guess: Guess) {
         this.guesses.push(guess);
     }
 

@@ -1,6 +1,6 @@
 import type { GameStates } from '../enums/GameStates';
 import type { ComparisonResult } from '../interfaces/ComparisonResult';
-import type { Criterias } from '../interfaces/Criteras';
+import type { Criterias } from '../interfaces/Criterias';
 
 export default class GuessResponse {
     public readonly monsterCode: string;

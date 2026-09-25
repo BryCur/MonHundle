@@ -1,5 +1,5 @@
 import type { ComparisonResult } from './interfaces/ComparisonResult';
-import type { Criterias } from './interfaces/Criteras';
+import type { Criterias } from './interfaces/Criterias';
 
 export default class Guess {
     public readonly monsterCode: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

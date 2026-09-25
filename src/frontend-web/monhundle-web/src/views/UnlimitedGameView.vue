@@ -9,7 +9,7 @@ import { GameStates } from '../domain/enums/GameStates';
 import MonsterSelectBox from '../components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '../router';
-import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { GameModes } from '@/domain/enums/GameModes.ts';
 

@@ -9,11 +9,11 @@ function guessWithResults(comparisonResult: Record<string, ComparisonResults>): 
 }
 
 describe('GameStatus', () => {
-    it('appends guesses in order via addguess', () => {
+    it('appends guesses in order via addGuess', () => {
         const game = new GameStatus('abc', GameModes.Unlimited);
 
-        game.addguess({ monsterCode: 'a' } as Guess);
-        game.addguess({ monsterCode: 'b' } as Guess);
+        game.addGuess({ monsterCode: 'a' } as Guess);
+        game.addGuess({ monsterCode: 'b' } as Guess);
 
         expect(game.guesses.map((g) => g.monsterCode)).toEqual(['a', 'b']);
     });

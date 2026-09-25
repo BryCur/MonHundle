@@ -9,7 +9,7 @@ import { Biomes } from '../../domain/enums/Criterias/Biomes';
 import { enumValueToKeyLower, type NamedEnum } from '../../domain/enums/EnumUtils';
 import type Guess from '../../domain/Guess';
 import { computed } from 'vue';
-import { getLatestIconForMonster } from '@/services/MonsterIconeService';
+import { getLatestIconForMonster } from '@/services/MonsterIconService';
 
 const { t } = useI18n();
 const model = defineModel<Guess[]>();
