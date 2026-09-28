@@ -16,10 +16,9 @@ import { UnlimitedGameApi } from '@/services/ApiService/UnlimitedGameApi';
 import { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import { useGameStore } from '@/stores/GameStore';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes, GameStates } from '@/domain/ApiModels';
+import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
-import type { MakeGuessBody } from '@/domain/generated/request-params/MakeGuessBody';
 
 // Test the whole code chaine from the service layer with only network calls (fetch) faked.
 describe('UnlimitedGameService — starting a game (integration)', () => {

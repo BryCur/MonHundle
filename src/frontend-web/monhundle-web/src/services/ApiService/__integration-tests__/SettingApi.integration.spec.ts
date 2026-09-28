@@ -10,17 +10,16 @@ import {
 } from '@test-utils/vitest/fixtures';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService';
-import type { UserPreferencesBody } from '@/domain/generated/request-params/UserPreferencesBody';
-import type { PlayerProfileResponse } from '@/domain/generated/response/objects/PlayerProfileResponse';
+import type { SettingsResponse, UserSettingsBody } from '@/domain/ApiModels';
 
 describe('SettingsApi.saveSettings (integration)', () => {
     it('sends a well-formed preference request', async () => {
         let capturedMethod: string | null = null;
-        let capturedBody: UserPreferencesBody | null = null;
+        let capturedBody: UserSettingsBody | null = null;
         server.use(
             http.post('*/user/preference', async ({ request }) => {
                 capturedMethod = request.method;
-                capturedBody = (await request.json()) as UserPreferencesBody;
+                capturedBody = (await request.json()) as UserSettingsBody;
                 return new HttpResponse(null, { status: 200 });
             }),
         );
@@ -31,7 +30,7 @@ describe('SettingsApi.saveSettings (integration)', () => {
         expect(capturedBody).toEqual({
             enableTableVisualAid: true,
             gameTitles: SAMPLE_GAME_TITLES,
-        } satisfies UserPreferencesBody);
+        } satisfies UserSettingsBody);
     });
 
     it('resolves even when the backend rejects the request — the response status is never checked', async () => {
@@ -60,7 +59,7 @@ describe('SettingsApi.getProfile (integration)', () => {
     });
 
     it('returns the parsed profile on success', async () => {
-        const expected: PlayerProfileResponse = {
+        const expected: SettingsResponse = {
             enableTableVisualAid: false,
             gameList: [GAME_TITLE_MHW],
             currentDailyGameUuid: null,

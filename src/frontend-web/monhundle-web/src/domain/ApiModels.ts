@@ -1,5 +1,8 @@
 // Front-end entry point for the types generated from the backend contract (src/domain/generated/).
-// The rest of the app imports them from here, never from generated/ directly.
+// The rest of the app imports them from here, never from generated/ directly (enforced by ESLint).
+
+import type { PlayerProfileResponse } from '@/domain/generated/response/objects/PlayerProfileResponse';
+import type { UserPreferencesBody } from '@/domain/generated/request-params/UserPreferencesBody';
 
 // --- Enums (real runtime objects) and the registry of their names, used to build translation keys ---
 export { Afflictions } from '@/domain/generated/enum/Afflictions';
@@ -10,3 +13,10 @@ export { GameStates } from '@/domain/generated/enum/GameStates';
 export { Habitats } from '@/domain/generated/enum/Habitats';
 export { Weaknesses } from '@/domain/generated/enum/Weaknesses';
 export { enumNames } from '@/domain/generated/enum/enumNames';
+
+// --- Request and response payloads, under their front-end names ---
+export type SettingsResponse = PlayerProfileResponse;
+export type UserSettingsBody = UserPreferencesBody;
+export type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse';
+export type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse';
+export type { MakeGuessBody } from '@/domain/generated/request-params/MakeGuessBody';

@@ -12,6 +12,15 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 // configureVueProject({ scriptLangs: ['ts', 'tsx'] })
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
+const noParentRelativeImports = {
+    group: ['../*'],
+    message: 'Use an alias (@/..., @cypress-support/...) instead of a parent-relative path.',
+};
+const noDirectGeneratedImports = {
+    group: ['@/domain/generated/*'],
+    message: 'Import the generated API models from @/domain/ApiModels instead.',
+};
+
 export default defineConfigWithVueTs(
     {
         name: 'app/files-to-lint',
@@ -24,31 +33,24 @@ export default defineConfigWithVueTs(
     vueTsConfigs.recommended,
 
     {
-        name: 'app/no-parent-relative-imports',
+        name: 'app/restricted-imports',
         // The generated models are a self-contained folder, rewritten by the generator.
         ignores: ['src/domain/generated/**'],
         rules: {
             'no-restricted-imports': [
                 'error',
-                {
-                    patterns: [
-                        {
-                            group: ['../*'],
-                            message:
-                                'Use an alias (@/..., @cypress-support/...) instead of a parent-relative path.',
-                        },
-                    ],
-                },
+                { patterns: [noParentRelativeImports, noDirectGeneratedImports] },
             ],
         },
     },
 
     {
-        // Each enum merges with a namespace exposing its `enumName`, used to build translation keys.
-        // Kept on purpose until the enums are reworked around the generated API models.
-        files: ['src/domain/enums/**/*.ts'],
+        // The one file allowed to import the generated models. A later block replaces the rule's
+        // options rather than merging them, hence the parent-relative ban repeated here.
+        name: 'app/restricted-imports-api-models',
+        files: ['src/domain/ApiModels.ts'],
         rules: {
-            '@typescript-eslint/no-namespace': 'off',
+            'no-restricted-imports': ['error', { patterns: [noParentRelativeImports] }],
         },
     },
 

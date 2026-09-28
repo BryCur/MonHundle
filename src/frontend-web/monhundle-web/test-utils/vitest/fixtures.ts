@@ -1,6 +1,9 @@
-import { GameModes, GameStates } from '@/domain/ApiModels';
-import type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse';
-import type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse';
+import {
+    GameModes,
+    GameStates,
+    type GameStateResponse,
+    type GuessResponse,
+} from '@/domain/ApiModels';
 
 // --- Player / user identity ---
 export const VALID_UUID = '11111111-1111-1111-1111-111111111111';
