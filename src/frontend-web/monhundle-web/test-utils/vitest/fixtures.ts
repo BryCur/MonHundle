@@ -1,5 +1,5 @@
-import { GameModes } from '@/domain/enums/GameModes';
-import { GameStates } from '@/domain/enums/GameStates';
+import { GameModes } from '@/domain/generated/enum/GameModes';
+import { GameStates } from '@/domain/generated/enum/GameStates';
 import type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse';
 import type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse';
 

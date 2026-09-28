@@ -1,4 +1,7 @@
 /**
  * AUTO-GENERATED from the backend OpenAPI contract. Do not edit by hand.
  */
-export type GameModes = 0 | 1;
+export enum GameModes {
+    Unlimited = 0,
+    Daily = 1,
+}

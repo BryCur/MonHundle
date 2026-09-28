@@ -1,4 +1,9 @@
 /**
  * AUTO-GENERATED from the backend OpenAPI contract. Do not edit by hand.
  */
-export type GameStates = 0 | 1 | 2 | 3;
+export enum GameStates {
+    Ongoing = 0,
+    Win = 1,
+    Lose = 2,
+    Forfeited = 3,
+}
