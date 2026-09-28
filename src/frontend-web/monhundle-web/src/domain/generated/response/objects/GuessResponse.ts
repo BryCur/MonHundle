@@ -10,4 +10,5 @@ export interface GuessResponse {
     criterias: MonsterCriteriaDTO;
     comparisonResult: MonsterComparisonResult;
     gameStateAfterGuess: GameStates;
+    guessNumber: number;
 }
