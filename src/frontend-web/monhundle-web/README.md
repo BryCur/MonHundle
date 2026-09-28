@@ -42,6 +42,8 @@ The backend exports its contract automatically on every build (`core-api/openapi
 
 These files **are committed** — they're what you actually open and read (e.g. `src/domain/generated/response/objects/GuessResponse.ts`), not a build artifact, so a contract change shows up in the diff of a PR like any other code change.
 
+CI makes sure they stay in sync with the backend: the `API models - sync check with the backend contract` workflow (`.github/workflows/check-api-models.yml`) builds the backend, regenerates the models and fails if anything differs from what's committed — e.g. a DTO changed on the backend without regenerating. To fix it, rebuild the backend, run `npm run generate:api-models` and commit the result.
+
 ### What the backend adds to the contract
 
 By default, Swashbuckle's contract loses two things the C# types know. The backend restores them (`core-api/Program.cs` and the filters in `core-api/Swagger/`), and the generated types depend on it:

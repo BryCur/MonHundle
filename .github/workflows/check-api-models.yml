@@ -1,0 +1,60 @@
+name: API models - sync check with the backend contract
+
+on:
+  push: # push on master touching the backend, the generator or the generated models
+    branches: [ "master" ]
+    paths:
+    - '.github/workflows/check-api-models.yml'
+    - 'src/monhundle/**'
+    - 'src/frontend-web/monhundle-web/scripts/generate-api-models.ts'
+    - 'src/frontend-web/monhundle-web/src/domain/generated/**'
+  pull_request: # all PR targeting master
+    branches: [ "master" ]
+  workflow_dispatch: # enable manual execution
+
+jobs:
+  generated-models-in-sync:
+    name: Generated API models match the backend contract
+    runs-on: ubuntu-latest
+    env:
+      # only the generator is needed here, not the Cypress binary pulled by `npm ci`
+      CYPRESS_INSTALL_BINARY: 0
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      # building core-api exports its OpenAPI contract to core-api/openapi/ (see core-api.csproj)
+      - name: Build the backend (exports the OpenAPI contract)
+        run: dotnet build ./src/monhundle/core-api/core-api.csproj
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: ./src/frontend-web/monhundle-web/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: ./src/frontend-web/monhundle-web
+        run: npm ci
+
+      # runs the model generation
+      - name: Regenerate the API models
+        working-directory: ./src/frontend-web/monhundle-web
+        run: npm run generate:api-models
+
+      # `git status` rather than `git diff` to include new/untracked files
+      - name: Fail if the committed models are out of date
+        working-directory: ./src/frontend-web/monhundle-web
+        run: |
+          if [ -n "$(git status --porcelain -- src/domain/generated)" ]; then
+            echo "::error::The generated API models are out of date: rebuild the backend, run 'npm run generate:api-models' and commit the result."
+            git status --porcelain -- src/domain/generated
+            git diff -- src/domain/generated
+            exit 1
+          fi
