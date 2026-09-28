@@ -24,4 +24,5 @@ export enum Afflictions {
     Webbed = 19,
     Muddy = 20,
     Effluvium = 21,
+    ShouldNotExist = 99,
 }
