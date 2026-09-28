@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import type ResourceApi from '@/services/ApiService/ResourceApi';
 import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const { t } = useI18n();
+const resourceApi = inject<ResourceApi>('resourceApi');
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -16,7 +17,7 @@ const lastRoute = ref<string | null>(null);
 
 onMounted(async () => {
     ready.value = false;
-    const response = await apiFetch('/resources/game-titles', { method: 'GET' });
+    const gameTitles = await resourceApi?.getGameTitles();
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;
@@ -24,7 +25,7 @@ onMounted(async () => {
         lastRoute.value = paths.unlimited;
     }
 
-    gameList = (await response.json()) as string[];
+    gameList = gameTitles ?? [];
     ready.value = true;
 });
 
