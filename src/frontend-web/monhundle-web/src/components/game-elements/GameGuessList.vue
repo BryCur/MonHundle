@@ -9,7 +9,7 @@ import {
     Habitats,
     type Guess,
 } from '@/domain/ApiModels';
-import { enumValueToKeyLower, getEnumName, type NumericEnum } from '@/domain/enums/EnumUtils';
+import { enumValueToKeyLower, getEnumName, type NumericEnum } from '@/domain/EnumUtils';
 import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 
