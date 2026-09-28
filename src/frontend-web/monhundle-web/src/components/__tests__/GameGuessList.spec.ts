@@ -15,8 +15,8 @@ import {
     Afflictions,
     Habitats,
     Classifications,
+    type Guess,
 } from '@/domain/ApiModels';
-import type Guess from '@/domain/Guess';
 
 const sampleGuesses = [
     {

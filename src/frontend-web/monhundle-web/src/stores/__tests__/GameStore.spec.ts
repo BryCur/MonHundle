@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useGameStore } from '@/stores/GameStore';
-import { GameStates, GameModes } from '@/domain/ApiModels';
-import type Guess from '@/domain/Guess';
+import { GameStates, GameModes, type Guess } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
 
 describe('GameStore', () => {

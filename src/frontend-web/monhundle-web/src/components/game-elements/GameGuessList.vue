@@ -7,9 +7,9 @@ import {
     Weaknesses,
     Classifications,
     Habitats,
+    type Guess,
 } from '@/domain/ApiModels';
 import { enumValueToKeyLower, getEnumName, type NumericEnum } from '@/domain/enums/EnumUtils';
-import type Guess from '@/domain/Guess';
 import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 

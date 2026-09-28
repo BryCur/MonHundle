@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes, ComparisonOutcomes } from '@/domain/ApiModels';
-import type Guess from '@/domain/Guess';
+import { GameModes, ComparisonOutcomes, type Guess } from '@/domain/ApiModels';
 
 function guessWithResults(comparisonResult: Record<string, ComparisonOutcomes>): Guess {
     return { monsterCode: 'rathalos', criterias: {}, comparisonResult } as unknown as Guess;

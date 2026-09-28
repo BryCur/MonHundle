@@ -1,5 +1,4 @@
-import type { GameModes, GameStates } from '@/domain/ApiModels';
-import type Guess from '@/domain/Guess';
+import type { GameModes, GameStates, Guess } from '@/domain/ApiModels';
 
 export default class GameStateResponse {
     public readonly gameId: string;

@@ -1,6 +1,4 @@
-import type { GameStates } from '@/domain/ApiModels';
-import type { ComparisonResult } from '@/domain/interfaces/ComparisonResult';
-import type { Criterias } from '@/domain/interfaces/Criterias';
+import type { GameStates, ComparisonResult, Criterias } from '@/domain/ApiModels';
 
 export default class GuessResponse {
     public readonly monsterCode: string;

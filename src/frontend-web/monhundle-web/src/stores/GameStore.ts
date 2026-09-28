@@ -1,6 +1,5 @@
-import { GameStates } from '@/domain/ApiModels';
+import { GameStates, type Guess } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
-import type Guess from '@/domain/Guess';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
