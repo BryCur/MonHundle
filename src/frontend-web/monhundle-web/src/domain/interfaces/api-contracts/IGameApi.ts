@@ -1,5 +1,5 @@
 import type GameStatus from '@/domain/GameStatus';
-import type GuessResponse from '@/domain/responses/GuessResponse';
+import type { GuessResponse } from '@/domain/ApiModels';
 
 export default interface IGameApi {
     newGame: () => Promise<string>; // return game ID

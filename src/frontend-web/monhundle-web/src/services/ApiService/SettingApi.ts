@@ -1,6 +1,5 @@
 import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
-import type { UserSettingsBody } from '@/domain/requestBodies/UserSettingsBody';
-import type SettingsResponse from '@/domain/responses/SettingsResponse';
+import type { SettingsResponse, UserSettingsBody } from '@/domain/ApiModels';
 import { isUUID } from '@/domain/Utils';
 import { apiFetch } from '@/services/ApiService/ApiBaseAccess';
 import { setStoredUserId } from '@/services/LocalStorageService';

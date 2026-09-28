@@ -1,4 +1,10 @@
-import { ComparisonOutcomes, type GameModes, GameStates, type Guess } from '@/domain/ApiModels';
+import {
+    ComparisonOutcomes,
+    type GameModes,
+    type GameStateResponse,
+    GameStates,
+    type Guess,
+} from '@/domain/ApiModels';
 
 export default class GameStatus {
     public readonly gameId: string;
@@ -16,6 +22,11 @@ export default class GameStatus {
         this.guesses = guesses;
         this.state = state;
         this.gameMode = gameMode;
+    }
+
+    /** Builds the game from the backend's game state payload. */
+    public static fromResponse(response: GameStateResponse): GameStatus {
+        return new GameStatus(response.gameId, response.gameMode, response.guesses, response.state);
     }
 
     public addGuess(guess: Guess) {
