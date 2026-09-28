@@ -16,11 +16,9 @@ import { DailyGameApi } from '@/services/ApiService/DailyGameApi';
 import { DailyGameService } from '@/services/DailyGameService';
 import { useGameStore } from '@/stores/GameStore';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes } from '@/domain/enums/GameModes';
-import { GameStates } from '@/domain/enums/GameStates';
+import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
-import type { MakeGuessBody } from '@/domain/generated/request-params/MakeGuessBody';
 
 describe('DailyGameService — starting a game (integration)', () => {
     beforeEach(() => {

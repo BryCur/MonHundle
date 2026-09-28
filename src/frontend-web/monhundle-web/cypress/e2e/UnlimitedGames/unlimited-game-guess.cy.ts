@@ -1,4 +1,5 @@
-import { buildGuessResponse, ComparisonResults, GameStates } from '@cypress-support/testData';
+import { buildGuessResponse } from '@cypress-support/testData';
+import { ComparisonOutcomes, GameStates } from '@/domain/ApiModels';
 
 // Ensure an ongoing game can make guesses. And guesses are correctly added to the table
 describe('Making a guess in an unlimited game', () => {
@@ -8,12 +9,12 @@ describe('Making a guess in an unlimited game', () => {
         cy.intercept('POST', '**/game/unlimited/guess', {
             statusCode: 200,
             body: buildGuessResponse('diablos', GameStates.Ongoing, {
-                classification: ComparisonResults.Incorrect,
-                generation: ComparisonResults.Higher,
-                weaknesses: ComparisonResults.Partial,
-                afflictions: ComparisonResults.Incorrect,
-                threatLevel: ComparisonResults.Lower,
-                habitats: ComparisonResults.Correct,
+                classification: ComparisonOutcomes.Incorrect,
+                generation: ComparisonOutcomes.Higher,
+                weaknesses: ComparisonOutcomes.Partial,
+                afflictions: ComparisonOutcomes.Incorrect,
+                threatLevel: ComparisonOutcomes.Lower,
+                habitats: ComparisonOutcomes.Correct,
             }),
         }).as('makeGuess');
 

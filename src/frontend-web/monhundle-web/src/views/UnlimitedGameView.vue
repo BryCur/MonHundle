@@ -5,13 +5,12 @@ import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
 import type { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import type ResourceApi from '@/services/ApiService/ResourceApi';
-import { GameStates } from '@/domain/enums/GameStates';
+import { GameStates, GameModes } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '@/router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { GameModes } from '@/domain/enums/GameModes.ts';
 
 const { t } = useI18n();
 const gameStore = useGameStore();

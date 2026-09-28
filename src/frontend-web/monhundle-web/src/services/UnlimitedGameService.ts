@@ -1,9 +1,8 @@
 import GameStatus from '@/domain/GameStatus';
-import type Guess from '@/domain/Guess';
 import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 import { type GameStore } from '@/stores/GameStore';
 import { CookieKeys, setCookie } from '@/services/CookieService';
-import { GameModes } from '@/domain/enums/GameModes';
+import { GameModes, type Guess } from '@/domain/ApiModels';
 
 export class UnlimitedGameService {
     private readonly gameApi: IGameApi;

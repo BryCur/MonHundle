@@ -1,4 +1,5 @@
-import { buildGuessResponse, FAKE_GAME_ID, GameModes, GameStates } from '@cypress-support/testData';
+import { buildGuessResponse, FAKE_GAME_ID } from '@cypress-support/testData';
+import { GameModes, GameStates } from '@/domain/ApiModels';
 
 function winTheGame() {
     cy.startUnlimitedGame();

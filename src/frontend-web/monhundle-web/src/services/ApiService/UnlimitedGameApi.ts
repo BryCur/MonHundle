@@ -1,7 +1,7 @@
 import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 
 import { apiFetch } from './ApiBaseAccess';
-import type GuessResponse from '@/domain/responses/GuessResponse';
+import type { GameStateResponse, GuessResponse, MakeGuessBody } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
 
 export class UnlimitedGameApi implements IGameApi {
@@ -13,7 +13,7 @@ export class UnlimitedGameApi implements IGameApi {
     }
 
     public async makeGuess(gameId: string, monsterCode: string): Promise<GuessResponse> {
-        const guessRequestBody = { gameId: gameId, guessId: monsterCode };
+        const guessRequestBody: MakeGuessBody = { gameId: gameId, guessId: monsterCode };
         const guessResponse = await apiFetch('/game/unlimited/guess', {
             method: 'POST',
             body: JSON.stringify(guessRequestBody),
@@ -27,8 +27,7 @@ export class UnlimitedGameApi implements IGameApi {
             method: 'GET',
         });
         if (response.ok) {
-            const resp = (await response.json()) as GameStatus;
-            return new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
+            return GameStatus.fromResponse((await response.json()) as GameStateResponse);
         }
 
         return null;

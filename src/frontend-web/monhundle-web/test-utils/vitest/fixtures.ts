@@ -1,7 +1,9 @@
-import { GameModes } from '@/domain/enums/GameModes';
-import { GameStates } from '@/domain/enums/GameStates';
-import type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse';
-import type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse';
+import {
+    GameModes,
+    GameStates,
+    type GameStateResponse,
+    type GuessResponse,
+} from '@/domain/ApiModels';
 
 // --- Player / user identity ---
 export const VALID_UUID = '11111111-1111-1111-1111-111111111111';
@@ -29,6 +31,22 @@ export const SAMPLE_GAME_TITLES = [GAME_TITLE_MHW, GAME_TITLE_MHR];
 export function buildGuessResponse(overrides: Partial<GuessResponse> = {}): GuessResponse {
     return {
         monsterCode: MONSTER_CODE_RATHALOS,
+        criterias: {
+            generation: 1,
+            threatLevel: 1,
+            classification: 0,
+            weaknesses: [],
+            afflictions: [],
+            habitats: [],
+        },
+        comparisonResult: {
+            generation: 0,
+            threatLevel: 0,
+            classification: 0,
+            weaknesses: 0,
+            afflictions: 0,
+            habitats: 0,
+        },
         gameStateAfterGuess: GameStates.Ongoing,
         ...overrides,
     };

@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes } from '@/domain/enums/GameModes';
-import { ComparisonResults } from '@/domain/enums/ComparisonResults';
-import type Guess from '@/domain/Guess';
+import { GameModes, ComparisonOutcomes, type Guess } from '@/domain/ApiModels';
 
-function guessWithResults(comparisonResult: Record<string, ComparisonResults>): Guess {
+function guessWithResults(comparisonResult: Record<string, ComparisonOutcomes>): Guess {
     return { monsterCode: 'rathalos', criterias: {}, comparisonResult } as unknown as Guess;
 }
 
@@ -22,12 +20,12 @@ describe('GameStatus', () => {
         it('maps each comparison result to its emoji, in criterion order, one line per guess', () => {
             const game = new GameStatus('abc', GameModes.Unlimited, [
                 guessWithResults({
-                    classification: ComparisonResults.Correct,
-                    generation: ComparisonResults.Incorrect,
-                    weaknesses: ComparisonResults.Higher,
-                    afflictions: ComparisonResults.Lower,
-                    threatLevel: ComparisonResults.Partial,
-                    habitats: ComparisonResults.Correct,
+                    classification: ComparisonOutcomes.Correct,
+                    generation: ComparisonOutcomes.Incorrect,
+                    weaknesses: ComparisonOutcomes.Higher,
+                    afflictions: ComparisonOutcomes.Lower,
+                    threatLevel: ComparisonOutcomes.Partial,
+                    habitats: ComparisonOutcomes.Correct,
                 }),
             ]);
 
@@ -37,12 +35,12 @@ describe('GameStatus', () => {
 
         it('produces one line per guess', () => {
             const allCorrect = {
-                classification: ComparisonResults.Correct,
-                generation: ComparisonResults.Correct,
-                weaknesses: ComparisonResults.Correct,
-                afflictions: ComparisonResults.Correct,
-                threatLevel: ComparisonResults.Correct,
-                habitats: ComparisonResults.Correct,
+                classification: ComparisonOutcomes.Correct,
+                generation: ComparisonOutcomes.Correct,
+                weaknesses: ComparisonOutcomes.Correct,
+                afflictions: ComparisonOutcomes.Correct,
+                threatLevel: ComparisonOutcomes.Correct,
+                habitats: ComparisonOutcomes.Correct,
             };
             const game = new GameStatus('abc', GameModes.Unlimited, [
                 guessWithResults(allCorrect),

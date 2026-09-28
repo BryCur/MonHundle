@@ -1,4 +1,15 @@
 /**
  * AUTO-GENERATED from the backend OpenAPI contract. Do not edit by hand.
  */
-export type Weaknesses = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export enum Weaknesses {
+    Fire = 0,
+    Ice = 1,
+    Thunder = 2,
+    Water = 3,
+    Dragon = 4,
+    Paralysis = 5,
+    Sleep = 6,
+    Poison = 7,
+    Blast = 8,
+    Stun = 9,
+}

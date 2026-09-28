@@ -1,4 +1,5 @@
-import { buildGuessResponse, GameStates } from '@cypress-support/testData';
+import { buildGuessResponse } from '@cypress-support/testData';
+import { GameStates } from '@/domain/ApiModels';
 
 function winTheDailyChallenge() {
     cy.startDailyGame();

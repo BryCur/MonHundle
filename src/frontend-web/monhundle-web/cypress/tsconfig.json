@@ -9,7 +9,8 @@
         // Cypress' bundled tsconfig-paths plugin ignores `paths` unless a `baseUrl` is set.
         "baseUrl": ".",
         "paths": {
-            "@cypress-support/*": ["./support/*"]
+            "@cypress-support/*": ["./support/*"],
+            "@/*": ["../src/*"]
         }
     }
 }

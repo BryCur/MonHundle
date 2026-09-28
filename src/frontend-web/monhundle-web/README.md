@@ -34,13 +34,36 @@ Request/response types are **generated from the backend's OpenAPI contract**, no
 
 The backend exports its contract automatically on every build (`core-api/openapi/core-api_public.json`, see `core-api.csproj` — `AdminController` endpoints are excluded, since the frontend never calls them). `scripts/generate-api-models.ts` reads that file and writes **one `.ts` file per DTO/enum**, organized by how it's actually used in `paths`:
 
-- `enum/` — enums (backend `int` enums, rendered as numeric union types)
+- `enum/` — enums, as real TypeScript `enum`s (e.g. `GameStates.Ongoing`), plus `enumNames.ts`, a registry of their names (see [Enum names and translations](#enum-names-and-translations))
 - `request-params/` — request bodies/params (e.g. `MakeGuessBody`)
 - `response/objects/` — success response shapes (e.g. `GuessResponse`)
 - `response/errors/` — error response shapes (e.g. `ProblemDetails`)
 - `models/` — everything else: a DTO nested inside another one (like `MonsterCriteriaDTO`, only ever a field of `GuessResponse`) or, in the future, one genuinely used on both the request and response side
 
 These files **are committed** — they're what you actually open and read (e.g. `src/domain/generated/response/objects/GuessResponse.ts`), not a build artifact, so a contract change shows up in the diff of a PR like any other code change.
+
+### What the backend adds to the contract
+
+By default, Swashbuckle's contract loses two things the C# types know. The backend restores them (`core-api/Program.cs` and the filters in `core-api/Swagger/`), and the generated types depend on it:
+
+- **Required and nullable fields** — every property is marked `required` (System.Text.Json always writes them all), and `nullable` only when the C# type is (`string?`). A C# `string` becomes `field: string`, a `string?` becomes `field: string | null`. Properties that can be left out of the payload (`[JsonIgnore(Condition = WhenWritingNull)]`, as on `ProblemDetails`) stay optional.
+- **Enum member names** — enums travel as numbers, so their names are added under `x-enum-varnames`. Without them, the generator could only produce `type GameStates = 0 | 1 | 2 | 3`.
+
+### Using the generated types: `src/domain/ApiModels.ts`
+
+The rest of the app **never imports from `src/domain/generated/` directly** — an ESLint rule (`no-restricted-imports` in `eslint.config.ts`) enforces it. It imports from `src/domain/ApiModels.ts` instead, which re-exports the generated types, under front-end names where they differ:
+
+```ts
+import { GameStates, type Guess, type SettingsResponse } from '@/domain/ApiModels';
+```
+
+- `Guess`, `Criterias`, `ComparisonResult`, `SettingsResponse` and `UserSettingsBody` are aliases of `MonsterGuessDTO`, `MonsterCriteriaDTO`, `MonsterComparisonResult`, `PlayerProfileResponse` and `UserPreferencesBody`.
+- A newly generated type isn't available to the app until it's added there.
+- Types that carry front-end behavior stay classes of their own and are built from the payloads, e.g. `GameStatus.fromResponse(gameStateResponse)`.
+
+### Enum names and translations
+
+Translation keys are built from enum names, e.g. `(Weaknesses, 0)` → `game.criteria.weaknesses.fire`. The member name comes from the enum itself (`Weaknesses[0] === 'Fire'`), but an enum doesn't know its own name at runtime, and a value alone (`0`) can't tell which enum it belongs to. The generator therefore writes `enum/enumNames.ts`, mapping each enum object to its name; `getEnumName()` in `src/domain/EnumUtils.ts` reads it. Any enum added on the backend is registered automatically — its translations go under `game.criteria.<enum name in lowercase>` in `src/locales/*.json`.
 
 **Regenerating manually**, inside the `frontend` container:
 

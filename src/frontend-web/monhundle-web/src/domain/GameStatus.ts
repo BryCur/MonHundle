@@ -1,7 +1,10 @@
-import { ComparisonResults } from './enums/ComparisonResults';
-import type { GameModes } from './enums/GameModes';
-import { GameStates } from './enums/GameStates';
-import type Guess from './Guess';
+import {
+    ComparisonOutcomes,
+    type GameModes,
+    type GameStateResponse,
+    GameStates,
+    type Guess,
+} from '@/domain/ApiModels';
 
 export default class GameStatus {
     public readonly gameId: string;
@@ -19,6 +22,11 @@ export default class GameStatus {
         this.guesses = guesses;
         this.state = state;
         this.gameMode = gameMode;
+    }
+
+    /** Builds the game from the backend's game state payload. */
+    public static fromResponse(response: GameStateResponse): GameStatus {
+        return new GameStatus(response.gameId, response.gameMode, response.guesses, response.state);
     }
 
     public addGuess(guess: Guess) {
@@ -41,17 +49,17 @@ export default class GameStatus {
         return guessesString;
     }
 
-    private getStringForResult(result: ComparisonResults): string {
+    private getStringForResult(result: ComparisonOutcomes): string {
         switch (result) {
-            case ComparisonResults.Correct:
+            case ComparisonOutcomes.Correct:
                 return '🟩';
-            case ComparisonResults.Incorrect:
+            case ComparisonOutcomes.Incorrect:
                 return '🟥';
-            case ComparisonResults.Higher:
+            case ComparisonOutcomes.Higher:
                 return '🔺';
-            case ComparisonResults.Lower:
+            case ComparisonOutcomes.Lower:
                 return '🔻';
-            case ComparisonResults.Partial:
+            case ComparisonOutcomes.Partial:
                 return '🟨';
         }
     }

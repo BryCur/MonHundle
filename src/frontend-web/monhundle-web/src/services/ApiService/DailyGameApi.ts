@@ -1,10 +1,9 @@
 import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 
 import { apiFetch } from './ApiBaseAccess';
-import type GuessResponse from '@/domain/responses/GuessResponse';
+import type { GameStateResponse, GuessResponse, MakeGuessBody } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
 import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExistsError';
-import type GameStateResponse from '@/domain/responses/GameStateResponse';
 
 export class DailyGameApi implements IGameApi {
     constructor() {}
@@ -25,7 +24,7 @@ export class DailyGameApi implements IGameApi {
     }
 
     public async makeGuess(gameId: string, monsterCode: string): Promise<GuessResponse> {
-        const guessRequestBody = { gameId: gameId, guessId: monsterCode };
+        const guessRequestBody: MakeGuessBody = { gameId: gameId, guessId: monsterCode };
         const guessResponse = await apiFetch('/game/daily/guess', {
             method: 'POST',
             body: JSON.stringify(guessRequestBody),
@@ -39,8 +38,7 @@ export class DailyGameApi implements IGameApi {
             method: 'GET',
         });
         if (response.ok) {
-            const resp = (await response.json()) as GameStateResponse;
-            return new GameStatus(resp.gameId, resp.gameMode, resp.guesses, resp.state);
+            return GameStatus.fromResponse((await response.json()) as GameStateResponse);
         }
 
         return null;

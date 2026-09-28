@@ -2,18 +2,14 @@ import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
 
-const { pushMock, apiFetchMock } = vi.hoisted(() => ({
+const { pushMock } = vi.hoisted(() => ({
     pushMock: vi.fn(),
-    apiFetchMock: vi.fn(),
 }));
 
 vi.mock('vue-router', async (importOriginal) => {
     const actual = await importOriginal<typeof import('vue-router')>();
     return { ...actual, useRouter: () => ({ push: pushMock }) };
 });
-vi.mock('@/services/ApiService/ApiBaseAccess', () => ({
-    apiFetch: apiFetchMock,
-}));
 
 import SelectGamesView from '@/views/SelectGamesView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
@@ -30,8 +26,10 @@ const i18n = createI18n({
 const GAMES = ['MHW', 'MHR', 'MHWilds'];
 
 async function mountView() {
-    apiFetchMock.mockResolvedValue({ json: async () => GAMES });
-    const wrapper = mount(SelectGamesView, { global: { plugins: [i18n] } });
+    const resourceApi = { getGameTitles: vi.fn().mockResolvedValue(GAMES) };
+    const wrapper = mount(SelectGamesView, {
+        global: { plugins: [i18n], provide: { resourceApi } },
+    });
     await flushPromises();
     return wrapper;
 }
