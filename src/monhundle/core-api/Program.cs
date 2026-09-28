@@ -1,5 +1,6 @@
 using core_api.Filters;
 using core_api.Middlewares;
+using core_api.Swagger;
 using MonHundle.database;
 using MonHundle.domain.Interfaces.Services;
 using MonHundle.domain.Services;
@@ -43,6 +44,13 @@ public class Program
             options.SwaggerDoc("public", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "core-api (public)", Version = "v1" });
             options.DocInclusionPredicate((docName, apiDesc) =>
                 docName == "v1" || apiDesc.GroupName != "admin");
+
+            // Describe the payloads as precisely as the C# types do, for the generated frontend models:
+            // non-nullable reference types are not marked nullable, every property is required, and
+            // enums carry their member names.
+            options.SupportNonNullableReferenceTypes();
+            options.SchemaFilter<RequireAllPropertiesSchemaFilter>();
+            options.SchemaFilter<EnumNamesSchemaFilter>();
         });
         builder.Services.AddControllers();
 

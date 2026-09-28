@@ -29,6 +29,22 @@ export const SAMPLE_GAME_TITLES = [GAME_TITLE_MHW, GAME_TITLE_MHR];
 export function buildGuessResponse(overrides: Partial<GuessResponse> = {}): GuessResponse {
     return {
         monsterCode: MONSTER_CODE_RATHALOS,
+        criterias: {
+            generation: 1,
+            threatLevel: 1,
+            classification: 0,
+            weaknesses: [],
+            afflictions: [],
+            habitats: [],
+        },
+        comparisonResult: {
+            generation: 0,
+            threatLevel: 0,
+            classification: 0,
+            weaknesses: 0,
+            afflictions: 0,
+            habitats: 0,
+        },
         gameStateAfterGuess: GameStates.Ongoing,
         ...overrides,
     };
