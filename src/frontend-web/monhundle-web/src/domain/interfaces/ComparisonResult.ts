@@ -1,10 +1,10 @@
-import type { ComparisonResults } from '@/domain/enums/ComparisonResults';
+import type { ComparisonOutcomes } from '@/domain/ApiModels';
 
 export interface ComparisonResult {
-    generation: ComparisonResults;
-    threatLevel: ComparisonResults;
-    classification: ComparisonResults;
-    weaknesses: ComparisonResults;
-    afflictions: ComparisonResults;
-    habitats: ComparisonResults;
+    generation: ComparisonOutcomes;
+    threatLevel: ComparisonOutcomes;
+    classification: ComparisonOutcomes;
+    weaknesses: ComparisonOutcomes;
+    afflictions: ComparisonOutcomes;
+    habitats: ComparisonOutcomes;
 }

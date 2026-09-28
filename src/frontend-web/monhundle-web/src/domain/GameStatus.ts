@@ -1,6 +1,4 @@
-import { ComparisonResults } from './enums/ComparisonResults';
-import type { GameModes } from './enums/GameModes';
-import { GameStates } from './enums/GameStates';
+import { ComparisonOutcomes, type GameModes, GameStates } from '@/domain/ApiModels';
 import type Guess from './Guess';
 
 export default class GameStatus {
@@ -41,17 +39,17 @@ export default class GameStatus {
         return guessesString;
     }
 
-    private getStringForResult(result: ComparisonResults): string {
+    private getStringForResult(result: ComparisonOutcomes): string {
         switch (result) {
-            case ComparisonResults.Correct:
+            case ComparisonOutcomes.Correct:
                 return '🟩';
-            case ComparisonResults.Incorrect:
+            case ComparisonOutcomes.Incorrect:
                 return '🟥';
-            case ComparisonResults.Higher:
+            case ComparisonOutcomes.Higher:
                 return '🔺';
-            case ComparisonResults.Lower:
+            case ComparisonOutcomes.Lower:
                 return '🔻';
-            case ComparisonResults.Partial:
+            case ComparisonOutcomes.Partial:
                 return '🟨';
         }
     }

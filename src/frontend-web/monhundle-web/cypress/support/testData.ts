@@ -6,8 +6,8 @@ export const FAKE_GAME_ID = 'demo-game-id';
 export const DEFAULT_GAME_TITLES = ['MHWilds', 'MHR'];
 export const DEFAULT_MONSTERS = ['rathalos', 'diablos'];
 
-// mirrors ComparisonResults: Incorrect, Partial, Correct, Higher, Lower
-export const ComparisonResults = {
+// mirrors ComparisonOutcomes: Incorrect, Partial, Correct, Higher, Lower
+export const ComparisonOutcomes = {
     Incorrect: 0,
     Partial: 1,
     Correct: 2,
@@ -15,11 +15,11 @@ export const ComparisonResults = {
     Lower: 4,
 } as const;
 
-// mirrors GameStates: Ongoing, Win, Loss, Forfeited
+// mirrors GameStates: Ongoing, Win, Lose, Forfeited
 export const GameStates = {
     Ongoing: 0,
     Win: 1,
-    Loss: 2,
+    Lose: 2,
     Forfeited: 3,
 } as const;
 
@@ -54,12 +54,12 @@ export function buildGuessResponse(
             habitats: [],
         },
         comparisonResult: {
-            generation: ComparisonResults.Incorrect,
-            threatLevel: ComparisonResults.Incorrect,
-            classification: ComparisonResults.Incorrect,
-            weaknesses: ComparisonResults.Incorrect,
-            afflictions: ComparisonResults.Incorrect,
-            habitats: ComparisonResults.Incorrect,
+            generation: ComparisonOutcomes.Incorrect,
+            threatLevel: ComparisonOutcomes.Incorrect,
+            classification: ComparisonOutcomes.Incorrect,
+            weaknesses: ComparisonOutcomes.Incorrect,
+            afflictions: ComparisonOutcomes.Incorrect,
+            habitats: ComparisonOutcomes.Incorrect,
             ...comparisonResult,
         },
         gameStateAfterGuess,

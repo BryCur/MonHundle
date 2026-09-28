@@ -1,5 +1,4 @@
-import type { GameModes } from '@/domain/enums/GameModes';
-import type { GameStates } from '@/domain/enums/GameStates';
+import type { GameModes, GameStates } from '@/domain/ApiModels';
 import type Guess from '@/domain/Guess';
 
 export default class GameStateResponse {

@@ -1,10 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useGameStore } from '@/stores/GameStore';
-import { GameStates } from '@/domain/enums/GameStates';
+import { GameStates, GameModes } from '@/domain/ApiModels';
 import type Guess from '@/domain/Guess';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes } from '@/domain/enums/GameModes';
 
 describe('GameStore', () => {
     beforeEach(() => {
@@ -58,7 +57,7 @@ describe('GameStore', () => {
         expect(store.isGameOngoing()).toBeTruthy();
         store.setState(GameStates.Win);
         expect(store.isGameOngoing()).toBeFalsy();
-        store.setState(GameStates.Loss);
+        store.setState(GameStates.Lose);
         expect(store.isGameOngoing()).toBeFalsy();
         store.setState(GameStates.Forfeited);
         expect(store.isGameOngoing()).toBeFalsy();

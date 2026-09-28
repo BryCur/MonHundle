@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import '@/assets/icons.css';
 import { useI18n } from 'vue-i18n';
-import { ComparisonResults } from '@/domain/enums/ComparisonResults';
-import { Afflictions } from '@/domain/enums/Criterias/Afflictions';
-import { Weaknesses } from '@/domain/enums/Criterias/Weaknesses';
-import { Classifications } from '@/domain/enums/Criterias/Classifications';
-import { Biomes } from '@/domain/enums/Criterias/Biomes';
-import { enumValueToKeyLower, type NamedEnum } from '@/domain/enums/EnumUtils';
+import {
+    ComparisonOutcomes,
+    Afflictions,
+    Weaknesses,
+    Classifications,
+    Habitats,
+} from '@/domain/ApiModels';
+import { enumValueToKeyLower, getEnumName, type NumericEnum } from '@/domain/enums/EnumUtils';
 import type Guess from '@/domain/Guess';
 import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
@@ -15,11 +17,11 @@ const { t } = useI18n();
 const model = defineModel<Guess[]>();
 const props = defineProps({ accessibilityEnabled: Boolean });
 
-function getComparisonResultsClass(val: ComparisonResults): string {
-    let classes = `result-${ComparisonResults[val].toLowerCase()}`;
+function getComparisonOutcomeClass(val: ComparisonOutcomes): string {
+    let classes = `result-${ComparisonOutcomes[val].toLowerCase()}`;
 
     if (props.accessibilityEnabled) {
-        classes += ` accessibility-${ComparisonResults[val].toLowerCase()} accessibility-on`;
+        classes += ` accessibility-${ComparisonOutcomes[val].toLowerCase()} accessibility-on`;
     }
 
     return classes;
@@ -28,8 +30,8 @@ function getComparisonResultsClass(val: ComparisonResults): string {
 // Not wired yet: builds the screen reader label of a result cell, for upcoming accessibility work.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getResultAriaTranslation(
-    result: ComparisonResults,
-    criteria: NamedEnum,
+    result: ComparisonOutcomes,
+    criteria: NumericEnum,
     value: number | number[],
 ) {
     let translatedValue: string;
@@ -37,24 +39,25 @@ function getResultAriaTranslation(
         translatedValue = enumValueToKeyLower(criteria, value) ?? '';
     } else {
         const keyArray: string[] = value.map((v) => enumValueToKeyLower(criteria, v) ?? '');
-        const enumname: string = criteria.enumName;
+        const enumname: string = getEnumName(criteria) ?? '';
 
         translatedValue = keyArray
             .map((k) => t(`game.criteria.${enumname.toLowerCase()}.${k}`))
             .join(', ');
     }
 
-    return t(`accessibility.result.${ComparisonResults[result].toLocaleLowerCase()}`, {
+    return t(`accessibility.result.${ComparisonOutcomes[result].toLocaleLowerCase()}`, {
         value: translatedValue,
     });
 }
 
-function getEnumTranslationKey(enumType: NamedEnum, enumVal: number): string {
-    if (!enumType.enumName) {
+function getEnumTranslationKey(enumType: NumericEnum, enumVal: number): string {
+    const enumName = getEnumName(enumType);
+    if (!enumName) {
         return '';
     }
 
-    return `game.criteria.${enumType.enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
+    return `game.criteria.${enumName.toLowerCase()}.${enumValueToKeyLower(enumType, enumVal)}`;
 }
 
 function getA11yClasses(): string {
@@ -73,7 +76,7 @@ const hasGuesses = computed<boolean>(() => {
                 <div class="guess-table-monster-cell"></div>
                 <div
                     class="guess-table-cell"
-                    :class="getComparisonResultsClass(ComparisonResults.Higher)"
+                    :class="getComparisonOutcomeClass(ComparisonOutcomes.Higher)"
                 >
                     <span class="guess-table-cell-content">{{
                         t('ui.game.rules.general.higher')
@@ -81,7 +84,7 @@ const hasGuesses = computed<boolean>(() => {
                 </div>
                 <div
                     class="guess-table-cell"
-                    :class="getComparisonResultsClass(ComparisonResults.Lower)"
+                    :class="getComparisonOutcomeClass(ComparisonOutcomes.Lower)"
                 >
                     <span class="guess-table-cell-content">{{
                         t('ui.game.rules.general.lower')
@@ -89,7 +92,7 @@ const hasGuesses = computed<boolean>(() => {
                 </div>
                 <div
                     class="guess-table-cell"
-                    :class="getComparisonResultsClass(ComparisonResults.Incorrect)"
+                    :class="getComparisonOutcomeClass(ComparisonOutcomes.Incorrect)"
                 >
                     <span class="guess-table-cell-content">{{
                         t('ui.game.rules.general.incorrect')
@@ -97,7 +100,7 @@ const hasGuesses = computed<boolean>(() => {
                 </div>
                 <div
                     class="guess-table-cell"
-                    :class="getComparisonResultsClass(ComparisonResults.Partial)"
+                    :class="getComparisonOutcomeClass(ComparisonOutcomes.Partial)"
                 >
                     <span class="guess-table-cell-content">{{
                         t('ui.game.rules.general.partial')
@@ -105,7 +108,7 @@ const hasGuesses = computed<boolean>(() => {
                 </div>
                 <div
                     class="guess-table-cell"
-                    :class="getComparisonResultsClass(ComparisonResults.Correct)"
+                    :class="getComparisonOutcomeClass(ComparisonOutcomes.Correct)"
                 >
                     <span class="guess-table-cell-content">{{
                         t('ui.game.rules.general.correct')
@@ -170,7 +173,7 @@ const hasGuesses = computed<boolean>(() => {
                     </span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.classification)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.classification)"
                     class="guess-table-cell"
                     role="cell"
                 >
@@ -179,14 +182,14 @@ const hasGuesses = computed<boolean>(() => {
                     }}</span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.generation)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.generation)"
                     class="guess-table-cell"
                     role="cell"
                 >
                     <span class="guess-table-cell-content">{{ guess.criterias.generation }} </span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.weaknesses)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.weaknesses)"
                     class="guess-table-cell"
                     role="cell"
                 >
@@ -210,7 +213,7 @@ const hasGuesses = computed<boolean>(() => {
                     </span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.afflictions)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.afflictions)"
                     class="guess-table-cell"
                     role="cell"
                 >
@@ -234,14 +237,14 @@ const hasGuesses = computed<boolean>(() => {
                     </span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.threatLevel)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.threatLevel)"
                     class="guess-table-cell"
                     role="cell"
                 >
                     <span class="guess-table-cell-content">{{ guess.criterias.threatLevel }} </span>
                 </div>
                 <div
-                    :class="getComparisonResultsClass(guess.comparisonResult.habitats)"
+                    :class="getComparisonOutcomeClass(guess.comparisonResult.habitats)"
                     class="guess-table-cell"
                     role="cell"
                 >
@@ -249,7 +252,7 @@ const hasGuesses = computed<boolean>(() => {
                         >{{
                             guess.criterias.habitats.length > 0
                                 ? guess.criterias.habitats
-                                      .map((a) => t(getEnumTranslationKey(Biomes, a)))
+                                      .map((a) => t(getEnumTranslationKey(Habitats, a)))
                                       .join(', ')
                                 : '-'
                         }}

@@ -32,7 +32,7 @@
                 "water": "Water",
                 "webbed": "Webbed"
             },
-            "biomes": {
+            "habitats": {
                 "aquatic": "Aquatic",
                 "cave": "Cave",
                 "desert": "Desert",

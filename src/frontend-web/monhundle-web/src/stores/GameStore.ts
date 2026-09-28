@@ -1,4 +1,4 @@
-import { GameStates } from '@/domain/enums/GameStates';
+import { GameStates } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
 import type Guess from '@/domain/Guess';
 import { defineStore } from 'pinia';

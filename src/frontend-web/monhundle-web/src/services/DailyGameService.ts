@@ -4,7 +4,7 @@ import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 import { type GameStore } from '@/stores/GameStore';
 import { CookieKeys, setCookie } from '@/services/CookieService';
 import { msUntilMidnightUTC } from '@/domain/Utils';
-import { GameModes } from '@/domain/enums/GameModes';
+import { GameModes } from '@/domain/ApiModels';
 import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExistsError';
 
 export class DailyGameService {

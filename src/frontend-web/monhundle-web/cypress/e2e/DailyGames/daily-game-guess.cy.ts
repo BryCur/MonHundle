@@ -1,4 +1,4 @@
-import { buildGuessResponse, ComparisonResults, GameStates } from '@cypress-support/testData';
+import { buildGuessResponse, ComparisonOutcomes, GameStates } from '@cypress-support/testData';
 
 describe('Making a guess in the daily challenge', () => {
     it('adds the guess to the table with the result of each criterion', () => {
@@ -7,12 +7,12 @@ describe('Making a guess in the daily challenge', () => {
         cy.intercept('POST', '**/game/daily/guess', {
             statusCode: 200,
             body: buildGuessResponse('diablos', GameStates.Ongoing, {
-                classification: ComparisonResults.Correct,
-                generation: ComparisonResults.Lower,
-                weaknesses: ComparisonResults.Incorrect,
-                afflictions: ComparisonResults.Partial,
-                threatLevel: ComparisonResults.Higher,
-                habitats: ComparisonResults.Incorrect,
+                classification: ComparisonOutcomes.Correct,
+                generation: ComparisonOutcomes.Lower,
+                weaknesses: ComparisonOutcomes.Incorrect,
+                afflictions: ComparisonOutcomes.Partial,
+                threatLevel: ComparisonOutcomes.Higher,
+                habitats: ComparisonOutcomes.Incorrect,
             }),
         }).as('makeGuess');
 

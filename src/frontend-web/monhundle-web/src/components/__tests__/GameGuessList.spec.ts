@@ -9,11 +9,13 @@ vi.mock('vue-i18n', () => ({
 }));
 
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
-import { ComparisonResults } from '@/domain/enums/ComparisonResults';
-import { Weaknesses } from '@/domain/enums/Criterias/Weaknesses';
-import { Afflictions } from '@/domain/enums/Criterias/Afflictions';
-import { Biomes } from '@/domain/enums/Criterias/Biomes';
-import { Classifications } from '@/domain/enums/Criterias/Classifications';
+import {
+    ComparisonOutcomes,
+    Weaknesses,
+    Afflictions,
+    Habitats,
+    Classifications,
+} from '@/domain/ApiModels';
 import type Guess from '@/domain/Guess';
 
 const sampleGuesses = [
@@ -25,15 +27,15 @@ const sampleGuesses = [
             classification: Classifications.FlyingWyvern,
             weaknesses: [Weaknesses.Dragon, Weaknesses.Thunder],
             afflictions: [Afflictions.Poison, Afflictions.Fire],
-            habitats: [Biomes.Forest, Biomes.Volcano],
+            habitats: [Habitats.Forest, Habitats.Volcano],
         },
         comparisonResult: {
-            generation: ComparisonResults.Correct,
-            threatLevel: ComparisonResults.Higher,
-            classification: ComparisonResults.Correct,
-            weaknesses: ComparisonResults.Partial,
-            afflictions: ComparisonResults.Correct,
-            habitats: ComparisonResults.Incorrect,
+            generation: ComparisonOutcomes.Correct,
+            threatLevel: ComparisonOutcomes.Higher,
+            classification: ComparisonOutcomes.Correct,
+            weaknesses: ComparisonOutcomes.Partial,
+            afflictions: ComparisonOutcomes.Correct,
+            habitats: ComparisonOutcomes.Incorrect,
         },
     },
     {
@@ -44,15 +46,15 @@ const sampleGuesses = [
             classification: Classifications.FlyingWyvern,
             weaknesses: [Weaknesses.Fire, Weaknesses.Thunder],
             afflictions: [],
-            habitats: [Biomes.Forest],
+            habitats: [Habitats.Forest],
         },
         comparisonResult: {
-            generation: ComparisonResults.Correct,
-            threatLevel: ComparisonResults.Lower,
-            classification: ComparisonResults.Correct,
-            weaknesses: ComparisonResults.Partial,
-            afflictions: ComparisonResults.Correct,
-            habitats: ComparisonResults.Incorrect,
+            generation: ComparisonOutcomes.Correct,
+            threatLevel: ComparisonOutcomes.Lower,
+            classification: ComparisonOutcomes.Correct,
+            weaknesses: ComparisonOutcomes.Partial,
+            afflictions: ComparisonOutcomes.Correct,
+            habitats: ComparisonOutcomes.Incorrect,
         },
     },
 ] as Guess[];
@@ -67,15 +69,15 @@ const guessWithDistinctResults = {
         classification: Classifications.FlyingWyvern,
         weaknesses: [Weaknesses.Dragon],
         afflictions: [Afflictions.Fire],
-        habitats: [Biomes.Volcano],
+        habitats: [Habitats.Volcano],
     },
     comparisonResult: {
-        classification: ComparisonResults.Correct,
-        generation: ComparisonResults.Higher,
-        weaknesses: ComparisonResults.Partial,
-        afflictions: ComparisonResults.Incorrect,
-        threatLevel: ComparisonResults.Lower,
-        habitats: ComparisonResults.Correct,
+        classification: ComparisonOutcomes.Correct,
+        generation: ComparisonOutcomes.Higher,
+        weaknesses: ComparisonOutcomes.Partial,
+        afflictions: ComparisonOutcomes.Incorrect,
+        threatLevel: ComparisonOutcomes.Lower,
+        habitats: ComparisonOutcomes.Correct,
     },
 } as Guess;
 
@@ -228,7 +230,7 @@ describe('GameGuessList', () => {
             ...guessWithDistinctResults,
             criterias: {
                 ...guessWithDistinctResults.criterias,
-                habitats: [Biomes.Volcano, Biomes.Forest],
+                habitats: [Habitats.Volcano, Habitats.Forest],
             },
         } as Guess;
 
@@ -239,7 +241,7 @@ describe('GameGuessList', () => {
         });
 
         expect(getFirstRowDataCells(wrapper)[6]!.text()).toBe(
-            'game.criteria.biomes.volcano, game.criteria.biomes.forest',
+            'game.criteria.habitats.volcano, game.criteria.habitats.forest',
         );
     });
 });

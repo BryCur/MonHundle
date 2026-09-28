@@ -1,4 +1,4 @@
-import type { GameStates } from '@/domain/enums/GameStates';
+import type { GameStates } from '@/domain/ApiModels';
 import type { ComparisonResult } from '@/domain/interfaces/ComparisonResult';
 import type { Criterias } from '@/domain/interfaces/Criterias';
 
