@@ -6,5 +6,6 @@ public record GuessResponse(
     String MonsterCode,
     MonsterCriteriaDTO Criterias,
     MonsterComparisonResult ComparisonResult,
-    GameStates GameStateAfterGuess
+    GameStates GameStateAfterGuess,
+    int GuessNumber = 0
 );
