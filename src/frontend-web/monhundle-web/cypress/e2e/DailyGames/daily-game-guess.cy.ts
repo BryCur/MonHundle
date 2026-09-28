@@ -1,4 +1,5 @@
-import { buildGuessResponse, ComparisonOutcomes, GameStates } from '@cypress-support/testData';
+import { buildGuessResponse } from '@cypress-support/testData';
+import { ComparisonOutcomes, GameStates } from '@/domain/ApiModels';
 
 describe('Making a guess in the daily challenge', () => {
     it('adds the guess to the table with the result of each criterion', () => {
