@@ -18,6 +18,7 @@ import { useGameStore } from './stores/GameStore';
 import { DailyGameApi } from './services/ApiService/DailyGameApi';
 import { SettingsApi } from '@/services/ApiService/SettingApi.ts';
 import { authManager } from './services/AuthManagementService.ts';
+import { ResourceService } from '@/services/ResourceService.ts';
 
 const i18n = createI18n({
     legacy: false,
@@ -42,6 +43,8 @@ const dailyGameApi = new DailyGameApi();
 const dailyGameService = new DailyGameService(dailyGameApi, gameStore);
 
 const resourceApi = new ResourceApi();
+const resourceService = new ResourceService(resourceApi);
+
 const settingsApi = new SettingsApi();
 
 authManager.authenticate().catch(() => {});
@@ -50,6 +53,7 @@ app.use(router);
 app.use(i18n);
 app.provide('unlimitedGameService', unlimitedGameService);
 app.provide('dailyGameService', dailyGameService);
+app.provide('resourceService', resourceService);
 app.provide('resourceApi', resourceApi);
 app.provide('settingsApi', settingsApi);
 
