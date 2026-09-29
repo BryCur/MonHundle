@@ -169,7 +169,7 @@ public class GameServiceTest
 
         GameService service = new GameService( _loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
 
-        await Assert.ThrowsAsync<AuthenticationException>(async () => await service.GetDailyGameForPlayerAtDate(DateTime.Today, badPlayer));
+        await Assert.ThrowsAsync<AuthenticationException>(async () => await service.GetDailyGameForPlayerAtDate(DateTime.UtcNow, badPlayer));
     }
 
     [Fact]
@@ -180,7 +180,7 @@ public class GameServiceTest
 
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
 
-        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.Today, _currentPlayer);
+        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.UtcNow, _currentPlayer);
 
         Assert.Null(game);
         _monsterServiceMock.Verify(mock => mock.getMonsterFromId(It.IsAny<int>()), Times.Never);
@@ -208,7 +208,7 @@ public class GameServiceTest
 
         GameService service = new GameService(_loggerMock, _monsterServiceMock.Object, _gameDataAccessMock.Object);
 
-        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.Today, _currentPlayer);
+        Game? game = await service.GetDailyGameForPlayerAtDate(DateTime.UtcNow, _currentPlayer);
 
         Assert.NotNull(game);
         Assert.Equal(session.GameUid, game.Id);

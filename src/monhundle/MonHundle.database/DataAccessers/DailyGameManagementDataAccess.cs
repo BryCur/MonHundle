@@ -33,7 +33,7 @@ public class DailyGameManagementDataAccess(AppDbContext dbContext): IDailyGameMa
     
     public async Task<List<DailyMonsterData>> GetLastDailyGamesByDays(int days)
     {
-        DateTime minDate = DateTime.Today.AddDays(-days);
+        DateTime minDate = DateTime.UtcNow.Date.AddDays(-days);
         return await dbContext.DailyMonsters
             .Where(dm => dm.Date.Date >= minDate.Date)
             .ToListAsync();
