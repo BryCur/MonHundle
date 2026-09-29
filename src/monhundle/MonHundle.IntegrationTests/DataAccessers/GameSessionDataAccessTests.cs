@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MonHundle.domain.Entities;
 using MonHundle.domain.Entities.DAL;
@@ -6,6 +7,7 @@ using MonHundle.domain.Enums;
 using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
 using MonHundle.IntegrationTests.Fixtures;
+using Npgsql;
 
 namespace MonHundle.IntegrationTests.DataAccessers;
 
@@ -180,5 +182,112 @@ public class GameSessionDataAccessTests(PostgresDatabaseFixture fixture) : DataA
         List<GameSession> result = await gameDataAccess.GetOngoingUnlimitedGamesForPlayer(playerId);
 
         result.Select(g => g.GameUid).Should().BeEquivalentTo([ongoingUnlimited.Id]);
+    }
+
+    [Fact]
+    public async Task CreateGame_throws_when_the_player_already_has_a_daily_game_that_day()
+    {
+        using IServiceScope scope = Fixture.CreateScope();
+        (_, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
+        GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
+        IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
+
+        Game morningDaily = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Daily,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 8, 0, 0, DateTimeKind.Utc)
+        };
+        Game eveningDaily = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Daily,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 20, 0, 0, DateTimeKind.Utc)
+        };
+        await gameDataAccess.CreateGame(morningDaily);
+
+        DbUpdateException exception = await Assert.ThrowsAsync<DbUpdateException>(() => gameDataAccess.CreateGame(eveningDaily));
+
+        PostgresException postgresException = exception.InnerException.Should().BeOfType<PostgresException>().Subject;
+        postgresException.SqlState.Should().Be(PostgresErrorCodes.UniqueViolation);
+        postgresException.ConstraintName.Should().Be("unique_game_sessions_one_daily_per_player_per_day");
+    }
+
+    [Fact]
+    public async Task CreateGame_allows_several_unlimited_games_the_same_day()
+    {
+        using IServiceScope scope = Fixture.CreateScope();
+        (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
+        GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
+        IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
+
+        Game morningUnlimited = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Unlimited,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 8, 0, 0, DateTimeKind.Utc)
+        };
+        Game eveningUnlimited = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Unlimited,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 20, 0, 0, DateTimeKind.Utc)
+        };
+        await gameDataAccess.CreateGame(morningUnlimited);
+        await gameDataAccess.CreateGame(eveningUnlimited);
+
+        List<GameSession> result = await gameDataAccess.GetOngoingUnlimitedGamesForPlayer(playerId);
+
+        result.Select(g => g.GameUid).Should().BeEquivalentTo([morningUnlimited.Id, eveningUnlimited.Id]);
+    }
+
+    [Fact]
+    public async Task CreateGame_allows_a_daily_and_an_unlimited_game_the_same_day()
+    {
+        using IServiceScope scope = Fixture.CreateScope();
+        (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
+        GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
+        IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
+
+        Game daily = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Daily,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 8, 0, 0, DateTimeKind.Utc)
+        };
+        Game unlimited = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Unlimited,
+            Answer = answer, StartTime = new DateTime(2020, 5, 10, 20, 0, 0, DateTimeKind.Utc)
+        };
+        await gameDataAccess.CreateGame(daily);
+        await gameDataAccess.CreateGame(unlimited);
+
+        (await gameDataAccess.GetGame(daily.Id, playerId)).GameMode.Should().Be(GameModes.Daily);
+        (await gameDataAccess.GetGame(unlimited.Id, playerId)).GameMode.Should().Be(GameModes.Unlimited);
+    }
+
+    [Fact]
+    public async Task CreateGame_allows_daily_games_on_different_days()
+    {
+        using IServiceScope scope = Fixture.CreateScope();
+        (int playerId, Guid playerUid) = await CreatePlayer(scope.ServiceProvider);
+        GuessableMonster answer = await GetAnswerMonster(scope.ServiceProvider);
+        IGameDataAccess gameDataAccess = scope.ServiceProvider.GetRequiredService<IGameDataAccess>();
+        DateTime firstDay = new(2020, 5, 10, 8, 0, 0, DateTimeKind.Utc);
+        DateTime nextDay = firstDay.AddDays(1);
+
+        Game firstDaily = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Daily,
+            Answer = answer, StartTime = firstDay
+        };
+        Game nextDaily = new()
+        {
+            Id = Guid.NewGuid(), PlayerId = playerUid, GameMode = GameModes.Daily,
+            Answer = answer, StartTime = nextDay
+        };
+        await gameDataAccess.CreateGame(firstDaily);
+        await gameDataAccess.CreateGame(nextDaily);
+
+        GameSession? found = await gameDataAccess.GetDailyGameForPlayerAtDate(nextDay, playerId);
+
+        found.Should().NotBeNull();
+        found!.GameUid.Should().Be(nextDaily.Id);
     }
 }
