@@ -23,6 +23,8 @@ create table if not exists game_sessions (
 );
 
 create index game_sessions_player_id on game_sessions(player_id);
+create unique index unique_game_sessions_one_daily_per_player_per_day on game_sessions(player_id, game_mode, (start_time::date))
+    where game_mode = 1; -- GameModes.Daily = 1
 
 create table if not exists history_daily_mode (
     id serial primary key,
