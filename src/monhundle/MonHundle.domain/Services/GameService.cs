@@ -38,7 +38,7 @@ public class GameService : IGameService
             Answer = await _monsterService.getRandomMonster(),
             GameMode = GameModes.Unlimited,
             PlayerId = player.PlayerUid,
-            StartTime = DateTime.Now,
+            StartTime = DateTime.UtcNow,
         };
         
         await _gameDataAccess.CreateGame(game);
@@ -54,7 +54,7 @@ public class GameService : IGameService
             Answer = monster,
             GameMode = mode,
             PlayerId = player.PlayerUid,
-            StartTime = DateTime.Now,
+            StartTime = DateTime.UtcNow,
         };
         
         await _gameDataAccess.CreateGame(game);

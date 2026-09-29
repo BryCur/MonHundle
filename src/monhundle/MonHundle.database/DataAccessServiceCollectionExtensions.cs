@@ -26,6 +26,8 @@ public static class DataAccessServiceCollectionExtensions
             // var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
 
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+            // force the session to use UTC, regardless of db server location
+            dataSourceBuilder.ConnectionStringBuilder.Timezone = "UTC";
             dataSourceBuilder.EnableDynamicJson();
             var dataSource = dataSourceBuilder.Build();
 
