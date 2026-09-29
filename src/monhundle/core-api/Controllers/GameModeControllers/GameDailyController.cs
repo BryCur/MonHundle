@@ -33,7 +33,7 @@ public class GameDailyController : ControllerBase
         Player player = GetPlayerFromContext();
         Game? todaysGame = await _gameService.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player);
 
-        if (todaysGame != null && todaysGame.StartTime.Date.Equals(DateTime.Today.Date))
+        if (todaysGame != null)
         {
             _logger.LogInformation("The player {playerId} already had a daily game created", player.Id);
             return Conflict(todaysGame.Id.ToString());
