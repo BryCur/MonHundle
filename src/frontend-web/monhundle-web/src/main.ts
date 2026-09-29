@@ -54,7 +54,6 @@ app.use(i18n);
 app.provide('unlimitedGameService', unlimitedGameService);
 app.provide('dailyGameService', dailyGameService);
 app.provide('resourceService', resourceService);
-app.provide('resourceApi', resourceApi);
 app.provide('settingsApi', settingsApi);
 
 app.mount('#app');

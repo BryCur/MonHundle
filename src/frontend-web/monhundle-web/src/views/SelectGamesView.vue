@@ -17,7 +17,7 @@ const lastRoute = ref<string | null>(null);
 
 onMounted(async () => {
     ready.value = false;
-    const gameTitles = await resourceService?.getAllGameTitle();
+    const gameTitles = await resourceService?.getAllGameTitles();
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;

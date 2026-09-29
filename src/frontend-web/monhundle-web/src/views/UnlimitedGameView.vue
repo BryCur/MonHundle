@@ -50,7 +50,6 @@ onMounted(async () => {
     }
 
     const gameList = JSON.parse(storedGameList!) as string[];
-    console.log(gameList);
     if (!gameList || gameList.length < 1) {
         monsterList.value = (await resourceService?.getAllMonsterOptions()) ?? [];
     } else {

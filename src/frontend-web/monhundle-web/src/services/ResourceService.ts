@@ -7,7 +7,7 @@ export class ResourceService {
         this.resourceApi = resourceApi;
     }
 
-    public async getAllGameTitle(): Promise<string[]> {
+    public async getAllGameTitles(): Promise<string[]> {
         try {
             return await this.resourceApi.getGameTitles();
         } catch (err) {
@@ -30,9 +30,9 @@ export class ResourceService {
         }
     }
 
-    public async getMonsterOptionsFromTitles(gameTitles: string[]) {
+    public async getMonsterOptionsFromTitles(gameTitles: string[]): Promise<string[]> {
         if (gameTitles.length < 1) {
-            throw Error('game title list should not be empty.');
+            throw new Error('game title list should not be empty.');
         }
 
         try {
