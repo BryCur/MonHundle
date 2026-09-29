@@ -18,23 +18,7 @@ export class ResourceService {
         }
     }
 
-    public async getAllMonsterOptions(): Promise<string[]> {
-        try {
-            return await this.resourceApi.getMonstersOptions();
-        } catch (err) {
-            console.error(err);
-
-            // TODO emit notification for user feedback
-            // TODO move to error page?
-            return [];
-        }
-    }
-
-    public async getMonsterOptionsFromTitles(gameTitles: string[]): Promise<string[]> {
-        if (gameTitles.length < 1) {
-            throw new Error('game title list should not be empty.');
-        }
-
+    public async getMonsterOptions(gameTitles: string[] = []): Promise<string[]> {
         try {
             return await this.resourceApi.getMonstersOptions(gameTitles);
         } catch (err) {

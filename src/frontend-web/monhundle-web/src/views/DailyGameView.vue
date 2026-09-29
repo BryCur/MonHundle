@@ -44,7 +44,7 @@ onMounted(async () => {
         startNewGame();
     }
 
-    monsterList.value = (await resourceService?.getAllMonsterOptions()) ?? [];
+    monsterList.value = (await resourceService?.getMonsterOptions()) ?? [];
 
     ready.value = true;
 });
