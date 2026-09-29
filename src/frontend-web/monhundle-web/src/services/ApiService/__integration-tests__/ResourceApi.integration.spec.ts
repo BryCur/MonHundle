@@ -9,6 +9,7 @@ import {
     SAMPLE_GAME_TITLES,
 } from '@test-utils/vitest/fixtures';
 import ResourceApi from '@/services/ApiService/ResourceApi';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
 describe('ResourceApi — game titles (integration)', () => {
     beforeEach(() => {
@@ -41,6 +42,14 @@ describe('ResourceApi — game titles (integration)', () => {
 
         expect(titles).toEqual(SAMPLE_GAME_TITLES);
     });
+
+    it('throws an UnexpectedApiError when the server answers with an error status', async () => {
+        server.use(
+            http.get('*/resources/game-titles', () => new HttpResponse(null, { status: 500 })),
+        );
+
+        await expect(new ResourceApi().getGameTitles()).rejects.toBeInstanceOf(UnexpectedApiError);
+    });
 });
 
 describe('ResourceApi — monster choices (integration)', () => {
@@ -58,6 +67,20 @@ describe('ResourceApi — monster choices (integration)', () => {
         // Not just "no gameTitles param" — the code path takes a different branch entirely
         // when the list is empty (see ResourceApi.ts), so the whole query string should be
         // absent, not present-but-empty.
+        expect(new URL(capturedUrl!).search).toBe('');
+    });
+
+    it('omits the query string when called without argument', async () => {
+        let capturedUrl: string | null = null;
+        server.use(
+            http.get('*/resources/monster-choices', ({ request }) => {
+                capturedUrl = request.url;
+                return HttpResponse.json([]);
+            }),
+        );
+
+        await new ResourceApi().getMonstersOptions();
+
         expect(new URL(capturedUrl!).search).toBe('');
     });
 
@@ -87,5 +110,15 @@ describe('ResourceApi — monster choices (integration)', () => {
         const monsters = await new ResourceApi().getMonstersOptions([GAME_TITLE_MHW]);
 
         expect(monsters).toEqual([MONSTER_CODE_RATHALOS, MONSTER_CODE_DIABLOS]);
+    });
+
+    it('throws an UnexpectedApiError when the server answers with an error status', async () => {
+        server.use(
+            http.get('*/resources/monster-choices', () => new HttpResponse(null, { status: 500 })),
+        );
+
+        await expect(new ResourceApi().getMonstersOptions([GAME_TITLE_MHW])).rejects.toBeInstanceOf(
+            UnexpectedApiError,
+        );
     });
 });

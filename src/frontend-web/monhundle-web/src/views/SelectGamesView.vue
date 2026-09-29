@@ -3,12 +3,12 @@ import { useRouter } from 'vue-router';
 import { inject, onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import type ResourceApi from '@/services/ApiService/ResourceApi';
 import { useI18n } from 'vue-i18n';
+import type { ResourceService } from '@/services/ResourceService';
 
 const router = useRouter();
 const { t } = useI18n();
-const resourceApi = inject<ResourceApi>('resourceApi');
+const resourceService = inject<ResourceService>('resourceService');
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -17,7 +17,7 @@ const lastRoute = ref<string | null>(null);
 
 onMounted(async () => {
     ready.value = false;
-    const gameTitles = await resourceApi?.getGameTitles();
+    const gameTitles = await resourceService?.getAllGameTitles();
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;

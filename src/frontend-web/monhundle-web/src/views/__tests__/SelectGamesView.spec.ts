@@ -26,9 +26,9 @@ const i18n = createI18n({
 const GAMES = ['MHW', 'MHR', 'MHWilds'];
 
 async function mountView() {
-    const resourceApi = { getGameTitles: vi.fn().mockResolvedValue(GAMES) };
+    const resourceService = { getAllGameTitles: vi.fn().mockResolvedValue(GAMES) };
     const wrapper = mount(SelectGamesView, {
-        global: { plugins: [i18n], provide: { resourceApi } },
+        global: { plugins: [i18n], provide: { resourceService } },
     });
     await flushPromises();
     return wrapper;

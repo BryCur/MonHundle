@@ -4,17 +4,17 @@ import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
 import type { DailyGameService } from '@/services/DailyGameService';
-import type ResourceApi from '@/services/ApiService/ResourceApi';
 import { GameStates } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import type { ResourceService } from '@/services/ResourceService';
 
 const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = inject<DailyGameService>('dailyGameService');
-const resourceApi = inject<ResourceApi>('resourceApi');
+const resourceService = inject<ResourceService>('resourceService');
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
 const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
@@ -44,9 +44,7 @@ onMounted(async () => {
         startNewGame();
     }
 
-    await resourceApi
-        ?.getMonstersOptions([]) // empty list -> all options
-        .then((list) => (monsterList.value = list));
+    monsterList.value = (await resourceService?.getMonsterOptions()) ?? [];
 
     ready.value = true;
 });
