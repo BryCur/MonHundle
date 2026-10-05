@@ -5,6 +5,9 @@
     "compilerOptions": {
         "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
+        // ES2022.Error adds the typings for Error's `cause` (ErrorOptions)
+        "lib": ["ES2020", "ES2022.Error", "DOM", "DOM.Iterable"],
+
         "paths": {
             "@/*": ["./src/*"]
         }
