@@ -1,7 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ResourceService } from '@/services/ResourceService';
 import type IResourceApi from '@/domain/interfaces/api-contracts/IResourceApi';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
+import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 
 const mockedResourceApi = {
     getGameTitles: vi.fn(),
@@ -13,14 +14,9 @@ function buildService() {
 }
 
 describe('ResourceService — getAllGameTitles()', () => {
-    let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
-
     beforeEach(() => {
         vi.clearAllMocks();
-        consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     });
-
-    afterEach(() => consoleErrorSpy.mockRestore());
 
     it('returns the titles given by the api', async () => {
         mockedResourceApi.getGameTitles.mockResolvedValueOnce(['MHW', 'MHR']);
@@ -28,29 +24,33 @@ describe('ResourceService — getAllGameTitles()', () => {
         const titles = await buildService().getAllGameTitles();
 
         expect(titles).toEqual(['MHW', 'MHR']);
-        expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
 
-    it('returns an empty list and logs the error when the api fails', async () => {
-        const error = new UnexpectedApiError('Could not get game titles');
-        mockedResourceApi.getGameTitles.mockRejectedValueOnce(error);
+    it('throws a LoadFailedError wrapping the api error when the api fails', async () => {
+        const apiError = new UnexpectedApiError('Could not get game titles', 500);
+        mockedResourceApi.getGameTitles.mockRejectedValueOnce(apiError);
 
-        const titles = await buildService().getAllGameTitles();
+        const request = buildService().getAllGameTitles();
 
-        expect(titles).toEqual([]);
-        expect(consoleErrorSpy).toHaveBeenCalledWith(error);
+        await expect(request).rejects.toBeInstanceOf(LoadFailedError);
+        await expect(request).rejects.toMatchObject({
+            resource: 'AllGameTitle',
+            cause: apiError,
+        });
+    });
+
+    it('lets any other error through untouched', async () => {
+        const otherError = new TypeError('Failed to fetch');
+        mockedResourceApi.getGameTitles.mockRejectedValueOnce(otherError);
+
+        await expect(buildService().getAllGameTitles()).rejects.toBe(otherError);
     });
 });
 
 describe('ResourceService — getMonsterOptions()', () => {
-    let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
-
     beforeEach(() => {
         vi.clearAllMocks();
-        consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     });
-
-    afterEach(() => consoleErrorSpy.mockRestore());
 
     it('asks the api for every option (empty list) when called without titles', async () => {
         mockedResourceApi.getMonstersOptions.mockResolvedValueOnce(['rathalos', 'diablos']);
@@ -70,13 +70,23 @@ describe('ResourceService — getMonsterOptions()', () => {
         expect(options).toEqual(['rathalos']);
     });
 
-    it('returns an empty list and logs the error when the api fails', async () => {
-        const error = new UnexpectedApiError('Could not get monster options');
-        mockedResourceApi.getMonstersOptions.mockRejectedValueOnce(error);
+    it('throws a LoadFailedError wrapping the api error when the api fails', async () => {
+        const apiError = new UnexpectedApiError('Could not get monster options', 500);
+        mockedResourceApi.getMonstersOptions.mockRejectedValueOnce(apiError);
 
-        const options = await buildService().getMonsterOptions(['MHW']);
+        const request = buildService().getMonsterOptions(['MHW']);
 
-        expect(options).toEqual([]);
-        expect(consoleErrorSpy).toHaveBeenCalledWith(error);
+        await expect(request).rejects.toBeInstanceOf(LoadFailedError);
+        await expect(request).rejects.toMatchObject({
+            resource: 'MonsterOptions',
+            cause: apiError,
+        });
+    });
+
+    it('lets any other error through untouched', async () => {
+        const otherError = new TypeError('Failed to fetch');
+        mockedResourceApi.getMonstersOptions.mockRejectedValueOnce(otherError);
+
+        await expect(buildService().getMonsterOptions(['MHW'])).rejects.toBe(otherError);
     });
 });

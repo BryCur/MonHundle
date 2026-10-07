@@ -48,7 +48,10 @@ describe('ResourceApi — game titles (integration)', () => {
             http.get('*/resources/game-titles', () => new HttpResponse(null, { status: 500 })),
         );
 
-        await expect(new ResourceApi().getGameTitles()).rejects.toBeInstanceOf(UnexpectedApiError);
+        const request = new ResourceApi().getGameTitles();
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -117,8 +120,9 @@ describe('ResourceApi — monster choices (integration)', () => {
             http.get('*/resources/monster-choices', () => new HttpResponse(null, { status: 500 })),
         );
 
-        await expect(new ResourceApi().getMonstersOptions([GAME_TITLE_MHW])).rejects.toBeInstanceOf(
-            UnexpectedApiError,
-        );
+        const request = new ResourceApi().getMonstersOptions([GAME_TITLE_MHW]);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
