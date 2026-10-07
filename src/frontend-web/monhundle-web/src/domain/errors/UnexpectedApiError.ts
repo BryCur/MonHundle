@@ -1,7 +1,8 @@
 export class UnexpectedApiError extends Error {
-    constructor(msg: string) {
-        super(msg);
+    public readonly httpStatus?: number;
 
-        Object.setPrototypeOf(this, UnexpectedApiError.prototype);
+    constructor(msg: string, status?: number) {
+        super(msg);
+        this.httpStatus = status;
     }
 }

@@ -9,7 +9,7 @@ export default class ResourceApi implements IResourceApi {
         const response = await apiFetch(path + pathParam, { method: 'GET' });
 
         if (!response.ok) {
-            throw new UnexpectedApiError('Could not get monster options');
+            throw new UnexpectedApiError('Could not get monster options', response.status);
         }
 
         return (await response.json()) as string[];
@@ -19,7 +19,7 @@ export default class ResourceApi implements IResourceApi {
         const response = await apiFetch('/resources/game-titles', { method: 'GET' });
 
         if (!response.ok) {
-            throw new UnexpectedApiError('Could not get game titles');
+            throw new UnexpectedApiError('Could not get game titles', response.status);
         }
 
         return (await response.json()) as string[];
