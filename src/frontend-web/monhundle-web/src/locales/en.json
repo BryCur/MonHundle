@@ -894,6 +894,19 @@
                 "button": "Delete",
                 "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
             }
+        },
+        "notification": {
+            "error": {
+                "gameTitlesLoadFailed": {
+                    "message": "Failed to fetch the game title list. Refresh or try again later."
+                },
+                "monsterOptionsLoadFailed": {
+                    "message": "Failed to fetch the monster list. Refresh or try again later."
+                },
+                "default": {
+                    "message": "An unexpected error occurred. Refresh or try again later."
+                }
+            }
         }
     }
 }

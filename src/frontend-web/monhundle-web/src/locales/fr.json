@@ -854,6 +854,19 @@
         },
         "placeholder": {
             "monsterSelector": "Choisir un monstre..."
+        },
+        "notification": {
+            "error": {
+                "gameTitlesLoadFailed": {
+                    "message": "Échec de la récupération de la liste des jeux. Veuillez rafraîchir ou réessayer plus tard."
+                },
+                "monsterOptionsLoadFailed": {
+                    "message": "Échec de la récupération de la liste des monstres. Veuillez rafraîchir ou réessayer plus tard."
+                },
+                "default": {
+                    "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
+                }
+            }
         }
     }
 }
