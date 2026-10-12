@@ -8,7 +8,8 @@
             "Partial": "at least one value is wrong in {value}"
         },
         "notification": {
-            "close": "Close notification"
+            "close": "Close notification",
+            "region": "Notifications"
         }
     },
     "game": {

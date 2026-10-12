@@ -95,6 +95,7 @@ function updateTimeout() {
 .notification-card {
     padding: 1rem;
     color: var(--color-notification-text);
+    pointer-events: auto;
 }
 
 .notification-error {
