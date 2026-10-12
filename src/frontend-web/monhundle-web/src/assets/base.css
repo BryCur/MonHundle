@@ -29,6 +29,12 @@
     --bg-incorrect: #6d0d0d;
     --bg-partial: #6d5b0a;
     --bg-correct: #086b05;
+
+    --info-blue: #0b4f6c;
+    --info-blue-light: #1a7aa3;
+    --success-green-light: #1e9e1a;
+    --warning-yellow-light: #a88c12;
+    --error-red-light: #a32020;
 }
 
 /* semantic color variables for this project */
@@ -60,6 +66,27 @@
         --color-heading: var(--vt-c-text-dark-1);
         --color-text: var(--dark-text-color);
     }
+}
+
+/*
+ * notification tokens: the notification components only read these variables,
+ * a theme restyles the notifications by overriding them (no dark-mode block needed:
+ * light text on saturated backgrounds stays readable on both light and dark pages)
+ */
+:root {
+    --color-notification-text: var(--dark-text-color);
+
+    --color-notification-success-bg: var(--bg-correct);
+    --color-notification-success-border: var(--success-green-light);
+    --color-notification-info-bg: var(--info-blue);
+    --color-notification-info-border: var(--info-blue-light);
+    --color-notification-warning-bg: var(--bg-partial);
+    --color-notification-warning-border: var(--warning-yellow-light);
+    --color-notification-error-bg: var(--bg-incorrect);
+    --color-notification-error-border: var(--error-red-light);
+
+    --notification-radius: 6px;
+    --notification-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 *,
