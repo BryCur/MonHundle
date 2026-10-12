@@ -6,6 +6,9 @@
             "Incorrect": "{value} est/sont incorrecte(s)",
             "Lower": "la bonne réponse est moins élevée que {value}",
             "Partial": "au moins une valeur est correcte dans {value}"
+        },
+        "notification": {
+            "close": "Fermer la notification"
         }
     },
     "game": {
