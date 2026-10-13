@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import LocaleSelector from './components/LocaleSelector.vue';
 import { onMounted } from 'vue';
 import { router, paths } from './router';
+import NotificationCanvas from '@/components/Notification/NotificationCanvas.vue';
 
 onMounted(async () => {
     if (window.location.pathname === paths.unlimited && !localStorage.getItem('gameList')) {
@@ -12,6 +13,7 @@ onMounted(async () => {
 </script>
 
 <template>
+    <NotificationCanvas />
     <header>
         <div class="wrapper">
             <nav class="navigation">

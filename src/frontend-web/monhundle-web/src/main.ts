@@ -21,6 +21,7 @@ import { authManager } from './services/AuthManagementService.ts';
 import { ResourceService } from '@/services/ResourceService.ts';
 import { reportError } from '@/domain/errors/NotifiedError/ErrorToNotification.ts';
 import { useNotificationStore } from '@/stores/NotificationStore.ts';
+import { notificationEmitterKey } from '@/injectionKeyRegistry.ts';
 
 const i18n = createI18n({
     legacy: false,
@@ -58,6 +59,7 @@ app.provide('unlimitedGameService', unlimitedGameService);
 app.provide('dailyGameService', dailyGameService);
 app.provide('resourceService', resourceService);
 app.provide('settingsApi', settingsApi);
+app.provide(notificationEmitterKey, notificationStore);
 
 // gate 1: errors raised from Vue
 app.config.errorHandler = (error, _instance, info) => {
