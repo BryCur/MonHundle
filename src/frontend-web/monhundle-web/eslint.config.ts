@@ -20,6 +20,15 @@ const noDirectGeneratedImports = {
     group: ['@/domain/generated/*'],
     message: 'Import the generated API models from @/domain/ApiModels instead.',
 };
+const noNotificationImports = {
+    group: [
+        '@/stores/NotificationStore*',
+        '@/domain/interfaces/INotificationEmitter*',
+        '@/domain/errors/NotifiedError/ErrorToNotification*',
+    ],
+    message:
+        'Services must not emit notifications: throw an error (e.g. a BaseNotifiedError subclass) and let the view or the global error handler notify.',
+};
 
 export default defineConfigWithVueTs(
     {
@@ -51,6 +60,25 @@ export default defineConfigWithVueTs(
         files: ['src/domain/ApiModels.ts'],
         rules: {
             'no-restricted-imports': ['error', { patterns: [noParentRelativeImports] }],
+        },
+    },
+
+    {
+        // Services report failures by throwing; only views and the global error handler notify.
+        // Same as above: the general bans are repeated because the options are replaced.
+        name: 'app/restricted-imports-services',
+        files: ['src/services/**'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        noParentRelativeImports,
+                        noDirectGeneratedImports,
+                        noNotificationImports,
+                    ],
+                },
+            ],
         },
     },
 
