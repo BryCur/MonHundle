@@ -190,4 +190,33 @@ describe('NotificationCard', () => {
             wrapper = undefined;
         });
     });
+
+    describe('countdown', () => {
+        it('shows a countdown lasting the notification duration', () => {
+            const card = mountCard({ duration: 5000 });
+
+            expect(card.classes()).toContain('notification-card--timed');
+            expect(card.attributes('style')).toContain('--notification-duration: 5000ms');
+        });
+
+        it('shows no countdown when the notification has no duration', () => {
+            const card = mountCard({ duration: 0 });
+
+            expect(card.classes()).not.toContain('notification-card--timed');
+        });
+
+        it.each([
+            ['hovered', 'mouseenter', 'mouseleave'],
+            ['focused', 'focusin', 'focusout'],
+        ] as const)('pauses the countdown while %s', async (_label, pauseEvent, resumeEvent) => {
+            const card = mountCard();
+            expect(card.classes()).not.toContain('notification-card--paused');
+
+            await card.trigger(pauseEvent);
+            expect(card.classes()).toContain('notification-card--paused');
+
+            await card.trigger(resumeEvent);
+            expect(card.classes()).not.toContain('notification-card--paused');
+        });
+    });
 });

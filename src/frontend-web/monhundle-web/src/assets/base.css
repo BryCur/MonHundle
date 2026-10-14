@@ -30,11 +30,14 @@
     --bg-partial: #6d5b0a;
     --bg-correct: #086b05;
 
-    --info-blue: #0b4f6c;
-    --info-blue-light: #1a7aa3;
-    --success-green-light: #1e9e1a;
-    --warning-yellow-light: #a88c12;
-    --error-red-light: #a32020;
+    --info-blue: #0b648a;
+    --info-blue-highlight: #0a4761;
+    --success-green: #0b7907;
+    --success-green-highlight: #075204;
+    --warning-yellow: #7d5c00;
+    --warning-yellow-highlight: #684d01;
+    --error-red: #a32020;
+    --error-red-highlight: #710303;
 }
 
 /* semantic color variables for this project */
@@ -76,17 +79,17 @@
 :root {
     --color-notification-text: var(--dark-text-color);
 
-    --color-notification-success-bg: var(--bg-correct);
-    --color-notification-success-border: var(--success-green-light);
+    --color-notification-success-bg: var(--success-green);
+    --color-notification-success-highlight: var(--success-green-highlight);
     --color-notification-info-bg: var(--info-blue);
-    --color-notification-info-border: var(--info-blue-light);
-    --color-notification-warning-bg: var(--bg-partial);
-    --color-notification-warning-border: var(--warning-yellow-light);
-    --color-notification-error-bg: var(--bg-incorrect);
-    --color-notification-error-border: var(--error-red-light);
+    --color-notification-info-highlight: var(--info-blue-highlight);
+    --color-notification-warning-bg: var(--warning-yellow);
+    --color-notification-warning-highlight: var(--warning-yellow-highlight);
+    --color-notification-error-bg: var(--error-red);
+    --color-notification-error-highlight: var(--error-red-highlight);
 
     --notification-radius: 6px;
-    --notification-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --notification-shadow: 6px 6px 12px rgba(0, 0, 0, 0.333);
 }
 
 *,
