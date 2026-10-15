@@ -43,6 +43,19 @@ describe('SettingView game-list label', () => {
 
         expect((await mountView()).text()).toContain('ui.settings.gameList.label');
     });
+
+    it('treats a missing stored game list as an empty one', async () => {
+        // nothing stored under GAME_LIST: JSON.parse(null) yields null, not an array
+        const errorHandler = vi.fn();
+
+        const wrapper = mount(SettingView, {
+            global: { plugins: [i18n], provide: { settingsApi: {} }, config: { errorHandler } },
+        });
+        await flushPromises();
+
+        expect(errorHandler).not.toHaveBeenCalled();
+        expect(wrapper.text()).toContain('ui.settings.gameList.shortLabel');
+    });
 });
 
 describe('SettingView actions', () => {
