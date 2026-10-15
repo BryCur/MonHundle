@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
+import { NotificationTypes } from '@/domain/Notification';
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
+import { notificationEmitterKey } from '@/injectionKeyRegistry';
 import { paths, router } from '@/router';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
@@ -9,11 +12,13 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const settingsApi = inject<SettingsApi>('settingsApi');
+const notificationEmitter = inject<INotificationEmitter>(notificationEmitterKey);
 
 const gameList = ref<string[]>([]);
 const enableTableA11y = ref<boolean>(false);
 let currentUUID: string = '';
 const inputUuid = ref<string | null>(null);
+const isWorking = ref<boolean>(false);
 
 onMounted(async () => {
     // load game list
@@ -35,67 +40,101 @@ function toggleA11y() {
     );
 }
 
-function copyUUID() {
-    navigator.clipboard.writeText(currentUUID);
+async function copyUUID() {
+    await navigator.clipboard.writeText(currentUUID);
+    notificationEmitter?.notify({
+        messageKey: 'ui.notification.info.uuidCopied.message',
+        type: NotificationTypes.Info,
+    });
 }
 
 async function loadUuid() {
-    if (inputUuid.value && isUUID(inputUuid.value)) {
-        const isInputValid: boolean = (await settingsApi?.validateUser(inputUuid.value)) ?? false;
+    isWorking.value = true;
+    try {
+        if (inputUuid.value && isUUID(inputUuid.value)) {
+            const isInputValid: boolean =
+                (await settingsApi?.validateUser(inputUuid.value)) ?? false;
 
-        if (isInputValid) {
-            await settingsApi?.loadUser(inputUuid.value);
-            const userProfile = await settingsApi?.getProfile(inputUuid.value);
+            if (isInputValid) {
+                await settingsApi?.loadUser(inputUuid.value);
+                const userProfile = await settingsApi?.getProfile(inputUuid.value);
 
-            localStorage.setItem(
-                LocalStorageKeys.GAME_LIST,
-                JSON.stringify(userProfile?.gameList ?? []),
-            );
-            gameList.value = userProfile?.gameList ?? [];
-
-            localStorage.setItem(
-                LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-                String(userProfile?.enableTableVisualAid || false),
-            );
-            enableTableA11y.value = userProfile?.enableTableVisualAid || false;
-
-            if (userProfile?.currentDailyGameUuid) {
-                setCookie(
-                    CookieKeys.CURRENT_DAILY_GAME,
-                    userProfile?.currentDailyGameUuid,
-                    msUntilMidnightUTC(),
+                localStorage.setItem(
+                    LocalStorageKeys.GAME_LIST,
+                    JSON.stringify(userProfile?.gameList ?? []),
                 );
-            } else {
-                deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
-            }
+                gameList.value = userProfile?.gameList ?? [];
 
-            if (userProfile?.currentUnlimitedGameUuid) {
-                setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile?.currentUnlimitedGameUuid);
-            } else {
-                deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-            }
+                localStorage.setItem(
+                    LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
+                    String(userProfile?.enableTableVisualAid || false),
+                );
+                enableTableA11y.value = userProfile?.enableTableVisualAid || false;
 
-            // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
-            location.reload();
+                if (userProfile?.currentDailyGameUuid) {
+                    setCookie(
+                        CookieKeys.CURRENT_DAILY_GAME,
+                        userProfile?.currentDailyGameUuid,
+                        msUntilMidnightUTC(),
+                    );
+                } else {
+                    deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
+                }
+
+                if (userProfile?.currentUnlimitedGameUuid) {
+                    setCookie(
+                        CookieKeys.CURRENT_UNLIMITED_GAME,
+                        userProfile?.currentUnlimitedGameUuid,
+                    );
+                } else {
+                    deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
+                }
+
+                // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
+                notificationEmitter?.notify({
+                    messageKey: 'ui.notification.success.profileLoaded.message',
+                    type: NotificationTypes.Success,
+                });
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                // TODO error management
+                console.error('UUID provided not recognised');
+                isWorking.value = false;
+            }
         } else {
-            // TODO error management
-            console.error('UUID provided not recognised');
+            console.error('invalid format');
+            isWorking.value = false;
         }
-    } else {
-        console.error('invalid format');
+    } catch (err) {
+        isWorking.value = false;
+        throw err;
     }
 }
 
 function deleteStoredData() {
+    isWorking.value = true;
     // delete local storage
     localStorage.clear();
     clearCookies();
 
-    location.reload();
+    notificationEmitter?.notify({
+        messageKey: 'ui.notification.success.dataDeleted.message',
+        type: NotificationTypes.Success,
+    });
+    setTimeout(() => location.reload(), 1500);
 }
 
 async function savePreferenceToProfile() {
-    await settingsApi?.saveSettings(enableTableA11y.value, gameList.value);
+    isWorking.value = true;
+    try {
+        await settingsApi?.saveSettings(enableTableA11y.value, gameList.value);
+        notificationEmitter?.notify({
+            messageKey: 'ui.notification.success.savedSettings.message',
+            type: NotificationTypes.Success,
+        });
+    } finally {
+        isWorking.value = false;
+    }
 }
 
 function getGameListString() {
@@ -116,21 +155,26 @@ function getGameListString() {
         <h2>{{ t('ui.settings.titles.preferences') }}</h2>
         <div class="setting-line">
             <label>{{ t('ui.settings.visualAccessibility.label') }}</label>
-            <input @change="toggleA11y()" v-model="enableTableA11y" type="checkbox" />
+            <input
+                :disabled="isWorking"
+                @change="toggleA11y()"
+                v-model="enableTableA11y"
+                type="checkbox"
+            />
             <span class="setting-description">{{
                 t('ui.settings.visualAccessibility.description')
             }}</span>
         </div>
         <div class="setting-line">
             <label> {{ getGameListString() }}</label>
-            <button @click="router.push(paths.selectGame)">
+            <button :disabled="isWorking" @click="router.push(paths.selectGame)">
                 {{ t('ui.settings.gameList.button') }}
             </button>
             <span class="setting-description">{{ t('ui.settings.gameList.description') }}</span>
         </div>
         <div class="setting-line">
             <label> {{ t('ui.settings.savePreferences.label') }}</label>
-            <button @click="savePreferenceToProfile()">
+            <button :disabled="isWorking" @click="savePreferenceToProfile()">
                 {{ t('ui.settings.savePreferences.button') }}
             </button>
             <span class="setting-description">{{
@@ -142,7 +186,9 @@ function getGameListString() {
         <h2>{{ t('ui.settings.titles.data') }}</h2>
         <div class="setting-line">
             <label>{{ t('ui.settings.copyUUID.label') }}</label>
-            <button @click="copyUUID()">{{ t('ui.settings.copyUUID.button') }}</button>
+            <button :disabled="isWorking" @click="copyUUID()">
+                {{ t('ui.settings.copyUUID.button') }}
+            </button>
             <span class="setting-description">{{ t('ui.settings.copyUUID.description') }}</span>
         </div>
         <div class="setting-line">
@@ -153,13 +199,15 @@ function getGameListString() {
                     v-model="inputUuid"
                     :placeholder="t('ui.settings.setUUID.placeholder')"
                 />
-                <button @click="loadUuid()">{{ t('ui.settings.setUUID.button') }}</button>
+                <button :disabled="isWorking" @click="loadUuid()">
+                    {{ t('ui.settings.setUUID.button') }}
+                </button>
             </span>
             <span class="setting-description">{{ t('ui.settings.setUUID.description') }}</span>
         </div>
         <div class="setting-line">
             <label>{{ t('ui.settings.deleteUUID.label') }}</label>
-            <button @click="deleteStoredData()" class="danger">
+            <button :disabled="isWorking" @click="deleteStoredData()" class="danger">
                 {{ t('ui.settings.deleteUUID.button') }}
             </button>
             <span class="setting-description">{{ t('ui.settings.deleteUUID.description') }}</span>

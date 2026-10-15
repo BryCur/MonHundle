@@ -910,6 +910,22 @@
                 "default": {
                     "message": "An unexpected error occurred. Refresh or try again later."
                 }
+            },
+            "success": {
+                "savedSettings": {
+                    "message": "Preferences saved. You will be able to fetch them on another device."
+                },
+                "profileLoaded": {
+                    "message": "Profile successfully loaded. The page will refresh..."
+                },
+                "dataDeleted": {
+                    "message": "Local data successfully deleted. The page will refresh..."
+                }
+            },
+            "info": {
+                "uuidCopied": {
+                    "message": "Your MonHundle ID has been copied."
+                }
             }
         }
     }

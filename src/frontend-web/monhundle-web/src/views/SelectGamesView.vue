@@ -12,12 +12,11 @@ const resourceService = inject<ResourceService>('resourceService');
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
-let gameList: string[];
+const gameList = ref<string[]>([]);
 const lastRoute = ref<string | null>(null);
 
 onMounted(async () => {
     ready.value = false;
-    const gameTitles = await resourceService?.getAllGameTitles();
 
     // Alternative : utilise l'index -1 de l'historique
     lastRoute.value = window.history.state?.back;
@@ -25,8 +24,15 @@ onMounted(async () => {
         lastRoute.value = paths.unlimited;
     }
 
-    gameList = gameTitles ?? [];
-    ready.value = true;
+    try {
+        const gameTitles = await resourceService?.getAllGameTitles();
+        gameList.value = gameTitles ?? [];
+    } catch (err) {
+        confirmSelection();
+        throw err;
+    } finally {
+        ready.value = true;
+    }
 });
 
 function toggleGameSelection(game: string) {
@@ -44,7 +50,7 @@ function confirmSelection() {
             JSON.stringify(Array.from(selectedGames.value)),
         );
     } else {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList));
+        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList.value));
     }
 
     router.push(lastRoute.value ?? paths.unlimited);

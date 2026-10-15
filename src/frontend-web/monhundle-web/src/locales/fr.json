@@ -870,6 +870,22 @@
                 "default": {
                     "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
                 }
+            },
+            "success": {
+                "savedSettings": {
+                    "message": "Les préférences ont été enregistrées. Vous pourrez les récupérer sur un autre appareil."
+                },
+                "profileLoaded": {
+                    "message": "Le profil a été chargé avec succès. La page va se rafraîchir..."
+                },
+                "dataDeleted": {
+                    "message": "Les données locales ont été supprimées avec succès. La page va se rafraîchir..."
+                }
+            },
+            "info": {
+                "uuidCopied": {
+                    "message": "Votre identifiant MonHundle a été copié."
+                }
             }
         }
     }
