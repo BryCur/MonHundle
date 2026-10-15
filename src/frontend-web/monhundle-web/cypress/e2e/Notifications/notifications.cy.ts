@@ -3,14 +3,29 @@
 // by the canvas mounted in App.vue, with the real translations. The components' behaviour
 // (timers, pause, limits) is covered by their unit tests.
 
+import { FAKE_GAME_ID } from '@cypress-support/testData';
+
+// A failed game-list load saves "all games" and leaves for the unlimited game, which then starts a
+// game and loads the monsters: stub those calls so the only failure is the one under test.
+function failGameTitlesLoad() {
+    cy.intercept('GET', '**/resources/game-titles', { statusCode: 500 }).as('gameTitles');
+    cy.mockMonsterChoices();
+    cy.intercept('POST', '**/game/unlimited/start', {
+        statusCode: 200,
+        body: JSON.stringify(FAKE_GAME_ID),
+    }).as('startGame');
+}
+
 describe('Notifications', () => {
     it('notifies the player when the game list cannot be loaded', () => {
-        cy.intercept('GET', '**/resources/game-titles', { statusCode: 500 }).as('gameTitles');
+        failGameTitlesLoad();
 
         cy.visit('/');
         cy.wait('@authUser');
         cy.wait('@gameTitles');
 
+        // the notification lives outside the routed views: it survives the redirect
+        cy.location('pathname').should('eq', '/unlimited');
         cy.get('.notification-canvas .notification-card')
             .should('have.length', 1)
             .and('have.class', 'notification-error')
@@ -22,7 +37,7 @@ describe('Notifications', () => {
     });
 
     it('removes a notification when its close button is clicked', () => {
-        cy.intercept('GET', '**/resources/game-titles', { statusCode: 500 }).as('gameTitles');
+        failGameTitlesLoad();
 
         cy.visit('/');
         cy.wait('@gameTitles');
