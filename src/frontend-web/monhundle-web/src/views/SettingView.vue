@@ -23,7 +23,7 @@ const isWorking = ref<boolean>(false);
 onMounted(async () => {
     // load game list
     const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-    gameList.value = JSON.parse(storedGameList!) as string[];
+    gameList.value = (JSON.parse(storedGameList!) as string[]) ?? [];
 
     // load current a11y conf
     enableTableA11y.value =
