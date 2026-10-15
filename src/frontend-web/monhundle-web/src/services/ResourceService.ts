@@ -1,3 +1,5 @@
+import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import type IResourceApi from '@/domain/interfaces/api-contracts/IResourceApi';
 
 export class ResourceService {
@@ -11,10 +13,12 @@ export class ResourceService {
         try {
             return await this.resourceApi.getGameTitles();
         } catch (err) {
-            console.error(err);
-
-            // TODO emit notification for user feedback
-            return [];
+            if (err instanceof UnexpectedApiError) {
+                throw new LoadFailedError('Could not load game titles', 'AllGameTitle', {
+                    cause: err,
+                });
+            }
+            throw err;
         }
     }
 
@@ -22,11 +26,12 @@ export class ResourceService {
         try {
             return await this.resourceApi.getMonstersOptions(gameTitles);
         } catch (err) {
-            console.error(err);
-
-            // TODO emit notification for user feedback
-            // TODO move to error page?
-            return [];
+            if (err instanceof UnexpectedApiError) {
+                throw new LoadFailedError('Could not load monster options', 'MonsterOptions', {
+                    cause: err,
+                });
+            }
+            throw err;
         }
     }
 }

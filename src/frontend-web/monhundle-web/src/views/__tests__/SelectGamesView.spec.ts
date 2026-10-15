@@ -13,6 +13,8 @@ vi.mock('vue-router', async (importOriginal) => {
 
 import SelectGamesView from '@/views/SelectGamesView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
+import { paths } from '@/router';
 
 const i18n = createI18n({
     legacy: false,
@@ -73,5 +75,29 @@ describe('SelectGamesView', () => {
         await wrapper.find('button.btn-confirm').trigger('click');
 
         expect(JSON.parse(localStorage.getItem(LocalStorageKeys.GAME_LIST)!)).toEqual(GAMES);
+    });
+});
+
+describe('SelectGamesView when the game list cannot be loaded', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        localStorage.clear();
+    });
+
+    it('saves an empty list (all games), leaves for the previous page and lets the error through', async () => {
+        const error = new LoadFailedError('Could not load game titles', 'AllGameTitle');
+        const resourceService = { getAllGameTitles: vi.fn().mockRejectedValue(error) };
+        // stands in for the app's global error handler, which turns the error into a notification
+        const errorHandler = vi.fn();
+
+        const wrapper = mount(SelectGamesView, {
+            global: { plugins: [i18n], provide: { resourceService }, config: { errorHandler } },
+        });
+        await flushPromises();
+
+        expect(JSON.parse(localStorage.getItem(LocalStorageKeys.GAME_LIST)!)).toEqual([]);
+        expect(pushMock).toHaveBeenCalledWith(paths.unlimited);
+        expect(errorHandler).toHaveBeenCalledWith(error, expect.anything(), expect.any(String));
+        expect(wrapper.text()).not.toContain('loading...');
     });
 });

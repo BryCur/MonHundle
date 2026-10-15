@@ -29,6 +29,15 @@
     --bg-incorrect: #6d0d0d;
     --bg-partial: #6d5b0a;
     --bg-correct: #086b05;
+
+    --info-blue: #0b648a;
+    --info-blue-highlight: #0a4761;
+    --success-green: #0b7907;
+    --success-green-highlight: #075204;
+    --warning-yellow: #7d5c00;
+    --warning-yellow-highlight: #684d01;
+    --error-red: #a32020;
+    --error-red-highlight: #710303;
 }
 
 /* semantic color variables for this project */
@@ -60,6 +69,27 @@
         --color-heading: var(--vt-c-text-dark-1);
         --color-text: var(--dark-text-color);
     }
+}
+
+/*
+ * notification tokens: the notification components only read these variables,
+ * a theme restyles the notifications by overriding them (no dark-mode block needed:
+ * light text on saturated backgrounds stays readable on both light and dark pages)
+ */
+:root {
+    --color-notification-text: var(--dark-text-color);
+
+    --color-notification-success-bg: var(--success-green);
+    --color-notification-success-highlight: var(--success-green-highlight);
+    --color-notification-info-bg: var(--info-blue);
+    --color-notification-info-highlight: var(--info-blue-highlight);
+    --color-notification-warning-bg: var(--warning-yellow);
+    --color-notification-warning-highlight: var(--warning-yellow-highlight);
+    --color-notification-error-bg: var(--error-red);
+    --color-notification-error-highlight: var(--error-red-highlight);
+
+    --notification-radius: 6px;
+    --notification-shadow: 6px 6px 12px rgba(0, 0, 0, 0.333);
 }
 
 *,

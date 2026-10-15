@@ -6,6 +6,10 @@
             "Incorrect": "{value} est/sont incorrecte(s)",
             "Lower": "la bonne réponse est moins élevée que {value}",
             "Partial": "au moins une valeur est correcte dans {value}"
+        },
+        "notification": {
+            "close": "Fermer la notification",
+            "region": "Notifications"
         }
     },
     "game": {
@@ -854,6 +858,35 @@
         },
         "placeholder": {
             "monsterSelector": "Choisir un monstre..."
+        },
+        "notification": {
+            "error": {
+                "gameTitlesLoadFailed": {
+                    "message": "Échec de la récupération de la liste des jeux. Veuillez rafraîchir ou réessayer plus tard."
+                },
+                "monsterOptionsLoadFailed": {
+                    "message": "Échec de la récupération de la liste des monstres. Veuillez rafraîchir ou réessayer plus tard."
+                },
+                "default": {
+                    "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
+                }
+            },
+            "success": {
+                "savedSettings": {
+                    "message": "Les préférences ont été enregistrées. Vous pourrez les récupérer sur un autre appareil."
+                },
+                "profileLoaded": {
+                    "message": "Le profil a été chargé avec succès. La page va se rafraîchir..."
+                },
+                "dataDeleted": {
+                    "message": "Les données locales ont été supprimées avec succès. La page va se rafraîchir..."
+                }
+            },
+            "info": {
+                "uuidCopied": {
+                    "message": "Votre identifiant MonHundle a été copié."
+                }
+            }
         }
     }
 }

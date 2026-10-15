@@ -14,4 +14,16 @@ describe('UnexpectedApiError', () => {
 
         expect(error.message).toBe('could not get resource');
     });
+
+    it('keeps the given http status', () => {
+        const error = new UnexpectedApiError('could not get resource', 503);
+
+        expect(error.httpStatus).toBe(503);
+    });
+
+    it('has no http status when none is given', () => {
+        const error = new UnexpectedApiError('could not get resource');
+
+        expect(error.httpStatus).toBeUndefined();
+    });
 });

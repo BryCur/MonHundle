@@ -6,6 +6,10 @@
             "Incorrect": "{value} is or are wrong",
             "Lower": "the correct value is lower than {value}",
             "Partial": "at least one value is wrong in {value}"
+        },
+        "notification": {
+            "close": "Close notification",
+            "region": "Notifications"
         }
     },
     "game": {
@@ -893,6 +897,35 @@
                 "label": "Delete your data",
                 "button": "Delete",
                 "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
+            }
+        },
+        "notification": {
+            "error": {
+                "gameTitlesLoadFailed": {
+                    "message": "Failed to fetch the game title list. Refresh or try again later."
+                },
+                "monsterOptionsLoadFailed": {
+                    "message": "Failed to fetch the monster list. Refresh or try again later."
+                },
+                "default": {
+                    "message": "An unexpected error occurred. Refresh or try again later."
+                }
+            },
+            "success": {
+                "savedSettings": {
+                    "message": "Preferences saved. You will be able to fetch them on another device."
+                },
+                "profileLoaded": {
+                    "message": "Profile successfully loaded. The page will refresh..."
+                },
+                "dataDeleted": {
+                    "message": "Local data successfully deleted. The page will refresh..."
+                }
+            },
+            "info": {
+                "uuidCopied": {
+                    "message": "Your MonHundle ID has been copied."
+                }
             }
         }
     }
