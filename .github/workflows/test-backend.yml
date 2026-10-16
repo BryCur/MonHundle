@@ -4,7 +4,7 @@ on:
   push:  # push on master with changes in this file or in backend folder
     branches: [ "master" ]
     paths:
-    - '.github/workflows/monhundle-api-AutoDeployTrigger-8215305a-a404-4fc8-9526-9cfa302ad898.yml'
+    - '.github/workflows/test-backend.yml'
     - 'src/monhundle/**'
   pull_request: # all PR targeting master
     branches: [ "master" ]
@@ -15,6 +15,10 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # dotnet looks for global.json from the directory it runs in, not from the project it builds
+        working-directory: ./src/monhundle
 
     steps:
     - uses: actions/checkout@v5
@@ -22,19 +26,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '8.0.x'
+        global-json-file: ./src/monhundle/global.json
 
     - name: Restore dependencies
-      run: dotnet restore ./src/monhundle 
+      run: dotnet restore
 
     - name: Build
-      run: dotnet build ./src/monhundle --no-restore
+      run: dotnet build --no-restore
 
     - name: Unit Tests
-      run: dotnet test ./src/monhundle/MonHundle.Tests/MonHundle.Tests.csproj --no-build --verbosity normal
-      
+      run: dotnet test ./MonHundle.Tests/MonHundle.Tests.csproj --no-build --verbosity normal
+
     - name: Integration Tests
-      run: dotnet test ./src/monhundle/MonHundle.IntegrationTests/MonHundle.IntegrationTests.csproj --no-build --verbosity normal
+      run: dotnet test ./MonHundle.IntegrationTests/MonHundle.IntegrationTests.csproj --no-build --verbosity normal
 
   update-docker:
     needs: build-and-test
