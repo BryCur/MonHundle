@@ -26,11 +26,13 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          global-json-file: ./src/monhundle/global.json
 
       # building core-api exports its OpenAPI contract to core-api/openapi/ (see core-api.csproj)
+      # run from src/monhundle so that dotnet picks up its global.json
       - name: Build the backend (exports the OpenAPI contract)
-        run: dotnet build ./src/monhundle/core-api/core-api.csproj
+        working-directory: ./src/monhundle
+        run: dotnet build ./core-api/core-api.csproj
 
       - name: Setup Node.js
         uses: actions/setup-node@v5

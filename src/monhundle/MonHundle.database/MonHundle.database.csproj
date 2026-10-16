@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -11,11 +11,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="5.3.11" />
-      <PackageReference Include="EFCoreSecondLevelCacheInterceptor.MemoryCache" Version="5.3.11" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+      <PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="5.5.2" />
+      <PackageReference Include="EFCoreSecondLevelCacheInterceptor.MemoryCache" Version="5.5.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
     </ItemGroup>
 
 </Project>

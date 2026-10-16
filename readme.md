@@ -23,13 +23,13 @@ The project was built up from scratch, with the help of AIs to explain concepts 
 | Component      | Technology                    |
 |------------------|---------------------------------|
 | **Frontend**     | Vue.js 3 + Vite                 |
-| **Backend**      | .NET 8 + Entity Framework Core  |
+| **Backend**      | .NET 10 + Entity Framework Core |
 | **Base de données** | PostgreSQL 15 (Azure Database) |
 | **Infrastructure** | Docker + Azure Cloud Services  |
 
 ## Technical choices 
 - **Vue.js** : I chose Vue notably because I had some experience with it that I considered outdated. This was an opportunity to refresh my knowledge while strengthening my frontend skills.
-- **.NET 8** : I always wanted to work with C# without getting the opportunity to do so. This project was my way to build up experience with the langauge while transitioning  from Java. I chose version 8 because it is popular and requested within the industry.
+- **.NET 10** : I always wanted to work with C# without getting the opportunity to do so. This project was my way to build up experience with the language while transitioning from Java. I started the project on .NET 8 because it was popular and requested within the industry, and moved it to .NET 10, the current long-term support version, when .NET 8 reached its end of support.
 - **PostgreSQL on NeonBD** : The choice was mostly motivated by the popularity of the technology and the lower cost of entry.
 - **Azure Container Apps** : While I could have chosen AWS or GCP, Azure integrates well with C# .NET applications, and is commonly used in the industry. 
 - **GitHub Action for CI/CD** : Simple setup, ready to be used, large documentation base and transferable knowledge

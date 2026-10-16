@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace core_api.Swagger;
@@ -14,9 +14,9 @@ namespace core_api.Swagger;
 /// </summary>
 public class RequireAllPropertiesSchemaFilter : ISchemaFilter
 {
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
-        if (schema.Properties is null || schema.Properties.Count == 0)
+        if (schema is not OpenApiSchema { Properties.Count: > 0 } objectSchema)
         {
             return;
         }
@@ -32,11 +32,12 @@ public class RequireAllPropertiesSchemaFilter : ISchemaFilter
                 ?? JsonNamingPolicy.CamelCase.ConvertName(property.Name))
             .ToHashSet();
         
-        foreach (var propertyName in schema.Properties.Keys)
+        foreach (var propertyName in objectSchema.Properties.Keys)
         {
             if (!omittablePropertyNames.Contains(propertyName))
             {
-                schema.Required.Add(propertyName);
+                objectSchema.Required ??= new HashSet<string>();
+                objectSchema.Required.Add(propertyName);
             }
         }
     }

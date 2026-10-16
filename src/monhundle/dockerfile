@@ -1,5 +1,5 @@
 # Étape 1 : Build de l'application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copie les fichiers de projet et restaure les dépendances
@@ -17,7 +17,7 @@ COPY . .
 RUN dotnet publish "core-api/core-api.csproj" -c Release -o /app/publish --self-contained false -r linux-x64
 
 # Étape 2 : Image finale (plus légère)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
 # Copie les artefacts publiés

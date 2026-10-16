@@ -39,9 +39,9 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "core-api", Version = "v1" });
+            options.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo { Title = "core-api", Version = "v1" });
             // "public" excludes admin-only endpoints; this is the document exported to the frontend.
-            options.SwaggerDoc("public", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "core-api (public)", Version = "v1" });
+            options.SwaggerDoc("public", new Microsoft.OpenApi.OpenApiInfo { Title = "core-api (public)", Version = "v1" });
             options.DocInclusionPredicate((docName, apiDesc) =>
                 docName == "v1" || apiDesc.GroupName != "admin");
 
