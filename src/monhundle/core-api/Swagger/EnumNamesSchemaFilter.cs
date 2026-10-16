@@ -1,5 +1,5 @@
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using System.Text.Json.Nodes;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace core_api.Swagger;
@@ -11,20 +11,21 @@ namespace core_api.Swagger;
 /// </summary>
 public class EnumNamesSchemaFilter : ISchemaFilter
 {
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
-        if (!context.Type.IsEnum)
+        if (!context.Type.IsEnum || schema is not OpenApiSchema { Enum: not null } enumSchema)
         {
             return;
         }
 
-        var names = new OpenApiArray();
-        foreach (var value in schema.Enum)
+        var names = new JsonArray();
+        foreach (var value in enumSchema.Enum)
         {
-            var number = ((OpenApiInteger)value).Value;
-            names.Add(new OpenApiString(Enum.GetName(context.Type, number)));
+            var number = value!.GetValue<int>();
+            names.Add(Enum.GetName(context.Type, number));
         }
 
-        schema.Extensions["x-enum-varnames"] = names;
+        enumSchema.Extensions ??= new Dictionary<string, IOpenApiExtension>();
+        enumSchema.Extensions["x-enum-varnames"] = new JsonNodeExtension(names);
     }
 }
