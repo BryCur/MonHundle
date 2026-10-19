@@ -14,8 +14,7 @@ import { computed } from 'vue';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 
 const { t } = useI18n();
-const model = defineModel<Guess[]>();
-const props = defineProps({ accessibilityEnabled: Boolean });
+const props = defineProps<{ guesses: Guess[]; accessibilityEnabled?: boolean }>();
 
 function getComparisonOutcomeClass(val: ComparisonOutcomes): string {
     let classes = `result-${ComparisonOutcomes[val].toLowerCase()}`;
@@ -65,7 +64,7 @@ function getA11yClasses(): string {
 }
 
 const hasGuesses = computed<boolean>(() => {
-    return model.value !== undefined && model.value.length > 0;
+    return props.guesses.length > 0;
 });
 </script>
 
@@ -157,8 +156,8 @@ const hasGuesses = computed<boolean>(() => {
                  as new guesses come in; the monster code alone isn't unique, since nothing prevents
                  guessing the same monster twice -->
             <div
-                v-for="(guess, index) in model?.slice().reverse()"
-                :key="(model?.length ?? 0) - index"
+                v-for="(guess, index) in guesses.slice().reverse()"
+                :key="guesses.length - index"
                 class="guess-table-row"
                 :class="getA11yClasses()"
                 role="row"

@@ -115,7 +115,7 @@ function shareGame(): void {
         </div>
         <div class="game-progress-container fit-screen">
             <GameGuessList
-                v-model="gameStore.guesses"
+                :guesses="gameStore.guesses"
                 :accessibility-enabled="enableTableA11y"
             ></GameGuessList>
         </div>
