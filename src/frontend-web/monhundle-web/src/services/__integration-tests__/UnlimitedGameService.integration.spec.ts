@@ -19,6 +19,7 @@ import GameStatus from '@/domain/GameStatus';
 import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
+import { GameNotSetError } from '@/domain/errors/GameNotSetError';
 
 // Test the whole code chaine from the service layer with only network calls (fetch) faked.
 describe('UnlimitedGameService — starting a game (integration)', () => {
@@ -102,7 +103,8 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         useGameStore().setGame(new GameStatus(EXISTING_GAME_ID, GameModes.Unlimited));
     });
 
-    it('sends a well-formed guess request body', async () => {
+    it('sends a well-formed guess request body, with the game id taken from the store', async () => {
+        useGameStore().setGame(new GameStatus(SHAPE_TEST_GAME_ID, GameModes.Unlimited));
         let capturedBody: MakeGuessBody | null = null;
         server.use(
             http.post('*/game/unlimited/guess', async ({ request }) => {
@@ -114,7 +116,6 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         );
 
         await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
-            SHAPE_TEST_GAME_ID,
             MONSTER_CODE_NARGACUGA,
         );
 
@@ -135,7 +136,7 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        await gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS);
+        await gameService.makeGuess(MONSTER_CODE_RATHALOS);
 
         const gameStore = useGameStore();
         expect(gameStore.game?.guesses).toHaveLength(1);
@@ -153,7 +154,6 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         );
 
         await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
-            EXISTING_GAME_ID,
             MONSTER_CODE_RATHALOS,
         );
 
@@ -167,10 +167,19 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        await expect(
-            gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS),
-        ).rejects.toThrow();
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toThrow();
         expect(useGameStore().game?.guesses).toHaveLength(0);
+    });
+
+    it('refuses to guess without a game in the store, before any request', async () => {
+        // fresh store with no game; no handler registered, so any request would fail the test
+        setActivePinia(createPinia());
+        const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
+
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toBeInstanceOf(
+            GameNotSetError,
+        );
+        expect(useGameStore().isGameNull).toBe(true);
     });
 });
 

@@ -17,7 +17,6 @@ const resourceService = injectStrict(resourceServiceKey);
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
-let gameId: string | undefined;
 let enableTableA11y = false;
 
 onMounted(async () => {
@@ -28,15 +27,12 @@ onMounted(async () => {
     const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
     if (gameIdFromCookie) {
-        await gameService.resumeGame(gameIdFromCookie).then(async (gameSet) => {
-            if (!gameSet) {
-                startNewGame();
-            } else {
-                gameId = gameStore.game!.gameId;
-            }
-        });
+        const isGameSet = await gameService.resumeGame(gameIdFromCookie);
+        if (!isGameSet) {
+            await gameService.startNewGame();
+        }
     } else {
-        startNewGame();
+        await gameService.startNewGame();
     }
 
     monsterList.value = await resourceService.getMonsterOptions();
@@ -45,12 +41,8 @@ onMounted(async () => {
 });
 
 async function sendGuess() {
-    gameService.makeGuess(gameId!, selectedMonster.value!);
+    gameService.makeGuess(selectedMonster.value!);
     selectedMonster.value = undefined;
-}
-
-function startNewGame() {
-    gameService.startNewGame().then((resp) => (gameId = resp));
 }
 
 function getLastGuessIcon() {

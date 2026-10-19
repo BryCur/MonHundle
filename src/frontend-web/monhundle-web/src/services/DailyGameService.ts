@@ -6,6 +6,7 @@ import { msUntilMidnightUTC } from '@/domain/Utils';
 import { GameModes, type Guess } from '@/domain/ApiModels';
 import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExistsError';
 import type IGameService from '@/domain/interfaces/services/IGameService';
+import { GameNotSetError } from '@/domain/errors/GameNotSetError';
 
 export class DailyGameService implements IGameService {
     private readonly gameApi: IGameApi;
@@ -41,8 +42,12 @@ export class DailyGameService implements IGameService {
         }
     }
 
-    public async makeGuess(gameId: string, guessCode: string): Promise<void> {
-        const res = await this.gameApi.makeGuess(gameId, guessCode);
+    public async makeGuess(guessCode: string): Promise<void> {
+        if (this.gameStore.gameId === undefined) {
+            throw new GameNotSetError('Store has no game set');
+        }
+
+        const res = await this.gameApi.makeGuess(this.gameStore.gameId, guessCode);
         const guessResult: Guess = res; // TOFIX could be missing: ok verification before reading the response
         this.gameStore.addGuess(guessResult);
         this.gameStore.setState(res.gameStateAfterGuess);

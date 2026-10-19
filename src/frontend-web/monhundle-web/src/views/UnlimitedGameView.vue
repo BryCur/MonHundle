@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
-import { GameModes } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '@/router';
@@ -19,7 +18,6 @@ const resourceService = injectStrict(resourceServiceKey);
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
-let gameId: string | undefined;
 let enableTableA11y = false;
 
 onMounted(async () => {
@@ -52,12 +50,8 @@ onMounted(async () => {
 });
 
 async function sendGuess() {
-    gameService.makeGuess(gameId!, selectedMonster.value!);
+    gameService.makeGuess(selectedMonster.value!);
     selectedMonster.value = undefined;
-}
-
-function startNewGame() {
-    gameService.startNewGame().then((resp) => (gameId = resp));
 }
 
 function getLastGuessIcon() {
@@ -116,7 +110,7 @@ function shareGame(): void {
                 </p>
             </div>
 
-            <button @click="startNewGame()">
+            <button @click="gameService.startNewGame()">
                 <span> {{ t('ui.generic.newGame') }}</span>
             </button>
             <button @click="shareGame()">

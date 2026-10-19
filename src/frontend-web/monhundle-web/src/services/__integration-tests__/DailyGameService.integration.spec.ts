@@ -19,6 +19,7 @@ import GameStatus from '@/domain/GameStatus';
 import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
+import { GameNotSetError } from '@/domain/errors/GameNotSetError';
 
 describe('DailyGameService — starting a game (integration)', () => {
     beforeEach(() => {
@@ -96,7 +97,8 @@ describe('DailyGameService — making a guess (integration)', () => {
         useGameStore().setGame(new GameStatus(EXISTING_GAME_ID, GameModes.Daily));
     });
 
-    it('sends a well-formed guess request body', async () => {
+    it('sends a well-formed guess request body, with the game id taken from the store', async () => {
+        useGameStore().setGame(new GameStatus(SHAPE_TEST_GAME_ID, GameModes.Daily));
         let capturedBody: MakeGuessBody | null = null;
         server.use(
             http.post('*/game/daily/guess', async ({ request }) => {
@@ -108,7 +110,6 @@ describe('DailyGameService — making a guess (integration)', () => {
         );
 
         await new DailyGameService(new DailyGameApi(), useGameStore()).makeGuess(
-            SHAPE_TEST_GAME_ID,
             MONSTER_CODE_NARGACUGA,
         );
 
@@ -128,7 +129,6 @@ describe('DailyGameService — making a guess (integration)', () => {
         );
 
         await new DailyGameService(new DailyGameApi(), useGameStore()).makeGuess(
-            EXISTING_GAME_ID,
             MONSTER_CODE_RATHALOS,
         );
 
@@ -148,7 +148,6 @@ describe('DailyGameService — making a guess (integration)', () => {
         );
 
         await new DailyGameService(new DailyGameApi(), useGameStore()).makeGuess(
-            EXISTING_GAME_ID,
             MONSTER_CODE_RATHALOS,
         );
 
@@ -160,10 +159,19 @@ describe('DailyGameService — making a guess (integration)', () => {
 
         const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
 
-        await expect(
-            gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS),
-        ).rejects.toThrow();
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toThrow();
         expect(useGameStore().game?.guesses).toHaveLength(0);
+    });
+
+    it('refuses to guess without a game in the store, before any request', async () => {
+        // fresh store with no game; no handler registered, so any request would fail the test
+        setActivePinia(createPinia());
+        const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
+
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toBeInstanceOf(
+            GameNotSetError,
+        );
+        expect(useGameStore().isGameNull).toBe(true);
     });
 });
 
