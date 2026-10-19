@@ -254,7 +254,7 @@ describe('DailyGameService — resuming a game (integration)', () => {
         const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
         expect(isGameSet).toBe(false);
-        expect(useGameStore().isGameNull()).toBe(true);
+        expect(useGameStore().isGameNull).toBe(true);
         expect(getCookie(CookieKeys.CURRENT_DAILY_GAME)).toBeUndefined();
     });
 });

@@ -17,7 +17,7 @@ const gameService = injectStrict(unlimitedGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
-const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
+const gameGuesses = computed(() => (gameStore.isGameNull ? [] : gameStore.game?.guesses));
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
@@ -44,7 +44,7 @@ onMounted(async () => {
                 gameId = gameStore.game!.gameId;
             }
         });
-    } else if (gameStore.isGameNull() || gameStore.game?.gameMode !== GameModes.Unlimited) {
+    } else if (gameStore.isGameNull || gameStore.game?.gameMode !== GameModes.Unlimited) {
         startNewGame();
     }
 
@@ -64,7 +64,7 @@ function startNewGame() {
 }
 
 function getLastGuessIcon() {
-    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
+    if (gameStore.isGameNull || gameStore.isGameOngoing) {
         return getLatestIconForMonster('unknown');
     } else {
         return getLatestIconForMonster(
@@ -74,7 +74,7 @@ function getLastGuessIcon() {
 }
 
 function getLastGuessName(): string {
-    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
+    if (gameStore.isGameNull || gameStore.isGameOngoing) {
         return t('game.monsters.unknown.name');
     } else {
         return t(

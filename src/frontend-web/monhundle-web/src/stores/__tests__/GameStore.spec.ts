@@ -43,9 +43,9 @@ describe('GameStore', () => {
         const store = useGameStore();
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
 
-        expect(store.isGameNull()).toBeTruthy();
+        expect(store.isGameNull).toBeTruthy();
         store.setGame(game);
-        expect(store.isGameNull()).toBeFalsy();
+        expect(store.isGameNull).toBeFalsy();
     });
 
     it('should indicate whether a game is ongoing correctly', () => {
@@ -53,13 +53,13 @@ describe('GameStore', () => {
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
         store.setGame(game);
 
-        expect(store.isGameOngoing()).toBeTruthy();
+        expect(store.isGameOngoing).toBeTruthy();
         store.setState(GameStates.Win);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
         store.setState(GameStates.Lose);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
         store.setState(GameStates.Forfeited);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
     });
 
     it('should not throw when adding a guess with no active game', () => {
@@ -79,7 +79,7 @@ describe('GameStore', () => {
     it('should report a null game as not ongoing', () => {
         const store = useGameStore();
 
-        expect(store.isGameOngoing()).toBe(false);
+        expect(store.isGameOngoing).toBe(false);
     });
 
     it('should replace the current game when setGame is called again', () => {

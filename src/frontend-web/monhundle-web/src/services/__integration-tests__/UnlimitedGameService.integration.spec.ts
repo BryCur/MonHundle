@@ -258,7 +258,7 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
         const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID);
 
         expect(isOngoing).toBe(false);
-        expect(useGameStore().isGameNull()).toBe(true);
+        expect(useGameStore().isGameNull).toBe(true);
         expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBeUndefined();
     });
 });

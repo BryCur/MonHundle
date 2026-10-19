@@ -36,7 +36,7 @@ export class UnlimitedGameService implements IGameService {
         if (res !== null) {
             this.gameStore.setGame(res);
             setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
-            return this.gameStore.isGameOngoing();
+            return this.gameStore.isGameOngoing;
         }
 
         return false;
