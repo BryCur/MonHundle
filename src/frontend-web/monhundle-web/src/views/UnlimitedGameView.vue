@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
-import { GameStates, GameModes } from '@/domain/ApiModels';
+import { GameModes } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '@/router';
@@ -15,9 +15,6 @@ const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = injectStrict(unlimitedGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
-
-const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
-const gameGuesses = computed(() => (gameStore.isGameNull ? [] : gameStore.game?.guesses));
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
@@ -67,25 +64,21 @@ function getLastGuessIcon() {
     if (gameStore.isGameNull || gameStore.isGameOngoing) {
         return getLatestIconForMonster('unknown');
     } else {
-        return getLatestIconForMonster(
-            gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode,
-        );
+        return getLatestIconForMonster(gameStore.lastGuess?.monsterCode);
     }
 }
 
 function getLastGuessName(): string {
     if (gameStore.isGameNull || gameStore.isGameOngoing) {
-        return t('game.monsters.unknown.name');
+        return t('game.monster.unknown.name');
     } else {
-        return t(
-            `game.monster.${gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode}.name`,
-        );
+        return t(`game.monster.${gameStore.lastGuess?.monsterCode ?? 'unknown'}.name`);
     }
 }
 
 // insert string representation of the game into the clipboard
 function shareGame(): void {
-    const guessCount = gameStore.game?.guesses.length;
+    const guessCount = gameStore.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = 'https://' + window.location.host + window.location.pathname;
 
@@ -97,11 +90,11 @@ function shareGame(): void {
 
 <template>
     <div v-if="ready" class="game-page-container">
-        <div class="introduction fit-screen" v-if="!isGameOver">
+        <div class="introduction fit-screen" v-if="!gameStore.isGameOver">
             <img class="introduction-icon" :src="getLatestIconForMonster('unknown')" />
             <div v-html="t('ui.game.rules.unlimited')" class="introduction-content"></div>
         </div>
-        <div v-if="!isGameOver" class="option-selector-container fit-screen">
+        <div v-if="!gameStore.isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
                 <span>{{ t('ui.generic.sendguess') }}</span>
@@ -117,7 +110,7 @@ function shareGame(): void {
                     {{
                         t('ui.game.over.answer', {
                             monster: getLastGuessName(),
-                            attempts: gameStore.game?.guesses.length,
+                            attempts: gameStore.guesses.length,
                         })
                     }}
                 </p>
@@ -132,7 +125,7 @@ function shareGame(): void {
         </div>
         <div class="game-progress-container fit-screen">
             <GameGuessList
-                v-model="gameGuesses"
+                v-model="gameStore.guesses"
                 :accessibility-enabled="enableTableA11y"
             ></GameGuessList>
         </div>

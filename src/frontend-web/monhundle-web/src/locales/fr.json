@@ -86,6 +86,9 @@
             }
         },
         "monster": {
+            "unknown": {
+                "name": "Inconnu"
+            },
             "abyssal_lagiacrus": {
                 "name": "Lagiacrus Abyssal"
             },

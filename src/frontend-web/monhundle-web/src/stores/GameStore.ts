@@ -10,6 +10,11 @@ export const useGameStore = defineStore('game', {
     getters: {
         isGameNull: (state): boolean => state.game === null,
         isGameOngoing: (state): boolean => state.game?.state === GameStates.Ongoing,
+        isGameOver: (state): boolean =>
+            state.game !== null && state.game.state !== GameStates.Ongoing,
+        guesses: (state): Guess[] => state.game?.guesses ?? [],
+        lastGuess: (state): Guess | undefined => state.game?.guesses[state.game.guesses.length - 1],
+        gameId: (state): string | undefined => state.game?.gameId,
     },
 
     actions: {
