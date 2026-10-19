@@ -31,16 +31,12 @@ onMounted(async () => {
 
     const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
 
-    if (gameIdFromCookie) {
-        await gameService.resumeGame(gameIdFromCookie).then(async (gameSet) => {
-            if (!gameSet) {
-                startNewGame();
-            } else {
-                gameId = gameStore.game!.gameId;
-            }
-        });
-    } else if (gameStore.isGameNull || gameStore.game?.gameMode !== GameModes.Unlimited) {
-        startNewGame();
+    if (
+        !gameIdFromCookie || // no cookie existing
+        !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
+        !gameStore.isGameOngoing // game from cookie already finished
+    ) {
+        await gameService.startNewGame();
     }
 
     const gameList = JSON.parse(storedGameList!) as string[];

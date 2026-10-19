@@ -222,9 +222,9 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID);
+        const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(true);
+        expect(isGameSet).toBe(true);
         expect(useGameStore().game).toMatchObject({
             gameId: EXISTING_GAME_ID,
             gameMode: GameModes.Unlimited,
@@ -232,7 +232,7 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
         expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe(EXISTING_GAME_ID);
     });
 
-    it('returns false but still persists an already-finished game', async () => {
+    it('returns true and loads an already-finished game into the store', async () => {
         server.use(
             http.get('*/game/unlimited/resume/:gameId', () => {
                 return HttpResponse.json(
@@ -245,12 +245,12 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
             }),
         );
 
-        const isOngoing = await new UnlimitedGameService(
+        const isGameSet = await new UnlimitedGameService(
             new UnlimitedGameApi(),
             useGameStore(),
         ).resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(false);
+        expect(isGameSet).toBe(true);
         expect(useGameStore().game?.state).toBe(GameStates.Win);
     });
 
@@ -264,9 +264,9 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID);
+        const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(false);
+        expect(isGameSet).toBe(false);
         expect(useGameStore().isGameNull).toBe(true);
         expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBeUndefined();
     });

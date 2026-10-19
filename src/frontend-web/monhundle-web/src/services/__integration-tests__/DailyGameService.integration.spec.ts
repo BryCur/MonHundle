@@ -217,11 +217,11 @@ describe('DailyGameService — resuming a game (integration)', () => {
             }),
         );
 
-        const isOngoing = await new DailyGameService(new DailyGameApi(), useGameStore()).resumeGame(
+        const isGameSet = await new DailyGameService(new DailyGameApi(), useGameStore()).resumeGame(
             EXISTING_GAME_ID,
         );
 
-        expect(isOngoing).toBe(true);
+        expect(isGameSet).toBe(true);
         expect(useGameStore().game).toMatchObject({
             gameId: EXISTING_GAME_ID,
             gameMode: GameModes.Daily,

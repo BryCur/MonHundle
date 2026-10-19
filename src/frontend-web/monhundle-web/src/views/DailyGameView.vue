@@ -26,12 +26,10 @@ onMounted(async () => {
         localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
     const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
-    if (gameIdFromCookie) {
-        const isGameSet = await gameService.resumeGame(gameIdFromCookie);
-        if (!isGameSet) {
-            await gameService.startNewGame();
-        }
-    } else {
+    if (
+        !gameIdFromCookie || // no cookie existing
+        !(await gameService.resumeGame(gameIdFromCookie)) // game from cookie couldn't be set
+    ) {
         await gameService.startNewGame();
     }
 
