@@ -5,8 +5,9 @@ import { CookieKeys, setCookie } from '@/services/CookieService';
 import { msUntilMidnightUTC } from '@/domain/Utils';
 import { GameModes, type Guess } from '@/domain/ApiModels';
 import { DailyGameAlreadyExistsError } from '@/domain/errors/DailyGameAlreadyExistsError';
+import type IGameService from '@/domain/interfaces/services/IGameService';
 
-export class DailyGameService {
+export class DailyGameService implements IGameService {
     private readonly gameApi: IGameApi;
     private readonly gameStore: GameStore;
 

@@ -3,8 +3,9 @@ import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 import { type GameStore } from '@/stores/GameStore';
 import { CookieKeys, setCookie } from '@/services/CookieService';
 import { GameModes, type Guess } from '@/domain/ApiModels';
+import type IGameService from '@/domain/interfaces/services/IGameService';
 
-export class UnlimitedGameService {
+export class UnlimitedGameService implements IGameService {
     private readonly gameApi: IGameApi;
     private readonly gameStore: GameStore;
 
