@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
 import { NotificationTypes } from '@/domain/Notification';
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
-import { notificationEmitterKey } from '@/injectionKeyRegistry';
+import { injectStrict, notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
 import { paths, router } from '@/router';
-import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
 import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageService';
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const settingsApi = inject<SettingsApi>('settingsApi');
-const notificationEmitter = inject<INotificationEmitter>(notificationEmitterKey);
+const settingsApi = injectStrict(settingsApiKey);
+const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const gameList = ref<string[]>([]);
 const enableTableA11y = ref<boolean>(false);
@@ -42,7 +40,7 @@ function toggleA11y() {
 
 async function copyUUID() {
     await navigator.clipboard.writeText(currentUUID);
-    notificationEmitter?.notify({
+    notificationEmitter.notify({
         messageKey: 'ui.notification.info.uuidCopied.message',
         type: NotificationTypes.Info,
     });
@@ -52,12 +50,11 @@ async function loadUuid() {
     isWorking.value = true;
     try {
         if (inputUuid.value && isUUID(inputUuid.value)) {
-            const isInputValid: boolean =
-                (await settingsApi?.validateUser(inputUuid.value)) ?? false;
+            const isInputValid = await settingsApi.validateUser(inputUuid.value);
 
             if (isInputValid) {
-                await settingsApi?.loadUser(inputUuid.value);
-                const userProfile = await settingsApi?.getProfile(inputUuid.value);
+                await settingsApi.loadUser(inputUuid.value);
+                const userProfile = await settingsApi.getProfile(inputUuid.value);
 
                 localStorage.setItem(
                     LocalStorageKeys.GAME_LIST,
@@ -91,7 +88,7 @@ async function loadUuid() {
                 }
 
                 // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
-                notificationEmitter?.notify({
+                notificationEmitter.notify({
                     messageKey: 'ui.notification.success.profileLoaded.message',
                     type: NotificationTypes.Success,
                 });
@@ -117,7 +114,7 @@ function deleteStoredData() {
     localStorage.clear();
     clearCookies();
 
-    notificationEmitter?.notify({
+    notificationEmitter.notify({
         messageKey: 'ui.notification.success.dataDeleted.message',
         type: NotificationTypes.Success,
     });
@@ -127,8 +124,8 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     isWorking.value = true;
     try {
-        await settingsApi?.saveSettings(enableTableA11y.value, gameList.value);
-        notificationEmitter?.notify({
+        await settingsApi.saveSettings(enableTableA11y.value, gameList.value);
+        notificationEmitter.notify({
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
         });

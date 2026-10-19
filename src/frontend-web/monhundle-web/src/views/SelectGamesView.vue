@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { useI18n } from 'vue-i18n';
-import type { ResourceService } from '@/services/ResourceService';
+import { injectStrict, resourceServiceKey } from '@/injectionKeyRegistry';
 
 const router = useRouter();
 const { t } = useI18n();
-const resourceService = inject<ResourceService>('resourceService');
+const resourceService = injectStrict(resourceServiceKey);
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -25,8 +25,7 @@ onMounted(async () => {
     }
 
     try {
-        const gameTitles = await resourceService?.getAllGameTitles();
-        gameList.value = gameTitles ?? [];
+        gameList.value = await resourceService.getAllGameTitles();
     } catch (err) {
         confirmSelection();
         throw err;

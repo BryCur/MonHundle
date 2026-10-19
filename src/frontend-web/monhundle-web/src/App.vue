@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
-import LocaleSelector from './components/LocaleSelector.vue';
+import LocaleSelector from '@/components/LocaleSelector.vue';
 import { onMounted } from 'vue';
-import { router, paths } from './router';
+import { router, paths } from '@/router';
 import NotificationCanvas from '@/components/Notification/NotificationCanvas.vue';
 
 onMounted(async () => {

@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
-import type { UnlimitedGameService } from '@/services/UnlimitedGameService';
 import { GameStates, GameModes } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { router } from '@/router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import type { ResourceService } from '@/services/ResourceService';
+import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
 
 const { t } = useI18n();
 const gameStore = useGameStore();
-const gameService = inject<UnlimitedGameService>('unlimitedGameService');
-const resourceService = inject<ResourceService>('resourceService');
+const gameService = injectStrict(unlimitedGameServiceKey);
+const resourceService = injectStrict(resourceServiceKey);
 
 const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
 const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
@@ -38,7 +37,7 @@ onMounted(async () => {
     const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
 
     if (gameIdFromCookie) {
-        await gameService?.resumeGame(gameIdFromCookie).then(async (gameSet) => {
+        await gameService.resumeGame(gameIdFromCookie).then(async (gameSet) => {
             if (!gameSet) {
                 startNewGame();
             } else {
@@ -50,18 +49,18 @@ onMounted(async () => {
     }
 
     const gameList = JSON.parse(storedGameList!) as string[];
-    monsterList.value = (await resourceService?.getMonsterOptions(gameList ?? [])) ?? [];
+    monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
 
     ready.value = true;
 });
 
 async function sendGuess() {
-    gameService?.makeGuess(gameId!, selectedMonster.value!);
+    gameService.makeGuess(gameId!, selectedMonster.value!);
     selectedMonster.value = undefined;
 }
 
 function startNewGame() {
-    gameService?.startNewGame().then((resp) => (gameId = resp));
+    gameService.startNewGame().then((resp) => (gameId = resp));
 }
 
 function getLastGuessIcon() {

@@ -1,27 +1,33 @@
-import './assets/main.css';
+import '@/assets/main.css';
 
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import { createPinia } from 'pinia';
 
-import App from './App.vue';
-import { router } from './router';
+import App from '@/App.vue';
+import { router } from '@/router';
 
-import en from './locales/en.json';
-import fr from './locales/fr.json';
+import en from '@/locales/en.json';
+import fr from '@/locales/fr.json';
 
 import { DailyGameService } from '@/services/DailyGameService';
 import { UnlimitedGameService } from '@/services/UnlimitedGameService';
-import { UnlimitedGameApi } from './services/ApiService/UnlimitedGameApi';
-import ResourceApi from './services/ApiService/ResourceApi';
-import { useGameStore } from './stores/GameStore';
-import { DailyGameApi } from './services/ApiService/DailyGameApi';
-import { SettingsApi } from '@/services/ApiService/SettingApi.ts';
-import { authManager } from './services/AuthManagementService.ts';
-import { ResourceService } from '@/services/ResourceService.ts';
-import { reportError } from '@/domain/errors/NotifiedError/ErrorToNotification.ts';
-import { useNotificationStore } from '@/stores/NotificationStore.ts';
-import { notificationEmitterKey } from '@/injectionKeyRegistry.ts';
+import { UnlimitedGameApi } from '@/services/ApiService/UnlimitedGameApi';
+import ResourceApi from '@/services/ApiService/ResourceApi';
+import { useGameStore } from '@/stores/GameStore';
+import { DailyGameApi } from '@/services/ApiService/DailyGameApi';
+import { SettingsApi } from '@/services/ApiService/SettingApi';
+import { authManager } from '@/services/AuthManagementService';
+import { ResourceService } from '@/services/ResourceService';
+import { reportError } from '@/domain/errors/NotifiedError/ErrorToNotification';
+import { useNotificationStore } from '@/stores/NotificationStore';
+import {
+    dailyGameServiceKey,
+    notificationEmitterKey,
+    resourceServiceKey,
+    settingsApiKey,
+    unlimitedGameServiceKey,
+} from '@/injectionKeyRegistry';
 
 const i18n = createI18n({
     legacy: false,
@@ -55,10 +61,10 @@ authManager.authenticate().catch(() => {});
 
 app.use(router);
 app.use(i18n);
-app.provide('unlimitedGameService', unlimitedGameService);
-app.provide('dailyGameService', dailyGameService);
-app.provide('resourceService', resourceService);
-app.provide('settingsApi', settingsApi);
+app.provide(unlimitedGameServiceKey, unlimitedGameService);
+app.provide(dailyGameServiceKey, dailyGameService);
+app.provide(resourceServiceKey, resourceService);
+app.provide(settingsApiKey, settingsApi);
 app.provide(notificationEmitterKey, notificationStore);
 
 // gate 1: errors raised from Vue
