@@ -2,12 +2,14 @@
 import { NotificationTypes } from '@/domain/Notification';
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
 import { injectStrict, notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
-import { paths, router } from '@/router';
+import { paths } from '@/router';
 import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
 import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageService';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const { t } = useI18n();
 const settingsApi = injectStrict(settingsApiKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);

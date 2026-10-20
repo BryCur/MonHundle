@@ -5,11 +5,12 @@ import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
-import { router } from '@/router';
+import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
 
+const router = useRouter();
 const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = injectStrict(unlimitedGameServiceKey);

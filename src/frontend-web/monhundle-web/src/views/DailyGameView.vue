@@ -75,7 +75,7 @@ function shareGame(): void {
     <div v-if="ready" class="game-page-container">
         <div class="introduction fit-screen" v-if="!gameStore.isGameOver">
             <img class="introduction-icon" :src="getLatestIconForMonster('unknown')" />
-            <div v-html="t('ui.game.rules.unlimited')" class="introduction-content"></div>
+            <div v-html="t('ui.game.rules.daily')" class="introduction-content"></div>
         </div>
         <div v-if="!gameStore.isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
