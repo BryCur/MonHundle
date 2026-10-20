@@ -19,6 +19,7 @@ import GameStatus from '@/domain/GameStatus';
 import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
+import { GameNotSetError } from '@/domain/errors/GameNotSetError';
 
 // Test the whole code chaine from the service layer with only network calls (fetch) faked.
 describe('UnlimitedGameService — starting a game (integration)', () => {
@@ -102,7 +103,8 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         useGameStore().setGame(new GameStatus(EXISTING_GAME_ID, GameModes.Unlimited));
     });
 
-    it('sends a well-formed guess request body', async () => {
+    it('sends a well-formed guess request body, with the game id taken from the store', async () => {
+        useGameStore().setGame(new GameStatus(SHAPE_TEST_GAME_ID, GameModes.Unlimited));
         let capturedBody: MakeGuessBody | null = null;
         server.use(
             http.post('*/game/unlimited/guess', async ({ request }) => {
@@ -114,7 +116,6 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         );
 
         await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
-            SHAPE_TEST_GAME_ID,
             MONSTER_CODE_NARGACUGA,
         );
 
@@ -135,7 +136,7 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        await gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS);
+        await gameService.makeGuess(MONSTER_CODE_RATHALOS);
 
         const gameStore = useGameStore();
         expect(gameStore.game?.guesses).toHaveLength(1);
@@ -153,7 +154,6 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
         );
 
         await new UnlimitedGameService(new UnlimitedGameApi(), useGameStore()).makeGuess(
-            EXISTING_GAME_ID,
             MONSTER_CODE_RATHALOS,
         );
 
@@ -167,10 +167,19 @@ describe('UnlimitedGameService — making a guess (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        await expect(
-            gameService.makeGuess(EXISTING_GAME_ID, MONSTER_CODE_RATHALOS),
-        ).rejects.toThrow();
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toThrow();
         expect(useGameStore().game?.guesses).toHaveLength(0);
+    });
+
+    it('refuses to guess without a game in the store, before any request', async () => {
+        // fresh store with no game; no handler registered, so any request would fail the test
+        setActivePinia(createPinia());
+        const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
+
+        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toBeInstanceOf(
+            GameNotSetError,
+        );
+        expect(useGameStore().isGameNull).toBe(true);
     });
 });
 
@@ -213,9 +222,9 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID);
+        const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(true);
+        expect(isGameSet).toBe(true);
         expect(useGameStore().game).toMatchObject({
             gameId: EXISTING_GAME_ID,
             gameMode: GameModes.Unlimited,
@@ -223,7 +232,7 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
         expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBe(EXISTING_GAME_ID);
     });
 
-    it('returns false but still persists an already-finished game', async () => {
+    it('returns true and loads an already-finished game into the store', async () => {
         server.use(
             http.get('*/game/unlimited/resume/:gameId', () => {
                 return HttpResponse.json(
@@ -236,12 +245,12 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
             }),
         );
 
-        const isOngoing = await new UnlimitedGameService(
+        const isGameSet = await new UnlimitedGameService(
             new UnlimitedGameApi(),
             useGameStore(),
         ).resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(false);
+        expect(isGameSet).toBe(true);
         expect(useGameStore().game?.state).toBe(GameStates.Win);
     });
 
@@ -255,10 +264,10 @@ describe('UnlimitedGameService — resuming a game (integration)', () => {
 
         const gameService = new UnlimitedGameService(new UnlimitedGameApi(), useGameStore());
 
-        const isOngoing = await gameService.resumeGame(EXISTING_GAME_ID);
+        const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
-        expect(isOngoing).toBe(false);
-        expect(useGameStore().isGameNull()).toBe(true);
+        expect(isGameSet).toBe(false);
+        expect(useGameStore().isGameNull).toBe(true);
         expect(getCookie(CookieKeys.CURRENT_UNLIMITED_GAME)).toBeUndefined();
     });
 });

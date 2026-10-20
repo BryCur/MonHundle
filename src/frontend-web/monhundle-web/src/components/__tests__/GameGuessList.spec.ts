@@ -93,7 +93,7 @@ describe('GameGuessList', () => {
     it('should not display instruction nor table when there are no guesses', () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [],
+                guesses: [],
             },
         });
 
@@ -106,7 +106,7 @@ describe('GameGuessList', () => {
     it('renders the correct number of rows', async () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: sampleGuesses,
+                guesses: sampleGuesses,
             },
         });
 
@@ -117,7 +117,7 @@ describe('GameGuessList', () => {
     it('displays guesses in reverse orders', async () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: sampleGuesses,
+                guesses: sampleGuesses,
             },
         });
 
@@ -135,7 +135,7 @@ describe('GameGuessList', () => {
     it('maps each criterion cell to the result class of its own comparison result', () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guessWithDistinctResults],
+                guesses: [guessWithDistinctResults],
             },
         });
 
@@ -152,7 +152,7 @@ describe('GameGuessList', () => {
     it('adds accessibility classes to the result cells when accessibilityEnabled is set', () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guessWithDistinctResults],
+                guesses: [guessWithDistinctResults],
                 accessibilityEnabled: true,
             },
         });
@@ -166,7 +166,7 @@ describe('GameGuessList', () => {
     it('omits accessibility classes by default', () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guessWithDistinctResults],
+                guesses: [guessWithDistinctResults],
             },
         });
 
@@ -184,7 +184,7 @@ describe('GameGuessList', () => {
 
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guess],
+                guesses: [guess],
             },
         });
 
@@ -194,7 +194,7 @@ describe('GameGuessList', () => {
     it('shows the translated classification in its cell', () => {
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guessWithDistinctResults],
+                guesses: [guessWithDistinctResults],
             },
         });
 
@@ -214,7 +214,7 @@ describe('GameGuessList', () => {
 
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guess],
+                guesses: [guess],
             },
         });
 
@@ -236,7 +236,7 @@ describe('GameGuessList', () => {
 
         const wrapper = mount(GameGuessList, {
             props: {
-                modelValue: [guess],
+                guesses: [guess],
             },
         });
 

@@ -1,8 +1,9 @@
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import type IResourceApi from '@/domain/interfaces/api-contracts/IResourceApi';
+import type IResourceService from '@/domain/interfaces/services/IResourceService';
 
-export class ResourceService {
+export class ResourceService implements IResourceService {
     private readonly resourceApi: IResourceApi;
 
     constructor(resourceApi: IResourceApi) {

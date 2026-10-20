@@ -43,9 +43,9 @@ describe('GameStore', () => {
         const store = useGameStore();
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
 
-        expect(store.isGameNull()).toBeTruthy();
+        expect(store.isGameNull).toBeTruthy();
         store.setGame(game);
-        expect(store.isGameNull()).toBeFalsy();
+        expect(store.isGameNull).toBeFalsy();
     });
 
     it('should indicate whether a game is ongoing correctly', () => {
@@ -53,13 +53,13 @@ describe('GameStore', () => {
         const game: GameStatus = new GameStatus('abc', GameModes.Unlimited);
         store.setGame(game);
 
-        expect(store.isGameOngoing()).toBeTruthy();
+        expect(store.isGameOngoing).toBeTruthy();
         store.setState(GameStates.Win);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
         store.setState(GameStates.Lose);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
         store.setState(GameStates.Forfeited);
-        expect(store.isGameOngoing()).toBeFalsy();
+        expect(store.isGameOngoing).toBeFalsy();
     });
 
     it('should not throw when adding a guess with no active game', () => {
@@ -79,7 +79,7 @@ describe('GameStore', () => {
     it('should report a null game as not ongoing', () => {
         const store = useGameStore();
 
-        expect(store.isGameOngoing()).toBe(false);
+        expect(store.isGameOngoing).toBe(false);
     });
 
     it('should replace the current game when setGame is called again', () => {
@@ -91,5 +91,67 @@ describe('GameStore', () => {
 
         expect(store.game).toStrictEqual(replacement);
         expect(store.game?.gameId).toBe('second');
+    });
+
+    it('should not report a game over when there is no game', () => {
+        const store = useGameStore();
+
+        expect(store.isGameOver).toBe(false);
+    });
+
+    it('should report a game over only once the game has left the ongoing state', () => {
+        const store = useGameStore();
+        store.setGame(new GameStatus('abc', GameModes.Unlimited));
+
+        expect(store.isGameOver).toBe(false);
+        store.setState(GameStates.Win);
+        expect(store.isGameOver).toBe(true);
+        store.setState(GameStates.Lose);
+        expect(store.isGameOver).toBe(true);
+        store.setState(GameStates.Forfeited);
+        expect(store.isGameOver).toBe(true);
+    });
+
+    it('should expose an empty guess list when there is no game', () => {
+        const store = useGameStore();
+
+        expect(store.guesses).toStrictEqual([]);
+    });
+
+    it('should expose the guesses of the current game', () => {
+        const store = useGameStore();
+        store.setGame(new GameStatus('abc', GameModes.Unlimited));
+        const guess = { monsterCode: 'rathalos' } as Guess;
+
+        store.addGuess(guess);
+
+        expect(store.guesses).toStrictEqual([guess]);
+    });
+
+    it('should have no last guess when there is no game or no guess yet', () => {
+        const store = useGameStore();
+        expect(store.lastGuess).toBeUndefined();
+
+        store.setGame(new GameStatus('abc', GameModes.Unlimited));
+        expect(store.lastGuess).toBeUndefined();
+    });
+
+    it('should expose the most recent guess as the last guess', () => {
+        const store = useGameStore();
+        store.setGame(new GameStatus('abc', GameModes.Unlimited));
+        const lastGuess = { monsterCode: 'nargacuga' } as Guess;
+
+        store.addGuess({ monsterCode: 'rathalos' } as Guess);
+        store.addGuess(lastGuess);
+
+        expect(store.lastGuess).toStrictEqual(lastGuess);
+    });
+
+    it('should expose the id of the current game, if any', () => {
+        const store = useGameStore();
+        expect(store.gameId).toBeUndefined();
+
+        store.setGame(new GameStatus('abc', GameModes.Unlimited));
+        expect(store.gameId).toBe('abc');
     });
 });

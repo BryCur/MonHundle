@@ -1,29 +1,24 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
-import type { UnlimitedGameService } from '@/services/UnlimitedGameService';
-import { GameStates, GameModes } from '@/domain/ApiModels';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
-import { router } from '@/router';
+import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import type { ResourceService } from '@/services/ResourceService';
+import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
 
+const router = useRouter();
 const { t } = useI18n();
 const gameStore = useGameStore();
-const gameService = inject<UnlimitedGameService>('unlimitedGameService');
-const resourceService = inject<ResourceService>('resourceService');
-
-const isGameOver = computed(() => gameStore.game?.state != GameStates.Ongoing);
-const gameGuesses = computed(() => (gameStore.isGameNull() ? [] : gameStore.game?.guesses));
+const gameService = injectStrict(unlimitedGameServiceKey);
+const resourceService = injectStrict(resourceServiceKey);
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
-let gameId: string | undefined;
 let enableTableA11y = false;
 
 onMounted(async () => {
@@ -37,56 +32,44 @@ onMounted(async () => {
 
     const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
 
-    if (gameIdFromCookie) {
-        await gameService?.resumeGame(gameIdFromCookie).then(async (gameSet) => {
-            if (!gameSet) {
-                startNewGame();
-            } else {
-                gameId = gameStore.game!.gameId;
-            }
-        });
-    } else if (gameStore.isGameNull() || gameStore.game?.gameMode !== GameModes.Unlimited) {
-        startNewGame();
+    if (
+        !gameIdFromCookie || // no cookie existing
+        !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
+        !gameStore.isGameOngoing // game from cookie already finished
+    ) {
+        await gameService.startNewGame();
     }
 
     const gameList = JSON.parse(storedGameList!) as string[];
-    monsterList.value = (await resourceService?.getMonsterOptions(gameList ?? [])) ?? [];
+    monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
 
     ready.value = true;
 });
 
 async function sendGuess() {
-    gameService?.makeGuess(gameId!, selectedMonster.value!);
+    gameService.makeGuess(selectedMonster.value!);
     selectedMonster.value = undefined;
 }
 
-function startNewGame() {
-    gameService?.startNewGame().then((resp) => (gameId = resp));
-}
-
 function getLastGuessIcon() {
-    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
+    if (gameStore.isGameNull || gameStore.isGameOngoing) {
         return getLatestIconForMonster('unknown');
     } else {
-        return getLatestIconForMonster(
-            gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode,
-        );
+        return getLatestIconForMonster(gameStore.lastGuess?.monsterCode);
     }
 }
 
 function getLastGuessName(): string {
-    if (gameStore.isGameNull() || gameStore.isGameOngoing()) {
-        return t('game.monsters.unknown.name');
+    if (gameStore.isGameNull || gameStore.isGameOngoing) {
+        return t('game.monster.unknown.name');
     } else {
-        return t(
-            `game.monster.${gameStore.game!.guesses[gameStore.game!.guesses.length - 1]?.monsterCode}.name`,
-        );
+        return t(`game.monster.${gameStore.lastGuess?.monsterCode ?? 'unknown'}.name`);
     }
 }
 
 // insert string representation of the game into the clipboard
 function shareGame(): void {
-    const guessCount = gameStore.game?.guesses.length;
+    const guessCount = gameStore.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = 'https://' + window.location.host + window.location.pathname;
 
@@ -98,11 +81,11 @@ function shareGame(): void {
 
 <template>
     <div v-if="ready" class="game-page-container">
-        <div class="introduction fit-screen" v-if="!isGameOver">
+        <div class="introduction fit-screen" v-if="!gameStore.isGameOver">
             <img class="introduction-icon" :src="getLatestIconForMonster('unknown')" />
             <div v-html="t('ui.game.rules.unlimited')" class="introduction-content"></div>
         </div>
-        <div v-if="!isGameOver" class="option-selector-container fit-screen">
+        <div v-if="!gameStore.isGameOver" class="option-selector-container fit-screen">
             <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
             <button @click="sendGuess()">
                 <span>{{ t('ui.generic.sendguess') }}</span>
@@ -118,13 +101,13 @@ function shareGame(): void {
                     {{
                         t('ui.game.over.answer', {
                             monster: getLastGuessName(),
-                            attempts: gameStore.game?.guesses.length,
+                            attempts: gameStore.guesses.length,
                         })
                     }}
                 </p>
             </div>
 
-            <button @click="startNewGame()">
+            <button @click="gameService.startNewGame()">
                 <span> {{ t('ui.generic.newGame') }}</span>
             </button>
             <button @click="shareGame()">
@@ -133,7 +116,7 @@ function shareGame(): void {
         </div>
         <div class="game-progress-container fit-screen">
             <GameGuessList
-                v-model="gameGuesses"
+                :guesses="gameStore.guesses"
                 :accessibility-enabled="enableTableA11y"
             ></GameGuessList>
         </div>

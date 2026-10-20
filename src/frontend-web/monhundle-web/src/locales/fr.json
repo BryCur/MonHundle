@@ -86,6 +86,9 @@
             }
         },
         "monster": {
+            "unknown": {
+                "name": "Inconnu"
+            },
             "abyssal_lagiacrus": {
                 "name": "Lagiacrus Abyssal"
             },
@@ -839,11 +842,15 @@
             },
             "rules": {
                 "general": {
+                    "label": "comment lire le tableau",
                     "correct": "Correcte",
                     "incorrect": "Erroné",
-                    "partial": "Partiellement correcte, au moins 1 valeur fausse"
+                    "partial": "Partiellement correcte, au moins 1 valeur fausse",
+                    "higher": "La bonne valeur est plus élevée",
+                    "lower": "La bonne valeur est plus basse"
                 },
-                "unlimited": "<p><b>Devinez le monstre mystère en aussi peu d'essai que possible!</b></p><p>Vous n'avez aucune limite d'essais, alors prenez votre temps. Voud n'aurez aucun autre indice que ce que le tableau vous fournis.</p><p>Bonne chance et amusez vous bien!</p>"
+                "unlimited": "<p><b>Devinez le monstre mystère en aussi peu d'essais que possible!</b></p><p>Vous n'avez aucune limite d'essais, alors prenez votre temps. Vous n'aurez aucun autre indice que ce que le tableau vous fournit.</p><p>Bonne chance et amusez vous bien!</p>",
+                "daily": "<p><b>Trouvez le monstre du jour en aussi peu d'essais que possible !</b></p><p>Tout le monde cherche le même monstre, et un nouveau arrive chaque jour à minuit (UTC). Vos seuls indices sont ceux que donne le tableau.</p><p>Bonne chance, et à demain !</p>"
             },
             "share": {
                 "unlimited": "J'ai résolu mon #MonHundle en {guessCount} essais ! 🔍\n\n{guessesStr}\n{Url} 🐉⚔️",

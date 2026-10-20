@@ -1,36 +1,37 @@
 import { GameStates, type Guess } from '@/domain/ApiModels';
 import GameStatus from '@/domain/GameStatus';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 
-export const useGameStore = defineStore('game', () => {
-    const game = ref<GameStatus | null>(null);
+export const useGameStore = defineStore('game', {
+    state: () => ({
+        game: null as GameStatus | null,
+    }),
 
-    function setGame(newGame: GameStatus) {
-        game.value = newGame;
-    }
+    getters: {
+        isGameNull: (state): boolean => state.game === null,
+        isGameOngoing: (state): boolean => state.game?.state === GameStates.Ongoing,
+        isGameOver: (state): boolean =>
+            state.game !== null && state.game.state !== GameStates.Ongoing,
+        guesses: (state): Guess[] => state.game?.guesses ?? [],
+        lastGuess: (state): Guess | undefined => state.game?.guesses[state.game.guesses.length - 1],
+        gameId: (state): string | undefined => state.game?.gameId,
+    },
 
-    function addGuess(guess: Guess) {
-        game.value?.addGuess(guess);
-    }
+    actions: {
+        setGame(newGame: GameStatus) {
+            this.game = newGame;
+        },
 
-    function setState(state: GameStates) {
-        if (!game.value) {
-            return;
-        }
+        addGuess(guess: Guess) {
+            this.game?.addGuess(guess);
+        },
 
-        game.value.state = state;
-    }
-
-    function isGameNull(): boolean {
-        return game.value === null;
-    }
-
-    function isGameOngoing(): boolean {
-        return game.value?.state === GameStates.Ongoing;
-    }
-
-    return { game, setGame, addGuess, setState, isGameNull, isGameOngoing };
+        setState(state: GameStates) {
+            if (this.game) {
+                this.game.state = state;
+            }
+        },
+    },
 });
 
 export type GameStore = ReturnType<typeof useGameStore>;

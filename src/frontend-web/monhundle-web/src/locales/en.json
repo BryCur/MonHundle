@@ -86,6 +86,9 @@
             }
         },
         "monster": {
+            "unknown": {
+                "name": "Unknown"
+            },
             "abyssal_lagiacrus": {
                 "name": "Abyssal Lagiacrus"
             },
@@ -846,7 +849,8 @@
                     "higher": "The right value is higher",
                     "lower": "The right value is lower"
                 },
-                "unlimited": "<p><b>Guess the monster, with the fewest guesses possible!</b></p><p>You have unlimited attempts, so take your time. You will not have any additional clue than what the table is providing.</p><p>Good luck and have fun!</p>"
+                "unlimited": "<p><b>Guess the monster, with the fewest guesses possible!</b></p><p>You have unlimited attempts, so take your time. You will not have any additional clue than what the table is providing.</p><p>Good luck and have fun!</p>",
+                "daily": "<p><b>Find today's monster, with the fewest guesses possible!</b></p><p>Everyone gets the same monster, and a new one comes every day at midnight (UTC). Your only clues are the ones the table gives you.</p><p>Good luck, and come back tomorrow!</p>"
             },
             "share": {
                 "unlimited": "I solved my #MonHundle monster in {guessCount} guesses! 🔍\n\n{guessesStr}\n Test your knowledge in {Url} 🐉⚔️",

@@ -1,12 +1,31 @@
 import { describe, expect, it } from 'vitest';
 import GameStatus from '@/domain/GameStatus';
-import { GameModes, ComparisonOutcomes, type Guess } from '@/domain/ApiModels';
+import { GameModes, GameStates, ComparisonOutcomes, type Guess } from '@/domain/ApiModels';
+import { buildGameStateResponse, buildGuessResponse } from '@test-utils/vitest/fixtures';
 
 function guessWithResults(comparisonResult: Record<string, ComparisonOutcomes>): Guess {
     return { monsterCode: 'rathalos', criterias: {}, comparisonResult } as unknown as Guess;
 }
 
 describe('GameStatus', () => {
+    it('builds a game from the backend game state payload, via fromResponse', () => {
+        const guesses = [buildGuessResponse({ monsterCode: 'rathalos' })];
+        const response = buildGameStateResponse({
+            gameId: 'abc',
+            gameMode: GameModes.Daily,
+            state: GameStates.Win,
+            guesses,
+        });
+
+        const game = GameStatus.fromResponse(response);
+
+        expect(game).toBeInstanceOf(GameStatus);
+        expect(game.gameId).toBe('abc');
+        expect(game.gameMode).toBe(GameModes.Daily);
+        expect(game.state).toBe(GameStates.Win);
+        expect(game.guesses).toStrictEqual(guesses);
+    });
+
     it('appends guesses in order via addGuess', () => {
         const game = new GameStatus('abc', GameModes.Unlimited);
 

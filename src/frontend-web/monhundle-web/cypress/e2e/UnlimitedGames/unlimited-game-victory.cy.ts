@@ -67,8 +67,7 @@ describe('Winning an unlimited game', () => {
         cy.wait('@authUser');
         cy.wait('@resumeGame');
 
-        // UnlimitedGameService.resumeGame() only reports success when the resumed game is still
-        // ongoing - a finished one makes it return false, so the view transparently starts a fresh
+        // the resumed game is loaded but already finished: the view transparently starts a fresh
         // game instead of showing the (already resolved) game-over screen for the old one.
         cy.wait('@startGame');
         cy.wait('@monsterChoices');

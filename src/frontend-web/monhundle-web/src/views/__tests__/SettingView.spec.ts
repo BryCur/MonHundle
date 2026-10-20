@@ -1,10 +1,22 @@
 import { mount, flushPromises, type VueWrapper } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
+
+const { pushMock } = vi.hoisted(() => ({
+    pushMock: vi.fn(),
+}));
+
+// the view gets its router through useRouter(); no real router is installed in these tests
+vi.mock('vue-router', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('vue-router')>();
+    return { ...actual, useRouter: () => ({ push: pushMock }) };
+});
+
 import SettingView from '@/views/SettingView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { notificationEmitterKey } from '@/injectionKeyRegistry';
+import { notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
 import { NotificationTypes } from '@/domain/Notification';
+import { paths } from '@/router';
 
 // real (empty) i18n so `t()` resolves to the key path
 const i18n = createI18n({
@@ -18,7 +30,10 @@ const i18n = createI18n({
 
 async function mountView() {
     const wrapper = mount(SettingView, {
-        global: { plugins: [i18n], provide: { settingsApi: {} } },
+        global: {
+            plugins: [i18n],
+            provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
+        },
     });
     await flushPromises(); // onMounted fills gameList from localStorage, then the label re-renders
     return wrapper;
@@ -49,7 +64,11 @@ describe('SettingView game-list label', () => {
         const errorHandler = vi.fn();
 
         const wrapper = mount(SettingView, {
-            global: { plugins: [i18n], provide: { settingsApi: {} }, config: { errorHandler } },
+            global: {
+                plugins: [i18n],
+                provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
+                config: { errorHandler },
+            },
         });
         await flushPromises();
 
@@ -77,7 +96,7 @@ describe('SettingView actions', () => {
         const wrapper = mount(SettingView, {
             global: {
                 plugins: [i18n],
-                provide: { settingsApi, [notificationEmitterKey]: { notify } },
+                provide: { [settingsApiKey]: settingsApi, [notificationEmitterKey]: { notify } },
                 // stands in for the app's global error handler
                 config: { errorHandler },
             },
@@ -141,6 +160,17 @@ describe('SettingView actions', () => {
         vi.useRealTimers();
         vi.unstubAllGlobals();
         Reflect.deleteProperty(navigator, 'clipboard');
+    });
+
+    describe('changing the game list', () => {
+        it('navigates to the game selection screen', async () => {
+            pushMock.mockClear();
+            const wrapper = await mountWithMocks();
+
+            await button(wrapper, 'ui.settings.gameList.button').trigger('click');
+
+            expect(pushMock).toHaveBeenCalledExactlyOnceWith(paths.selectGame);
+        });
     });
 
     describe('copying the UUID', () => {

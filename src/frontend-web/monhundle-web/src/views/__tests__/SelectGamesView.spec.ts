@@ -15,6 +15,7 @@ import SelectGamesView from '@/views/SelectGamesView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { paths } from '@/router';
+import { resourceServiceKey } from '@/injectionKeyRegistry';
 
 const i18n = createI18n({
     legacy: false,
@@ -30,7 +31,7 @@ const GAMES = ['MHW', 'MHR', 'MHWilds'];
 async function mountView() {
     const resourceService = { getAllGameTitles: vi.fn().mockResolvedValue(GAMES) };
     const wrapper = mount(SelectGamesView, {
-        global: { plugins: [i18n], provide: { resourceService } },
+        global: { plugins: [i18n], provide: { [resourceServiceKey]: resourceService } },
     });
     await flushPromises();
     return wrapper;
@@ -91,7 +92,11 @@ describe('SelectGamesView when the game list cannot be loaded', () => {
         const errorHandler = vi.fn();
 
         const wrapper = mount(SelectGamesView, {
-            global: { plugins: [i18n], provide: { resourceService }, config: { errorHandler } },
+            global: {
+                plugins: [i18n],
+                provide: { [resourceServiceKey]: resourceService },
+                config: { errorHandler },
+            },
         });
         await flushPromises();
 

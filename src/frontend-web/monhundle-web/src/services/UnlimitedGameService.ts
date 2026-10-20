@@ -3,8 +3,10 @@ import type IGameApi from '@/domain/interfaces/api-contracts/IGameApi';
 import { type GameStore } from '@/stores/GameStore';
 import { CookieKeys, setCookie } from '@/services/CookieService';
 import { GameModes, type Guess } from '@/domain/ApiModels';
+import type IGameService from '@/domain/interfaces/services/IGameService';
+import { GameNotSetError } from '@/domain/errors/GameNotSetError';
 
-export class UnlimitedGameService {
+export class UnlimitedGameService implements IGameService {
     private readonly gameApi: IGameApi;
     private readonly gameStore: GameStore;
 
@@ -23,8 +25,12 @@ export class UnlimitedGameService {
         return gameId;
     }
 
-    public async makeGuess(gameId: string, guessCode: string): Promise<void> {
-        const res = await this.gameApi.makeGuess(gameId, guessCode);
+    public async makeGuess(guessCode: string): Promise<void> {
+        if (this.gameStore.gameId === undefined) {
+            throw new GameNotSetError('Store has no game set');
+        }
+
+        const res = await this.gameApi.makeGuess(this.gameStore.gameId, guessCode);
         const guessResult: Guess = res; // TOFIX could be missing: ok verification before reading the response
         this.gameStore.addGuess(guessResult);
         this.gameStore.setState(res.gameStateAfterGuess);
@@ -35,7 +41,7 @@ export class UnlimitedGameService {
         if (res !== null) {
             this.gameStore.setGame(res);
             setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, gameId);
-            return this.gameStore.isGameOngoing();
+            return true;
         }
 
         return false;
