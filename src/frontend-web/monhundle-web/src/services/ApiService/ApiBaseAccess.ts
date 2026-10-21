@@ -21,7 +21,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}): Pro
         });
     } catch (err) {
         // network error of some sort.
-        throw new BackendUnavailableError('service unreachable', { cause: err });
+        throw new BackendUnavailableError('Service unreachable', { cause: err });
     }
 
     if (UNAVAILABLE_STATUSES.includes(response.status)) {

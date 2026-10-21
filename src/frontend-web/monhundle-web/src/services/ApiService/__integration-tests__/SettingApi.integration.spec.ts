@@ -11,6 +11,7 @@ import {
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService';
 import type { SettingsResponse, UserSettingsBody } from '@/domain/ApiModels';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
 describe('SettingsApi.saveSettings (integration)', () => {
     it('sends a well-formed preference request', async () => {
@@ -33,10 +34,13 @@ describe('SettingsApi.saveSettings (integration)', () => {
         } satisfies UserSettingsBody);
     });
 
-    it('resolves even when the backend rejects the request — the response status is never checked', async () => {
+    it('throws an UnexpectedApiError when the backend rejects the request', async () => {
         server.use(http.post('*/user/preference', () => new HttpResponse(null, { status: 500 })));
 
-        await expect(new SettingsApi().saveSettings(true, [])).resolves.toBeUndefined();
+        const request = new SettingsApi().saveSettings(true, []);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -72,12 +76,23 @@ describe('SettingsApi.getProfile (integration)', () => {
         expect(profile).toEqual(expected);
     });
 
-    it('returns null when the response is not ok', async () => {
+    it('returns null when the profile is not found (404)', async () => {
         server.use(
             http.get('*/user/profile/:playerUid', () => new HttpResponse(null, { status: 404 })),
         );
 
         await expect(new SettingsApi().getProfile(VALID_UUID)).resolves.toBeNull();
+    });
+
+    it('throws an UnexpectedApiError on any other error status', async () => {
+        server.use(
+            http.get('*/user/profile/:playerUid', () => new HttpResponse(null, { status: 500 })),
+        );
+
+        const request = new SettingsApi().getProfile(VALID_UUID);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -105,10 +120,19 @@ describe('SettingsApi.validateUser (integration)', () => {
         await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(true);
     });
 
-    it('returns false on any non-200 response', async () => {
+    it('returns false on a 400 response (id not recognised)', async () => {
         server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 400 })));
 
         await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(false);
+    });
+
+    it('throws an UnexpectedApiError on any other error status', async () => {
+        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 500 })));
+
+        const request = new SettingsApi().validateUser(VALID_UUID);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -151,11 +175,13 @@ describe('SettingsApi.loadUser (integration)', () => {
         expect(getStoredUserId()).toBe(VALID_UUID);
     });
 
-    it('does not touch the stored id when the response is not ok', async () => {
+    it('throws an UnexpectedApiError and does not touch the stored id when the response is not ok', async () => {
         server.use(http.get('*/user/load', () => new HttpResponse(null, { status: 404 })));
 
-        await new SettingsApi().loadUser(VALID_UUID);
+        const request = new SettingsApi().loadUser(VALID_UUID);
 
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 404 });
         expect(getStoredUserId()).toBeNull();
     });
 });

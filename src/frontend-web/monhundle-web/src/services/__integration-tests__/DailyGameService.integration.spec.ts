@@ -20,6 +20,7 @@ import { GameModes, GameStates, type MakeGuessBody } from '@/domain/ApiModels';
 import { CookieKeys, deleteCookie, getCookie } from '@/services/CookieService';
 import { clearStoredUserId, setStoredUserId } from '@/services/LocalStorageService';
 import { GameNotSetError } from '@/domain/errors/GameNotSetError';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
 describe('DailyGameService — starting a game (integration)', () => {
     beforeEach(() => {
@@ -84,9 +85,10 @@ describe('DailyGameService — starting a game (integration)', () => {
 
         const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
 
-        // Unlike UnlimitedGameApi.newGame(), DailyGameApi.newGame() does check `response.ok`
-        // and throws a clean Error on a non-409 failure rather than choking on `.json()`.
-        await expect(gameService.startNewGame()).rejects.toThrow(/unexpected error/);
+        const request = gameService.startNewGame();
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
         expect(useGameStore().game).toBeNull();
     });
 });
@@ -158,8 +160,10 @@ describe('DailyGameService — making a guess (integration)', () => {
         server.use(http.post('*/game/daily/guess', () => new HttpResponse(null, { status: 400 })));
 
         const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
+        const request = gameService.makeGuess(MONSTER_CODE_RATHALOS);
 
-        await expect(gameService.makeGuess(MONSTER_CODE_RATHALOS)).rejects.toThrow();
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 400 });
         expect(useGameStore().game?.guesses).toHaveLength(0);
     });
 
@@ -257,11 +261,23 @@ describe('DailyGameService — resuming a game (integration)', () => {
 
         const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
 
-        // DailyGameApi.resumeGame() does check `response.ok` before parsing — verified here
-        // for this class specifically. A 404 with an empty body resolves to `null` cleanly.
         const isGameSet = await gameService.resumeGame(EXISTING_GAME_ID);
 
         expect(isGameSet).toBe(false);
+        expect(useGameStore().isGameNull).toBe(true);
+        expect(getCookie(CookieKeys.CURRENT_DAILY_GAME)).toBeUndefined();
+    });
+
+    it('propagates any other backend error instead of reporting the game as not found', async () => {
+        server.use(
+            http.get('*/game/daily/resume/:gameId', () => new HttpResponse(null, { status: 500 })),
+        );
+
+        const gameService = new DailyGameService(new DailyGameApi(), useGameStore());
+        const request = gameService.resumeGame(EXISTING_GAME_ID);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
         expect(useGameStore().isGameNull).toBe(true);
         expect(getCookie(CookieKeys.CURRENT_DAILY_GAME)).toBeUndefined();
     });

@@ -1,6 +1,5 @@
 import type IResourceApi from '@/domain/interfaces/api-contracts/IResourceApi';
-import { apiFetch } from './ApiBaseAccess';
-import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
+import { apiFetch, ensureOk } from './ApiBaseAccess';
 
 export default class ResourceApi implements IResourceApi {
     public async getMonstersOptions(gameTitles: string[] = []): Promise<string[]> {
@@ -8,9 +7,7 @@ export default class ResourceApi implements IResourceApi {
         const pathParam = gameTitles.length > 0 ? `?gameTitles=${gameTitles.join(',')}` : '';
         const response = await apiFetch(path + pathParam, { method: 'GET' });
 
-        if (!response.ok) {
-            throw new UnexpectedApiError('Could not get monster options', response.status);
-        }
+        ensureOk(response, 'Could not get monster options');
 
         return (await response.json()) as string[];
     }
@@ -18,9 +15,7 @@ export default class ResourceApi implements IResourceApi {
     public async getGameTitles(): Promise<string[]> {
         const response = await apiFetch('/resources/game-titles', { method: 'GET' });
 
-        if (!response.ok) {
-            throw new UnexpectedApiError('Could not get game titles', response.status);
-        }
+        ensureOk(response, 'Could not get game titles');
 
         return (await response.json()) as string[];
     }

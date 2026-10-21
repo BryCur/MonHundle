@@ -3,6 +3,7 @@ import { HttpResponse, http } from 'msw';
 import { server } from '@test-utils/vitest/setup';
 import { VALID_UUID } from '@test-utils/vitest/fixtures';
 import { UserApi } from '@/services/ApiService/UserApi';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import {
     clearStoredUserId,
     getStoredUserId,
@@ -50,7 +51,7 @@ describe('UserApi.authUser (integration)', () => {
         expect(capturedAuthHeader).toBe(`Bearer ${VALID_UUID}`);
     });
 
-    it('stores the returned id and marks itself authenticated on a valid response', async () => {
+    it('stores the returned id on a valid response', async () => {
         server.use(http.get('*/user/authenticate', () => HttpResponse.json(VALID_UUID)));
 
         const api = new UserApi();
@@ -58,17 +59,18 @@ describe('UserApi.authUser (integration)', () => {
         await api.authUser();
 
         expect(getStoredUserId()).toBe(VALID_UUID);
-        expect(api.authenticated).toBe(true);
     });
 
-    it('throws and stays unauthenticated when the response is not ok', async () => {
+    it('throws an UnexpectedApiError and stores nothing when the response is not ok', async () => {
         server.use(http.get('*/user/authenticate', () => new HttpResponse(null, { status: 500 })));
 
         const api = new UserApi();
 
-        await expect(api.authUser()).rejects.toThrow(/500/);
+        const request = api.authUser();
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
         expect(getStoredUserId()).toBeNull();
-        expect(api.authenticated).toBe(false);
     });
 
     it('throws and does not store anything when the response body is not a valid UUID', async () => {
@@ -78,6 +80,5 @@ describe('UserApi.authUser (integration)', () => {
 
         await expect(api.authUser()).rejects.toThrow(/valid user id/);
         expect(getStoredUserId()).toBeNull();
-        expect(api.authenticated).toBe(false);
     });
 });
