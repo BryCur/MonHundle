@@ -6,7 +6,7 @@ vi.mock('@/services/LocalStorageService', () => ({
 
 import { apiFetch, ensureOk } from '@/services/ApiService/ApiBaseAccess';
 import { getStoredUserId } from '@/services/LocalStorageService';
-import { BackendUnavailableError } from '@/domain/errors/BackendUnavailableError';
+import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
 const API_BASE = import.meta.env.VITE_API_URL;

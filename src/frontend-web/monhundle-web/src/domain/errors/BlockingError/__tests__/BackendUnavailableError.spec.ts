@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { BackendUnavailableError } from '@/domain/errors/BackendUnavailableError';
+import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
+import { BaseBlockingError, ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
 
 describe('BackendUnavailableError', () => {
-    it('is recognisable by instanceof (both the subclass and Error)', () => {
+    it('is recognisable by instanceof (the subclass, the blocking base and Error)', () => {
         const error = new BackendUnavailableError('service unreachable');
 
         expect(error).toBeInstanceOf(BackendUnavailableError);
+        expect(error).toBeInstanceOf(BaseBlockingError);
         expect(error).toBeInstanceOf(Error);
     });
 
@@ -19,6 +21,12 @@ describe('BackendUnavailableError', () => {
         const error = new BackendUnavailableError('service unreachable');
 
         expect(error.name).toBe('BackendUnavailableError');
+    });
+
+    it('always carries the Unavailable reason', () => {
+        const error = new BackendUnavailableError('service unreachable');
+
+        expect(error.reason).toBe(ErrorReason.Unavailable);
     });
 
     it('keeps the given cause', () => {

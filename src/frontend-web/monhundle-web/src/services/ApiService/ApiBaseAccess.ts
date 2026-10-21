@@ -1,4 +1,4 @@
-import { BackendUnavailableError } from '@/domain/errors/BackendUnavailableError';
+import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { getStoredUserId } from '@/services/LocalStorageService';
 
