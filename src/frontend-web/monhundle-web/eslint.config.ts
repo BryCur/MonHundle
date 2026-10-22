@@ -24,10 +24,11 @@ const noNotificationImports = {
     group: [
         '@/stores/NotificationStore*',
         '@/domain/interfaces/INotificationEmitter*',
-        '@/domain/errors/NotifiedError/ErrorToNotification*',
+        '@/domain/interfaces/IErrorNavigator*',
+        '@/domain/errors/ErrorUtils*',
     ],
     message:
-        'Services must not emit notifications: throw an error (e.g. a BaseNotifiedError subclass) and let the view or the global error handler notify.',
+        'Services must not notify nor navigate: throw an error (e.g. a BaseNotifiedError or BaseBlockingError subclass) and let the view notify or the global handler react.',
 };
 
 export default defineConfigWithVueTs(

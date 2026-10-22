@@ -19,7 +19,7 @@ import { DailyGameApi } from '@/services/ApiService/DailyGameApi';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { authManager } from '@/services/AuthManagementService';
 import { ResourceService } from '@/services/ResourceService';
-import { reportError } from '@/domain/errors/NotifiedError/ErrorToNotification';
+import { reportError } from '@/domain/errors/ErrorUtils';
 import { useNotificationStore } from '@/stores/NotificationStore';
 import {
     dailyGameServiceKey,

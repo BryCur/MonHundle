@@ -1,8 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-    errorToNotification,
-    reportError,
-} from '@/domain/errors/NotifiedError/ErrorToNotification';
+import { errorToNotification, reportError } from '@/domain/errors/ErrorUtils';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { NotificationTypes } from '@/domain/Notification';
