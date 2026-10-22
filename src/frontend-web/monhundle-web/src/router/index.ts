@@ -5,6 +5,7 @@ import SettingsView from '@/views/SettingView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import DailyGameView from '@/views/DailyGameView.vue';
 import { authManager } from '@/services/AuthManagementService';
+import ErrorView from '@/views/ErrorView.vue';
 
 const SiteName = 'MonHundle';
 
@@ -14,6 +15,7 @@ export const paths = {
     daily: '/daily',
     about: '/about',
     settings: '/settings',
+    error: '/error',
 };
 
 // route "meta" objects are defined in env.d.ts
@@ -49,6 +51,13 @@ export const router = createRouter({
             name: `${SiteName}: Settings`,
 
             component: SettingsView,
+        },
+        {
+            path: paths.error,
+            name: `${SiteName}: Error`,
+
+            component: ErrorView,
+            meta: { public: true, bare: true },
         },
     ],
 });

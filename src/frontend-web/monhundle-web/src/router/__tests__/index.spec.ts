@@ -57,4 +57,33 @@ describe('router auth guard', () => {
 
         expect(router.currentRoute.value.path).toBe(paths.about);
     });
+
+    it('lets a public route through when authentication fails', async () => {
+        const failedAuth = Promise.reject(new Error('auth down'));
+        // the guard never awaits it for a public route: mark the rejection as handled
+        failedAuth.catch(() => {});
+        authManagerMock.whenAuthenticated = failedAuth;
+
+        await router.push(paths.error);
+
+        expect(router.currentRoute.value.path).toBe(paths.error);
+    });
+
+    it('lets a public route through without waiting for a pending authentication', async () => {
+        // never settles: a guard awaiting it would block the navigation forever
+        authManagerMock.whenAuthenticated = new Promise<void>(() => {});
+
+        await router.push(paths.error);
+
+        expect(router.currentRoute.value.path).toBe(paths.error);
+    });
+});
+
+describe('error route', () => {
+    it('is public and bare', () => {
+        const errorRoute = router.resolve(paths.error);
+
+        expect(errorRoute.meta.public).toBe(true);
+        expect(errorRoute.meta.bare).toBe(true);
+    });
 });
