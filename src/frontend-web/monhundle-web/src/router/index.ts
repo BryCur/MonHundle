@@ -16,6 +16,7 @@ export const paths = {
     settings: '/settings',
 };
 
+// route "meta" objects are defined in env.d.ts
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -53,6 +54,10 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+    if (to.meta.public) {
+        return true;
+    }
+
     try {
         await authManager.whenAuthenticated;
         return true;
