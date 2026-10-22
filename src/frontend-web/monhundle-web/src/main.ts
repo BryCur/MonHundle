@@ -19,7 +19,7 @@ import { DailyGameApi } from '@/services/ApiService/DailyGameApi';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { authManager } from '@/services/AuthManagementService';
 import { ResourceService } from '@/services/ResourceService';
-import { reportError } from '@/domain/errors/ErrorUtils';
+import { createErrorReporter } from '@/domain/errors/ErrorUtils';
 import { useNotificationStore } from '@/stores/NotificationStore';
 import {
     dailyGameServiceKey,
@@ -28,6 +28,8 @@ import {
     settingsApiKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
+import type { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
+import type { IErrorNavigator } from '@/domain/interfaces/IErrorNavigator';
 
 const i18n = createI18n({
     legacy: false,
@@ -67,15 +69,25 @@ app.provide(resourceServiceKey, resourceService);
 app.provide(settingsApiKey, settingsApi);
 app.provide(notificationEmitterKey, notificationStore);
 
+const tempNavigator: IErrorNavigator = {
+    isOnErrorPage: () => {
+        return false;
+    },
+    showErrorPage: (error: ErrorReason) => {
+        console.log(`navigating to error page... ${error}`);
+    },
+};
+
+const reportError = createErrorReporter(notificationStore, tempNavigator);
 // gate 1: errors raised from Vue
 app.config.errorHandler = (error, _instance, info) => {
-    reportError(error, notificationStore, `vue: ${info}`);
+    reportError(error, `vue: ${info}`);
 };
 
 // gate 2: catch rejected promises (outside of vue) that were not handled
 const onUnhandledRejection = (event: PromiseRejectionEvent) => {
     event.preventDefault();
-    reportError(event.reason, notificationStore, 'unhandled rejection');
+    reportError(event.reason, 'unhandled rejection');
 };
 window.addEventListener('unhandledrejection', onUnhandledRejection);
 
