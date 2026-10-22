@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRoute } from 'vue-router';
 import LocaleSelector from '@/components/LocaleSelector.vue';
 import { onMounted } from 'vue';
 import { router, paths } from '@/router';
 import NotificationCanvas from '@/components/Notification/NotificationCanvas.vue';
+
+const route = useRoute();
 
 onMounted(async () => {
     if (window.location.pathname === paths.unlimited && !localStorage.getItem('gameList')) {
@@ -14,7 +16,7 @@ onMounted(async () => {
 
 <template>
     <NotificationCanvas />
-    <header>
+    <header v-if="!route.meta.bare">
         <div class="wrapper">
             <nav class="navigation">
                 <RouterLink :to="paths.unlimited">Unlimited</RouterLink>
