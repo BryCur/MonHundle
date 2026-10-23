@@ -28,8 +28,7 @@ import {
     settingsApiKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
-import type { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
-import type { IErrorNavigator } from '@/domain/interfaces/IErrorNavigator';
+import { createErrorRouterNavigator } from '@/router/ErrorNavigator';
 
 const i18n = createI18n({
     legacy: false,
@@ -69,16 +68,9 @@ app.provide(resourceServiceKey, resourceService);
 app.provide(settingsApiKey, settingsApi);
 app.provide(notificationEmitterKey, notificationStore);
 
-const tempNavigator: IErrorNavigator = {
-    isOnErrorPage: () => {
-        return false;
-    },
-    showErrorPage: (error: ErrorReason) => {
-        console.log(`navigating to error page... ${error}`);
-    },
-};
+const errorNavigator = createErrorRouterNavigator(router);
+const reportError = createErrorReporter(notificationStore, errorNavigator);
 
-const reportError = createErrorReporter(notificationStore, tempNavigator);
 // gate 1: errors raised from Vue
 app.config.errorHandler = (error, _instance, info) => {
     reportError(error, `vue: ${info}`);
