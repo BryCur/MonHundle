@@ -10,6 +10,7 @@ import ErrorView from '@/views/ErrorView.vue';
 const SiteName = 'MonHundle';
 
 export const paths = {
+    home: '/',
     unlimited: '/unlimited',
     selectGame: '/',
     daily: '/daily',

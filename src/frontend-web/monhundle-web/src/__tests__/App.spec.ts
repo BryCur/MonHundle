@@ -24,7 +24,8 @@ async function mountAppAt(path: string) {
     const wrapper = mount(App, {
         global: {
             plugins: [router],
-            stubs: { NotificationCanvas: true, LocaleSelector: true },
+            // RouterLink stubbed: the header links target routes this test router doesn't have
+            stubs: { NotificationCanvas: true, LocaleSelector: true, RouterLink: true },
         },
     });
     await flushPromises();

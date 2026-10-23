@@ -894,6 +894,28 @@
                     "message": "Votre identifiant MonHundle a été copié."
                 }
             }
+        },
+        "page": {
+            "error": {
+                "action": {
+                    "retry": "Réessayer",
+                    "home": "Retour à l'accueil"
+                },
+                "content": {
+                    "unexpected": {
+                        "title": "Erreur inattendue",
+                        "message": "Un problème inattendu est survenu. Veuillez réessayer plus tard."
+                    },
+                    "unavailable": {
+                        "title": "Serveur indisponible",
+                        "message": "Le serveur est injoignable pour le moment. Veuillez réessayer plus tard."
+                    },
+                    "critical": {
+                        "title": "Une erreur est survenue",
+                        "message": "Une erreur empêche la partie de continuer. Veuillez réessayer plus tard."
+                    }
+                }
+            }
         }
     }
 }

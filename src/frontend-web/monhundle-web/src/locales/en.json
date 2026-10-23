@@ -931,6 +931,28 @@
                     "message": "Your MonHundle ID has been copied."
                 }
             }
+        },
+        "page": {
+            "error": {
+                "action": {
+                    "retry": "Retry",
+                    "home": "Back to home"
+                },
+                "content": {
+                    "unexpected": {
+                        "title": "Unexpected error",
+                        "message": "Something unexpected happened. Please try again later."
+                    },
+                    "unavailable": {
+                        "title": "Server unavailable",
+                        "message": "The server can't be reached at the moment. Please try again later."
+                    },
+                    "critical": {
+                        "title": "Something went wrong",
+                        "message": "An error prevents the game from continuing. Please try again later."
+                    }
+                }
+            }
         }
     }
 }
