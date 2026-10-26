@@ -25,10 +25,12 @@ import {
     dailyGameServiceKey,
     notificationEmitterKey,
     resourceServiceKey,
+    serviceStatusApiKey,
     settingsApiKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
 import { createErrorRouterNavigator } from '@/router/ErrorNavigator';
+import { ServiceStatusApi } from '@/services/ApiService/ServiceStatusApi';
 
 const i18n = createI18n({
     legacy: false,
@@ -57,6 +59,7 @@ const resourceApi = new ResourceApi();
 const resourceService = new ResourceService(resourceApi);
 
 const settingsApi = new SettingsApi();
+const serviceStatusApi = new ServiceStatusApi();
 
 authManager.authenticate().catch(() => {});
 
@@ -67,6 +70,7 @@ app.provide(dailyGameServiceKey, dailyGameService);
 app.provide(resourceServiceKey, resourceService);
 app.provide(settingsApiKey, settingsApi);
 app.provide(notificationEmitterKey, notificationStore);
+app.provide(serviceStatusApiKey, serviceStatusApi);
 
 const errorNavigator = createErrorRouterNavigator(router);
 const reportError = createErrorReporter(notificationStore, errorNavigator);
