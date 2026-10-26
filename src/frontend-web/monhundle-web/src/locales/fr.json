@@ -893,6 +893,11 @@
                 "uuidCopied": {
                     "message": "Votre identifiant MonHundle a été copié."
                 }
+            },
+            "warning": {
+                "serverStillUnavailable": {
+                    "message": "Le serveur est toujours injoignable. Veuillez réessayer dans quelques instants."
+                }
             }
         },
         "page": {

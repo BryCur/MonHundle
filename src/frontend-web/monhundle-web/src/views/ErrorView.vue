@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { NotificationTypes } from '@/domain/Notification';
+import { injectStrict, notificationEmitterKey, serviceStatusApiKey } from '@/injectionKeyRegistry';
 import { paths } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -8,6 +10,8 @@ import { useRoute, useRouter, type LocationQueryValue } from 'vue-router';
 const { t } = useI18n();
 const router = useRouter();
 const currentRoute = useRoute();
+const serviceStatusApi = injectStrict(serviceStatusApiKey);
+const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const reason = computed<ErrorReason>(() => {
     const rawReason = firstQueryValue(currentRoute.query.reason);
@@ -40,10 +44,20 @@ function firstQueryValue(
     return first ?? undefined;
 }
 
-function performRetry(): void {
-    if (retryPath.value) {
-        router.replace(retryPath.value);
+async function performRetry(): Promise<void> {
+    if (!retryPath.value) {
+        return;
     }
+
+    if (reason.value === ErrorReason.Unavailable && !(await serviceStatusApi.isServerAvailable())) {
+        notificationEmitter.notify({
+            type: NotificationTypes.Warning,
+            messageKey: 'ui.notification.warning.serverStillUnavailable.message',
+        });
+        return; // still down: stay on the page
+    }
+
+    router.replace(retryPath.value);
 }
 </script>
 

@@ -930,6 +930,11 @@
                 "uuidCopied": {
                     "message": "Your MonHundle ID has been copied."
                 }
+            },
+            "warning": {
+                "serverStillUnavailable": {
+                    "message": "The server is still unreachable. Please try again in a few moments."
+                }
             }
         },
         "page": {

@@ -5,6 +5,8 @@ import { createMemoryHistory, createRouter, type LocationQueryRaw } from 'vue-ro
 import ErrorView from '@/views/ErrorView.vue';
 import { paths } from '@/router';
 import { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { NotificationTypes } from '@/domain/Notification';
+import { notificationEmitterKey, serviceStatusApiKey } from '@/injectionKeyRegistry';
 
 // real (empty) i18n so `t()` resolves to the key path
 const i18n = createI18n({
@@ -37,14 +39,25 @@ function createTestRouter() {
     });
 }
 
-async function mountErrorView(query: LocationQueryRaw = {}) {
+async function mountErrorView(query: LocationQueryRaw = {}, serverAvailable = true) {
     const router = createTestRouter();
     await router.push({ path: paths.error, query });
 
-    const wrapper = mount(ErrorView, { global: { plugins: [router, i18n] } });
+    const serviceStatusApi = { isServerAvailable: vi.fn().mockResolvedValue(serverAvailable) };
+    const notificationEmitter = { notify: vi.fn() };
+
+    const wrapper = mount(ErrorView, {
+        global: {
+            plugins: [router, i18n],
+            provide: {
+                [serviceStatusApiKey]: serviceStatusApi,
+                [notificationEmitterKey]: notificationEmitter,
+            },
+        },
+    });
     await flushPromises();
 
-    return { wrapper, router };
+    return { wrapper, router, serviceStatusApi, notificationEmitter };
 }
 
 function findButton(wrapper: Awaited<ReturnType<typeof mountErrorView>>['wrapper'], key: string) {
@@ -155,4 +168,79 @@ describe('ErrorView home action', () => {
         expect(replaceSpy).toHaveBeenCalledWith(paths.home);
         expect(router.currentRoute.value.path).toBe(paths.home);
     });
+});
+
+describe('ErrorView retry action when the server is unavailable', () => {
+    const unavailableFrom = { reason: ErrorReason.Unavailable, from: paths.daily };
+
+    it('checks the server, then replaces the current route with the origin when it is back', async () => {
+        const { wrapper, router, serviceStatusApi, notificationEmitter } = await mountErrorView(
+            unavailableFrom,
+            true,
+        );
+
+        await findButton(wrapper, RETRY_KEY)!.trigger('click');
+        await flushPromises();
+
+        expect(serviceStatusApi.isServerAvailable).toHaveBeenCalledTimes(1);
+        expect(router.currentRoute.value.path).toBe(paths.daily);
+        expect(notificationEmitter.notify).not.toHaveBeenCalled();
+    });
+
+    it('stays on the page and warns when the server is still down', async () => {
+        const { wrapper, router, notificationEmitter } = await mountErrorView(
+            unavailableFrom,
+            false,
+        );
+        const replaceSpy = vi.spyOn(router, 'replace');
+
+        await findButton(wrapper, RETRY_KEY)!.trigger('click');
+        await flushPromises();
+
+        expect(replaceSpy).not.toHaveBeenCalled();
+        expect(router.currentRoute.value.path).toBe(paths.error);
+        expect(notificationEmitter.notify).toHaveBeenCalledTimes(1);
+        expect(notificationEmitter.notify).toHaveBeenCalledWith({
+            type: NotificationTypes.Warning,
+            messageKey: 'ui.notification.warning.serverStillUnavailable.message',
+        });
+    });
+
+    it('checks again on every click', async () => {
+        const { wrapper, serviceStatusApi, notificationEmitter } = await mountErrorView(
+            unavailableFrom,
+            false,
+        );
+        const retryButton = findButton(wrapper, RETRY_KEY)!;
+
+        await retryButton.trigger('click');
+        await flushPromises();
+        await retryButton.trigger('click');
+        await flushPromises();
+
+        expect(serviceStatusApi.isServerAvailable).toHaveBeenCalledTimes(2);
+        expect(notificationEmitter.notify).toHaveBeenCalledTimes(2);
+    });
+
+    it('does not check the server on arrival, only on retry', async () => {
+        const { serviceStatusApi } = await mountErrorView(unavailableFrom);
+
+        expect(serviceStatusApi.isServerAvailable).not.toHaveBeenCalled();
+    });
+
+    it.each([ErrorReason.Critical, ErrorReason.Unexpected])(
+        'does not check the server for the %s reason and navigates directly',
+        async (reason) => {
+            const { wrapper, router, serviceStatusApi } = await mountErrorView(
+                { reason, from: paths.daily },
+                false,
+            );
+
+            await findButton(wrapper, RETRY_KEY)!.trigger('click');
+            await flushPromises();
+
+            expect(serviceStatusApi.isServerAvailable).not.toHaveBeenCalled();
+            expect(router.currentRoute.value.path).toBe(paths.daily);
+        },
+    );
 });
