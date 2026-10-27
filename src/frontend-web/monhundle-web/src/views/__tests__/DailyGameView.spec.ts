@@ -1,15 +1,23 @@
 import { flushPromises, mount } from '@vue/test-utils';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import DailyGameView from '@/views/DailyGameView.vue';
-import { dailyGameServiceKey, resourceServiceKey } from '@/injectionKeyRegistry';
+import {
+    notificationEmitterKey,
+    dailyGameServiceKey,
+    resourceServiceKey,
+} from '@/injectionKeyRegistry';
 import { CookieKeys, clearCookies, setCookie } from '@/services/CookieService';
 import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
 import { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
+import GameStatus from '@/domain/GameStatus';
+import { GameModes, GameStates } from '@/domain/ApiModels';
+import { NotificationTypes } from '@/domain/Notification';
+import { useGameStore } from '@/stores/GameStore';
 
 // real (empty) i18n so `t()` resolves to the key path
 const i18n = createI18n({
@@ -41,6 +49,7 @@ function fakeResourceService() {
 async function mountView(gameService = fakeGameService(), resourceService = fakeResourceService()) {
     // the global error handler receives whatever escapes the async mounted hook
     const errorHandler = vi.fn();
+    const notificationEmitter = { notify: vi.fn() };
 
     const wrapper = mount(DailyGameView, {
         global: {
@@ -48,6 +57,7 @@ async function mountView(gameService = fakeGameService(), resourceService = fake
             provide: {
                 [dailyGameServiceKey]: gameService,
                 [resourceServiceKey]: resourceService,
+                [notificationEmitterKey]: notificationEmitter,
             },
             stubs: { GameGuessList: true, MonsterSelectBox: true },
             config: { errorHandler },
@@ -55,7 +65,7 @@ async function mountView(gameService = fakeGameService(), resourceService = fake
     });
     await flushPromises();
 
-    return { wrapper, gameService, resourceService, errorHandler };
+    return { wrapper, gameService, resourceService, errorHandler, notificationEmitter };
 }
 
 function isReady(wrapper: Awaited<ReturnType<typeof mountView>>['wrapper']): boolean {
@@ -159,5 +169,68 @@ describe('DailyGameView setup failures', () => {
         expect(errorHandler).toHaveBeenCalledTimes(1);
         expect(errorHandler.mock.calls[0]![0]).toBe(unavailable);
         expect(isReady(wrapper)).toBe(false);
+    });
+});
+
+describe('DailyGameView share action', () => {
+    let writeText: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+        setActivePinia(createPinia());
+        localStorage.clear();
+        clearCookies();
+        // a finished game shows the game-over screen and its share button
+        useGameStore().setGame(
+            new GameStatus('finished-game', GameModes.Daily, [], GameStates.Win),
+        );
+
+        // jsdom has no clipboard: define one to spy on
+        writeText = vi.fn().mockResolvedValue(undefined);
+        Object.defineProperty(navigator, 'clipboard', {
+            value: { writeText },
+            configurable: true,
+        });
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    async function clickShare(wrapper: Awaited<ReturnType<typeof mountView>>['wrapper']) {
+        const shareButton = wrapper
+            .findAll('.option-game-over-container button')
+            .find((button) => button.text() === 'ui.generic.share');
+        await shareButton!.trigger('click');
+        await flushPromises();
+    }
+
+    it('copies the shareable result and confirms it to the player', async () => {
+        const { wrapper, notificationEmitter, errorHandler } = await mountView();
+
+        await clickShare(wrapper);
+
+        expect(writeText).toHaveBeenCalledTimes(1);
+        expect(writeText.mock.calls[0]![0]).toContain('ui.game.share.daily');
+        expect(notificationEmitter.notify).toHaveBeenCalledTimes(1);
+        expect(notificationEmitter.notify).toHaveBeenCalledWith({
+            type: NotificationTypes.Info,
+            messageKey: 'ui.notification.info.gameCopied.message',
+        });
+        expect(errorHandler).not.toHaveBeenCalled();
+    });
+
+    it('tells the player when the clipboard refuses the copy, without a success message', async () => {
+        writeText.mockRejectedValue(new DOMException('Write permission denied', 'NotAllowedError'));
+        const { wrapper, notificationEmitter, errorHandler } = await mountView();
+
+        await clickShare(wrapper);
+
+        expect(notificationEmitter.notify).toHaveBeenCalledTimes(1);
+        expect(notificationEmitter.notify).toHaveBeenCalledWith({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.gameShareCopyFailed.message',
+        });
+        expect(errorHandler).not.toHaveBeenCalled();
     });
 });

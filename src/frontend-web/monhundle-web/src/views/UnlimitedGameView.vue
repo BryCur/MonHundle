@@ -8,16 +8,23 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
+import {
+    injectStrict,
+    notificationEmitterKey,
+    resourceServiceKey,
+    unlimitedGameServiceKey,
+} from '@/injectionKeyRegistry';
 import { paths } from '@/router';
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
+import { NotificationTypes } from '@/domain/Notification';
 
 const router = useRouter();
 const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = injectStrict(unlimitedGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
+const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
@@ -83,14 +90,28 @@ function getLastGuessName(): string {
 }
 
 // insert string representation of the game into the clipboard
-function shareGame(): void {
+async function shareGame(): Promise<void> {
     const guessCount = gameStore.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = 'https://' + window.location.host + window.location.pathname;
 
     const shareStr = t('ui.game.share.unlimited', { guessCount, guessesStr, Url });
 
-    navigator.clipboard.writeText(shareStr);
+    try {
+        await navigator.clipboard.writeText(shareStr);
+    } catch (err) {
+        console.warn('[share] could not write to the clipboard', err);
+        notificationEmitter.notify({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.gameShareCopyFailed.message',
+        });
+        return;
+    }
+
+    notificationEmitter.notify({
+        type: NotificationTypes.Info,
+        messageKey: 'ui.notification.info.gameCopied.message',
+    });
 }
 </script>
 

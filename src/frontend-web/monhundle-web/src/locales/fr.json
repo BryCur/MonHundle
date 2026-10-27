@@ -874,6 +874,9 @@
                 "monsterOptionsLoadFailed": {
                     "message": "Échec de la récupération de la liste des monstres. Veuillez rafraîchir ou réessayer plus tard."
                 },
+                "gameShareCopyFailed": {
+                    "message": "Le résultat n'a pas pu être copié dans votre presse-papiers."
+                },
                 "default": {
                     "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
                 }
@@ -892,6 +895,9 @@
             "info": {
                 "uuidCopied": {
                     "message": "Votre identifiant MonHundle a été copié."
+                },
+                "gameCopied": {
+                    "message": "Le résultat de la partie a été copié dans votre presse-papiers !"
                 }
             },
             "warning": {

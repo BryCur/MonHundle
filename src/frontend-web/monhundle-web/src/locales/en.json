@@ -911,6 +911,9 @@
                 "monsterOptionsLoadFailed": {
                     "message": "Failed to fetch the monster list. Refresh or try again later."
                 },
+                "gameShareCopyFailed": {
+                    "message": "The result could not be copied to the clipboard."
+                },
                 "default": {
                     "message": "An unexpected error occurred. Refresh or try again later."
                 }
@@ -929,6 +932,9 @@
             "info": {
                 "uuidCopied": {
                     "message": "Your MonHundle ID has been copied."
+                },
+                "gameCopied": {
+                    "message": "The game result has been copied to your clipboard!"
                 }
             },
             "warning": {
