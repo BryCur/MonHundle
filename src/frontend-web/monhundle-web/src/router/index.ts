@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DailyGameView from '@/views/DailyGameView.vue';
 import { authManager } from '@/services/AuthManagementService';
 import ErrorView from '@/views/ErrorView.vue';
+import { BaseBlockingError, ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
 
 const SiteName = 'MonHundle';
 
@@ -46,6 +47,7 @@ export const router = createRouter({
             name: `${SiteName}: about`,
 
             component: AboutView,
+            meta: { public: true },
         },
         {
             path: paths.settings,
@@ -74,7 +76,7 @@ router.beforeEach(async (to) => {
     } catch (err) {
         console.error('Authentication failed before navigation', err);
 
-        // TODO error page to route toward instead of the about page.
-        return to.path === paths.about ? true : { path: paths.about };
+        const reason = err instanceof BaseBlockingError ? err.reason : ErrorReason.Critical;
+        return { path: paths.error, query: { reason, from: to.fullPath } };
     }
 });
