@@ -8,6 +8,8 @@ import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { dailyGameServiceKey, injectStrict, resourceServiceKey } from '@/injectionKeyRegistry';
+import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 
 const { t } = useI18n();
 const gameStore = useGameStore();
@@ -22,18 +24,28 @@ let enableTableA11y = false;
 onMounted(async () => {
     ready.value = false;
 
-    enableTableA11y =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
+    try {
+        enableTableA11y =
+            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
+            'true';
+        const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
-    if (
-        !gameIdFromCookie || // no cookie existing
-        !(await gameService.resumeGame(gameIdFromCookie)) // game from cookie couldn't be set
-    ) {
-        await gameService.startNewGame();
+        if (
+            !gameIdFromCookie || // no cookie existing
+            !(await gameService.resumeGame(gameIdFromCookie)) // game from cookie couldn't be set
+        ) {
+            await gameService.startNewGame();
+        }
+
+        monsterList.value = await resourceService.getMonsterOptions();
+    } catch (err) {
+        if (err instanceof BaseBlockingError) {
+            // already blocking (e.g. backend unavailable): forward it as is to the global error handler
+            throw err;
+        }
+
+        throw new GameSetupError('Failed to set a daily game up', { cause: err });
     }
-
-    monsterList.value = await resourceService.getMonsterOptions();
 
     ready.value = true;
 });

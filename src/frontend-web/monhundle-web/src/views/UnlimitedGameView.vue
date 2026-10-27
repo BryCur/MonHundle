@@ -9,6 +9,9 @@ import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
+import { paths } from '@/router';
+import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 
 const router = useRouter();
 const { t } = useI18n();
@@ -23,25 +26,37 @@ let enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
-    enableTableA11y =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-    if (storedGameList === null) {
-        router.push('/');
+
+    try {
+        enableTableA11y =
+            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
+            'true';
+        const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
+        if (storedGameList === null) {
+            router.push(paths.selectGame);
+            return;
+        }
+
+        const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
+
+        if (
+            !gameIdFromCookie || // no cookie existing
+            !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
+            !gameStore.isGameOngoing // game from cookie already finished
+        ) {
+            await gameService.startNewGame();
+        }
+
+        const gameList = JSON.parse(storedGameList!) as string[];
+        monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
+    } catch (err) {
+        if (err instanceof BaseBlockingError) {
+            // already blocking (e.g. backend unavailable): forward it as is to the global error handler
+            throw err;
+        }
+
+        throw new GameSetupError('Could not set unlimited game up', { cause: err });
     }
-
-    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-
-    if (
-        !gameIdFromCookie || // no cookie existing
-        !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
-        !gameStore.isGameOngoing // game from cookie already finished
-    ) {
-        await gameService.startNewGame();
-    }
-
-    const gameList = JSON.parse(storedGameList!) as string[];
-    monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
 
     ready.value = true;
 });
