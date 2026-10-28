@@ -1,3 +1,5 @@
+import { FAKE_USER_ID } from '@cypress-support/testData';
+
 // SettingView.loadUuid() swaps the locally stored identity and preferences for those of another
 // player. Flagged earlier as a data-loss risk (it overwrites localStorage/cookies) and better
 // suited to a real end-to-end check than more service-level mocking.
@@ -8,6 +10,7 @@ describe('Loading a profile by UUID', () => {
     function visitSettings() {
         cy.visit('/settings', {
             onBeforeLoad(win) {
+                win.localStorage.setItem('user_id', FAKE_USER_ID);
                 win.localStorage.setItem('gameList', JSON.stringify(['MHR']));
             },
         });

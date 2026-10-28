@@ -2,14 +2,15 @@ import { mount, flushPromises, type VueWrapper } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
 
-const { pushMock } = vi.hoisted(() => ({
+const { pushMock, replaceMock } = vi.hoisted(() => ({
     pushMock: vi.fn(),
+    replaceMock: vi.fn(),
 }));
 
 // the view gets its router through useRouter(); no real router is installed in these tests
 vi.mock('vue-router', async (importOriginal) => {
     const actual = await importOriginal<typeof import('vue-router')>();
-    return { ...actual, useRouter: () => ({ push: pushMock }) };
+    return { ...actual, useRouter: () => ({ push: pushMock, replace: replaceMock }) };
 });
 
 import SettingView from '@/views/SettingView.vue';
@@ -21,6 +22,9 @@ import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { paths } from '@/router';
 
 // real (empty) i18n so `t()` resolves to the key path
+// the page is only shown to an identified player
+const STORED_USER_ID = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+
 const i18n = createI18n({
     legacy: false,
     globalInjection: false,
@@ -44,6 +48,7 @@ async function mountView() {
 describe('SettingView game-list label', () => {
     beforeEach(() => {
         localStorage.clear();
+        localStorage.setItem(LocalStorageKeys.USER_ID, STORED_USER_ID);
     });
 
     it('uses the short label when fewer than 4 games are selected', async () => {
@@ -77,6 +82,36 @@ describe('SettingView game-list label', () => {
         expect(errorHandler).not.toHaveBeenCalled();
         expect(wrapper.text()).toContain('ui.settings.gameList.shortLabel');
     });
+
+    it.each([
+        ['is not valid JSON', '{not json'],
+        ['is not an array', '42'],
+    ])(
+        'falls back to an empty list when the stored game list %s, and still loads the other settings',
+        async (_label, storedValue) => {
+            localStorage.setItem(LocalStorageKeys.GAME_LIST, storedValue);
+            localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, 'true');
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+            const errorHandler = vi.fn();
+
+            const wrapper = mount(SettingView, {
+                global: {
+                    plugins: [i18n],
+                    provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
+                    config: { errorHandler },
+                },
+            });
+            await flushPromises();
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(wrapper.text()).toContain('ui.settings.gameList.shortLabel');
+            // the rest of the mounted hook still ran
+            const a11yCheckbox = wrapper.find('input[type="checkbox"]').element as HTMLInputElement;
+            expect(a11yCheckbox.checked).toBe(true);
+
+            warn.mockRestore();
+        },
+    );
 });
 
 describe('SettingView actions', () => {
@@ -132,6 +167,7 @@ describe('SettingView actions', () => {
     beforeEach(() => {
         localStorage.clear();
         localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(['MHW']));
+        localStorage.setItem(LocalStorageKeys.USER_ID, STORED_USER_ID);
 
         // only the timeouts: flushPromises relies on the real setImmediate
         vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
@@ -188,7 +224,7 @@ describe('SettingView actions', () => {
             await button(wrapper, 'ui.settings.copyUUID.button').trigger('click');
             await flushPromises();
 
-            expect(writeText).toHaveBeenCalled();
+            expect(writeText).toHaveBeenCalledExactlyOnceWith(STORED_USER_ID);
             expect(notify).toHaveBeenCalledWith({
                 type: NotificationTypes.Info,
                 messageKey: 'ui.notification.info.uuidCopied.message',
@@ -414,5 +450,26 @@ describe('SettingView actions', () => {
             vi.advanceTimersByTime(1);
             expect(reload).toHaveBeenCalledTimes(1);
         });
+    });
+});
+
+describe('SettingView without a stored identity', () => {
+    beforeEach(() => {
+        localStorage.clear();
+        replaceMock.mockClear();
+    });
+
+    it('sends the player back home, replacing the settings entry in the history', async () => {
+        await mountView();
+
+        expect(replaceMock).toHaveBeenCalledExactlyOnceWith(paths.home);
+    });
+
+    it('stays on the page when an identity is stored', async () => {
+        localStorage.setItem(LocalStorageKeys.USER_ID, STORED_USER_ID);
+
+        await mountView();
+
+        expect(replaceMock).not.toHaveBeenCalled();
     });
 });

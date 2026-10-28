@@ -64,12 +64,12 @@ describe('router auth guard', () => {
     ])('redirects to the error page with the critical reason for %s', async (_label, error) => {
         authManagerMock.whenAuthenticated = failedAuthentication(error);
 
-        await router.push(paths.settings);
+        await router.push(paths.daily);
 
         expect(router.currentRoute.value.path).toBe(paths.error);
         expect(router.currentRoute.value.query).toEqual({
             reason: ErrorReason.Critical,
-            from: paths.settings,
+            from: paths.daily,
         });
     });
 
@@ -93,7 +93,7 @@ describe('router auth guard', () => {
         );
     });
 
-    it.each([paths.about, paths.error])(
+    it.each([paths.about, paths.settings, paths.error])(
         'lets the public route %s through when authentication fails',
         async (path) => {
             authManagerMock.whenAuthenticated = failedAuthentication(new Error('auth down'));
@@ -114,12 +114,12 @@ describe('router auth guard', () => {
     });
 });
 
-describe('about route', () => {
+describe.each([paths.about, paths.settings])('%s route', (path) => {
     it('is public but keeps the navigation header', () => {
-        const aboutRoute = router.resolve(paths.about);
+        const route = router.resolve(path);
 
-        expect(aboutRoute.meta.public).toBe(true);
-        expect(aboutRoute.meta.bare).toBeFalsy();
+        expect(route.meta.public).toBe(true);
+        expect(route.meta.bare).toBeFalsy();
     });
 });
 

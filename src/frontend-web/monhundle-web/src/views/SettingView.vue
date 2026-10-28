@@ -17,22 +17,34 @@ const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const gameList = ref<string[]>([]);
 const enableTableA11y = ref<boolean>(false);
-let currentUUID: string = '';
+let currentUUID: string;
 const inputUuid = ref<string | null>(null);
 const isWorking = ref<boolean>(false);
 const uuidErrorKey = ref<string | null>(null);
 
 onMounted(async () => {
     // load game list
-    const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-    gameList.value = (JSON.parse(storedGameList!) as string[]) ?? [];
+    try {
+        const parsed: unknown = JSON.parse(
+            localStorage.getItem(LocalStorageKeys.GAME_LIST) ?? '[]',
+        );
+        gameList.value = Array.isArray(parsed) ? (parsed as string[]) : [];
+    } catch (err) {
+        console.warn('[settings] stored game list is corrupted, falling back to an empty one', err);
+        gameList.value = [];
+    }
 
     // load current a11y conf
     enableTableA11y.value =
         localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
 
     // get current UUID
-    currentUUID = getStoredUserId() ?? '';
+    const storedId: string | null = getStoredUserId();
+    if (!storedId) {
+        router.replace(paths.home);
+    } else {
+        currentUUID = storedId;
+    }
 });
 
 function toggleA11y() {
