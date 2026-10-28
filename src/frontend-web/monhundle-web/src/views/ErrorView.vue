@@ -3,7 +3,7 @@ import { ErrorReason } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { NotificationTypes } from '@/domain/Notification';
 import { injectStrict, notificationEmitterKey, serviceStatusApiKey } from '@/injectionKeyRegistry';
 import { paths } from '@/router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter, type LocationQueryValue } from 'vue-router';
 
@@ -12,6 +12,7 @@ const router = useRouter();
 const currentRoute = useRoute();
 const serviceStatusApi = injectStrict(serviceStatusApiKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
+const working = ref<boolean>(false);
 
 const reason = computed<ErrorReason>(() => {
     const rawReason = firstQueryValue(currentRoute.query.reason);
@@ -45,6 +46,7 @@ function firstQueryValue(
 }
 
 async function performRetry(): Promise<void> {
+    working.value = true;
     if (!retryPath.value) {
         return;
     }
@@ -54,10 +56,12 @@ async function performRetry(): Promise<void> {
             type: NotificationTypes.Warning,
             messageKey: 'ui.notification.warning.serverStillUnavailable.message',
         });
+        working.value = false;
         return; // still down: stay on the page
     }
 
-    router.replace(retryPath.value);
+    await router.replace(retryPath.value);
+    working.value = false;
 }
 </script>
 
@@ -67,7 +71,7 @@ async function performRetry(): Promise<void> {
         <p class="error-content-title">{{ t(`ui.page.error.content.${reason}.title`) }}</p>
         <p class="error-content-message">{{ t(`ui.page.error.content.${reason}.message`) }}</p>
         <div class="buttons-container">
-            <button v-if="retryPath" @click="performRetry()">
+            <button v-if="retryPath" @click="performRetry()" :disabled="working">
                 {{ t('ui.page.error.action.retry') }}
             </button>
 
