@@ -54,6 +54,7 @@ export const router = createRouter({
             name: `${SiteName}: Settings`,
 
             component: SettingsView,
+            meta: { public: true },
         },
         {
             path: paths.error,
