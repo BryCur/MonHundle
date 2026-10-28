@@ -895,7 +895,10 @@
                 "label": "Load your save",
                 "placeholder": "Your ID",
                 "button": "Load",
-                "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history."
+                "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history.",
+                "error": {
+                    "format": "Identifier must follow the UUID format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx."
+                }
             },
             "deleteUUID": {
                 "label": "Delete your data",
@@ -910,6 +913,15 @@
                 },
                 "monsterOptionsLoadFailed": {
                     "message": "Failed to fetch the monster list. Refresh or try again later."
+                },
+                "gameShareCopyFailed": {
+                    "message": "The result could not be copied to the clipboard."
+                },
+                "uuidCopyFailed": {
+                    "message": "The identifier could not be copied to the clipboard."
+                },
+                "saveSettingsFailed": {
+                    "message": "Your preferences could not be synced to your online profile. Please try again later."
                 },
                 "default": {
                     "message": "An unexpected error occurred. Refresh or try again later."
@@ -929,6 +941,39 @@
             "info": {
                 "uuidCopied": {
                     "message": "Your MonHundle ID has been copied."
+                },
+                "gameCopied": {
+                    "message": "The game result has been copied to your clipboard!"
+                }
+            },
+            "warning": {
+                "serverStillUnavailable": {
+                    "message": "The server is still unreachable. Please try again in a few moments."
+                },
+                "profileNotFound": {
+                    "message": "No profile found with this identifier."
+                }
+            }
+        },
+        "page": {
+            "error": {
+                "action": {
+                    "retry": "Retry",
+                    "home": "Back to home"
+                },
+                "content": {
+                    "unexpected": {
+                        "title": "Unexpected error",
+                        "message": "Something unexpected happened. Please try again later."
+                    },
+                    "unavailable": {
+                        "title": "Server unavailable",
+                        "message": "The server can't be reached at the moment. Please try again later."
+                    },
+                    "critical": {
+                        "title": "Something went wrong",
+                        "message": "An error prevents the game from continuing. Please try again later."
+                    }
                 }
             }
         }

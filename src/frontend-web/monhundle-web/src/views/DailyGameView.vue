@@ -7,12 +7,21 @@ import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { dailyGameServiceKey, injectStrict, resourceServiceKey } from '@/injectionKeyRegistry';
+import {
+    dailyGameServiceKey,
+    injectStrict,
+    notificationEmitterKey,
+    resourceServiceKey,
+} from '@/injectionKeyRegistry';
+import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
+import { NotificationTypes } from '@/domain/Notification';
 
 const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = injectStrict(dailyGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
+const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
@@ -22,18 +31,28 @@ let enableTableA11y = false;
 onMounted(async () => {
     ready.value = false;
 
-    enableTableA11y =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
+    try {
+        enableTableA11y =
+            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
+            'true';
+        const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
-    if (
-        !gameIdFromCookie || // no cookie existing
-        !(await gameService.resumeGame(gameIdFromCookie)) // game from cookie couldn't be set
-    ) {
-        await gameService.startNewGame();
+        if (
+            !gameIdFromCookie || // no cookie existing
+            !(await gameService.resumeGame(gameIdFromCookie)) // game from cookie couldn't be set
+        ) {
+            await gameService.startNewGame();
+        }
+
+        monsterList.value = await resourceService.getMonsterOptions();
+    } catch (err) {
+        if (err instanceof BaseBlockingError) {
+            // already blocking (e.g. backend unavailable): forward it as is to the global error handler
+            throw err;
+        }
+
+        throw new GameSetupError('Failed to set a daily game up', { cause: err });
     }
-
-    monsterList.value = await resourceService.getMonsterOptions();
 
     ready.value = true;
 });
@@ -60,14 +79,28 @@ function getLastGuessName(): string {
 }
 
 // insert string representation of the game into the clipboard
-function shareGame(): void {
+async function shareGame(): Promise<void> {
     const guessCount = gameStore.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = 'https://' + window.location.host + window.location.pathname;
 
     const shareStr = t('ui.game.share.daily', { guessCount, guessesStr, Url });
 
-    navigator.clipboard.writeText(shareStr);
+    try {
+        await navigator.clipboard.writeText(shareStr);
+    } catch (err) {
+        console.warn('[share] could not write to the clipboard', err);
+        notificationEmitter.notify({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.gameShareCopyFailed.message',
+        });
+        return;
+    }
+
+    notificationEmitter.notify({
+        type: NotificationTypes.Info,
+        messageKey: 'ui.notification.info.gameCopied.message',
+    });
 }
 </script>
 

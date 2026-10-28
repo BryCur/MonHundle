@@ -1,3 +1,5 @@
+import { FAKE_USER_ID } from '@cypress-support/testData';
+
 // start as a returning player who already has a game list, straight on /settings - no need
 // to replay the first-time selection flow, already covered by
 // UnlimitedGames/select-and-start-unlimited-game.cy.ts.
@@ -5,6 +7,7 @@ describe('Changing the game list from Settings', () => {
     beforeEach(() => {
         cy.visit('/settings', {
             onBeforeLoad(win) {
+                win.localStorage.setItem('user_id', FAKE_USER_ID);
                 win.localStorage.setItem('gameList', JSON.stringify(['MHR']));
             },
         });

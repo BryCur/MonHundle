@@ -38,5 +38,11 @@ describe('Winning the daily challenge', () => {
         cy.get('.option-game-over-container button').eq(0).click();
 
         cy.get('@clipboardWrite').should('have.been.calledOnce');
+
+        cy.get('.notification-canvas .notification-card')
+            .should('have.length', 1)
+            .and('have.class', 'notification-info')
+            .find('.notification-message')
+            .should('have.text', 'The game result has been copied to your clipboard!');
     });
 });

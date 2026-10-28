@@ -874,6 +874,15 @@
                 "monsterOptionsLoadFailed": {
                     "message": "Échec de la récupération de la liste des monstres. Veuillez rafraîchir ou réessayer plus tard."
                 },
+                "gameShareCopyFailed": {
+                    "message": "Le résultat n'a pas pu être copié dans votre presse-papiers."
+                },
+                "uuidCopyFailed": {
+                    "message": "L'identifiant n'a pas pu être copié dans votre presse-papiers."
+                },
+                "saveSettingsFailed": {
+                    "message": "Vos préférences n'ont pas pu être sauvegardées sur votre profil en ligne. Veuillez réessayer plus tard."
+                },
                 "default": {
                     "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
                 }
@@ -892,6 +901,39 @@
             "info": {
                 "uuidCopied": {
                     "message": "Votre identifiant MonHundle a été copié."
+                },
+                "gameCopied": {
+                    "message": "Le résultat de la partie a été copié dans votre presse-papiers !"
+                }
+            },
+            "warning": {
+                "serverStillUnavailable": {
+                    "message": "Le serveur est toujours injoignable. Veuillez réessayer dans quelques instants."
+                },
+                "profileNotFound": {
+                    "message": "Aucun profil ne correspond à cet identifiant."
+                }
+            }
+        },
+        "page": {
+            "error": {
+                "action": {
+                    "retry": "Réessayer",
+                    "home": "Retour à l'accueil"
+                },
+                "content": {
+                    "unexpected": {
+                        "title": "Erreur inattendue",
+                        "message": "Un problème inattendu est survenu. Veuillez réessayer plus tard."
+                    },
+                    "unavailable": {
+                        "title": "Serveur indisponible",
+                        "message": "Le serveur est injoignable pour le moment. Veuillez réessayer plus tard."
+                    },
+                    "critical": {
+                        "title": "Une erreur est survenue",
+                        "message": "Une erreur empêche la partie de continuer. Veuillez réessayer plus tard."
+                    }
                 }
             }
         }

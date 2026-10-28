@@ -11,6 +11,7 @@ import {
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService';
 import type { SettingsResponse, UserSettingsBody } from '@/domain/ApiModels';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
 describe('SettingsApi.saveSettings (integration)', () => {
     it('sends a well-formed preference request', async () => {
@@ -33,10 +34,13 @@ describe('SettingsApi.saveSettings (integration)', () => {
         } satisfies UserSettingsBody);
     });
 
-    it('resolves even when the backend rejects the request — the response status is never checked', async () => {
+    it('throws an UnexpectedApiError when the backend rejects the request', async () => {
         server.use(http.post('*/user/preference', () => new HttpResponse(null, { status: 500 })));
 
-        await expect(new SettingsApi().saveSettings(true, [])).resolves.toBeUndefined();
+        const request = new SettingsApi().saveSettings(true, []);
+
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -72,43 +76,23 @@ describe('SettingsApi.getProfile (integration)', () => {
         expect(profile).toEqual(expected);
     });
 
-    it('returns null when the response is not ok', async () => {
+    it('returns null when the profile is not found (404)', async () => {
         server.use(
             http.get('*/user/profile/:playerUid', () => new HttpResponse(null, { status: 404 })),
         );
 
         await expect(new SettingsApi().getProfile(VALID_UUID)).resolves.toBeNull();
     });
-});
 
-describe('SettingsApi.validateUser (integration)', () => {
-    it('sends a well-formed request: GET, user id as a query parameter', async () => {
-        let capturedMethod: string | null = null;
-        let capturedUrl: string | null = null;
+    it('throws an UnexpectedApiError on any other error status', async () => {
         server.use(
-            http.get('*/user/validate', ({ request }) => {
-                capturedMethod = request.method;
-                capturedUrl = request.url;
-                return new HttpResponse(null, { status: 200 });
-            }),
+            http.get('*/user/profile/:playerUid', () => new HttpResponse(null, { status: 500 })),
         );
 
-        await new SettingsApi().validateUser(VALID_UUID);
+        const request = new SettingsApi().getProfile(VALID_UUID);
 
-        expect(capturedMethod).toBe('GET');
-        expect(new URL(capturedUrl!).searchParams.get('user-id')).toBe(VALID_UUID);
-    });
-
-    it('returns true on a 200 response', async () => {
-        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 200 })));
-
-        await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(true);
-    });
-
-    it('returns false on any non-200 response', async () => {
-        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 400 })));
-
-        await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(false);
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
     });
 });
 
@@ -151,11 +135,13 @@ describe('SettingsApi.loadUser (integration)', () => {
         expect(getStoredUserId()).toBe(VALID_UUID);
     });
 
-    it('does not touch the stored id when the response is not ok', async () => {
+    it('throws an UnexpectedApiError and does not touch the stored id when the response is not ok', async () => {
         server.use(http.get('*/user/load', () => new HttpResponse(null, { status: 404 })));
 
-        await new SettingsApi().loadUser(VALID_UUID);
+        const request = new SettingsApi().loadUser(VALID_UUID);
 
+        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
+        await expect(request).rejects.toMatchObject({ httpStatus: 404 });
         expect(getStoredUserId()).toBeNull();
     });
 });

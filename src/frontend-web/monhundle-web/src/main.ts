@@ -19,15 +19,18 @@ import { DailyGameApi } from '@/services/ApiService/DailyGameApi';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { authManager } from '@/services/AuthManagementService';
 import { ResourceService } from '@/services/ResourceService';
-import { reportError } from '@/domain/errors/NotifiedError/ErrorToNotification';
+import { createErrorReporter } from '@/domain/errors/ErrorUtils';
 import { useNotificationStore } from '@/stores/NotificationStore';
 import {
     dailyGameServiceKey,
     notificationEmitterKey,
     resourceServiceKey,
+    serviceStatusApiKey,
     settingsApiKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
+import { createErrorRouterNavigator } from '@/router/ErrorNavigator';
+import { ServiceStatusApi } from '@/services/ApiService/ServiceStatusApi';
 
 const i18n = createI18n({
     legacy: false,
@@ -56,6 +59,7 @@ const resourceApi = new ResourceApi();
 const resourceService = new ResourceService(resourceApi);
 
 const settingsApi = new SettingsApi();
+const serviceStatusApi = new ServiceStatusApi();
 
 authManager.authenticate().catch(() => {});
 
@@ -66,16 +70,20 @@ app.provide(dailyGameServiceKey, dailyGameService);
 app.provide(resourceServiceKey, resourceService);
 app.provide(settingsApiKey, settingsApi);
 app.provide(notificationEmitterKey, notificationStore);
+app.provide(serviceStatusApiKey, serviceStatusApi);
+
+const errorNavigator = createErrorRouterNavigator(router);
+const reportError = createErrorReporter(notificationStore, errorNavigator);
 
 // gate 1: errors raised from Vue
 app.config.errorHandler = (error, _instance, info) => {
-    reportError(error, notificationStore, `vue: ${info}`);
+    reportError(error, `vue: ${info}`);
 };
 
 // gate 2: catch rejected promises (outside of vue) that were not handled
 const onUnhandledRejection = (event: PromiseRejectionEvent) => {
     event.preventDefault();
-    reportError(event.reason, notificationStore, 'unhandled rejection');
+    reportError(event.reason, 'unhandled rejection');
 };
 window.addEventListener('unhandledrejection', onUnhandledRejection);
 

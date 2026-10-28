@@ -43,6 +43,7 @@ export class AuthManagementService {
                 })
                 .catch((err) => {
                     this.authenticated = false;
+                    this.authPromise = null;
                     throw err;
                 });
         }

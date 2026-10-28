@@ -8,13 +8,23 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { injectStrict, resourceServiceKey, unlimitedGameServiceKey } from '@/injectionKeyRegistry';
+import {
+    injectStrict,
+    notificationEmitterKey,
+    resourceServiceKey,
+    unlimitedGameServiceKey,
+} from '@/injectionKeyRegistry';
+import { paths } from '@/router';
+import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
+import { NotificationTypes } from '@/domain/Notification';
 
 const router = useRouter();
 const { t } = useI18n();
 const gameStore = useGameStore();
 const gameService = injectStrict(unlimitedGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
+const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
@@ -23,25 +33,37 @@ let enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
-    enableTableA11y =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-    const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-    if (storedGameList === null) {
-        router.push('/');
+
+    try {
+        enableTableA11y =
+            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
+            'true';
+        const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
+        if (storedGameList === null) {
+            router.push(paths.selectGame);
+            return;
+        }
+
+        const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
+
+        if (
+            !gameIdFromCookie || // no cookie existing
+            !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
+            !gameStore.isGameOngoing // game from cookie already finished
+        ) {
+            await gameService.startNewGame();
+        }
+
+        const gameList = JSON.parse(storedGameList!) as string[];
+        monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
+    } catch (err) {
+        if (err instanceof BaseBlockingError) {
+            // already blocking (e.g. backend unavailable): forward it as is to the global error handler
+            throw err;
+        }
+
+        throw new GameSetupError('Could not set unlimited game up', { cause: err });
     }
-
-    const gameIdFromCookie = getCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-
-    if (
-        !gameIdFromCookie || // no cookie existing
-        !(await gameService.resumeGame(gameIdFromCookie)) || // game from cookie couldn't be set
-        !gameStore.isGameOngoing // game from cookie already finished
-    ) {
-        await gameService.startNewGame();
-    }
-
-    const gameList = JSON.parse(storedGameList!) as string[];
-    monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
 
     ready.value = true;
 });
@@ -68,14 +90,28 @@ function getLastGuessName(): string {
 }
 
 // insert string representation of the game into the clipboard
-function shareGame(): void {
+async function shareGame(): Promise<void> {
     const guessCount = gameStore.guesses.length;
     const guessesStr = gameStore.game?.convertGameToShareableString();
     const Url = 'https://' + window.location.host + window.location.pathname;
 
     const shareStr = t('ui.game.share.unlimited', { guessCount, guessesStr, Url });
 
-    navigator.clipboard.writeText(shareStr);
+    try {
+        await navigator.clipboard.writeText(shareStr);
+    } catch (err) {
+        console.warn('[share] could not write to the clipboard', err);
+        notificationEmitter.notify({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.gameShareCopyFailed.message',
+        });
+        return;
+    }
+
+    notificationEmitter.notify({
+        type: NotificationTypes.Info,
+        messageKey: 'ui.notification.info.gameCopied.message',
+    });
 }
 </script>
 

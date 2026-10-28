@@ -47,6 +47,12 @@ describe('Winning an unlimited game', () => {
         cy.get('.option-game-over-container button').eq(1).click();
 
         cy.get('@clipboardWrite').should('have.been.calledOnce');
+
+        cy.get('.notification-canvas .notification-card')
+            .should('have.length', 1)
+            .and('have.class', 'notification-info')
+            .find('.notification-message')
+            .should('have.text', 'The game result has been copied to your clipboard!');
     });
 
     it('starts a brand new game when a page change/reload resumes an already-finished game', () => {

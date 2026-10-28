@@ -37,6 +37,59 @@ describe('AuthManagementService', () => {
         expect(auth.isAuthenticated).toBe(false);
     });
 
+    it('tries again on the next call after a failure', async () => {
+        authUser.mockRejectedValueOnce(new Error('backend down'));
+        const auth = AuthManagementService.getInstance(fakeUserApi(authUser));
+        await expect(auth.authenticate()).rejects.toThrow('backend down');
+
+        await auth.authenticate();
+
+        expect(authUser).toHaveBeenCalledTimes(2);
+        expect(auth.isAuthenticated).toBe(true);
+    });
+
+    it('also tries again through whenAuthenticated after a failure (as the router guard does)', async () => {
+        authUser.mockRejectedValueOnce(new Error('backend down'));
+        const auth = AuthManagementService.getInstance(fakeUserApi(authUser));
+        await expect(auth.whenAuthenticated).rejects.toThrow('backend down');
+
+        await expect(auth.whenAuthenticated).resolves.toBeUndefined();
+
+        expect(authUser).toHaveBeenCalledTimes(2);
+    });
+
+    it('shares a pending attempt between concurrent calls', async () => {
+        let resolveAuth!: () => void;
+        authUser.mockReturnValue(new Promise<void>((resolve) => (resolveAuth = resolve)));
+        const auth = AuthManagementService.getInstance(fakeUserApi(authUser));
+
+        const first = auth.authenticate();
+        const second = auth.whenAuthenticated;
+        resolveAuth();
+        await Promise.all([first, second]);
+
+        expect(second).toBe(first);
+        expect(authUser).toHaveBeenCalledTimes(1);
+    });
+
+    it('shares a pending attempt that ends up failing, then tries again', async () => {
+        let rejectAuth!: (err: Error) => void;
+        authUser.mockReturnValueOnce(new Promise<void>((_, reject) => (rejectAuth = reject)));
+        const auth = AuthManagementService.getInstance(fakeUserApi(authUser));
+
+        const first = auth.authenticate();
+        const second = auth.authenticate();
+        rejectAuth(new Error('backend down'));
+        await expect(first).rejects.toThrow('backend down');
+        await expect(second).rejects.toThrow('backend down');
+        expect(authUser).toHaveBeenCalledTimes(1);
+
+        await auth.authenticate();
+
+        expect(authUser).toHaveBeenCalledTimes(2);
+        expect(auth.isAuthenticated).toBe(true);
+    });
+
     it('re-runs the authentication after reauthenticate()', async () => {
         const auth = AuthManagementService.getInstance(fakeUserApi(authUser));
         await auth.authenticate();

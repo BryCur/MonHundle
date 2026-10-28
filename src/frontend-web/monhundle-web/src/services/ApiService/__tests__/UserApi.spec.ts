@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('@/services/ApiService/ApiBaseAccess', () => ({
+// only apiFetch is faked: ensureOk keeps its real behaviour
+vi.mock('@/services/ApiService/ApiBaseAccess', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/services/ApiService/ApiBaseAccess')>()),
     apiFetch: vi.fn(),
 }));
 vi.mock('@/services/LocalStorageService', () => ({
