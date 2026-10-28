@@ -895,7 +895,10 @@
                 "label": "Load your save",
                 "placeholder": "Your ID",
                 "button": "Load",
-                "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history."
+                "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history.",
+                "error": {
+                    "format": "Identifier must follow the UUID format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx."
+                }
             },
             "deleteUUID": {
                 "label": "Delete your data",
@@ -913,6 +916,12 @@
                 },
                 "gameShareCopyFailed": {
                     "message": "The result could not be copied to the clipboard."
+                },
+                "uuidCopyFailed": {
+                    "message": "The identifier could not be copied to the clipboard."
+                },
+                "saveSettingsFailed": {
+                    "message": "Your preferences could not be synced to your online profile. Please try again later."
                 },
                 "default": {
                     "message": "An unexpected error occurred. Refresh or try again later."
@@ -940,6 +949,9 @@
             "warning": {
                 "serverStillUnavailable": {
                     "message": "The server is still unreachable. Please try again in a few moments."
+                },
+                "profileNotFound": {
+                    "message": "No profile found with this identifier."
                 }
             }
         },

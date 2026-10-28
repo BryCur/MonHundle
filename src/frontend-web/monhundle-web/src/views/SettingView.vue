@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { NotificationTypes } from '@/domain/Notification';
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
 import { injectStrict, notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
@@ -19,6 +20,7 @@ const enableTableA11y = ref<boolean>(false);
 let currentUUID: string = '';
 const inputUuid = ref<string | null>(null);
 const isWorking = ref<boolean>(false);
+const uuidErrorKey = ref<string | null>(null);
 
 onMounted(async () => {
     // load game list
@@ -41,7 +43,17 @@ function toggleA11y() {
 }
 
 async function copyUUID() {
-    await navigator.clipboard.writeText(currentUUID);
+    try {
+        await navigator.clipboard.writeText(currentUUID);
+    } catch (err) {
+        console.warn('[copy uuid] could not write to the clipboard', err);
+        notificationEmitter.notify({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.uuidCopyFailed.message',
+        });
+        return;
+    }
+
     notificationEmitter.notify({
         messageKey: 'ui.notification.info.uuidCopied.message',
         type: NotificationTypes.Info,
@@ -51,59 +63,60 @@ async function copyUUID() {
 async function loadUuid() {
     isWorking.value = true;
     try {
-        if (inputUuid.value && isUUID(inputUuid.value)) {
-            const isInputValid = await settingsApi.validateUser(inputUuid.value);
-
-            if (isInputValid) {
-                await settingsApi.loadUser(inputUuid.value);
-                const userProfile = await settingsApi.getProfile(inputUuid.value);
-
-                localStorage.setItem(
-                    LocalStorageKeys.GAME_LIST,
-                    JSON.stringify(userProfile?.gameList ?? []),
-                );
-                gameList.value = userProfile?.gameList ?? [];
-
-                localStorage.setItem(
-                    LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-                    String(userProfile?.enableTableVisualAid || false),
-                );
-                enableTableA11y.value = userProfile?.enableTableVisualAid || false;
-
-                if (userProfile?.currentDailyGameUuid) {
-                    setCookie(
-                        CookieKeys.CURRENT_DAILY_GAME,
-                        userProfile?.currentDailyGameUuid,
-                        msUntilMidnightUTC(),
-                    );
-                } else {
-                    deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
-                }
-
-                if (userProfile?.currentUnlimitedGameUuid) {
-                    setCookie(
-                        CookieKeys.CURRENT_UNLIMITED_GAME,
-                        userProfile?.currentUnlimitedGameUuid,
-                    );
-                } else {
-                    deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-                }
-
-                // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
-                notificationEmitter.notify({
-                    messageKey: 'ui.notification.success.profileLoaded.message',
-                    type: NotificationTypes.Success,
-                });
-                setTimeout(() => location.reload(), 1500);
-            } else {
-                // TODO error management
-                console.error('UUID provided not recognised');
-                isWorking.value = false;
-            }
-        } else {
-            console.error('invalid format');
+        const cleanedInput = inputUuid.value?.trim() ?? null;
+        if (cleanedInput === null || !isUUID(cleanedInput)) {
+            console.warn('invalid uuid format');
+            uuidErrorKey.value = 'ui.settings.setUUID.error.format';
             isWorking.value = false;
+            return;
         }
+
+        const userProfile = await settingsApi.getProfile(cleanedInput);
+        if (!userProfile) {
+            console.warn('no profile found for provided identifier');
+            notificationEmitter.notify({
+                messageKey: 'ui.notification.warning.profileNotFound.message',
+                type: NotificationTypes.Warning,
+            });
+            isWorking.value = false;
+            return;
+        }
+        await settingsApi.loadUser(cleanedInput);
+
+        localStorage.setItem(
+            LocalStorageKeys.GAME_LIST,
+            JSON.stringify(userProfile.gameList ?? []),
+        );
+        gameList.value = userProfile.gameList ?? [];
+
+        localStorage.setItem(
+            LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
+            String(userProfile.enableTableVisualAid || false),
+        );
+        enableTableA11y.value = userProfile.enableTableVisualAid || false;
+
+        if (userProfile.currentDailyGameUuid) {
+            setCookie(
+                CookieKeys.CURRENT_DAILY_GAME,
+                userProfile.currentDailyGameUuid,
+                msUntilMidnightUTC(),
+            );
+        } else {
+            deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
+        }
+
+        if (userProfile.currentUnlimitedGameUuid) {
+            setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile.currentUnlimitedGameUuid);
+        } else {
+            deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
+        }
+
+        // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
+        notificationEmitter.notify({
+            messageKey: 'ui.notification.success.profileLoaded.message',
+            type: NotificationTypes.Success,
+        });
+        setTimeout(() => location.reload(), 1500);
     } catch (err) {
         isWorking.value = false;
         throw err;
@@ -131,6 +144,17 @@ async function savePreferenceToProfile() {
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
         });
+    } catch (err) {
+        console.warn('failed to back up preferences');
+        if (err instanceof BaseBlockingError) {
+            // needs to be redirected to error page
+            throw err;
+        }
+
+        notificationEmitter.notify({
+            type: NotificationTypes.Error,
+            messageKey: 'ui.notification.error.saveSettingsFailed.message',
+        });
     } finally {
         isWorking.value = false;
     }
@@ -146,6 +170,10 @@ function getGameListString() {
             gameCount: gameList.value.length,
         });
     }
+}
+
+function onUuidInput() {
+    uuidErrorKey.value = null;
 }
 </script>
 
@@ -196,11 +224,18 @@ function getGameListString() {
                 <input
                     type="text"
                     v-model="inputUuid"
+                    @input="onUuidInput"
                     :placeholder="t('ui.settings.setUUID.placeholder')"
+                    :aria-invalid="uuidErrorKey !== null"
+                    aria-describedby="uuid-field-error"
+                    :class="{ invalid: uuidErrorKey }"
                 />
                 <button :disabled="isWorking" @click="loadUuid()">
                     {{ t('ui.settings.setUUID.button') }}
                 </button>
+            </span>
+            <span v-if="uuidErrorKey" id="uuid-field-error" class="field-error" role="alert">
+                {{ t(uuidErrorKey) }}
             </span>
             <span class="setting-description">{{ t('ui.settings.setUUID.description') }}</span>
         </div>
@@ -248,10 +283,22 @@ function getGameListString() {
             }
         }
 
+        .invalid {
+            border: 2px solid var(--error-red);
+        }
+
         .setting-description {
             grid-column: span 2;
             font-size: 0.9rem;
             font-style: italic;
+        }
+
+        .field-error {
+            grid-column: span 2;
+            font-size: 0.9rem;
+            padding: 0 1rem;
+            color: var(--error-red);
+            border-left: 3px solid var(--error-red);
         }
     }
 }

@@ -16,6 +16,8 @@ import SettingView from '@/views/SettingView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
 import { NotificationTypes } from '@/domain/Notification';
+import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
+import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { paths } from '@/router';
 
 // real (empty) i18n so `t()` resolves to the key path
@@ -86,7 +88,6 @@ describe('SettingView actions', () => {
     let reload: ReturnType<typeof vi.fn>;
     let writeText: ReturnType<typeof vi.fn>;
     let settingsApi: {
-        validateUser: ReturnType<typeof vi.fn>;
         loadUser: ReturnType<typeof vi.fn>;
         getProfile: ReturnType<typeof vi.fn>;
         saveSettings: ReturnType<typeof vi.fn>;
@@ -118,8 +119,12 @@ describe('SettingView actions', () => {
         return wrapper.findAll('button').every((b) => b.attributes('disabled') === undefined);
     }
 
+    function uuidInput(wrapper: VueWrapper) {
+        return wrapper.find('input:not([type="checkbox"])');
+    }
+
     async function loadProfile(wrapper: VueWrapper, uuid: string) {
-        await wrapper.find('input:not([type="checkbox"])').setValue(uuid);
+        await uuidInput(wrapper).setValue(uuid);
         await button(wrapper, 'ui.settings.setUUID.button').trigger('click');
         await flushPromises();
     }
@@ -144,21 +149,24 @@ describe('SettingView actions', () => {
         });
 
         settingsApi = {
-            validateUser: vi.fn().mockResolvedValue(true),
             loadUser: vi.fn().mockResolvedValue(undefined),
             getProfile: vi.fn().mockResolvedValue({
                 gameList: ['MHR'],
-                enableTableVisualAid: false,
+                enableTableVisualAid: true,
                 currentDailyGameUuid: null,
                 currentUnlimitedGameUuid: null,
             }),
             saveSettings: vi.fn().mockResolvedValue(undefined),
         };
+
+        // the failure paths log a warning on purpose
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
     });
 
     afterEach(() => {
         vi.useRealTimers();
         vi.unstubAllGlobals();
+        vi.restoreAllMocks();
         Reflect.deleteProperty(navigator, 'clipboard');
     });
 
@@ -187,16 +195,20 @@ describe('SettingView actions', () => {
             });
         });
 
-        it('does not notify a success when the clipboard refuses the copy', async () => {
-            const error = new Error('clipboard denied');
-            writeText.mockRejectedValue(error);
+        it('tells the player when the clipboard refuses the copy, without a success message', async () => {
+            writeText.mockRejectedValue(
+                new DOMException('Write permission denied', 'NotAllowedError'),
+            );
             const wrapper = await mountWithMocks();
 
             await button(wrapper, 'ui.settings.copyUUID.button').trigger('click');
             await flushPromises();
 
-            expect(notify).not.toHaveBeenCalled();
-            expect(errorHandler).toHaveBeenCalledWith(error, expect.anything(), expect.any(String));
+            expect(notify).toHaveBeenCalledExactlyOnceWith({
+                type: NotificationTypes.Error,
+                messageKey: 'ui.notification.error.uuidCopyFailed.message',
+            });
+            expect(errorHandler).not.toHaveBeenCalled();
         });
     });
 
@@ -222,9 +234,24 @@ describe('SettingView actions', () => {
             });
         });
 
-        it('enables the buttons again when saving fails', async () => {
-            const error = new Error('network down');
-            settingsApi.saveSettings.mockRejectedValue(error);
+        it('notifies the failure and enables the buttons again when the server refuses the save', async () => {
+            settingsApi.saveSettings.mockRejectedValue(new UnexpectedApiError('boom', 500));
+            const wrapper = await mountWithMocks();
+
+            await button(wrapper, 'ui.settings.savePreferences.button').trigger('click');
+            await flushPromises();
+
+            expect(noButtonDisabled(wrapper)).toBe(true);
+            expect(notify).toHaveBeenCalledExactlyOnceWith({
+                type: NotificationTypes.Error,
+                messageKey: 'ui.notification.error.saveSettingsFailed.message',
+            });
+            expect(errorHandler).not.toHaveBeenCalled();
+        });
+
+        it('lets a blocking error through (to the error page) without notifying', async () => {
+            const unavailable = new BackendUnavailableError('Service unreachable');
+            settingsApi.saveSettings.mockRejectedValue(unavailable);
             const wrapper = await mountWithMocks();
 
             await button(wrapper, 'ui.settings.savePreferences.button').trigger('click');
@@ -232,7 +259,11 @@ describe('SettingView actions', () => {
 
             expect(noButtonDisabled(wrapper)).toBe(true);
             expect(notify).not.toHaveBeenCalled();
-            expect(errorHandler).toHaveBeenCalledWith(error, expect.anything(), expect.any(String));
+            expect(errorHandler).toHaveBeenCalledWith(
+                unavailable,
+                expect.anything(),
+                expect.any(String),
+            );
         });
     });
 
@@ -255,43 +286,113 @@ describe('SettingView actions', () => {
             expect(reload).toHaveBeenCalledTimes(1);
         });
 
-        it('enables the buttons again for an unknown UUID, without notifying nor reloading', async () => {
-            settingsApi.validateUser.mockResolvedValue(false);
+        it('fetches the profile before switching identity, then applies it locally', async () => {
+            const wrapper = await mountWithMocks();
+
+            await loadProfile(wrapper, VALID_UUID);
+
+            expect(settingsApi.getProfile).toHaveBeenCalledWith(VALID_UUID);
+            expect(settingsApi.loadUser).toHaveBeenCalledWith(VALID_UUID);
+            expect(settingsApi.getProfile.mock.invocationCallOrder[0]).toBeLessThan(
+                settingsApi.loadUser.mock.invocationCallOrder[0]!,
+            );
+            expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(JSON.stringify(['MHR']));
+            expect(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)).toBe('true');
+        });
+
+        it('ignores the spaces around a pasted UUID', async () => {
+            const wrapper = await mountWithMocks();
+
+            await loadProfile(wrapper, `  ${VALID_UUID} `);
+
+            expect(settingsApi.getProfile).toHaveBeenCalledWith(VALID_UUID);
+            expect(wrapper.find('.field-error').exists()).toBe(false);
+        });
+
+        it('warns about an unknown UUID without switching identity nor reloading', async () => {
+            settingsApi.getProfile.mockResolvedValue(null);
             const wrapper = await mountWithMocks();
 
             await loadProfile(wrapper, VALID_UUID);
             vi.advanceTimersByTime(RELOAD_DELAY_MS);
 
+            expect(settingsApi.loadUser).not.toHaveBeenCalled();
             expect(noButtonDisabled(wrapper)).toBe(true);
-            expect(notify).not.toHaveBeenCalled();
+            expect(notify).toHaveBeenCalledExactlyOnceWith({
+                type: NotificationTypes.Warning,
+                messageKey: 'ui.notification.warning.profileNotFound.message',
+            });
             expect(reload).not.toHaveBeenCalled();
+            expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(JSON.stringify(['MHW']));
         });
 
-        it('enables the buttons again for a malformed UUID, without calling the api', async () => {
+        it('shows an error under the field for a malformed UUID, without calling the api', async () => {
             const wrapper = await mountWithMocks();
 
             await loadProfile(wrapper, 'not-a-uuid');
             vi.advanceTimersByTime(RELOAD_DELAY_MS);
 
-            expect(settingsApi.validateUser).not.toHaveBeenCalled();
+            const fieldError = wrapper.find('.field-error');
+            expect(fieldError.exists()).toBe(true);
+            expect(fieldError.text()).toBe('ui.settings.setUUID.error.format');
+            expect(fieldError.attributes('role')).toBe('alert');
+            expect(uuidInput(wrapper).attributes('aria-invalid')).toBe('true');
+            expect(uuidInput(wrapper).classes()).toContain('invalid');
+
+            expect(settingsApi.getProfile).not.toHaveBeenCalled();
             expect(noButtonDisabled(wrapper)).toBe(true);
             expect(notify).not.toHaveBeenCalled();
             expect(reload).not.toHaveBeenCalled();
         });
 
-        it('enables the buttons again and lets the error through when the api fails', async () => {
-            const error = new Error('network down');
-            settingsApi.validateUser.mockRejectedValue(error);
+        it('treats an empty field as a malformed UUID', async () => {
             const wrapper = await mountWithMocks();
 
-            await loadProfile(wrapper, VALID_UUID);
-            vi.advanceTimersByTime(RELOAD_DELAY_MS);
+            await button(wrapper, 'ui.settings.setUUID.button').trigger('click');
+            await flushPromises();
 
-            expect(noButtonDisabled(wrapper)).toBe(true);
-            expect(notify).not.toHaveBeenCalled();
-            expect(reload).not.toHaveBeenCalled();
-            expect(errorHandler).toHaveBeenCalledWith(error, expect.anything(), expect.any(String));
+            expect(wrapper.find('.field-error').exists()).toBe(true);
+            expect(settingsApi.getProfile).not.toHaveBeenCalled();
         });
+
+        it('clears the field error as soon as the player edits the UUID', async () => {
+            const wrapper = await mountWithMocks();
+            await loadProfile(wrapper, 'not-a-uuid');
+
+            await uuidInput(wrapper).setValue('not-a-uuid-either');
+
+            expect(wrapper.find('.field-error').exists()).toBe(false);
+            expect(uuidInput(wrapper).attributes('aria-invalid')).toBe('false');
+            expect(uuidInput(wrapper).classes()).not.toContain('invalid');
+        });
+
+        it.each([
+            ['fetching the profile', 'getProfile'],
+            ['switching identity', 'loadUser'],
+        ] as const)(
+            'enables the buttons again and lets the error through when %s fails',
+            async (_label, failingCall) => {
+                const error = new UnexpectedApiError('boom', 500);
+                settingsApi[failingCall].mockRejectedValue(error);
+                const wrapper = await mountWithMocks();
+
+                await loadProfile(wrapper, VALID_UUID);
+                vi.advanceTimersByTime(RELOAD_DELAY_MS);
+
+                expect(noButtonDisabled(wrapper)).toBe(true);
+                expect(notify).not.toHaveBeenCalled();
+                expect(reload).not.toHaveBeenCalled();
+                expect(errorHandler).toHaveBeenCalledWith(
+                    error,
+                    expect.anything(),
+                    expect.any(String),
+                );
+                // nothing from the target profile is applied
+                expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(
+                    JSON.stringify(['MHW']),
+                );
+            },
+        );
     });
 
     describe('deleting the stored data', () => {

@@ -877,6 +877,12 @@
                 "gameShareCopyFailed": {
                     "message": "Le résultat n'a pas pu être copié dans votre presse-papiers."
                 },
+                "uuidCopyFailed": {
+                    "message": "L'identifiant n'a pas pu être copié dans votre presse-papiers."
+                },
+                "saveSettingsFailed": {
+                    "message": "Vos préférences n'ont pas pu être sauvegardées sur votre profil en ligne. Veuillez réessayer plus tard."
+                },
                 "default": {
                     "message": "Une erreur est survenue. Veuillez rafraîchir ou réessayer plus tard."
                 }
@@ -903,6 +909,9 @@
             "warning": {
                 "serverStillUnavailable": {
                     "message": "Le serveur est toujours injoignable. Veuillez réessayer dans quelques instants."
+                },
+                "profileNotFound": {
+                    "message": "Aucun profil ne correspond à cet identifiant."
                 }
             }
         },
