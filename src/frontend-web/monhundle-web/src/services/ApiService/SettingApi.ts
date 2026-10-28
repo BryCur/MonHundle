@@ -27,19 +27,6 @@ export class SettingsApi implements ISettingApi {
         return (await response.json()) as SettingsResponse;
     }
 
-    public async validateUser(userUid: string): Promise<boolean> {
-        const urlParam = new URLSearchParams({ 'user-id': userUid });
-        const response = await apiFetch(`/user/validate?${urlParam.toString()}`, { method: 'GET' });
-
-        if (response.status === 400) {
-            return false;
-        }
-
-        ensureOk(response, `Error while validating user ${userUid}`);
-
-        return response.status === 200;
-    }
-
     public async loadUser(userUid: string): Promise<void> {
         const urlParam = new URLSearchParams({ 'user-id': userUid });
         const response = await apiFetch(`/user/load?${urlParam.toString()}`, { method: 'GET' });

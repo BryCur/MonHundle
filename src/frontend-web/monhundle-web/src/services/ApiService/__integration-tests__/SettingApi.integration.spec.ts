@@ -96,46 +96,6 @@ describe('SettingsApi.getProfile (integration)', () => {
     });
 });
 
-describe('SettingsApi.validateUser (integration)', () => {
-    it('sends a well-formed request: GET, user id as a query parameter', async () => {
-        let capturedMethod: string | null = null;
-        let capturedUrl: string | null = null;
-        server.use(
-            http.get('*/user/validate', ({ request }) => {
-                capturedMethod = request.method;
-                capturedUrl = request.url;
-                return new HttpResponse(null, { status: 200 });
-            }),
-        );
-
-        await new SettingsApi().validateUser(VALID_UUID);
-
-        expect(capturedMethod).toBe('GET');
-        expect(new URL(capturedUrl!).searchParams.get('user-id')).toBe(VALID_UUID);
-    });
-
-    it('returns true on a 200 response', async () => {
-        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 200 })));
-
-        await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(true);
-    });
-
-    it('returns false on a 400 response (id not recognised)', async () => {
-        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 400 })));
-
-        await expect(new SettingsApi().validateUser(VALID_UUID)).resolves.toBe(false);
-    });
-
-    it('throws an UnexpectedApiError on any other error status', async () => {
-        server.use(http.get('*/user/validate', () => new HttpResponse(null, { status: 500 })));
-
-        const request = new SettingsApi().validateUser(VALID_UUID);
-
-        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
-        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
-    });
-});
-
 describe('SettingsApi.loadUser (integration)', () => {
     beforeEach(() => {
         clearStoredUserId();
