@@ -1,11 +1,11 @@
 {
     "accessibility": {
         "result": {
-            "Correct": "{value} est/sont correcte(s)",
-            "Higher": "la bonne réponse est plus élevée que {value}",
-            "Incorrect": "{value} est/sont incorrecte(s)",
-            "Lower": "la bonne réponse est moins élevée que {value}",
-            "Partial": "au moins une valeur est correcte dans {value}"
+            "correct": "{value} est/sont correcte(s)",
+            "higher": "la bonne réponse est plus élevée que {value}",
+            "incorrect": "{value} est/sont incorrecte(s)",
+            "lower": "la bonne réponse est moins élevée que {value}",
+            "partial": "au moins une valeur est correcte dans {value}"
         },
         "notification": {
             "close": "Fermer la notification",

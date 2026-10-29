@@ -78,7 +78,7 @@ async function loadUuid() {
         const cleanedInput = inputUuid.value?.trim() ?? null;
         if (cleanedInput === null || !isUUID(cleanedInput)) {
             console.warn('invalid uuid format');
-            uuidErrorKey.value = 'ui.settings.setUUID.error.format';
+            uuidErrorKey.value = 'ui.page.settings.setUUID.error.format';
             isWorking.value = false;
             return;
         }
@@ -174,10 +174,10 @@ async function savePreferenceToProfile() {
 
 function getGameListString() {
     if (gameList.value.length < 4) {
-        return t('ui.settings.gameList.shortLabel', { gameList: gameList.value.join(', ') });
+        return t('ui.page.settings.gameList.shortLabel', { gameList: gameList.value.join(', ') });
     } else {
         const displayedList = gameList.value.slice(0, 3);
-        return t('ui.settings.gameList.label', {
+        return t('ui.page.settings.gameList.label', {
             gameList: displayedList.join(', '),
             gameCount: gameList.value.length,
         });
@@ -191,9 +191,9 @@ function onUuidInput() {
 
 <template>
     <div class="setting-list">
-        <h2>{{ t('ui.settings.titles.preferences') }}</h2>
+        <h2>{{ t('ui.page.settings.titles.preferences') }}</h2>
         <div class="setting-line">
-            <label>{{ t('ui.settings.visualAccessibility.label') }}</label>
+            <label>{{ t('ui.page.settings.visualAccessibility.label') }}</label>
             <input
                 :disabled="isWorking"
                 @change="toggleA11y()"
@@ -201,62 +201,68 @@ function onUuidInput() {
                 type="checkbox"
             />
             <span class="setting-description">{{
-                t('ui.settings.visualAccessibility.description')
+                t('ui.page.settings.visualAccessibility.description')
             }}</span>
         </div>
         <div class="setting-line">
             <label> {{ getGameListString() }}</label>
             <button :disabled="isWorking" @click="router.push(paths.selectGame)">
-                {{ t('ui.settings.gameList.button') }}
-            </button>
-            <span class="setting-description">{{ t('ui.settings.gameList.description') }}</span>
-        </div>
-        <div class="setting-line">
-            <label> {{ t('ui.settings.savePreferences.label') }}</label>
-            <button :disabled="isWorking" @click="savePreferenceToProfile()">
-                {{ t('ui.settings.savePreferences.button') }}
+                {{ t('ui.page.settings.gameList.button') }}
             </button>
             <span class="setting-description">{{
-                t('ui.settings.savePreferences.description')
+                t('ui.page.settings.gameList.description')
+            }}</span>
+        </div>
+        <div class="setting-line">
+            <label> {{ t('ui.page.settings.savePreferences.label') }}</label>
+            <button :disabled="isWorking" @click="savePreferenceToProfile()">
+                {{ t('ui.page.settings.savePreferences.button') }}
+            </button>
+            <span class="setting-description">{{
+                t('ui.page.settings.savePreferences.description')
             }}</span>
         </div>
     </div>
     <div class="setting-list">
-        <h2>{{ t('ui.settings.titles.data') }}</h2>
+        <h2>{{ t('ui.page.settings.titles.data') }}</h2>
         <div class="setting-line">
-            <label>{{ t('ui.settings.copyUUID.label') }}</label>
+            <label>{{ t('ui.page.settings.copyUUID.label') }}</label>
             <button :disabled="isWorking" @click="copyUUID()">
-                {{ t('ui.settings.copyUUID.button') }}
+                {{ t('ui.page.settings.copyUUID.button') }}
             </button>
-            <span class="setting-description">{{ t('ui.settings.copyUUID.description') }}</span>
+            <span class="setting-description">{{
+                t('ui.page.settings.copyUUID.description')
+            }}</span>
         </div>
         <div class="setting-line">
-            <label>{{ t('ui.settings.setUUID.label') }}</label>
+            <label>{{ t('ui.page.settings.setUUID.label') }}</label>
             <span class="composed-field">
                 <input
                     type="text"
                     v-model="inputUuid"
                     @input="onUuidInput"
-                    :placeholder="t('ui.settings.setUUID.placeholder')"
+                    :placeholder="t('ui.page.settings.setUUID.placeholder')"
                     :aria-invalid="uuidErrorKey !== null"
                     aria-describedby="uuid-field-error"
                     :class="{ invalid: uuidErrorKey }"
                 />
                 <button :disabled="isWorking" @click="loadUuid()">
-                    {{ t('ui.settings.setUUID.button') }}
+                    {{ t('ui.page.settings.setUUID.button') }}
                 </button>
             </span>
             <span v-if="uuidErrorKey" id="uuid-field-error" class="field-error" role="alert">
                 {{ t(uuidErrorKey) }}
             </span>
-            <span class="setting-description">{{ t('ui.settings.setUUID.description') }}</span>
+            <span class="setting-description">{{ t('ui.page.settings.setUUID.description') }}</span>
         </div>
         <div class="setting-line">
-            <label>{{ t('ui.settings.deleteUUID.label') }}</label>
+            <label>{{ t('ui.page.settings.deleteUUID.label') }}</label>
             <button :disabled="isWorking" @click="deleteStoredData()" class="danger">
-                {{ t('ui.settings.deleteUUID.button') }}
+                {{ t('ui.page.settings.deleteUUID.button') }}
             </button>
-            <span class="setting-description">{{ t('ui.settings.deleteUUID.description') }}</span>
+            <span class="setting-description">{{
+                t('ui.page.settings.deleteUUID.description')
+            }}</span>
         </div>
     </div>
 </template>

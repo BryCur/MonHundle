@@ -1,11 +1,11 @@
 {
     "accessibility": {
         "result": {
-            "Correct": "{value} is or are correct",
-            "Higher": "the correct value is higher than {value}",
-            "Incorrect": "{value} is or are wrong",
-            "Lower": "the correct value is lower than {value}",
-            "Partial": "at least one value is wrong in {value}"
+            "correct": "{value} is or are correct",
+            "higher": "the correct value is higher than {value}",
+            "incorrect": "{value} is or are wrong",
+            "lower": "the correct value is lower than {value}",
+            "partial": "at least one value is wrong in {value}"
         },
         "notification": {
             "close": "Close notification",
@@ -866,46 +866,6 @@
         "placeholder": {
             "monsterSelector": "Select a monster..."
         },
-        "settings": {
-            "titles": {
-                "preferences": "Preferences",
-                "data": "Your data"
-            },
-            "visualAccessibility": {
-                "label": "Enable table visual accessibility",
-                "description": "Changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
-            },
-            "gameList": {
-                "shortLabel": "Game list for unlimited play: {gameList}",
-                "label": "Game list for unlimited play: {gameList}, ... ({gameCount} titles)",
-                "button": "Change your game list",
-                "description": "Fine tune your unlimited play experience by specifying the game you played. This will reduce the mystery monster and the guess option to the monster pool of all your games."
-            },
-            "savePreferences": {
-                "label": "Save your preferences",
-                "button": "Backup",
-                "description": "Your preferences are stored on your browser. If you play across multiple devices, you may save your preferences and they will be backed up along with your personal ID."
-            },
-            "copyUUID": {
-                "label": "Get your identifier",
-                "button": "Copy your ID",
-                "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and preferences. Feel free to store this identifier and use it on other devices."
-            },
-            "setUUID": {
-                "label": "Load your save",
-                "placeholder": "Your ID",
-                "button": "Load",
-                "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history.",
-                "error": {
-                    "format": "Identifier must follow the UUID format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx."
-                }
-            },
-            "deleteUUID": {
-                "label": "Delete your data",
-                "button": "Delete",
-                "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
-            }
-        },
         "notification": {
             "error": {
                 "gameTitlesLoadFailed": {
@@ -974,6 +934,46 @@
                         "title": "Something went wrong",
                         "message": "An error prevents the game from continuing. Please try again later."
                     }
+                }
+            },
+            "settings": {
+                "titles": {
+                    "preferences": "Preferences",
+                    "data": "Your data"
+                },
+                "visualAccessibility": {
+                    "label": "Enable table visual accessibility",
+                    "description": "Changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
+                },
+                "gameList": {
+                    "shortLabel": "Game list for unlimited play: {gameList}",
+                    "label": "Game list for unlimited play: {gameList}, ... ({gameCount} titles)",
+                    "button": "Change your game list",
+                    "description": "Fine tune your unlimited play experience by specifying the game you played. This will reduce the mystery monster and the guess option to the monster pool of all your games."
+                },
+                "savePreferences": {
+                    "label": "Save your preferences",
+                    "button": "Backup",
+                    "description": "Your preferences are stored on your browser. If you play across multiple devices, you may save your preferences and they will be backed up along with your personal ID."
+                },
+                "copyUUID": {
+                    "label": "Get your identifier",
+                    "button": "Copy your ID",
+                    "description": "You are identified by a unique ID attributed randomly on your first visit. This is the only way to keep your progress, statistics and preferences. Feel free to store this identifier and use it on other devices."
+                },
+                "setUUID": {
+                    "label": "Load your save",
+                    "placeholder": "Your ID",
+                    "button": "Load",
+                    "description": "Loading an identifier will replace most data currently stored in this device, including unfinished games, preferences, and history.",
+                    "error": {
+                        "format": "Identifier must follow the UUID format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx."
+                    }
+                },
+                "deleteUUID": {
+                    "label": "Delete your data",
+                    "button": "Delete",
+                    "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
                 }
             }
         }
