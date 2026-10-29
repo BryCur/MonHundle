@@ -13,6 +13,22 @@
         }
     },
     "game": {
+        "title": {
+            "MH1": "Monster Hunter",
+            "MHF1": "Monster Hunter Freedom",
+            "MHF2": "Monster Hunter Freedom 2",
+            "MHFU": "Monster Hunter Freedom Unite",
+            "MH3": "Monster Hunter Tri",
+            "MH3U": "Monster Hunter 3 Ultimate",
+            "MH4U": "Monster Hunter 4 Ultimate",
+            "MHGen": "Monster Hunter Generations",
+            "MHGU": "Monster Hunter Generations Ultimate",
+            "MHWorld": "Monster Hunter: World",
+            "MHWI": "Monster Hunter World: Iceborne",
+            "MHR": "Monster Hunter Rise",
+            "MHRS": "Monster Hunter Rise: Sunbreak",
+            "MHWilds": "Monster Hunter Wilds"
+        },
         "criteria": {
             "afflictions": {
                 "blastblight": "Fléau explosion",
@@ -38,16 +54,16 @@
             },
             "habitats": {
                 "aquatic": "Aquatique",
-                "cave": "Cave",
+                "cave": "Caverne",
                 "desert": "Désert",
                 "forest": "Forêt",
-                "highland": "Highland",
+                "highland": "Hauts plateaux",
                 "mountain": "Montagne",
                 "ruin": "Ruines",
                 "savanna": "Savanne",
-                "snowfield": "Toundra enneigée",
-                "special": "Spéciale",
-                "swamp": "Maraicage",
+                "snowfield": "Plaine enneigée",
+                "special": "Spécial/Antre",
+                "swamp": "Marécage",
                 "unique": "Unique",
                 "volcano": "Volcan"
             },
@@ -842,10 +858,10 @@
             },
             "rules": {
                 "general": {
-                    "label": "comment lire le tableau",
-                    "correct": "Correcte",
+                    "label": "Comment lire le tableau",
+                    "correct": "Correct",
                     "incorrect": "Erroné",
-                    "partial": "Partiellement correcte, au moins 1 valeur fausse",
+                    "partial": "Au moins 1 valeur correcte",
                     "higher": "La bonne valeur est plus élevée",
                     "lower": "La bonne valeur est plus basse"
                 },

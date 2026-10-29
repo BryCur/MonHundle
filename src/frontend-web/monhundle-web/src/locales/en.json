@@ -5,7 +5,7 @@
             "higher": "the correct value is higher than {value}",
             "incorrect": "{value} is or are wrong",
             "lower": "the correct value is lower than {value}",
-            "partial": "at least one value is wrong in {value}"
+            "partial": "at least one value is correct in {value}"
         },
         "notification": {
             "close": "Close notification",
@@ -13,6 +13,22 @@
         }
     },
     "game": {
+        "title": {
+            "MH1": "Monster Hunter",
+            "MHF1": "Monster Hunter Freedom",
+            "MHF2": "Monster Hunter Freedom 2",
+            "MHFU": "Monster Hunter Freedom Unite",
+            "MH3": "Monster Hunter Tri",
+            "MH3U": "Monster Hunter 3 Ultimate",
+            "MH4U": "Monster Hunter 4 Ultimate",
+            "MHGen": "Monster Hunter Generations",
+            "MHGU": "Monster Hunter Generations Ultimate",
+            "MHWorld": "Monster Hunter: World",
+            "MHWI": "Monster Hunter World: Iceborne",
+            "MHR": "Monster Hunter Rise",
+            "MHRS": "Monster Hunter Rise: Sunbreak",
+            "MHWilds": "Monster Hunter Wilds"
+        },
         "criteria": {
             "afflictions": {
                 "blastblight": "Blast Blight",
@@ -46,7 +62,7 @@
                 "ruin": "Ruin",
                 "savanna": "Savanna",
                 "snowfield": "Snowfield",
-                "special": "Special",
+                "special": "Special/Lair",
                 "swamp": "Swamp",
                 "unique": "Unique",
                 "volcano": "Volcano"
@@ -842,10 +858,10 @@
             },
             "rules": {
                 "general": {
-                    "label": "how to read the table: ",
-                    "correct": "Correct value(s)",
-                    "incorrect": "Incorrect value(s)",
-                    "partial": "At least 1 wrong or missing value",
+                    "label": "how to read the table",
+                    "correct": "Correct",
+                    "incorrect": "Incorrect",
+                    "partial": "At least 1 value is correct",
                     "higher": "The right value is higher",
                     "lower": "The right value is lower"
                 },
