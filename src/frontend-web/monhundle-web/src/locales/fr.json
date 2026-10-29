@@ -935,6 +935,46 @@
                         "message": "Une erreur empêche la partie de continuer. Veuillez réessayer plus tard."
                     }
                 }
+            },
+            "settings": {
+                "titles": {
+                    "preferences": "Préférences",
+                    "data": "Vos données"
+                },
+                "visualAccessibility": {
+                    "label": "Activer l'accessibilité visuelle du tableau",
+                    "description": "Modifie l'apparence du tableau de jeu. Ajoute une texture au fond des cellules pour mieux distinguer les résultats incorrects, partiels et corrects, et marque davantage la séparation entre les essais."
+                },
+                "gameList": {
+                    "shortLabel": "Liste des jeux en mode illimité : {gameList}",
+                    "label": "Liste des jeux en mode illimité : {gameList}, ... ({gameCount} titres)",
+                    "button": "Modifier votre liste de jeux",
+                    "description": "Personnalisez votre expérience en mode illimité en indiquant les jeux auxquels vous avez joué. Le monstre mystère et les choix proposés seront limités aux monstres de ces jeux."
+                },
+                "savePreferences": {
+                    "label": "Sauvegarder vos préférences",
+                    "button": "Sauvegarder",
+                    "description": "Vos préférences sont stockées dans votre navigateur. Si vous jouez sur plusieurs appareils, vous pouvez les sauvegarder : elles seront associées à votre identifiant personnel."
+                },
+                "copyUUID": {
+                    "label": "Obtenir votre identifiant",
+                    "button": "Copier votre identifiant",
+                    "description": "Un identifiant unique vous est attribué aléatoirement lors de votre première visite. C'est le seul moyen de conserver votre progression, vos statistiques et vos préférences. N'hésitez pas à le conserver pour l'utiliser sur d'autres appareils."
+                },
+                "setUUID": {
+                    "label": "Charger votre sauvegarde",
+                    "placeholder": "Votre identifiant",
+                    "button": "Charger",
+                    "description": "Charger un identifiant remplacera la plupart des données stockées sur cet appareil, y compris les parties en cours, les préférences et l'historique.",
+                    "error": {
+                        "format": "L'identifiant doit respecter le format UUID xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx."
+                    }
+                },
+                "deleteUUID": {
+                    "label": "Supprimer vos données",
+                    "button": "Supprimer",
+                    "description": "Cette action supprime les données <b>de l'appareil actuel</b>. En pratique, les parties en cours, votre historique et vos préférences seront perdus, et un nouvel identifiant sera attribué à l'appareil."
+                }
             }
         }
     }
