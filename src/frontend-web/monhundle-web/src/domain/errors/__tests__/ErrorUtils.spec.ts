@@ -9,6 +9,7 @@ import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUn
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { NotificationTypes } from '@/domain/Notification';
+import { testKey } from '@test-utils/vitest/fixtures';
 import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
 import type { IErrorNavigator } from '@/domain/interfaces/IErrorNavigator';
 
@@ -50,7 +51,7 @@ describe('errorToNotification', () => {
 
     it('returns a fresh object on every call', () => {
         const first = errorToNotification(new Error('boom'));
-        first.messageKey = 'tampered';
+        first.messageKey = testKey('tampered');
 
         expect(errorToNotification(new Error('boom'))).toStrictEqual(DEFAULT_NOTIFICATION);
     });
