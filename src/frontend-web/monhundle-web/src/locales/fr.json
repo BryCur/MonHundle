@@ -916,6 +916,12 @@
             }
         },
         "page": {
+            "about": {
+                "title": "À propos",
+                "disclaimer": "Cette application web est un projet de fan non officiel, développé et maintenu par Bryan « Corbac » Curchod. Le développeur n'est ni affilié à Capcom ou à ses filiales, ni sponsorisé ou approuvé par eux.",
+                "copyright": "{game}, ainsi que les noms, icônes et logos associés, sont la propriété de Capcom Co., Ltd. Si Capcom ou d'autres ayants droit souhaitent que du contenu de ce site soit retiré ou modifié, ils peuvent me contacter sur {contact}.",
+                "credits": "Les icônes de monstres sont l'œuvre de Gaudium ({contacts})."
+            },
             "error": {
                 "action": {
                     "retry": "Réessayer",

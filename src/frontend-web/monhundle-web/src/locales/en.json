@@ -916,6 +916,12 @@
             }
         },
         "page": {
+            "about": {
+                "title": "About",
+                "disclaimer": "This web application is an unofficial fan project developed and maintained by Bryan \"Corbac\" Curchod. The developer is not affiliated with, sponsored or approved by Capcom and its affiliates.",
+                "copyright": "{game}, its related names, icons and logos are the property of Capcom Co., Ltd. If Capcom or other rights holders want content on this website to be removed or changed, they can reach out to me on {contact}.",
+                "credits": "Monster icons are from Gaudium ({contacts})."
+            },
             "error": {
                 "action": {
                     "retry": "Retry",
