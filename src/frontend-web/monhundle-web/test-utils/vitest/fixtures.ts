@@ -4,6 +4,7 @@ import {
     type GameStateResponse,
     type GuessResponse,
 } from '@/domain/ApiModels';
+import type { TranslationKey } from '@/domain/TranslationKey';
 
 // --- Player / user identity ---
 export const VALID_UUID = '11111111-1111-1111-1111-111111111111';
@@ -62,4 +63,10 @@ export function buildGameStateResponse(
         gameMode: GameModes.Unlimited,
         ...overrides,
     };
+}
+
+// --- Translation keys ---
+/** Placeholder translation key for tests where the key only identifies a notification. */
+export function testKey(key: string): TranslationKey {
+    return key as TranslationKey;
 }

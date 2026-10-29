@@ -78,7 +78,7 @@ function randomTilt(element: HTMLElement) {
                 @mouseleave="(e) => ((e.currentTarget as HTMLElement).style.transform = '')"
             >
                 <img :src="'/images/games/' + game + '.png'" alt="logo" class="game-logo" />
-                <div class="game-title">{{ t('game.titles.' + game) }}</div>
+                <div class="game-title">{{ t('game.title.' + game) }}</div>
             </div>
             <div class="button container">
                 <button @click="confirmSelection()" class="btn btn-confirm">

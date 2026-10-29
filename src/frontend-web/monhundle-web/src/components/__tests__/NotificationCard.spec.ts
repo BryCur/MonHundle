@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
 import NotificationCard from '@/components/Notification/NotificationCard.vue';
 import { NotificationTypes, type Notification } from '@/domain/Notification';
+import { testKey } from '@test-utils/vitest/fixtures';
 
 const i18n = createI18n({
     legacy: false,
@@ -24,7 +25,7 @@ function buildNotification(overrides: Partial<Notification> = {}): Notification 
     return {
         id: 42,
         type: NotificationTypes.Info,
-        messageKey: 'test.message',
+        messageKey: testKey('test.message'),
         messageParams: { what: 'monsters' },
         duration: 5000,
         dismissible: true,
@@ -61,7 +62,10 @@ describe('NotificationCard', () => {
         });
 
         it('shows the translated title with its params when there is one', () => {
-            const card = mountCard({ titleKey: 'test.title', titleParams: { status: 'failed' } });
+            const card = mountCard({
+                titleKey: testKey('test.title'),
+                titleParams: { status: 'failed' },
+            });
 
             expect(card.find('.notification-title').text()).toBe('Loading failed');
         });

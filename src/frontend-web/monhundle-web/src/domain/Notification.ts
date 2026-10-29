@@ -1,3 +1,5 @@
+import type { TranslationKey } from '@/domain/TranslationKey';
+
 export enum NotificationTypes {
     Success = 'success',
     Error = 'error',
@@ -7,9 +9,9 @@ export enum NotificationTypes {
 
 export interface NotificationParams {
     type: NotificationTypes;
-    messageKey: string;
+    messageKey: TranslationKey;
     messageParams?: Record<string, unknown>;
-    titleKey?: string;
+    titleKey?: TranslationKey;
     titleParams?: Record<string, unknown>;
     duration?: number; // 0 = manual closing required; milliseconds
     dismissible?: boolean; // if duration is 0 then needs to be true

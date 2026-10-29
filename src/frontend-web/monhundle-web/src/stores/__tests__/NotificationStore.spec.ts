@@ -3,10 +3,11 @@ import { setActivePinia, createPinia } from 'pinia';
 import { useNotificationStore } from '@/stores/NotificationStore';
 import { NotificationTypes, type NotificationParams } from '@/domain/Notification';
 import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
+import { testKey } from '@test-utils/vitest/fixtures';
 
 const baseParams: NotificationParams = {
     type: NotificationTypes.Info,
-    messageKey: 'notifications.test.message',
+    messageKey: testKey('notifications.test.message'),
 };
 
 describe('NotificationStore', () => {
@@ -26,18 +27,18 @@ describe('NotificationStore', () => {
 
             store.notify({
                 type: NotificationTypes.Warning,
-                messageKey: 'notifications.test.message',
+                messageKey: testKey('notifications.test.message'),
                 messageParams: { count: 3 },
-                titleKey: 'notifications.test.title',
+                titleKey: testKey('notifications.test.title'),
                 titleParams: { name: 'Rathalos' },
             });
 
             expect(store.notifications).toHaveLength(1);
             expect(store.notifications[0]).toMatchObject({
                 type: NotificationTypes.Warning,
-                messageKey: 'notifications.test.message',
+                messageKey: testKey('notifications.test.message'),
                 messageParams: { count: 3 },
-                titleKey: 'notifications.test.title',
+                titleKey: testKey('notifications.test.title'),
                 titleParams: { name: 'Rathalos' },
             });
         });
@@ -118,8 +119,8 @@ describe('NotificationStore', () => {
         it('should append notifications in the order they are emitted', () => {
             const store = useNotificationStore();
 
-            store.notify({ ...baseParams, messageKey: 'first' });
-            store.notify({ ...baseParams, messageKey: 'second' });
+            store.notify({ ...baseParams, messageKey: testKey('first') });
+            store.notify({ ...baseParams, messageKey: testKey('second') });
 
             expect(store.notifications.map((n) => n.messageKey)).toStrictEqual(['first', 'second']);
         });
@@ -128,9 +129,9 @@ describe('NotificationStore', () => {
     describe('dismiss', () => {
         it('should remove only the targeted notification', () => {
             const store = useNotificationStore();
-            store.notify({ ...baseParams, messageKey: 'first' });
-            store.notify({ ...baseParams, messageKey: 'second' });
-            store.notify({ ...baseParams, messageKey: 'third' });
+            store.notify({ ...baseParams, messageKey: testKey('first') });
+            store.notify({ ...baseParams, messageKey: testKey('second') });
+            store.notify({ ...baseParams, messageKey: testKey('third') });
 
             const secondId = store.notifications[1]!.id;
             store.dismiss(secondId);
@@ -140,8 +141,8 @@ describe('NotificationStore', () => {
 
         it('should do nothing when the id is unknown or already dismissed', () => {
             const store = useNotificationStore();
-            store.notify({ ...baseParams, messageKey: 'dismissed' });
-            store.notify({ ...baseParams, messageKey: 'kept' });
+            store.notify({ ...baseParams, messageKey: testKey('dismissed') });
+            store.notify({ ...baseParams, messageKey: testKey('kept') });
             const dismissedId = store.notifications[0]!.id;
             const unknownId = Math.max(...store.notifications.map((n) => n.id)) + 1;
 

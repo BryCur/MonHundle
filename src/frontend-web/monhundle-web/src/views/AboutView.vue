@@ -1,22 +1,25 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+</script>
+
 <template>
     <div class="about">
-        <h1>About</h1>
-        <p>
-            This web application is an unofficial fan project developed and maintained by Bryan
-            "Corbac" Curchod. The developer is in not affiliated, sponsored or approved by Capcom
-            and its affiliates
-        </p>
-        <p>
-            <i>Monster Hunter</i>, its related names, icons and logos are the property of Capcom
-            Co., Ltd. If Capcom or right owners wants content on this website to be removed or
-            changed, they can reach out to me on
-            <a href="https://www.linkedin.com/in/bryan-curchod/">LinkedIn</a>.
-        </p>
-        <p>
-            Monster icons are from Gaudium (<a href="https://ko-fi.com/gaudium017" target="_blank"
-                >kofi</a
-            >, <a href="https://x.com/Gaudium017" target="_blank">X/twitter</a>)
-        </p>
+        <h1>{{ t('ui.page.about.title') }}</h1>
+        <p>{{ t('ui.page.about.disclaimer') }}</p>
+        <i18n-t keypath="ui.page.about.copyright" tag="p" scope="global">
+            <template #game><i>Monster Hunter</i></template>
+            <template #contact>
+                <a href="https://www.linkedin.com/in/bryan-curchod/">LinkedIn</a>
+            </template>
+        </i18n-t>
+        <i18n-t keypath="ui.page.about.credits" tag="p" scope="global">
+            <template #contacts>
+                <a href="https://ko-fi.com/gaudium017" target="_blank">kofi</a>,
+                <a href="https://x.com/Gaudium017" target="_blank">X/twitter</a>
+            </template>
+        </i18n-t>
     </div>
 </template>
 

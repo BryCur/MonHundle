@@ -4,11 +4,17 @@ import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import type { IErrorNavigator } from '@/domain/interfaces/IErrorNavigator';
 import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
 import { NotificationTypes, type NotificationParams } from '@/domain/Notification';
+import type { TranslationKey } from '@/domain/TranslationKey';
 
-const DEFAULT_ERROR_NOTIFICATION = { messageKey: 'ui.notification.error.default.message' };
+const DEFAULT_ERROR_NOTIFICATION: { messageKey: TranslationKey } = {
+    messageKey: 'ui.notification.error.default.message',
+};
 export type ErrorReporter = (error: unknown, origin: string) => void;
 
-const LOAD_FAILED_NOTIFICATIONS: Record<string, { messageKey: string; titleKey?: string }> = {
+const LOAD_FAILED_NOTIFICATIONS: Record<
+    string,
+    { messageKey: TranslationKey; titleKey?: TranslationKey }
+> = {
     AllGameTitle: { messageKey: 'ui.notification.error.gameTitlesLoadFailed.message' },
     MonsterOptions: { messageKey: 'ui.notification.error.monsterOptionsLoadFailed.message' },
 };

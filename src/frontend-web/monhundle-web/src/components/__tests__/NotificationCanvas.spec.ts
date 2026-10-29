@@ -6,6 +6,7 @@ import NotificationCanvas from '@/components/Notification/NotificationCanvas.vue
 import NotificationCard from '@/components/Notification/NotificationCard.vue';
 import { useNotificationStore } from '@/stores/NotificationStore';
 import { NotificationTypes } from '@/domain/Notification';
+import { testKey } from '@test-utils/vitest/fixtures';
 
 const i18n = createI18n({
     legacy: false,
@@ -28,7 +29,10 @@ function mountCanvas(props: InstanceType<typeof NotificationCanvas>['$props'] = 
 }
 
 function notify(messageKey: string) {
-    useNotificationStore().notify({ type: NotificationTypes.Info, messageKey });
+    useNotificationStore().notify({
+        type: NotificationTypes.Info,
+        messageKey: testKey(messageKey),
+    });
 }
 
 function shownMessages(canvas: VueWrapper) {

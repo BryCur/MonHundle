@@ -56,14 +56,14 @@ describe('SettingView game-list label', () => {
 
         const text = (await mountView()).text();
 
-        expect(text).toContain('ui.settings.gameList.shortLabel');
-        expect(text).not.toContain('ui.settings.gameList.label');
+        expect(text).toContain('ui.page.settings.gameList.shortLabel');
+        expect(text).not.toContain('ui.page.settings.gameList.label');
     });
 
     it('uses the truncated label (with the total count) when 4+ games are selected', async () => {
         localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(['A', 'B', 'C', 'D', 'E']));
 
-        expect((await mountView()).text()).toContain('ui.settings.gameList.label');
+        expect((await mountView()).text()).toContain('ui.page.settings.gameList.label');
     });
 
     it('treats a missing stored game list as an empty one', async () => {
@@ -80,7 +80,7 @@ describe('SettingView game-list label', () => {
         await flushPromises();
 
         expect(errorHandler).not.toHaveBeenCalled();
-        expect(wrapper.text()).toContain('ui.settings.gameList.shortLabel');
+        expect(wrapper.text()).toContain('ui.page.settings.gameList.shortLabel');
     });
 
     it.each([
@@ -104,7 +104,7 @@ describe('SettingView game-list label', () => {
             await flushPromises();
 
             expect(errorHandler).not.toHaveBeenCalled();
-            expect(wrapper.text()).toContain('ui.settings.gameList.shortLabel');
+            expect(wrapper.text()).toContain('ui.page.settings.gameList.shortLabel');
             // the rest of the mounted hook still ran
             const a11yCheckbox = wrapper.find('input[type="checkbox"]').element as HTMLInputElement;
             expect(a11yCheckbox.checked).toBe(true);
@@ -160,7 +160,7 @@ describe('SettingView actions', () => {
 
     async function loadProfile(wrapper: VueWrapper, uuid: string) {
         await uuidInput(wrapper).setValue(uuid);
-        await button(wrapper, 'ui.settings.setUUID.button').trigger('click');
+        await button(wrapper, 'ui.page.settings.setUUID.button').trigger('click');
         await flushPromises();
     }
 
@@ -211,7 +211,7 @@ describe('SettingView actions', () => {
             pushMock.mockClear();
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.gameList.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.gameList.button').trigger('click');
 
             expect(pushMock).toHaveBeenCalledExactlyOnceWith(paths.selectGame);
         });
@@ -221,7 +221,7 @@ describe('SettingView actions', () => {
         it('notifies once the UUID is in the clipboard', async () => {
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.copyUUID.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.copyUUID.button').trigger('click');
             await flushPromises();
 
             expect(writeText).toHaveBeenCalledExactlyOnceWith(STORED_USER_ID);
@@ -237,7 +237,7 @@ describe('SettingView actions', () => {
             );
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.copyUUID.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.copyUUID.button').trigger('click');
             await flushPromises();
 
             expect(notify).toHaveBeenCalledExactlyOnceWith({
@@ -256,7 +256,7 @@ describe('SettingView actions', () => {
             );
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.savePreferences.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
             expect(allButtonsDisabled(wrapper)).toBe(true);
             expect(notify).not.toHaveBeenCalled();
 
@@ -274,7 +274,7 @@ describe('SettingView actions', () => {
             settingsApi.saveSettings.mockRejectedValue(new UnexpectedApiError('boom', 500));
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.savePreferences.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
             await flushPromises();
 
             expect(noButtonDisabled(wrapper)).toBe(true);
@@ -290,7 +290,7 @@ describe('SettingView actions', () => {
             settingsApi.saveSettings.mockRejectedValue(unavailable);
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.savePreferences.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
             await flushPromises();
 
             expect(noButtonDisabled(wrapper)).toBe(true);
@@ -370,7 +370,7 @@ describe('SettingView actions', () => {
 
             const fieldError = wrapper.find('.field-error');
             expect(fieldError.exists()).toBe(true);
-            expect(fieldError.text()).toBe('ui.settings.setUUID.error.format');
+            expect(fieldError.text()).toBe('ui.page.settings.setUUID.error.format');
             expect(fieldError.attributes('role')).toBe('alert');
             expect(uuidInput(wrapper).attributes('aria-invalid')).toBe('true');
             expect(uuidInput(wrapper).classes()).toContain('invalid');
@@ -384,7 +384,7 @@ describe('SettingView actions', () => {
         it('treats an empty field as a malformed UUID', async () => {
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.setUUID.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.setUUID.button').trigger('click');
             await flushPromises();
 
             expect(wrapper.find('.field-error').exists()).toBe(true);
@@ -435,7 +435,7 @@ describe('SettingView actions', () => {
         it('clears the storage, notifies and reloads after a delay, buttons kept disabled', async () => {
             const wrapper = await mountWithMocks();
 
-            await button(wrapper, 'ui.settings.deleteUUID.button').trigger('click');
+            await button(wrapper, 'ui.page.settings.deleteUUID.button').trigger('click');
 
             expect(localStorage.length).toBe(0);
             expect(notify).toHaveBeenCalledWith({
