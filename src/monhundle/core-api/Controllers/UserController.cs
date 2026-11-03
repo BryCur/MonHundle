@@ -65,7 +65,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
     [HttpPost("preference")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> SavePreference([FromBody] UserPreferencesBody preferences)
+    public async Task<IActionResult> SetPreference([FromBody] UserPreferencesBody preferences)
     {
         bool guidParsed = Guid.TryParse(Request.GetUserId(), out Guid parsedUuid);
 
@@ -75,6 +75,24 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
         }
 
         await playerService.SetUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
+
+        return Ok();
+    }
+    
+    [HttpPatch("preference")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdatePreference([FromBody] UpdatePreferencesBody preferences)
+    {
+        bool guidParsed = Guid.TryParse(Request.GetUserId(), out Guid parsedUuid);
+
+        if (!guidParsed || ! await playerService.CheckPlayerExists(parsedUuid))
+        {
+            return Unauthorized("invalid user id format");
+        }
+
+        await playerService.UpdateUserPreferences(parsedUuid, preferences);
 
         return Ok();
     }
