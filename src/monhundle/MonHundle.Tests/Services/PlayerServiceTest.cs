@@ -111,7 +111,9 @@ public class PlayerServiceTest
             Id = 1, 
             JsonPreferences = new PlayerPreferencesStruct() {
                     tableVisualAid = true,
-                    gameList = ["MHWilds", "MHR", "MHW"]
+                    gameList = ["MHWilds", "MHR", "MHW"],
+                    theme = "classic",
+                    preferredLanguage = "fr"
             }
         };
         
@@ -129,7 +131,12 @@ public class PlayerServiceTest
         var result = await service.GetPlayerProfile(player.PlayerUid);
 
         Assert.NotNull(result);
-
+        Assert.True(result.preferences.tableVisualAid);
+        Assert.Equal(new[] { "MHWilds", "MHR", "MHW" }, result.preferences.gameList);
+        Assert.Equal("classic", result.preferences.theme);
+        Assert.Equal("fr", result.preferences.preferredLanguage);
+        Assert.NotNull(result.currentDailyGameUuid);
+        Assert.NotNull(result.currentUnlimitedGameUuid);
     }
 
     [Fact]
@@ -144,8 +151,8 @@ public class PlayerServiceTest
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         var result = await service.GetPlayerProfile(player.PlayerUid);
 
-        Assert.False(result.enableTableVisualAid);
-        Assert.Empty(result.gameList);
+        Assert.False(result.preferences.tableVisualAid);
+        Assert.Empty(result.preferences.gameList);
         Assert.Null(result.currentDailyGameUuid);
         Assert.Null(result.currentUnlimitedGameUuid);
     }

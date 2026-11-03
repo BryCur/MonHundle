@@ -239,7 +239,10 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         Guid playerId = Guid.NewGuid();
         Guid requestedId = Guid.NewGuid();
 
-        PlayerProfileResponse profile = new PlayerProfileResponse(true, [], null, null);
+        PlayerProfileResponse profile = new PlayerProfileResponse(
+            new PlayerPreferencesDTO(false, [], null, null),
+            null, 
+            null);
         
         _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
         _playerServiceMock.Setup(ps => ps.GetPlayerProfile(requestedId)).ReturnsAsync(profile);
