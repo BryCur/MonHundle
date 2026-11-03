@@ -110,7 +110,7 @@ public class PlayerServiceTest
             PlayerUid = Guid.NewGuid(), 
             Id = 1, 
             JsonPreferences = new PlayerPreferencesStruct() {
-                    enableTableAccessibility = true,
+                    tableVisualAid = true,
                     gameList = ["MHWilds", "MHR", "MHW"]
             }
         };
@@ -174,7 +174,7 @@ public class PlayerServiceTest
     {
         Guid callParam = Guid.NewGuid();
         PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { enableTableAccessibility = true, gameList = [] };
+            { tableVisualAid = true, gameList = [] };
         Player player = new Player() {
             PlayerUid = callParam,
             Id = 1, 
@@ -195,7 +195,7 @@ public class PlayerServiceTest
     {
         Guid callParam = Guid.NewGuid();
         PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { enableTableAccessibility = true, gameList = [] };
+            { tableVisualAid = true, gameList = [] };
         
         _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync((Player?) null);
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);

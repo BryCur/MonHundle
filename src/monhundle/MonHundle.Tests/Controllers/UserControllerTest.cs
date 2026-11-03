@@ -174,7 +174,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         _playerServiceMock.Verify(ps => ps.SaveUserPreferences(
                 playerId,
                 It.Is<PlayerPreferencesStruct>(p =>
-                    p.enableTableAccessibility
+                    p.tableVisualAid
                     && p.gameList.SequenceEqual(new[] { "MHWilds", "MHWI", "MHW" }))),
             Times.Once);
     }

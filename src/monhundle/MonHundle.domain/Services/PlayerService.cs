@@ -62,7 +62,7 @@ public class PlayerService(
         GameSession? ongoingDaily = await gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player.Id!.Value);
 
         return new PlayerProfileResponse(
-            player.JsonPreferences?.enableTableAccessibility ?? false,
+            player.JsonPreferences?.tableVisualAid ?? false,
             player.JsonPreferences?.gameList ?? [],
             ongoingDaily?.GameUid.ToString() ?? null,
             latestUnlimited?.GameUid.ToString() ?? null

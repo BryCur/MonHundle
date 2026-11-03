@@ -12,7 +12,7 @@ public class PlayerPreferencesStructTests
 
         PlayerPreferencesStruct result = PlayerPreferencesStruct.FromBody(body);
 
-        Assert.True(result.enableTableAccessibility);
+        Assert.True(result.tableVisualAid);
         Assert.Equal(new[] { "MHWilds", "MHW" }, result.gameList);
     }
 
@@ -23,7 +23,7 @@ public class PlayerPreferencesStructTests
 
         PlayerPreferencesStruct result = PlayerPreferencesStruct.FromBody(body);
 
-        Assert.False(result.enableTableAccessibility);
+        Assert.False(result.tableVisualAid);
     }
 
     [Fact]
