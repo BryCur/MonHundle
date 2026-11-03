@@ -74,7 +74,7 @@ public class UserController(ILogger<UserController> logger, IPlayerService playe
             return Unauthorized("invalid user id format");
         }
 
-        await playerService.SaveUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
+        await playerService.SetUserPreferences(parsedUuid, PlayerPreferencesStruct.FromBody(preferences));
 
         return Ok();
     }

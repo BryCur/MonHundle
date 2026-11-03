@@ -171,7 +171,7 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(request);
 
         response.EnsureSuccessStatusCode();
-        _playerServiceMock.Verify(ps => ps.SaveUserPreferences(
+        _playerServiceMock.Verify(ps => ps.SetUserPreferences(
                 playerId,
                 It.Is<PlayerPreferencesStruct>(p =>
                     p.tableVisualAid

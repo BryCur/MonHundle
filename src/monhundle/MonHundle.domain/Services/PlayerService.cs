@@ -68,7 +68,7 @@ public class PlayerService(
         );
     }
 
-    public async Task SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
+    public async Task SetUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
     {
         Player? player = await playerDataAccess.GetPlayer(playerUid);
         if (player is null)
@@ -77,6 +77,34 @@ public class PlayerService(
         }
 
         player.JsonPreferences = updatedPreferences;
+        await playerDataAccess.UpdatePlayer(player);
+    }
+
+    public async Task UpdateUserPreferences(Guid playerUid, UpdatePreferencesBody updatedPreferences)
+    {
+        Player? player = await playerDataAccess.GetPlayer(playerUid);
+        if (player is null)
+        {
+            throw new DataNotFoundException($"Player {playerUid} not found");
+        }
+
+        PlayerPreferencesStruct reference;
+        if (player.JsonPreferences is null)
+        {
+            reference = new PlayerPreferencesStruct() { gameList = [] };
+        }
+        else
+        {
+            reference = player.JsonPreferences.Value;
+        }
+
+        reference.version = PlayerPreferencesStruct.CurrentVersion;
+        reference.tableVisualAid = updatedPreferences.tableVisualAid ?? reference.tableVisualAid;
+        reference.gameList = updatedPreferences.gameList ?? reference.gameList ?? [];
+        reference.theme = updatedPreferences.theme ?? reference.theme;
+        reference.preferredLanguage = updatedPreferences.preferredLanguage ?? reference.preferredLanguage;
+        
+        player.JsonPreferences = reference;
         await playerDataAccess.UpdatePlayer(player);
     }
 }

@@ -8,5 +8,6 @@ public interface IPlayerService
     Task<Guid> AuthPlayer(string? playerUid);
     Task<bool> CheckPlayerExists(Guid playerUid);
     Task<PlayerProfileResponse> GetPlayerProfile(Guid playerUid);
-    Task SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences);
+    Task SetUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences);
+    Task UpdateUserPreferences(Guid playerUid, UpdatePreferencesBody updatedPreferences);
 }
