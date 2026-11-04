@@ -26,8 +26,12 @@ describe('Loading a profile by UUID', () => {
         cy.intercept('GET', `**/user/profile/${TARGET_UUID}`, {
             statusCode: 200,
             body: {
-                enableTableVisualAid: true,
-                gameList: ['MHWilds'],
+                preferences: {
+                    tableVisualAid: true,
+                    gameList: ['MHWilds'],
+                    theme: null,
+                    preferredLanguage: null,
+                },
                 currentDailyGameUuid: 'daily-1',
                 currentUnlimitedGameUuid: 'unlimited-1',
             },

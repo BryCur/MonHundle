@@ -64,8 +64,12 @@ describe('SettingsApi.getProfile (integration)', () => {
 
     it('returns the parsed profile on success', async () => {
         const expected: SettingsResponse = {
-            enableTableVisualAid: false,
-            gameList: [GAME_TITLE_MHW],
+            preferences: {
+                tableVisualAid: false,
+                gameList: [GAME_TITLE_MHW],
+                preferredLanguage: null,
+                theme: null,
+            },
             currentDailyGameUuid: null,
             currentUnlimitedGameUuid: null,
         };

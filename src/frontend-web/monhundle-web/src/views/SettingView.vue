@@ -97,15 +97,15 @@ async function loadUuid() {
 
         localStorage.setItem(
             LocalStorageKeys.GAME_LIST,
-            JSON.stringify(userProfile.gameList ?? []),
+            JSON.stringify(userProfile.preferences.gameList),
         );
-        gameList.value = userProfile.gameList ?? [];
+        gameList.value = userProfile.preferences.gameList;
 
         localStorage.setItem(
             LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-            String(userProfile.enableTableVisualAid || false),
+            String(userProfile.preferences.tableVisualAid),
         );
-        enableTableA11y.value = userProfile.enableTableVisualAid || false;
+        enableTableA11y.value = userProfile.preferences.tableVisualAid;
 
         if (userProfile.currentDailyGameUuid) {
             setCookie(

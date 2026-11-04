@@ -187,8 +187,7 @@ describe('SettingView actions', () => {
         settingsApi = {
             loadUser: vi.fn().mockResolvedValue(undefined),
             getProfile: vi.fn().mockResolvedValue({
-                gameList: ['MHR'],
-                enableTableVisualAid: true,
+                preferences: { gameList: ['MHR'], tableVisualAid: true },
                 currentDailyGameUuid: null,
                 currentUnlimitedGameUuid: null,
             }),
