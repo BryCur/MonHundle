@@ -2,7 +2,7 @@
 export const THEME_IDS = ['classic'] as const;
 
 // uses elements of the array as possible value; [number] refers to whatever is indexed by a numeric value as an union
-// equivalent to "'classic' | ..."" but without maintenance needed
+// equivalent to "'classic' | ..." but without maintenance needed
 export type ThemeId = (typeof THEME_IDS)[number];
 
 export function isThemeId(value: unknown): value is ThemeId {
