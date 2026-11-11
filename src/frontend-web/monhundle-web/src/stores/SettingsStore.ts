@@ -1,3 +1,4 @@
+import type ISettingsStorage from '@/domain/interfaces/services/ISettingsStorage';
 import { createDefaultSettings, type Settings } from '@/domain/Settings';
 import { defineStore } from 'pinia';
 
@@ -25,6 +26,10 @@ export const useSettingsStore = defineStore('settings', {
         },
         reset(): void {
             this.$reset();
+        },
+        initialise(storage: ISettingsStorage): void {
+            this.update(storage.load());
+            this.$subscribe((_mutation, state) => storage.save(state), { detached: true });
         },
     },
 });
