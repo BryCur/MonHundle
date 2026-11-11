@@ -27,10 +27,14 @@ import {
     resourceServiceKey,
     serviceStatusApiKey,
     settingsApiKey,
+    settingsServiceKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
 import { createErrorRouterNavigator } from '@/router/ErrorNavigator';
 import { ServiceStatusApi } from '@/services/ApiService/ServiceStatusApi';
+import { useSettingsStore } from '@/stores/SettingsStore';
+import { SettingsService } from '@/services/SettingsService';
+import { LocalSettingsStorage } from '@/services/LocalSettingsStorage';
 
 const i18n = createI18n({
     legacy: false,
@@ -48,6 +52,10 @@ const app = createApp(App);
 app.use(createPinia());
 const gameStore = useGameStore();
 const notificationStore = useNotificationStore();
+const settingsStore = useSettingsStore();
+
+const localSettingsStorage = new LocalSettingsStorage();
+settingsStore.initialise(localSettingsStorage); // loads local settings if existing
 
 const unlimitedGameApi = new UnlimitedGameApi();
 const unlimitedGameService = new UnlimitedGameService(unlimitedGameApi, gameStore);
@@ -59,6 +67,8 @@ const resourceApi = new ResourceApi();
 const resourceService = new ResourceService(resourceApi);
 
 const settingsApi = new SettingsApi();
+const settingsService = new SettingsService(settingsStore, i18n.global.locale);
+
 const serviceStatusApi = new ServiceStatusApi();
 
 authManager.authenticate().catch(() => {});
@@ -69,6 +79,7 @@ app.provide(unlimitedGameServiceKey, unlimitedGameService);
 app.provide(dailyGameServiceKey, dailyGameService);
 app.provide(resourceServiceKey, resourceService);
 app.provide(settingsApiKey, settingsApi);
+app.provide(settingsServiceKey, settingsService);
 app.provide(notificationEmitterKey, notificationStore);
 app.provide(serviceStatusApiKey, serviceStatusApi);
 
