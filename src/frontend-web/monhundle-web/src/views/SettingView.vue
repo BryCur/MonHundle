@@ -2,42 +2,38 @@
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { NotificationTypes } from '@/domain/Notification';
 import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
-import { injectStrict, notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
+import {
+    injectStrict,
+    notificationEmitterKey,
+    settingsApiKey,
+    settingsServiceKey,
+} from '@/injectionKeyRegistry';
 import { paths } from '@/router';
 import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
-import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageService';
-import { onMounted, ref } from 'vue';
+import { getStoredUserId } from '@/services/LocalStorageService';
+import { useSettingsStore } from '@/stores/SettingsStore';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const { t } = useI18n();
+const settingsStore = useSettingsStore();
+const settingsService = injectStrict(settingsServiceKey);
 const settingsApi = injectStrict(settingsApiKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
 
-const gameList = ref<string[]>([]);
-const enableTableA11y = ref<boolean>(false);
+const enableTableA11y = computed({
+    get: () => settingsStore.tableVisualAid,
+    set: (enable) => settingsService.setTableVisualAid(enable),
+});
+
 let currentUUID: string;
 const inputUuid = ref<string | null>(null);
 const isWorking = ref<boolean>(false);
 const uuidErrorKey = ref<string | null>(null);
 
 onMounted(async () => {
-    // load game list
-    try {
-        const parsed: unknown = JSON.parse(
-            localStorage.getItem(LocalStorageKeys.GAME_LIST) ?? '[]',
-        );
-        gameList.value = Array.isArray(parsed) ? (parsed as string[]) : [];
-    } catch (err) {
-        console.warn('[settings] stored game list is corrupted, falling back to an empty one', err);
-        gameList.value = [];
-    }
-
-    // load current a11y conf
-    enableTableA11y.value =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-
     // get current UUID
     const storedId: string | null = getStoredUserId();
     if (!storedId) {
@@ -46,13 +42,6 @@ onMounted(async () => {
         currentUUID = storedId;
     }
 });
-
-function toggleA11y() {
-    localStorage.setItem(
-        LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-        String(enableTableA11y.value),
-    );
-}
 
 async function copyUUID() {
     try {
@@ -95,17 +84,8 @@ async function loadUuid() {
         }
         await settingsApi.loadUser(cleanedInput);
 
-        localStorage.setItem(
-            LocalStorageKeys.GAME_LIST,
-            JSON.stringify(userProfile.preferences.gameList),
-        );
-        gameList.value = userProfile.preferences.gameList;
-
-        localStorage.setItem(
-            LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-            String(userProfile.preferences.tableVisualAid),
-        );
-        enableTableA11y.value = userProfile.preferences.tableVisualAid;
+        settingsService.setGameList(userProfile.preferences.gameList);
+        settingsService.setTableVisualAid(userProfile.preferences.tableVisualAid);
 
         if (userProfile.currentDailyGameUuid) {
             setCookie(
@@ -138,6 +118,7 @@ async function loadUuid() {
 function deleteStoredData() {
     isWorking.value = true;
     // delete local storage
+    settingsService.resetSettings();
     localStorage.clear();
     clearCookies();
 
@@ -151,7 +132,7 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     isWorking.value = true;
     try {
-        await settingsApi.saveSettings(enableTableA11y.value, gameList.value);
+        await settingsApi.saveSettings(settingsStore.tableVisualAid, settingsStore.gameList);
         notificationEmitter.notify({
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
@@ -173,13 +154,15 @@ async function savePreferenceToProfile() {
 }
 
 function getGameListString() {
-    if (gameList.value.length < 4) {
-        return t('ui.page.settings.gameList.shortLabel', { gameList: gameList.value.join(', ') });
+    if (settingsStore.gameList.length < 4) {
+        return t('ui.page.settings.gameList.shortLabel', {
+            gameList: settingsStore.gameList.join(', '),
+        });
     } else {
-        const displayedList = gameList.value.slice(0, 3);
+        const displayedList = settingsStore.gameList.slice(0, 3);
         return t('ui.page.settings.gameList.label', {
             gameList: displayedList.join(', '),
-            gameCount: gameList.value.length,
+            gameCount: settingsStore.gameList.length,
         });
     }
 }
@@ -194,12 +177,7 @@ function onUuidInput() {
         <h2>{{ t('ui.page.settings.titles.preferences') }}</h2>
         <div class="setting-line">
             <label>{{ t('ui.page.settings.visualAccessibility.label') }}</label>
-            <input
-                :disabled="isWorking"
-                @change="toggleA11y()"
-                v-model="enableTableA11y"
-                type="checkbox"
-            />
+            <input :disabled="isWorking" v-model="enableTableA11y" type="checkbox" />
             <span class="setting-description">{{
                 t('ui.page.settings.visualAccessibility.description')
             }}</span>

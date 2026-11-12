@@ -2,13 +2,13 @@
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { useI18n } from 'vue-i18n';
-import { injectStrict, resourceServiceKey } from '@/injectionKeyRegistry';
+import { injectStrict, resourceServiceKey, settingsServiceKey } from '@/injectionKeyRegistry';
 
 const router = useRouter();
 const { t } = useI18n();
 const resourceService = injectStrict(resourceServiceKey);
+const settingsService = injectStrict(settingsServiceKey);
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -44,12 +44,9 @@ function toggleGameSelection(game: string) {
 
 function confirmSelection() {
     if (selectedGames.value.size > 0) {
-        localStorage.setItem(
-            LocalStorageKeys.GAME_LIST,
-            JSON.stringify(Array.from(selectedGames.value)),
-        );
+        settingsService.setGameList(Array.from(selectedGames.value));
     } else {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList.value));
+        settingsService.setGameList(gameList.value);
     }
 
     router.push(lastRoute.value ?? paths.unlimited);

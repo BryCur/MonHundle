@@ -7,7 +7,6 @@ import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
 import {
     injectStrict,
     notificationEmitterKey,
@@ -18,10 +17,12 @@ import { paths } from '@/router';
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 import { NotificationTypes } from '@/domain/Notification';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 const router = useRouter();
 const { t } = useI18n();
 const gameStore = useGameStore();
+const settingsStore = useSettingsStore();
 const gameService = injectStrict(unlimitedGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
@@ -29,17 +30,12 @@ const notificationEmitter = injectStrict(notificationEmitterKey);
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
-let enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
 
     try {
-        enableTableA11y =
-            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
-            'true';
-        const storedGameList = localStorage.getItem(LocalStorageKeys.GAME_LIST);
-        if (storedGameList === null) {
+        if (settingsStore.gameList.length < 1) {
             router.push(paths.selectGame);
             return;
         }
@@ -54,8 +50,7 @@ onMounted(async () => {
             await gameService.startNewGame();
         }
 
-        const gameList = JSON.parse(storedGameList!) as string[];
-        monsterList.value = await resourceService.getMonsterOptions(gameList ?? []);
+        monsterList.value = await resourceService.getMonsterOptions(settingsStore.gameList);
     } catch (err) {
         if (err instanceof BaseBlockingError) {
             // already blocking (e.g. backend unavailable): forward it as is to the global error handler
@@ -153,7 +148,7 @@ async function shareGame(): Promise<void> {
         <div class="game-progress-container fit-screen">
             <GameGuessList
                 :guesses="gameStore.guesses"
-                :accessibility-enabled="enableTableA11y"
+                :accessibility-enabled="settingsStore.tableVisualAid"
             ></GameGuessList>
         </div>
     </div>

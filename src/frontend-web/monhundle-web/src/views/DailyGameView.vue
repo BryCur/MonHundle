@@ -6,7 +6,6 @@ import { useGameStore } from '@/stores/GameStore';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { useI18n } from 'vue-i18n';
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
 import {
     dailyGameServiceKey,
     injectStrict,
@@ -16,9 +15,11 @@ import {
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 import { NotificationTypes } from '@/domain/Notification';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 const { t } = useI18n();
 const gameStore = useGameStore();
+const settingsStore = useSettingsStore();
 const gameService = injectStrict(dailyGameServiceKey);
 const resourceService = injectStrict(resourceServiceKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
@@ -26,15 +27,11 @@ const notificationEmitter = injectStrict(notificationEmitterKey);
 const ready = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
-let enableTableA11y = false;
 
 onMounted(async () => {
     ready.value = false;
 
     try {
-        enableTableA11y =
-            localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() ===
-            'true';
         const gameIdFromCookie = getCookie(CookieKeys.CURRENT_DAILY_GAME);
 
         if (
@@ -138,7 +135,7 @@ async function shareGame(): Promise<void> {
         <div class="game-progress-container fit-screen">
             <GameGuessList
                 :guesses="gameStore.guesses"
-                :accessibility-enabled="enableTableA11y"
+                :accessibility-enabled="settingsStore.tableVisualAid"
             ></GameGuessList>
         </div>
     </div>
