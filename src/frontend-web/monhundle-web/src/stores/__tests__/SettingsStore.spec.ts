@@ -54,10 +54,11 @@ describe('SettingsStore', () => {
             const store = useSettingsStore();
             store.update(SETTINGS);
 
-            store.update({ language: null, theme: null });
+            store.update({ language: null, theme: null, gameList: null });
 
             expect(store.language).toBeNull();
             expect(store.theme).toBeNull();
+            expect(store.gameList).toBeNull();
         });
 
         it('sets falsy values', () => {

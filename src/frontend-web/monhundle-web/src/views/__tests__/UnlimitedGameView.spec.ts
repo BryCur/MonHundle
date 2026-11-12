@@ -10,7 +10,7 @@ import {
     resourceServiceKey,
     unlimitedGameServiceKey,
 } from '@/injectionKeyRegistry';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
+import { useSettingsStore } from '@/stores/SettingsStore';
 import { clearCookies } from '@/services/CookieService';
 import { GameSetupError } from '@/domain/errors/BlockingError/GameSetupError';
 import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
@@ -98,7 +98,7 @@ describe('UnlimitedGameView setup', () => {
     });
 
     it('starts a game with the selected games and becomes ready', async () => {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(SELECTED_GAMES));
+        useSettingsStore().update({ gameList: SELECTED_GAMES });
 
         const { wrapper, gameService, resourceService, errorHandler } = await mountView();
 
@@ -108,7 +108,7 @@ describe('UnlimitedGameView setup', () => {
         expect(errorHandler).not.toHaveBeenCalled();
     });
 
-    it('redirects to the game selection without any call when no games are selected', async () => {
+    it('redirects to the game selection without any call when the games were never chosen', async () => {
         const { wrapper, router, gameService, resourceService, errorHandler } = await mountView();
 
         expect(router.currentRoute.value.path).toBe(paths.selectGame);
@@ -118,6 +118,16 @@ describe('UnlimitedGameView setup', () => {
         expect(errorHandler).not.toHaveBeenCalled();
         expect(isReady(wrapper)).toBe(false);
     });
+
+    it('plays with all the games when the selection is empty', async () => {
+        useSettingsStore().update({ gameList: [] });
+
+        const { wrapper, router, resourceService } = await mountView();
+
+        expect(router.currentRoute.value.path).toBe(paths.unlimited);
+        expect(resourceService.getMonsterOptions).toHaveBeenCalledWith([]);
+        expect(isReady(wrapper)).toBe(true);
+    });
 });
 
 describe('UnlimitedGameView setup failures', () => {
@@ -125,7 +135,7 @@ describe('UnlimitedGameView setup failures', () => {
         setActivePinia(createPinia());
         localStorage.clear();
         clearCookies();
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(SELECTED_GAMES));
+        useSettingsStore().update({ gameList: SELECTED_GAMES });
     });
 
     it('wraps a failure while starting a game in a GameSetupError', async () => {
@@ -155,16 +165,6 @@ describe('UnlimitedGameView setup failures', () => {
         expect(error.cause).toBe(loadFailed);
     });
 
-    it('wraps a corrupted game selection in a GameSetupError', async () => {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, '{not json');
-
-        const { errorHandler } = await mountView();
-
-        const error = errorHandler.mock.calls[0]![0];
-        expect(error).toBeInstanceOf(GameSetupError);
-        expect(error.cause).toBeInstanceOf(SyntaxError);
-    });
-
     it('forwards an already blocking error as is', async () => {
         const unavailable = new BackendUnavailableError('Service unreachable');
         const gameService = fakeGameService();
@@ -185,7 +185,7 @@ describe('UnlimitedGameView share action', () => {
         setActivePinia(createPinia());
         localStorage.clear();
         clearCookies();
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(SELECTED_GAMES));
+        useSettingsStore().update({ gameList: SELECTED_GAMES });
         // a finished game shows the game-over screen and its share button
         useGameStore().setGame(
             new GameStatus('finished-game', GameModes.Unlimited, [], GameStates.Win),

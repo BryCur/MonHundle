@@ -132,7 +132,7 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     isWorking.value = true;
     try {
-        await settingsApi.saveSettings(settingsStore.tableVisualAid, settingsStore.gameList);
+        await settingsApi.saveSettings(settingsStore.tableVisualAid, settingsStore.gameList ?? []);
         notificationEmitter.notify({
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
@@ -154,9 +154,9 @@ async function savePreferenceToProfile() {
 }
 
 function getGameListString() {
-    if (settingsStore.gameList.length < 4) {
+    if (!settingsStore.gameList || settingsStore.gameList.length < 4) {
         return t('ui.page.settings.gameList.shortLabel', {
-            gameList: settingsStore.gameList.join(', '),
+            gameList: settingsStore.gameList?.join(', ') ?? '',
         });
     } else {
         const displayedList = settingsStore.gameList.slice(0, 3);

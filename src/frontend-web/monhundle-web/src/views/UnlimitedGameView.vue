@@ -35,7 +35,7 @@ onMounted(async () => {
     ready.value = false;
 
     try {
-        if (settingsStore.gameList.length < 1) {
+        if (!settingsStore.gameList) {
             router.push(paths.selectGame);
             return;
         }

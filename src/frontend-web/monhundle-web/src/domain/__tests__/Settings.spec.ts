@@ -33,15 +33,15 @@ describe('createDefaultSettings', () => {
         expect(createDefaultSettings()).toEqual({
             language: null,
             theme: null,
-            gameList: [],
+            gameList: null,
             tableVisualAid: false,
         });
     });
 
-    it('never shares the game list between two calls', () => {
+    it('returns a new object on every call', () => {
         const first = createDefaultSettings();
-        first.gameList.push('MHW');
+        first.language = 'fr';
 
-        expect(createDefaultSettings().gameList).toEqual([]);
+        expect(createDefaultSettings().language).toBeNull();
     });
 });

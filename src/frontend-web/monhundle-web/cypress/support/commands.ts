@@ -94,9 +94,22 @@ Cypress.Commands.add('latestGuessRowCells', () => {
         .find('.guess-table-cell');
 });
 
+// Asserts one field of the settings object persisted under a single key by LocalSettingsStorage.
+// The callback form of should() retries until the value is written.
+Cypress.Commands.add('shouldHaveStoredSetting', (field: string, expected: unknown) => {
+    cy.window()
+        .its('localStorage')
+        .invoke('getItem', 'monhundle_settings')
+        .should((stored) => {
+            expect(stored, 'stored settings').to.be.a('string');
+            expect(JSON.parse(stored as string)[field], field).to.deep.equal(expected);
+        });
+});
+
 declare global {
     namespace Cypress {
         interface Chainable {
+            shouldHaveStoredSetting(field: string, expected: unknown): Chainable<void>;
             mockAuth(userId: string): Chainable<void>;
             mockGameTitles(titles?: string[]): Chainable<void>;
             mockMonsterChoices(monsters?: string[]): Chainable<void>;

@@ -51,14 +51,8 @@ describe('Loading a profile by UUID', () => {
         // loadUuid() reloads the page once the swap is done; re-stub auth for that reload
         cy.wait('@authUser');
 
-        cy.window()
-            .its('localStorage')
-            .invoke('getItem', 'gameList')
-            .should('eq', JSON.stringify(['MHWilds']));
-        cy.window()
-            .its('localStorage')
-            .invoke('getItem', 'enableTableVisualA11y')
-            .should('eq', 'true');
+        cy.shouldHaveStoredSetting('gameList', ['MHWilds']);
+        cy.shouldHaveStoredSetting('tableVisualAid', true);
         cy.getCookie('currentDailyGame').its('value').should('eq', 'daily-1');
         cy.getCookie('currentUnlimitedGame').its('value').should('eq', 'unlimited-1');
     });

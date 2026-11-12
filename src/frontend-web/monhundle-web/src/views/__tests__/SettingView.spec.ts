@@ -1,6 +1,8 @@
 import { mount, flushPromises, type VueWrapper } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
+import { createPinia, setActivePinia } from 'pinia';
+import { ref } from 'vue';
 
 const { pushMock, replaceMock } = vi.hoisted(() => ({
     pushMock: vi.fn(),
@@ -15,7 +17,10 @@ vi.mock('vue-router', async (importOriginal) => {
 
 import SettingView from '@/views/SettingView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
+import { notificationEmitterKey, settingsApiKey, settingsServiceKey } from '@/injectionKeyRegistry';
+import { SettingsService } from '@/services/SettingsService';
+import { useSettingsStore } from '@/stores/SettingsStore';
+import { createDefaultSettings } from '@/domain/Settings';
 import { NotificationTypes } from '@/domain/Notification';
 import { BackendUnavailableError } from '@/domain/errors/BlockingError/BackendUnavailableError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
@@ -34,25 +39,40 @@ const i18n = createI18n({
     messages: { en: {} },
 });
 
-async function mountView() {
+// the real service on the active pinia's store: the view reads the store and writes through the service
+function createSettingsService() {
+    return new SettingsService(useSettingsStore(), ref('en'));
+}
+
+async function mountView(errorHandler = vi.fn()) {
     const wrapper = mount(SettingView, {
         global: {
             plugins: [i18n],
-            provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
+            provide: {
+                [settingsApiKey]: {},
+                [notificationEmitterKey]: {},
+                [settingsServiceKey]: createSettingsService(),
+            },
+            config: { errorHandler },
         },
     });
-    await flushPromises(); // onMounted fills gameList from localStorage, then the label re-renders
+    await flushPromises();
     return wrapper;
 }
 
-describe('SettingView game-list label', () => {
+function a11yCheckbox(wrapper: VueWrapper) {
+    return wrapper.find('input[type="checkbox"]');
+}
+
+describe('SettingView displayed settings', () => {
     beforeEach(() => {
+        setActivePinia(createPinia());
         localStorage.clear();
         localStorage.setItem(LocalStorageKeys.USER_ID, STORED_USER_ID);
     });
 
     it('uses the short label when fewer than 4 games are selected', async () => {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(['MHW', 'MHR']));
+        useSettingsStore().update({ gameList: ['MHW', 'MHR'] });
 
         const text = (await mountView()).text();
 
@@ -61,57 +81,35 @@ describe('SettingView game-list label', () => {
     });
 
     it('uses the truncated label (with the total count) when 4+ games are selected', async () => {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(['A', 'B', 'C', 'D', 'E']));
+        useSettingsStore().update({ gameList: ['A', 'B', 'C', 'D', 'E'] });
 
         expect((await mountView()).text()).toContain('ui.page.settings.gameList.label');
     });
 
-    it('treats a missing stored game list as an empty one', async () => {
-        // nothing stored under GAME_LIST: JSON.parse(null) yields null, not an array
+    it('uses the short label when the games were never chosen', async () => {
         const errorHandler = vi.fn();
 
-        const wrapper = mount(SettingView, {
-            global: {
-                plugins: [i18n],
-                provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
-                config: { errorHandler },
-            },
-        });
-        await flushPromises();
+        const wrapper = await mountView(errorHandler);
 
         expect(errorHandler).not.toHaveBeenCalled();
         expect(wrapper.text()).toContain('ui.page.settings.gameList.shortLabel');
     });
 
-    it.each([
-        ['is not valid JSON', '{not json'],
-        ['is not an array', '42'],
-    ])(
-        'falls back to an empty list when the stored game list %s, and still loads the other settings',
-        async (_label, storedValue) => {
-            localStorage.setItem(LocalStorageKeys.GAME_LIST, storedValue);
-            localStorage.setItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY, 'true');
-            const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-            const errorHandler = vi.fn();
+    it('checks the accessibility box from the stored setting', async () => {
+        useSettingsStore().update({ tableVisualAid: true });
 
-            const wrapper = mount(SettingView, {
-                global: {
-                    plugins: [i18n],
-                    provide: { [settingsApiKey]: {}, [notificationEmitterKey]: {} },
-                    config: { errorHandler },
-                },
-            });
-            await flushPromises();
+        const wrapper = await mountView();
 
-            expect(errorHandler).not.toHaveBeenCalled();
-            expect(wrapper.text()).toContain('ui.page.settings.gameList.shortLabel');
-            // the rest of the mounted hook still ran
-            const a11yCheckbox = wrapper.find('input[type="checkbox"]').element as HTMLInputElement;
-            expect(a11yCheckbox.checked).toBe(true);
+        expect((a11yCheckbox(wrapper).element as HTMLInputElement).checked).toBe(true);
+    });
 
-            warn.mockRestore();
-        },
-    );
+    it('saves the accessibility setting when the box is toggled', async () => {
+        const wrapper = await mountView();
+
+        await a11yCheckbox(wrapper).setValue(true);
+
+        expect(useSettingsStore().tableVisualAid).toBe(true);
+    });
 });
 
 describe('SettingView actions', () => {
@@ -132,7 +130,11 @@ describe('SettingView actions', () => {
         const wrapper = mount(SettingView, {
             global: {
                 plugins: [i18n],
-                provide: { [settingsApiKey]: settingsApi, [notificationEmitterKey]: { notify } },
+                provide: {
+                    [settingsApiKey]: settingsApi,
+                    [notificationEmitterKey]: { notify },
+                    [settingsServiceKey]: createSettingsService(),
+                },
                 // stands in for the app's global error handler
                 config: { errorHandler },
             },
@@ -165,8 +167,9 @@ describe('SettingView actions', () => {
     }
 
     beforeEach(() => {
+        setActivePinia(createPinia());
+        useSettingsStore().update({ gameList: ['MHW'] });
         localStorage.clear();
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(['MHW']));
         localStorage.setItem(LocalStorageKeys.USER_ID, STORED_USER_ID);
 
         // only the timeouts: flushPromises relies on the real setImmediate
@@ -331,8 +334,8 @@ describe('SettingView actions', () => {
             expect(settingsApi.getProfile.mock.invocationCallOrder[0]).toBeLessThan(
                 settingsApi.loadUser.mock.invocationCallOrder[0]!,
             );
-            expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(JSON.stringify(['MHR']));
-            expect(localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)).toBe('true');
+            expect(useSettingsStore().gameList).toEqual(['MHR']);
+            expect(useSettingsStore().tableVisualAid).toBe(true);
         });
 
         it('ignores the spaces around a pasted UUID', async () => {
@@ -358,7 +361,7 @@ describe('SettingView actions', () => {
                 messageKey: 'ui.notification.warning.profileNotFound.message',
             });
             expect(reload).not.toHaveBeenCalled();
-            expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(JSON.stringify(['MHW']));
+            expect(useSettingsStore().gameList).toEqual(['MHW']);
         });
 
         it('shows an error under the field for a malformed UUID, without calling the api', async () => {
@@ -423,19 +426,18 @@ describe('SettingView actions', () => {
                     expect.any(String),
                 );
                 // nothing from the target profile is applied
-                expect(localStorage.getItem(LocalStorageKeys.GAME_LIST)).toBe(
-                    JSON.stringify(['MHW']),
-                );
+                expect(useSettingsStore().gameList).toEqual(['MHW']);
             },
         );
     });
 
     describe('deleting the stored data', () => {
-        it('clears the storage, notifies and reloads after a delay, buttons kept disabled', async () => {
+        it('resets the settings, clears the storage, notifies and reloads after a delay, buttons kept disabled', async () => {
             const wrapper = await mountWithMocks();
 
             await button(wrapper, 'ui.page.settings.deleteUUID.button').trigger('click');
 
+            expect(useSettingsStore().$state).toEqual(createDefaultSettings());
             expect(localStorage.length).toBe(0);
             expect(notify).toHaveBeenCalledWith({
                 type: NotificationTypes.Success,
@@ -456,6 +458,7 @@ describe('SettingView without a stored identity', () => {
     beforeEach(() => {
         localStorage.clear();
         replaceMock.mockClear();
+        setActivePinia(createPinia());
     });
 
     it('sends the player back home, replacing the settings entry in the history', async () => {

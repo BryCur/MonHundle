@@ -59,10 +59,24 @@ describe('LocalSettingsStorage', () => {
             });
         });
 
-        it('defaults a missing or non-array game list to an empty one', () => {
-            storeRaw({ version: 1, language: 'en', gameList: 'MHW' });
+        it.each([
+            ['missing', undefined],
+            ['not an array', 'MHW'],
+            ['null', null],
+        ])('treats a game list that is %s as never chosen', (_label, gameList) => {
+            storeRaw({ version: 1, language: 'en', gameList });
 
-            expect(storage.load()).toEqual({ ...createDefaultSettings(), language: 'en' });
+            expect(storage.load()).toEqual({
+                ...createDefaultSettings(),
+                language: 'en',
+                gameList: null,
+            });
+        });
+
+        it('keeps an empty game list (all games)', () => {
+            storeRaw({ version: 1, gameList: [] });
+
+            expect(storage.load().gameList).toEqual([]);
         });
 
         it.each([
@@ -114,7 +128,23 @@ describe('LocalSettingsStorage', () => {
             localStorage.setItem(LEGACY_GAME_LIST_KEY, '{not json');
             localStorage.setItem(LEGACY_TABLE_VISUAL_AID_KEY, 'true');
 
-            expect(storage.load()).toEqual({ ...createDefaultSettings(), tableVisualAid: true });
+            expect(storage.load()).toEqual({
+                ...createDefaultSettings(),
+                gameList: null,
+                tableVisualAid: true,
+            });
+        });
+
+        it('treats a missing legacy game list as never chosen', () => {
+            localStorage.setItem(LEGACY_TABLE_VISUAL_AID_KEY, 'true');
+
+            expect(storage.load().gameList).toBeNull();
+        });
+
+        it('keeps an empty legacy game list (all games)', () => {
+            localStorage.setItem(LEGACY_GAME_LIST_KEY, '[]');
+
+            expect(storage.load().gameList).toEqual([]);
         });
 
         it('ignores the legacy keys once the new key exists', () => {

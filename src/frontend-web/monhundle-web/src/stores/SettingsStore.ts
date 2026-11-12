@@ -8,7 +8,7 @@ export const useSettingsStore = defineStore('settings', {
         update(changes: Partial<Settings>): void {
             this.$patch((state) => {
                 if (changes.gameList !== undefined) {
-                    state.gameList = [...changes.gameList];
+                    state.gameList = changes.gameList && [...changes.gameList];
                 }
 
                 if (changes.language !== undefined) {

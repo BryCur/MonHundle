@@ -15,7 +15,8 @@ export interface Settings {
     language: SupportedLocale | null;
     /** null: no explicit choice, the default theme applies */
     theme: ThemeId | null;
-    gameList: string[];
+    /** null: never chosen, should be redirected to game selection, empty array -> all games */
+    gameList: string[] | null;
     tableVisualAid: boolean;
 }
 
@@ -23,7 +24,7 @@ export function createDefaultSettings(): Settings {
     return {
         language: null,
         theme: null,
-        gameList: [],
+        gameList: null,
         tableVisualAid: false,
     };
 }

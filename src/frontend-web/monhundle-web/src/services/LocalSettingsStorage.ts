@@ -64,7 +64,7 @@ export class LocalSettingsStorage implements ISettingsStorage {
         const tableVisualAid = localStorage.getItem(LEGACY_TABLE_VISUAL_AID_KEY);
 
         return this.sanitize({
-            gameList: gameList === null ? [] : this.parseJson(gameList),
+            gameList: gameList === null ? null : this.parseJson(gameList),
             tableVisualAid: tableVisualAid?.toLowerCase() === 'true',
         });
     }
