@@ -1,18 +1,18 @@
 import type ISettingsStorage from '@/domain/interfaces/services/ISettingsStorage';
 import { createDefaultSettings, isSupportedLocale, type Settings } from '@/domain/Settings';
 import { isThemeId } from '@/domain/Theme';
+import { LocalStorageKeys } from '@/services/LocalStorageService';
 
-const SETTINGS_KEY = 'monhundle_settings';
 const CURRENT_VERSION = 1;
 
-// one key per setting, used before the settings were grouped under SETTINGS_KEY
+// one key per setting, used before the settings were grouped under LocalStorageKeys.SETTINGS
 const LEGACY_GAME_LIST_KEY = 'gameList';
 const LEGACY_TABLE_VISUAL_AID_KEY = 'enableTableVisualA11y';
 
 export class LocalSettingsStorage implements ISettingsStorage {
     public load(): Settings {
         try {
-            const stored = localStorage.getItem(SETTINGS_KEY);
+            const stored = localStorage.getItem(LocalStorageKeys.SETTINGS);
             return stored === null ? this.loadLegacy() : this.parseStored(stored);
         } catch (err) {
             console.warn('could not read the stored settings', err);
@@ -23,7 +23,7 @@ export class LocalSettingsStorage implements ISettingsStorage {
     public save(settings: Settings): void {
         try {
             localStorage.setItem(
-                SETTINGS_KEY,
+                LocalStorageKeys.SETTINGS,
                 JSON.stringify({
                     version: CURRENT_VERSION,
                     language: settings.language,
@@ -41,7 +41,7 @@ export class LocalSettingsStorage implements ISettingsStorage {
 
     public clear(): void {
         try {
-            localStorage.removeItem(SETTINGS_KEY);
+            localStorage.removeItem(LocalStorageKeys.SETTINGS);
             this.removeLegacyKeys();
         } catch (err) {
             console.warn('could not clear the stored settings', err);

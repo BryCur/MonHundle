@@ -1,11 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultSettings, type Settings } from '@/domain/Settings';
 import { LocalSettingsStorage } from '@/services/LocalSettingsStorage';
+import { LocalStorageKeys } from '@/services/LocalStorageService';
 
-const SETTINGS_KEY = 'monhundle_settings';
 const LEGACY_GAME_LIST_KEY = 'gameList';
 const LEGACY_TABLE_VISUAL_AID_KEY = 'enableTableVisualA11y';
-const USER_ID_KEY = 'user_id';
 
 const SETTINGS: Settings = {
     language: 'fr',
@@ -15,7 +14,7 @@ const SETTINGS: Settings = {
 };
 
 function storeRaw(value: unknown) {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(value));
+    localStorage.setItem(LocalStorageKeys.SETTINGS, JSON.stringify(value));
 }
 
 describe('LocalSettingsStorage', () => {
@@ -87,7 +86,7 @@ describe('LocalSettingsStorage', () => {
             ['an unknown version', JSON.stringify({ ...SETTINGS, version: 2 })],
             ['a missing version', JSON.stringify(SETTINGS)],
         ])('returns the default settings for %s', (_label, stored) => {
-            localStorage.setItem(SETTINGS_KEY, stored);
+            localStorage.setItem(LocalStorageKeys.SETTINGS, stored);
 
             expect(storage.load()).toEqual(createDefaultSettings());
         });
@@ -180,7 +179,7 @@ describe('LocalSettingsStorage', () => {
         it('writes the settings with their version under a single key', () => {
             storage.save(SETTINGS);
 
-            expect(JSON.parse(localStorage.getItem(SETTINGS_KEY)!)).toEqual({
+            expect(JSON.parse(localStorage.getItem(LocalStorageKeys.SETTINGS)!)).toEqual({
                 version: 1,
                 ...SETTINGS,
             });
@@ -189,7 +188,9 @@ describe('LocalSettingsStorage', () => {
         it('writes only the settings fields', () => {
             storage.save({ ...SETTINGS, extra: 'leak' } as Settings);
 
-            expect(JSON.parse(localStorage.getItem(SETTINGS_KEY)!)).not.toHaveProperty('extra');
+            expect(JSON.parse(localStorage.getItem(LocalStorageKeys.SETTINGS)!)).not.toHaveProperty(
+                'extra',
+            );
         });
     });
 
@@ -198,14 +199,14 @@ describe('LocalSettingsStorage', () => {
             storage.save(SETTINGS);
             localStorage.setItem(LEGACY_GAME_LIST_KEY, JSON.stringify(['MHW']));
             localStorage.setItem(LEGACY_TABLE_VISUAL_AID_KEY, 'true');
-            localStorage.setItem(USER_ID_KEY, 'user-1');
+            localStorage.setItem(LocalStorageKeys.USER_ID, 'user-1');
 
             storage.clear();
 
-            expect(localStorage.getItem(SETTINGS_KEY)).toBeNull();
+            expect(localStorage.getItem(LocalStorageKeys.SETTINGS)).toBeNull();
             expect(localStorage.getItem(LEGACY_GAME_LIST_KEY)).toBeNull();
             expect(localStorage.getItem(LEGACY_TABLE_VISUAL_AID_KEY)).toBeNull();
-            expect(localStorage.getItem(USER_ID_KEY)).toBe('user-1');
+            expect(localStorage.getItem(LocalStorageKeys.USER_ID)).toBe('user-1');
         });
 
         it('swallows errors when localStorage removals fail', () => {
