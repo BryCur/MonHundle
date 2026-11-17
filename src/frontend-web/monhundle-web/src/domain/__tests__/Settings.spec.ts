@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { createDefaultSettings, isSupportedLocale } from '@/domain/Settings';
+import {
+    createDefaultSettings,
+    isSupportedLocale,
+    LOCALE_NATIVE_NAMES,
+    resolveLocale,
+    SUPPORTED_LOCALES,
+} from '@/domain/Settings';
 import { isThemeId } from '@/domain/Theme';
 
 describe('isSupportedLocale', () => {
@@ -43,5 +49,45 @@ describe('createDefaultSettings', () => {
         first.language = 'fr';
 
         expect(createDefaultSettings().language).toBeNull();
+    });
+});
+
+describe('resolveLocale', () => {
+    it('keeps an explicit choice over the browser languages', () => {
+        expect(resolveLocale('en', ['fr-FR', 'fr'])).toBe('en');
+    });
+
+    it.each([
+        ['an exact match', ['fr'], 'fr'],
+        ['a regional variant', ['fr-CH'], 'fr'],
+        ['a script and region variant', ['fr-Latn-CA'], 'fr'],
+        ['an uppercase tag', ['FR-ch'], 'fr'],
+    ])('recognises %s of a supported language', (_label, browserLanguages, expected) => {
+        expect(resolveLocale(null, browserLanguages)).toBe(expected);
+    });
+
+    it('follows the order of preference of the browser', () => {
+        expect(resolveLocale(null, ['fr-CH', 'en-US'])).toBe('fr');
+        expect(resolveLocale(null, ['en-US', 'fr-CH'])).toBe('en');
+    });
+
+    it('skips the unsupported languages instead of falling back right away', () => {
+        expect(resolveLocale(null, ['de-CH', 'it', 'fr-CH', 'en'])).toBe('fr');
+    });
+
+    it.each([
+        ['no supported language', ['de-CH', 'it']],
+        ['no browser language', []],
+        ['an empty tag', ['']],
+    ])('falls back to english with %s', (_label, browserLanguages) => {
+        expect(resolveLocale(null, browserLanguages)).toBe('en');
+    });
+});
+
+describe('LOCALE_NATIVE_NAMES', () => {
+    it('names every supported locale', () => {
+        for (const locale of SUPPORTED_LOCALES) {
+            expect(LOCALE_NATIVE_NAMES[locale]).toBeTruthy();
+        }
     });
 });
