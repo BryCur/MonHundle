@@ -1,20 +1,11 @@
 import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
-import type { SettingsResponse, UpdateSettingsBody, UserSettingsBody } from '@/domain/ApiModels';
+import type { SettingsResponse, UpdateSettingsBody } from '@/domain/ApiModels';
 import type { Settings } from '@/domain/Settings';
 import { isUUID } from '@/domain/Utils';
 import { apiFetch, ensureOk } from '@/services/ApiService/ApiBaseAccess';
 import { setStoredUserId } from '@/services/LocalStorageService';
 
 export class SettingsApi implements ISettingApi {
-    public async saveSettings(enableTableVisualAid: boolean, gameTitles: string[]): Promise<void> {
-        const settingsBody: UserSettingsBody = { enableTableVisualAid, gameTitles };
-        const response = await apiFetch('/user/preference', {
-            method: 'POST',
-            body: JSON.stringify(settingsBody),
-        });
-        ensureOk(response, 'Error while saving settings');
-    }
-
     public async updateSettings(changes: Partial<Settings>): Promise<void> {
         const settingsBody: UpdateSettingsBody = {
             gameList: changes.gameList ?? null,

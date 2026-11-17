@@ -68,18 +68,6 @@ public class PlayerService(
         );
     }
 
-    public async Task SetUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
-    {
-        Player? player = await playerDataAccess.GetPlayer(playerUid);
-        if (player is null)
-        {
-            throw new DataNotFoundException($"Player {playerUid} not found");
-        }
-
-        player.JsonPreferences = updatedPreferences;
-        await playerDataAccess.UpdatePlayer(player);
-    }
-
     public async Task UpdateUserPreferences(Guid playerUid, UpdatePreferencesBody updatedPreferences)
     {
         Player? player = await playerDataAccess.GetPlayer(playerUid);

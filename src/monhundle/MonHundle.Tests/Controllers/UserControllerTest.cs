@@ -13,9 +13,6 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
 {
     private readonly HttpClient _client;
     private readonly Mock<IPlayerService> _playerServiceMock;
-
-    private readonly UserPreferencesBody _preferences =
-        new UserPreferencesBody(true, new[] { "MHWilds", "MHWI", "MHW" });
     
     // describes the type of bearer token to use
     public enum TokenKind
@@ -122,61 +119,6 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         var response = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUri.Uri));
 
         Assert.Equal(expectedStatusCode, response.StatusCode);
-    }
-
-    
-    [Theory]
-    [InlineData(TokenKind.Valid, true, HttpStatusCode.OK)]
-    [InlineData(TokenKind.Valid, false, HttpStatusCode.Unauthorized)]
-    [InlineData(TokenKind.Unparseable, false, HttpStatusCode.Unauthorized)]
-    [InlineData(TokenKind.None, false, HttpStatusCode.Unauthorized)]
-    public async Task SavePreferences_returns_correct_status_code_based_on_token(
-        TokenKind tokenKind, bool validation, HttpStatusCode expectedStatusCode)
-    {
-        if (tokenKind == TokenKind.Valid)
-        {
-            _playerServiceMock.Setup(ps => ps.CheckPlayerExists(It.IsAny<Guid>())).ReturnsAsync(validation);    
-        }
-
-        var request = BearerRequest(
-            HttpMethod.Post, 
-            "user/preference", 
-            (tokenKind == TokenKind.None ? null: tokenKind == TokenKind.Valid ? Guid.NewGuid() : "invalid")
-        );
-        
-        request.Content = new StringContent(
-            JsonSerializer.Serialize(this._preferences),
-            Encoding.UTF8,
-            "application/json"
-        );
-        
-        var response = await _client.SendAsync(request);
-        Assert.Equal(expectedStatusCode, response.StatusCode);
-
-    }
-
-    [Fact]
-    public async Task SavePreferences_forwards_the_mapped_preferences_to_the_service()
-    {
-        Guid playerId = Guid.NewGuid();
-        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
-
-        var request = BearerRequest(HttpMethod.Post, "user/preference", playerId);
-        request.Content = new StringContent(
-            JsonSerializer.Serialize(_preferences),
-            Encoding.UTF8,
-            "application/json"
-        );
-
-        var response = await _client.SendAsync(request);
-
-        response.EnsureSuccessStatusCode();
-        _playerServiceMock.Verify(ps => ps.SetUserPreferences(
-                playerId,
-                It.Is<PlayerPreferencesStruct>(p =>
-                    p.tableVisualAid
-                    && p.gameList.SequenceEqual(new[] { "MHWilds", "MHWI", "MHW" }))),
-            Times.Once);
     }
 
     private static HttpRequestMessage PatchPreferencesRequest(object? token, string jsonBody)

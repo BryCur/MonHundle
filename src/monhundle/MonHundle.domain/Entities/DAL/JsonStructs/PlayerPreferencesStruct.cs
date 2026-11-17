@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using MonHundle.domain.Entities.DTO;
 
 namespace MonHundle.domain.Entities.DAL.JsonStructs;
 
@@ -16,14 +15,5 @@ public struct PlayerPreferencesStruct
     public string[] gameList { get; set; }
     public string? theme { get; set; }
     public string? preferredLanguage { get; set; }
-
-    public static PlayerPreferencesStruct FromBody(UserPreferencesBody source)
-    {
-        return new PlayerPreferencesStruct()
-        {
-            tableVisualAid = source.enableTableVisualAid ?? false,
-            gameList = source.gameTitles ?? new string[0],
-        };
-    }
     
 }

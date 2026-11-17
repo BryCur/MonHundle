@@ -4,14 +4,16 @@ info:
   seq: 4
 
 http:
-  method: POST
+  method: PATCH
   url: "{{domain_url}}/user/preference"
   body:
     type: json
     data: |-
       {
-        "enableTableVisualAid": true,
-        "gameTitles": ["MHWilds", "MHWI", "MHWorld"]
+        "tableVisualAid": true,
+        "gameTitles": ["MHWilds", "MHWI", "MHWorld"],
+        "theme": null,
+        "preferredLanguage": null
       }
 
 settings:
@@ -19,3 +21,4 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true

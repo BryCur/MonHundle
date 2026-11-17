@@ -50,7 +50,6 @@ const i18n = createI18n({
 
 function createSettingsApi(): Mocked<ISettingApi> {
     return {
-        saveSettings: vi.fn<ISettingApi['saveSettings']>().mockResolvedValue(undefined),
         updateSettings: vi.fn<ISettingApi['updateSettings']>().mockResolvedValue(undefined),
         getProfile: vi.fn<ISettingApi['getProfile']>().mockResolvedValue({
             preferences: {

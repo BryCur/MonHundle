@@ -178,42 +178,6 @@ public class PlayerServiceTest
     }
 
     [Fact]
-    public async Task SetUserPreferences_calls_update_method_if_guid_valid()
-    {
-        Guid callParam = Guid.NewGuid();
-        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { tableVisualAid = true, gameList = [] };
-        Player player = new Player() {
-            PlayerUid = callParam,
-            Id = 1, 
-            JsonPreferences = preferences
-        };
-        
-        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync(player);
-        
-        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        await service.SetUserPreferences(callParam, preferences);
-        
-        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
-        _playerDataAccess.Verify(pda => pda.UpdatePlayer(player), Times.Once);
-    }
-    
-    [Fact]
-    public async Task SetUserPreferences_throws_DataNotFound_if_guid_not_found()
-    {
-        Guid callParam = Guid.NewGuid();
-        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { tableVisualAid = true, gameList = [] };
-        
-        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync((Player?) null);
-        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        
-        await Assert.ThrowsAsync<DataNotFoundException>(() => service.SetUserPreferences(callParam, preferences));
-        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
-        _playerDataAccess.Verify(pda => pda.UpdatePlayer(It.IsAny<Player>()), Times.Never);
-    }
-
-    [Fact]
     public async Task UpdateUserPreferences_only_changes_the_provided_fields()
     {
         Player player = new Player() {

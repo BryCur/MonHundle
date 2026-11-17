@@ -10,39 +10,8 @@ import {
 } from '@test-utils/vitest/fixtures';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService';
-import type { SettingsResponse, UpdateSettingsBody, UserSettingsBody } from '@/domain/ApiModels';
+import type { SettingsResponse, UpdateSettingsBody } from '@/domain/ApiModels';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
-
-describe('SettingsApi.saveSettings (integration)', () => {
-    it('sends a well-formed preference request', async () => {
-        let capturedMethod: string | null = null;
-        let capturedBody: UserSettingsBody | null = null;
-        server.use(
-            http.post('*/user/preference', async ({ request }) => {
-                capturedMethod = request.method;
-                capturedBody = (await request.json()) as UserSettingsBody;
-                return new HttpResponse(null, { status: 200 });
-            }),
-        );
-
-        await new SettingsApi().saveSettings(true, SAMPLE_GAME_TITLES);
-
-        expect(capturedMethod).toBe('POST');
-        expect(capturedBody).toEqual({
-            enableTableVisualAid: true,
-            gameTitles: SAMPLE_GAME_TITLES,
-        } satisfies UserSettingsBody);
-    });
-
-    it('throws an UnexpectedApiError when the backend rejects the request', async () => {
-        server.use(http.post('*/user/preference', () => new HttpResponse(null, { status: 500 })));
-
-        const request = new SettingsApi().saveSettings(true, []);
-
-        await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
-        await expect(request).rejects.toMatchObject({ httpStatus: 500 });
-    });
-});
 
 describe('SettingsApi.updateSettings (integration)', () => {
     let capturedMethod: string | null;

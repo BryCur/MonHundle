@@ -35,7 +35,6 @@ describe('SettingsService', () => {
         setActivePinia(createPinia());
         store = useSettingsStore();
         api = {
-            saveSettings: vi.fn<ISettingApi['saveSettings']>().mockResolvedValue(undefined),
             updateSettings: vi.fn<ISettingApi['updateSettings']>().mockResolvedValue(undefined),
             getProfile: vi.fn<ISettingApi['getProfile']>().mockResolvedValue(createProfile()),
             loadUser: vi.fn<ISettingApi['loadUser']>().mockResolvedValue(undefined),
