@@ -1,23 +1,32 @@
 import { mount, flushPromises, type VueWrapper } from '@vue/test-utils';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi, type Mocked } from 'vitest';
 import { createI18n } from 'vue-i18n';
 import { createPinia, setActivePinia } from 'pinia';
 import { ref } from 'vue';
 
-const { pushMock, replaceMock } = vi.hoisted(() => ({
+const { pushMock, replaceMock, routeLeave } = vi.hoisted(() => ({
     pushMock: vi.fn(),
     replaceMock: vi.fn(),
+    // the guard registered by the view, called by the tests to simulate leaving the page
+    routeLeave: { guard: null as (() => unknown) | null },
 }));
 
 // the view gets its router through useRouter(); no real router is installed in these tests
 vi.mock('vue-router', async (importOriginal) => {
     const actual = await importOriginal<typeof import('vue-router')>();
-    return { ...actual, useRouter: () => ({ push: pushMock, replace: replaceMock }) };
+    return {
+        ...actual,
+        useRouter: () => ({ push: pushMock, replace: replaceMock }),
+        onBeforeRouteLeave: (guard: () => unknown) => {
+            routeLeave.guard = guard;
+        },
+    };
 });
 
 import SettingView from '@/views/SettingView.vue';
 import { LocalStorageKeys } from '@/services/LocalStorageService';
-import { notificationEmitterKey, settingsApiKey, settingsServiceKey } from '@/injectionKeyRegistry';
+import { notificationEmitterKey, settingsServiceKey } from '@/injectionKeyRegistry';
+import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import { SettingsService } from '@/services/SettingsService';
 import { useSettingsStore } from '@/stores/SettingsStore';
 import { createDefaultSettings } from '@/domain/Settings';
@@ -39,9 +48,27 @@ const i18n = createI18n({
     messages: { en: {} },
 });
 
+function createSettingsApi(): Mocked<ISettingApi> {
+    return {
+        saveSettings: vi.fn<ISettingApi['saveSettings']>().mockResolvedValue(undefined),
+        updateSettings: vi.fn<ISettingApi['updateSettings']>().mockResolvedValue(undefined),
+        getProfile: vi.fn<ISettingApi['getProfile']>().mockResolvedValue({
+            preferences: {
+                gameList: ['MHR'],
+                tableVisualAid: true,
+                theme: null,
+                preferredLanguage: null,
+            },
+            currentDailyGameUuid: null,
+            currentUnlimitedGameUuid: null,
+        }),
+        loadUser: vi.fn<ISettingApi['loadUser']>().mockResolvedValue(undefined),
+    };
+}
+
 // the real service on the active pinia's store: the view reads the store and writes through the service
-function createSettingsService() {
-    return new SettingsService(useSettingsStore(), ref('en'));
+function createSettingsService(settingsApi: ISettingApi = createSettingsApi()) {
+    return new SettingsService(useSettingsStore(), settingsApi, ref('en'));
 }
 
 async function mountView(errorHandler = vi.fn()) {
@@ -49,7 +76,6 @@ async function mountView(errorHandler = vi.fn()) {
         global: {
             plugins: [i18n],
             provide: {
-                [settingsApiKey]: {},
                 [notificationEmitterKey]: {},
                 [settingsServiceKey]: createSettingsService(),
             },
@@ -120,20 +146,15 @@ describe('SettingView actions', () => {
     let errorHandler: ReturnType<typeof vi.fn>;
     let reload: ReturnType<typeof vi.fn>;
     let writeText: ReturnType<typeof vi.fn>;
-    let settingsApi: {
-        loadUser: ReturnType<typeof vi.fn>;
-        getProfile: ReturnType<typeof vi.fn>;
-        saveSettings: ReturnType<typeof vi.fn>;
-    };
+    let settingsApi: Mocked<ISettingApi>;
 
     async function mountWithMocks() {
         const wrapper = mount(SettingView, {
             global: {
                 plugins: [i18n],
                 provide: {
-                    [settingsApiKey]: settingsApi,
                     [notificationEmitterKey]: { notify },
-                    [settingsServiceKey]: createSettingsService(),
+                    [settingsServiceKey]: createSettingsService(settingsApi),
                 },
                 // stands in for the app's global error handler
                 config: { errorHandler },
@@ -187,15 +208,8 @@ describe('SettingView actions', () => {
             configurable: true,
         });
 
-        settingsApi = {
-            loadUser: vi.fn().mockResolvedValue(undefined),
-            getProfile: vi.fn().mockResolvedValue({
-                preferences: { gameList: ['MHR'], tableVisualAid: true },
-                currentDailyGameUuid: null,
-                currentUnlimitedGameUuid: null,
-            }),
-            saveSettings: vi.fn().mockResolvedValue(undefined),
-        };
+        settingsApi = createSettingsApi();
+        routeLeave.guard = null;
 
         // the failure paths log a warning on purpose
         vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -253,7 +267,7 @@ describe('SettingView actions', () => {
     describe('saving the preferences', () => {
         it('disables the buttons while saving, then notifies the success', async () => {
             let finishSaving!: () => void;
-            settingsApi.saveSettings.mockReturnValue(
+            settingsApi.updateSettings.mockReturnValue(
                 new Promise<void>((resolve) => (finishSaving = resolve)),
             );
             const wrapper = await mountWithMocks();
@@ -273,7 +287,7 @@ describe('SettingView actions', () => {
         });
 
         it('notifies the failure and enables the buttons again when the server refuses the save', async () => {
-            settingsApi.saveSettings.mockRejectedValue(new UnexpectedApiError('boom', 500));
+            settingsApi.updateSettings.mockRejectedValue(new UnexpectedApiError('boom', 500));
             const wrapper = await mountWithMocks();
 
             await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
@@ -289,7 +303,7 @@ describe('SettingView actions', () => {
 
         it('lets a blocking error through (to the error page) without notifying', async () => {
             const unavailable = new BackendUnavailableError('Service unreachable');
-            settingsApi.saveSettings.mockRejectedValue(unavailable);
+            settingsApi.updateSettings.mockRejectedValue(unavailable);
             const wrapper = await mountWithMocks();
 
             await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
@@ -302,6 +316,84 @@ describe('SettingView actions', () => {
                 expect.anything(),
                 expect.any(String),
             );
+        });
+    });
+
+    describe('leaving the page', () => {
+        function leavePage() {
+            routeLeave.guard!();
+        }
+
+        it('sends nothing when no setting changed', async () => {
+            await mountWithMocks();
+
+            leavePage();
+            await flushPromises();
+
+            expect(settingsApi.updateSettings).not.toHaveBeenCalled();
+        });
+
+        it('saves the settings to the profile when one changed, without notifying', async () => {
+            const wrapper = await mountWithMocks();
+            await a11yCheckbox(wrapper).setValue(true);
+
+            leavePage();
+            await flushPromises();
+
+            expect(settingsApi.updateSettings).toHaveBeenCalledExactlyOnceWith({
+                ...createDefaultSettings(),
+                gameList: ['MHW'],
+                tableVisualAid: true,
+            });
+            expect(notify).not.toHaveBeenCalled();
+        });
+
+        it('does not block the navigation while saving', async () => {
+            settingsApi.updateSettings.mockReturnValue(new Promise<void>(() => {}));
+            const wrapper = await mountWithMocks();
+            await a11yCheckbox(wrapper).setValue(true);
+
+            expect(leavePage()).toBeUndefined();
+        });
+
+        it('sends nothing more once the changes were saved with the button', async () => {
+            const wrapper = await mountWithMocks();
+            await a11yCheckbox(wrapper).setValue(true);
+            await button(wrapper, 'ui.page.settings.savePreferences.button').trigger('click');
+            await flushPromises();
+            settingsApi.updateSettings.mockClear();
+
+            leavePage();
+            await flushPromises();
+
+            expect(settingsApi.updateSettings).not.toHaveBeenCalled();
+        });
+
+        it('does not send back a profile that was just loaded', async () => {
+            const wrapper = await mountWithMocks();
+            await loadProfile(wrapper, VALID_UUID);
+
+            leavePage();
+            await flushPromises();
+
+            expect(settingsApi.updateSettings).not.toHaveBeenCalled();
+        });
+
+        it.each([
+            ['an api error', new UnexpectedApiError('boom', 500)],
+            ['a blocking error', new BackendUnavailableError('Service unreachable')],
+        ])('only logs %s, without notifying nor redirecting', async (_label, error) => {
+            const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+            settingsApi.updateSettings.mockRejectedValue(error);
+            const wrapper = await mountWithMocks();
+            await a11yCheckbox(wrapper).setValue(true);
+
+            leavePage();
+            await flushPromises();
+
+            expect(consoleError).toHaveBeenCalledWith(error);
+            expect(notify).not.toHaveBeenCalled();
+            expect(errorHandler).not.toHaveBeenCalled();
         });
     });
 

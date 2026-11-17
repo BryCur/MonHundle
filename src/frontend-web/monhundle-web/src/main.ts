@@ -67,7 +67,7 @@ const resourceApi = new ResourceApi();
 const resourceService = new ResourceService(resourceApi);
 
 const settingsApi = new SettingsApi();
-const settingsService = new SettingsService(settingsStore, i18n.global.locale);
+const settingsService = new SettingsService(settingsStore, settingsApi, i18n.global.locale);
 
 const serviceStatusApi = new ServiceStatusApi();
 

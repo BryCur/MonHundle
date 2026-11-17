@@ -7,4 +7,6 @@ export default interface ISettingsService {
     setGameList: (gameList: string[]) => void;
     setTableVisualAid: (tableVisualAid: boolean) => void;
     resetSettings: () => void;
+    saveToProfile: () => Promise<void>;
+    loadProfile: (targetUuid: string) => Promise<void>;
 }

@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { NotificationTypes } from '@/domain/Notification';
-import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
-import {
-    injectStrict,
-    notificationEmitterKey,
-    settingsApiKey,
-    settingsServiceKey,
-} from '@/injectionKeyRegistry';
+import { isUUID } from '@/domain/Utils';
+import { injectStrict, notificationEmitterKey, settingsServiceKey } from '@/injectionKeyRegistry';
 import { paths } from '@/router';
-import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
+import { clearCookies } from '@/services/CookieService';
 import { getStoredUserId } from '@/services/LocalStorageService';
 import { useSettingsStore } from '@/stores/SettingsStore';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 
 const router = useRouter();
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
 const settingsService = injectStrict(settingsServiceKey);
-const settingsApi = injectStrict(settingsApiKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const enableTableA11y = computed({
@@ -33,6 +28,8 @@ const inputUuid = ref<string | null>(null);
 const isWorking = ref<boolean>(false);
 const uuidErrorKey = ref<string | null>(null);
 
+let savedSnapshot = JSON.stringify(settingsStore.$state);
+
 onMounted(async () => {
     // get current UUID
     const storedId: string | null = getStoredUserId();
@@ -40,6 +37,12 @@ onMounted(async () => {
         router.replace(paths.home);
     } else {
         currentUUID = storedId;
+    }
+});
+
+onBeforeRouteLeave(() => {
+    if (savedSnapshot !== JSON.stringify(settingsStore.$state)) {
+        settingsService.saveToProfile().catch((err) => console.error(err));
     }
 });
 
@@ -72,36 +75,8 @@ async function loadUuid() {
             return;
         }
 
-        const userProfile = await settingsApi.getProfile(cleanedInput);
-        if (!userProfile) {
-            console.warn('no profile found for provided identifier');
-            notificationEmitter.notify({
-                messageKey: 'ui.notification.warning.profileNotFound.message',
-                type: NotificationTypes.Warning,
-            });
-            isWorking.value = false;
-            return;
-        }
-        await settingsApi.loadUser(cleanedInput);
-
-        settingsService.setGameList(userProfile.preferences.gameList);
-        settingsService.setTableVisualAid(userProfile.preferences.tableVisualAid);
-
-        if (userProfile.currentDailyGameUuid) {
-            setCookie(
-                CookieKeys.CURRENT_DAILY_GAME,
-                userProfile.currentDailyGameUuid,
-                msUntilMidnightUTC(),
-            );
-        } else {
-            deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
-        }
-
-        if (userProfile.currentUnlimitedGameUuid) {
-            setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile.currentUnlimitedGameUuid);
-        } else {
-            deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-        }
+        await settingsService.loadProfile(cleanedInput);
+        savedSnapshot = JSON.stringify(settingsStore.$state);
 
         // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
         notificationEmitter.notify({
@@ -110,6 +85,17 @@ async function loadUuid() {
         });
         setTimeout(() => location.reload(), 1500);
     } catch (err) {
+        if (err instanceof LoadFailedError) {
+            console.warn('no profile found for provided identifier');
+            notificationEmitter.notify({
+                messageKey: 'ui.notification.warning.profileNotFound.message',
+                type: NotificationTypes.Warning,
+            });
+
+            isWorking.value = false;
+            return;
+        }
+
         isWorking.value = false;
         throw err;
     }
@@ -132,7 +118,8 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     isWorking.value = true;
     try {
-        await settingsApi.saveSettings(settingsStore.tableVisualAid, settingsStore.gameList ?? []);
+        await settingsService.saveToProfile();
+        savedSnapshot = JSON.stringify(settingsStore.$state);
         notificationEmitter.notify({
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
