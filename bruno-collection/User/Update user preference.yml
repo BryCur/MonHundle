@@ -1,5 +1,5 @@
 info:
-  name: Save user preference
+  name: Update user preference
   type: http
   seq: 4
 
@@ -11,7 +11,7 @@ http:
     data: |-
       {
         "tableVisualAid": true,
-        "gameTitles": ["MHWilds", "MHWI", "MHWorld"],
+        "gameList": ["MHWilds", "MHWI", "MHWorld"],
         "theme": null,
         "preferredLanguage": null
       }
