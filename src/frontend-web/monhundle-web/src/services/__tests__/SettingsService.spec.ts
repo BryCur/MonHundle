@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi, type Mocked } from 'vitest';
-import { nextTick, ref, type Ref } from 'vue';
+import { computed, nextTick, ref, type Ref } from 'vue';
 import { createPinia, setActivePinia } from 'pinia';
 import { createDefaultSettings } from '@/domain/Settings';
 import type { SettingsResponse } from '@/domain/ApiModels';
@@ -30,8 +30,14 @@ describe('SettingsService', () => {
     let store: SettingsStore;
     let api: Mocked<ISettingApi>;
     let locale: Ref<string>;
+    let browserLanguages: string[];
 
     beforeEach(() => {
+        // no browser language by default, so that the tests don't depend on jsdom's ['en-US', 'en']
+        browserLanguages = [];
+        vi.spyOn(Navigator.prototype, 'languages', 'get').mockImplementation(
+            () => browserLanguages,
+        );
         setActivePinia(createPinia());
         store = useSettingsStore();
         api = {
@@ -46,6 +52,7 @@ describe('SettingsService', () => {
 
     afterEach(() => {
         clearCookies();
+        vi.restoreAllMocks();
     });
 
     describe('setters', () => {
@@ -96,11 +103,48 @@ describe('SettingsService', () => {
             expect(document.documentElement.lang).toBe('fr');
         });
 
-        it('falls back to english when no language is chosen', () => {
+        it('falls back to english when no language is chosen nor detected', () => {
             new SettingsService(store, api, locale);
 
             expect(locale.value).toBe('en');
             expect(document.documentElement.lang).toBe('en');
+        });
+
+        it('applies the browser language when no language is chosen', () => {
+            browserLanguages = ['fr-CH', 'en'];
+
+            new SettingsService(store, api, locale);
+
+            expect(locale.value).toBe('fr');
+            expect(document.documentElement.lang).toBe('fr');
+        });
+
+        it('prefers the chosen language over the browser one', () => {
+            browserLanguages = ['fr-CH'];
+            store.update({ language: 'en' });
+
+            new SettingsService(store, api, locale);
+
+            expect(locale.value).toBe('en');
+        });
+
+        it('falls back to english when no browser language is supported', () => {
+            browserLanguages = ['de-CH', 'it'];
+
+            new SettingsService(store, api, locale);
+
+            expect(locale.value).toBe('en');
+        });
+
+        it('goes back to the browser language when the choice is removed', async () => {
+            browserLanguages = ['fr'];
+            store.update({ language: 'en' });
+            const service = new SettingsService(store, api, locale);
+
+            service.setLanguage(null);
+            await nextTick();
+
+            expect(locale.value).toBe('fr');
         });
 
         it('applies every language change', async () => {
@@ -284,6 +328,41 @@ describe('SettingsService', () => {
             await service.loadProfile(TARGET_UUID);
 
             expect(api.updateSettings).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('getCurrentLanguage', () => {
+        it('returns the chosen language', () => {
+            browserLanguages = ['fr'];
+            store.update({ language: 'en' });
+            const service = new SettingsService(store, api, locale);
+
+            expect(service.getCurrentLanguage()).toBe('en');
+        });
+
+        it('returns the detected language when no language is chosen', () => {
+            browserLanguages = ['fr-FR'];
+            const service = new SettingsService(store, api, locale);
+
+            expect(service.getCurrentLanguage()).toBe('fr');
+        });
+
+        it('does not depend on a locale changed directly in i18n', () => {
+            const service = new SettingsService(store, api, locale);
+
+            locale.value = 'fr';
+
+            expect(service.getCurrentLanguage()).toBe('en');
+        });
+
+        it('can be followed by a computed', () => {
+            const service = new SettingsService(store, api, locale);
+            const current = computed(() => service.getCurrentLanguage());
+            expect(current.value).toBe('en');
+
+            service.setLanguage('fr');
+
+            expect(current.value).toBe('fr');
         });
     });
 });

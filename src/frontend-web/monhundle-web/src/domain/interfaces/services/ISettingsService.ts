@@ -9,4 +9,5 @@ export default interface ISettingsService {
     resetSettings: () => void;
     saveToProfile: () => Promise<void>;
     loadProfile: (targetUuid: string) => Promise<void>;
+    getCurrentLanguage: () => SupportedLocale;
 }

@@ -1,7 +1,7 @@
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import type ISettingsService from '@/domain/interfaces/services/ISettingsService';
-import { isSupportedLocale, type SupportedLocale } from '@/domain/Settings';
+import { isSupportedLocale, resolveLocale, type SupportedLocale } from '@/domain/Settings';
 import { isThemeId, type ThemeId } from '@/domain/Theme';
 import { msUntilMidnightUTC } from '@/domain/Utils';
 import { CookieKeys, deleteCookie, setCookie } from '@/services/CookieService';
@@ -19,9 +19,8 @@ export class SettingsService implements ISettingsService {
         this.i18nLocale = locale;
 
         watch(
-            () => store.language,
-            (language) => {
-                const resolved: SupportedLocale = language ?? 'en';
+            () => this.getCurrentLanguage(),
+            (resolved) => {
                 this.i18nLocale.value = resolved;
                 document.documentElement.lang = resolved;
             },
@@ -85,5 +84,9 @@ export class SettingsService implements ISettingsService {
         } else {
             deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
         }
+    }
+
+    public getCurrentLanguage(): SupportedLocale {
+        return resolveLocale(this.settingsStore.language, navigator.languages);
     }
 }
