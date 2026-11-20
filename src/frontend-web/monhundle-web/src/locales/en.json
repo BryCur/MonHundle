@@ -879,6 +879,16 @@
             "sendguess": "Send",
             "share": "Share"
         },
+        "navigation": {
+            "unlimited": "Unlimited",
+            "daily": "Daily Challenge",
+            "about": "About",
+            "settings": "Settings"
+        },
+        "footer": {
+            "disclaimer": "Unofficial fan project - Monster Hunter is a trademark of Capcom Co., Ltd.",
+            "madeBy": "Made with ❤️ by {author}"
+        },
         "placeholder": {
             "monsterSelector": "Select a monster..."
         },

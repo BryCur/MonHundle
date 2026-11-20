@@ -879,6 +879,16 @@
             "sendguess": "Confirmer",
             "share": "Partager"
         },
+        "navigation": {
+            "unlimited": "Illimité",
+            "daily": "Défi du jour",
+            "about": "À propos",
+            "settings": "Paramètres"
+        },
+        "footer": {
+            "disclaimer": "Projet de fan non officiel - Monster Hunter est une marque déposée de Capcom Co., Ltd.",
+            "madeBy": "Fait avec ❤️ par {author}"
+        },
         "placeholder": {
             "monsterSelector": "Choisir un monstre..."
         },
