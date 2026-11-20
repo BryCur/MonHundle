@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LocaleSelector from '@/components/LocaleSelector.vue';
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { NotificationTypes } from '@/domain/Notification';
@@ -162,6 +163,13 @@ function onUuidInput() {
 <template>
     <div class="setting-list">
         <h2>{{ t('ui.page.settings.titles.preferences') }}</h2>
+        <div class="setting-line">
+            <label for="language-select">{{ t('ui.page.settings.language.label') }}</label>
+            <LocaleSelector id="language-select" :disabled="isWorking"></LocaleSelector>
+            <span class="setting-description">{{
+                t('ui.page.settings.language.description')
+            }}</span>
+        </div>
         <div class="setting-line">
             <label>{{ t('ui.page.settings.visualAccessibility.label') }}</label>
             <input :disabled="isWorking" v-model="enableTableA11y" type="checkbox" />

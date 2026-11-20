@@ -963,6 +963,10 @@
                     "preferences": "Preferences",
                     "data": "Your data"
                 },
+                "language": {
+                    "label": "Language",
+                    "description": "The application uses your browser language by default."
+                },
                 "visualAccessibility": {
                     "label": "Enable table visual accessibility",
                     "description": "Changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."

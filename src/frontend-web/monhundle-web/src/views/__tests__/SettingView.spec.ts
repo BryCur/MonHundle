@@ -135,6 +135,24 @@ describe('SettingView displayed settings', () => {
 
         expect(useSettingsStore().tableVisualAid).toBe(true);
     });
+
+    it('shows the language selector, linked to its label', async () => {
+        const wrapper = await mountView();
+
+        const select = wrapper.find('select');
+        expect(select.exists()).toBe(true);
+        expect(wrapper.find(`label[for="${select.attributes('id')}"]`).text()).toBe(
+            'ui.page.settings.language.label',
+        );
+    });
+
+    it('stores the language picked in the selector', async () => {
+        const wrapper = await mountView();
+
+        await wrapper.find('select').setValue('fr');
+
+        expect(useSettingsStore().language).toBe('fr');
+    });
 });
 
 describe('SettingView actions', () => {
@@ -345,6 +363,18 @@ describe('SettingView actions', () => {
                 tableVisualAid: true,
             });
             expect(notify).not.toHaveBeenCalled();
+        });
+
+        it('saves a language change to the profile', async () => {
+            const wrapper = await mountWithMocks();
+            await wrapper.find('select').setValue('fr');
+
+            leavePage();
+            await flushPromises();
+
+            expect(settingsApi.updateSettings).toHaveBeenCalledExactlyOnceWith(
+                expect.objectContaining({ language: 'fr' }),
+            );
         });
 
         it('does not block the navigation while saving', async () => {

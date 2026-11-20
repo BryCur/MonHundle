@@ -963,6 +963,10 @@
                     "preferences": "Préférences",
                     "data": "Vos données"
                 },
+                "language": {
+                    "label": "Langue",
+                    "description": "Par défaut, l'application utilise la langue de votre navigateur."
+                },
                 "visualAccessibility": {
                     "label": "Activer l'accessibilité visuelle du tableau",
                     "description": "Modifie l'apparence du tableau de jeu. Ajoute une texture au fond des cellules pour mieux distinguer les résultats incorrects, partiels et corrects, et marque davantage la séparation entre les essais."

@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { LOCALE_NATIVE_NAMES, SUPPORTED_LOCALES } from '@/domain/Settings';
+import { injectStrict, settingsServiceKey } from '@/injectionKeyRegistry';
+import { computed } from 'vue';
 
-const { locale, availableLocales } = useI18n();
+const settingsService = injectStrict(settingsServiceKey);
+
+const currentLanguage = computed({
+    get: () => settingsService.getCurrentLanguage(),
+    set: (lang) => settingsService.setLanguage(lang),
+});
 </script>
 
 <template>
-    <div>
-        <select v-model="locale">
-            <option v-for="lang in availableLocales" :key="lang" :value="lang">{{ lang }}</option>
-        </select>
-    </div>
+    <select v-model="currentLanguage">
+        <option v-for="lang in SUPPORTED_LOCALES" :key="lang" :value="lang" :lang="lang">
+            {{ LOCALE_NATIVE_NAMES[lang] }}
+        </option>
+    </select>
 </template>
-
-<style scoped></style>

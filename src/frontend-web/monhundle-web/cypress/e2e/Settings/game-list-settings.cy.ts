@@ -17,8 +17,7 @@ describe('Changing the game list from Settings', () => {
     it('routes back to settings after confirming a new selection', () => {
         cy.mockGameTitles(['MHWilds', 'MHR']);
 
-        // "change games" button, second .setting-line on the page
-        cy.get('.setting-line').eq(1).find('button').click();
+        cy.contains('button', 'Change your game list').click();
         cy.location('pathname').should('eq', '/');
         cy.wait('@gameTitles');
 
