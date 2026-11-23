@@ -194,6 +194,9 @@ function onUuidInput() {
                 t('ui.page.settings.gameList.description')
             }}</span>
         </div>
+    </div>
+    <div class="setting-list">
+        <h2>{{ t('ui.page.settings.titles.data') }}</h2>
         <div class="setting-line">
             <label> {{ t('ui.page.settings.savePreferences.label') }}</label>
             <button :disabled="isWorking" @click="savePreferenceToProfile()">
@@ -203,9 +206,6 @@ function onUuidInput() {
                 t('ui.page.settings.savePreferences.description')
             }}</span>
         </div>
-    </div>
-    <div class="setting-list">
-        <h2>{{ t('ui.page.settings.titles.data') }}</h2>
         <div class="setting-line">
             <label>{{ t('ui.page.settings.copyUUID.label') }}</label>
             <button :disabled="isWorking" @click="copyUUID()">

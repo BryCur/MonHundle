@@ -997,7 +997,7 @@
                 "savePreferences": {
                     "label": "Sauvegarder vos préférences",
                     "button": "Sauvegarder",
-                    "description": "Vos préférences sont stockées dans votre navigateur. Si vous jouez sur plusieurs appareils, vous pouvez les sauvegarder : elles seront associées à votre identifiant personnel."
+                    "description": "Vos préférences sont stockées dans votre navigateur et sauvegardées avec votre identifiant personnel lorsque vous quittez cette page, pour les retrouver sur vos autres appareils. Ce bouton permet de les sauvegarder immédiatement."
                 },
                 "copyUUID": {
                     "label": "Obtenir votre identifiant",
