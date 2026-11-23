@@ -17,8 +17,7 @@ describe('Changing the game list from Settings', () => {
     it('routes back to settings after confirming a new selection', () => {
         cy.mockGameTitles(['MHWilds', 'MHR']);
 
-        // "change games" button, second .setting-line on the page
-        cy.get('.setting-line').eq(1).find('button').click();
+        cy.contains('button', 'Change your game list').click();
         cy.location('pathname').should('eq', '/');
         cy.wait('@gameTitles');
 
@@ -27,19 +26,13 @@ describe('Changing the game list from Settings', () => {
         // SelectGamesView reads where we came from (window.history.state.back) and, since we came
         // from /settings, routes back there instead of defaulting to /unlimited.
         cy.location('pathname').should('eq', '/settings');
-        cy.window()
-            .its('localStorage')
-            .invoke('getItem', 'gameList')
-            .should('eq', JSON.stringify(['MHWilds']));
+        cy.shouldHaveStoredSetting('gameList', ['MHWilds']);
     });
 
     it('lets the accessibility preference be toggled', () => {
         cy.get('input[type="checkbox"]').should('not.be.checked');
         cy.get('input[type="checkbox"]').check();
 
-        cy.window()
-            .its('localStorage')
-            .invoke('getItem', 'enableTableVisualA11y')
-            .should('eq', 'true');
+        cy.shouldHaveStoredSetting('tableVisualAid', true);
     });
 });

@@ -13,9 +13,6 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
 {
     private readonly HttpClient _client;
     private readonly Mock<IPlayerService> _playerServiceMock;
-
-    private readonly UserPreferencesBody _preferences =
-        new UserPreferencesBody(true, new[] { "MHWilds", "MHWI", "MHW" });
     
     // describes the type of bearer token to use
     public enum TokenKind
@@ -124,59 +121,119 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         Assert.Equal(expectedStatusCode, response.StatusCode);
     }
 
-    
+    private static HttpRequestMessage PatchPreferencesRequest(object? token, string jsonBody)
+    {
+        var request = BearerRequest(HttpMethod.Patch, "user/preference", token);
+        request.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        return request;
+    }
+
     [Theory]
     [InlineData(TokenKind.Valid, true, HttpStatusCode.OK)]
     [InlineData(TokenKind.Valid, false, HttpStatusCode.Unauthorized)]
     [InlineData(TokenKind.Unparseable, false, HttpStatusCode.Unauthorized)]
     [InlineData(TokenKind.None, false, HttpStatusCode.Unauthorized)]
-    public async Task SavePreferences_returns_correct_status_code_based_on_token(
+    public async Task UpdatePreferences_returns_correct_status_code_based_on_token(
         TokenKind tokenKind, bool validation, HttpStatusCode expectedStatusCode)
     {
+        Guid playerId = Guid.NewGuid();
         if (tokenKind == TokenKind.Valid)
         {
-            _playerServiceMock.Setup(ps => ps.CheckPlayerExists(It.IsAny<Guid>())).ReturnsAsync(validation);    
+            _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(validation);
         }
 
-        var request = BearerRequest(
-            HttpMethod.Post, 
-            "user/preference", 
-            (tokenKind == TokenKind.None ? null: tokenKind == TokenKind.Valid ? Guid.NewGuid() : "invalid")
+        var request = PatchPreferencesRequest(
+            tokenKind == TokenKind.None ? null : tokenKind == TokenKind.Valid ? playerId : "invalid",
+            """{"theme":"dark"}"""
         );
-        
-        request.Content = new StringContent(
-            JsonSerializer.Serialize(this._preferences),
-            Encoding.UTF8,
-            "application/json"
-        );
-        
-        var response = await _client.SendAsync(request);
-        Assert.Equal(expectedStatusCode, response.StatusCode);
 
+        var response = await _client.SendAsync(request);
+
+        Assert.Equal(expectedStatusCode, response.StatusCode);
     }
 
     [Fact]
-    public async Task SavePreferences_forwards_the_mapped_preferences_to_the_service()
+    public async Task UpdatePreferences_forwards_the_body_to_the_service()
     {
         Guid playerId = Guid.NewGuid();
         _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
 
-        var request = BearerRequest(HttpMethod.Post, "user/preference", playerId);
-        request.Content = new StringContent(
-            JsonSerializer.Serialize(_preferences),
-            Encoding.UTF8,
-            "application/json"
+        var request = PatchPreferencesRequest(
+            playerId,
+            """{"tableVisualAid":true,"gameList":["MHWilds","MHW"],"theme":"dark","preferredLanguage":"fr"}"""
         );
 
         var response = await _client.SendAsync(request);
 
         response.EnsureSuccessStatusCode();
-        _playerServiceMock.Verify(ps => ps.SaveUserPreferences(
+        _playerServiceMock.Verify(ps => ps.UpdateUserPreferences(
                 playerId,
-                It.Is<PlayerPreferencesStruct>(p =>
-                    p.enableTableAccessibility
-                    && p.gameList.SequenceEqual(new[] { "MHWilds", "MHWI", "MHW" }))),
+                It.Is<UpdatePreferencesBody>(b =>
+                    b.tableVisualAid == true
+                    && b.gameList!.SequenceEqual(new[] { "MHWilds", "MHW" })
+                    && b.theme == "dark"
+                    && b.preferredLanguage == "fr")),
             Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdatePreferences_accepts_a_partial_body_and_forwards_missing_fields_as_null()
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
+
+        var response = await _client.SendAsync(PatchPreferencesRequest(playerId, """{"theme":"dark"}"""));
+
+        response.EnsureSuccessStatusCode();
+        _playerServiceMock.Verify(ps => ps.UpdateUserPreferences(
+                playerId,
+                It.Is<UpdatePreferencesBody>(b =>
+                    b.tableVisualAid == null
+                    && b.gameList == null
+                    && b.theme == "dark"
+                    && b.preferredLanguage == null)),
+            Times.Once);
+    }
+
+    [Theory]
+    [InlineData("theme", "Dark")]
+    [InlineData("theme", "")]
+    [InlineData("theme", "dark theme")]
+    [InlineData("theme", "abcdefghijklmnopqrstuvwxyz0123456")] // 33 characters
+    [InlineData("preferredLanguage", "FR")]
+    [InlineData("preferredLanguage", "fra-fr")]
+    [InlineData("preferredLanguage", "f")]
+    [InlineData("preferredLanguage", "")]
+    public async Task UpdatePreferences_rejects_a_badly_formatted_value(string field, string value)
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
+
+        string body = JsonSerializer.Serialize(new Dictionary<string, string> { [field] = value });
+        var response = await _client.SendAsync(PatchPreferencesRequest(playerId, body));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        _playerServiceMock.Verify(
+            ps => ps.UpdateUserPreferences(playerId, It.IsAny<UpdatePreferencesBody>()),
+            Times.Never);
+    }
+
+    [Theory]
+    [InlineData("theme", "a")]
+    [InlineData("theme", "high-contrast-2")]
+    [InlineData("theme", "abcdefghijklmnopqrstuvwxyz012345")] // 32 characters
+    [InlineData("preferredLanguage", "fr")]
+    [InlineData("preferredLanguage", "fil")]
+    [InlineData("preferredLanguage", "pt-BR")]
+    public async Task UpdatePreferences_accepts_a_well_formatted_value(string field, string value)
+    {
+        Guid playerId = Guid.NewGuid();
+        _playerServiceMock.Setup(ps => ps.CheckPlayerExists(playerId)).ReturnsAsync(true);
+
+        string body = JsonSerializer.Serialize(new Dictionary<string, string> { [field] = value });
+        var response = await _client.SendAsync(PatchPreferencesRequest(playerId, body));
+
+        response.EnsureSuccessStatusCode();
     }
 
     [Theory]
@@ -239,7 +296,10 @@ public class UserControllerTest : IClassFixture<WebApplicationWithMockFactory>
         Guid playerId = Guid.NewGuid();
         Guid requestedId = Guid.NewGuid();
 
-        PlayerProfileResponse profile = new PlayerProfileResponse(true, [], null, null);
+        PlayerProfileResponse profile = new PlayerProfileResponse(
+            new PlayerPreferencesDTO(false, [], null, null),
+            null, 
+            null);
         
         _playerServiceMock.Setup(ps => ps.AuthPlayer(playerId.ToString())).ReturnsAsync(playerId);
         _playerServiceMock.Setup(ps => ps.GetPlayerProfile(requestedId)).ReturnsAsync(profile);

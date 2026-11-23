@@ -34,10 +34,7 @@ describe('Choosing a game and starting an unlimited run', () => {
         cy.get('button.btn-confirm').click();
 
         // confirming persists only the selected game (not the full list) to localStorage
-        cy.window()
-            .its('localStorage')
-            .invoke('getItem', 'gameList')
-            .should('eq', JSON.stringify(['MHWilds']));
+        cy.shouldHaveStoredSetting('gameList', ['MHWilds']);
 
         // ...and navigates to the unlimited game screen
         cy.location('pathname').should('eq', '/unlimited');

@@ -1,0 +1,24 @@
+info:
+  name: Update user preference
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{domain_url}}/user/preference"
+  body:
+    type: json
+    data: |-
+      {
+        "tableVisualAid": true,
+        "gameList": ["MHWilds", "MHWI", "MHWorld"],
+        "theme": null,
+        "preferredLanguage": null
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

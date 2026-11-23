@@ -3,6 +3,7 @@ import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import type INotificationEmitter from '@/domain/interfaces/INotificationEmitter';
 import type IGameService from '@/domain/interfaces/services/IGameService';
 import type IResourceService from '@/domain/interfaces/services/IResourceService';
+import type ISettingsService from '@/domain/interfaces/services/ISettingsService';
 import { inject, type InjectionKey } from 'vue';
 
 export const notificationEmitterKey: InjectionKey<INotificationEmitter> =
@@ -11,6 +12,7 @@ export const unlimitedGameServiceKey: InjectionKey<IGameService> = Symbol('unlim
 export const dailyGameServiceKey: InjectionKey<IGameService> = Symbol('dailyGameService');
 export const resourceServiceKey: InjectionKey<IResourceService> = Symbol('resourceService');
 export const settingsApiKey: InjectionKey<ISettingApi> = Symbol('settingsApi');
+export const settingsServiceKey: InjectionKey<ISettingsService> = Symbol('settingsService');
 export const serviceStatusApiKey: InjectionKey<IServiceStatusApi> = Symbol('serviceStatusApi');
 
 export function injectStrict<T>(key: InjectionKey<T>): T {

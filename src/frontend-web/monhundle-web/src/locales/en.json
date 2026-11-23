@@ -879,6 +879,19 @@
             "sendguess": "Send",
             "share": "Share"
         },
+        "navigation": {
+            "unlimited": "Unlimited",
+            "daily": "Daily Challenge",
+            "about": "About",
+            "settings": "Settings"
+        },
+        "footer": {
+            "disclaimer": "Unofficial fan project - Monster Hunter is a trademark of Capcom Co., Ltd.",
+            "madeBy": "Made with ❤️ by {author}"
+        },
+        "theme": {
+            "classic-dark": "Classic dark"
+        },
         "placeholder": {
             "monsterSelector": "Select a monster..."
         },
@@ -963,6 +976,14 @@
                     "preferences": "Preferences",
                     "data": "Your data"
                 },
+                "language": {
+                    "label": "Language",
+                    "description": "The application uses your browser language by default."
+                },
+                "theme": {
+                    "label": "Theme",
+                    "description": "Changes the appearance of the application."
+                },
                 "visualAccessibility": {
                     "label": "Enable table visual accessibility",
                     "description": "Changes the game table appearance. Add texture to cell background to better differenciate the wrong/partial/correct results. Better highlight the guess separation as well."
@@ -976,7 +997,7 @@
                 "savePreferences": {
                     "label": "Save your preferences",
                     "button": "Backup",
-                    "description": "Your preferences are stored on your browser. If you play across multiple devices, you may save your preferences and they will be backed up along with your personal ID."
+                    "description": "Your preferences are stored on your browser and backed up along with your personal ID when you leave this page, so you can find them on your other devices. Use this button to back them up right away."
                 },
                 "copyUUID": {
                     "label": "Get your identifier",

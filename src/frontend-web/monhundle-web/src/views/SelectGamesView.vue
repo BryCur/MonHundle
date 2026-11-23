@@ -2,13 +2,13 @@
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { paths } from '@/router';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { useI18n } from 'vue-i18n';
-import { injectStrict, resourceServiceKey } from '@/injectionKeyRegistry';
+import { injectStrict, resourceServiceKey, settingsServiceKey } from '@/injectionKeyRegistry';
 
 const router = useRouter();
 const { t } = useI18n();
 const resourceService = injectStrict(resourceServiceKey);
+const settingsService = injectStrict(settingsServiceKey);
 
 const ready = ref(false);
 const selectedGames = ref(new Set<string>([]));
@@ -44,12 +44,9 @@ function toggleGameSelection(game: string) {
 
 function confirmSelection() {
     if (selectedGames.value.size > 0) {
-        localStorage.setItem(
-            LocalStorageKeys.GAME_LIST,
-            JSON.stringify(Array.from(selectedGames.value)),
-        );
+        settingsService.setGameList(Array.from(selectedGames.value));
     } else {
-        localStorage.setItem(LocalStorageKeys.GAME_LIST, JSON.stringify(gameList.value));
+        settingsService.setGameList(gameList.value);
     }
 
     router.push(lastRoute.value ?? paths.unlimited);
@@ -96,7 +93,7 @@ function randomTilt(element: HTMLElement) {
     gap: 1.5rem;
     justify-content: center;
     padding: 1.5rem;
-    background-color: #1a1a1a;
+    background-color: var(--color-card-list-bg);
     border-radius: 1rem;
 
     &.has-selection {
@@ -114,7 +111,7 @@ function randomTilt(element: HTMLElement) {
         justify-content: flex-start;
         width: 180px;
         padding: 1rem;
-        background-color: #2a2a2a;
+        background-color: var(--color-card-bg);
         border-radius: 0.75rem;
         cursor: pointer;
         transition:
@@ -122,14 +119,14 @@ function randomTilt(element: HTMLElement) {
             transform 0.1s ease;
 
         &:hover {
-            background-color: #353535;
+            background-color: var(--color-card-hover-bg);
         }
 
         &.selected {
-            background-color: #5a5a5a;
-            color: white;
+            background-color: var(--color-card-selected-bg);
+            color: var(--color-card-selected-text);
             transform: scale(1.07);
-            box-shadow: 0 0 10px rgba(74, 140, 255, 0.5);
+            box-shadow: var(--shadow-card-selected);
         }
 
         .game-logo {
@@ -142,7 +139,7 @@ function randomTilt(element: HTMLElement) {
 
         .game-title {
             font-weight: 500;
-            color: #f0f0f0;
+            color: var(--color-card-text);
             text-align: center;
         }
     }

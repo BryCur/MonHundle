@@ -12,10 +12,9 @@ vi.mock('vue-router', async (importOriginal) => {
 });
 
 import SelectGamesView from '@/views/SelectGamesView.vue';
-import { LocalStorageKeys } from '@/services/LocalStorageService';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { paths } from '@/router';
-import { resourceServiceKey } from '@/injectionKeyRegistry';
+import { resourceServiceKey, settingsServiceKey } from '@/injectionKeyRegistry';
 
 const i18n = createI18n({
     legacy: false,
@@ -28,10 +27,19 @@ const i18n = createI18n({
 
 const GAMES = ['MHW', 'MHR', 'MHWilds'];
 
+// the view only writes the game list
+const settingsService = { setGameList: vi.fn() };
+
 async function mountView() {
     const resourceService = { getAllGameTitles: vi.fn().mockResolvedValue(GAMES) };
     const wrapper = mount(SelectGamesView, {
-        global: { plugins: [i18n], provide: { [resourceServiceKey]: resourceService } },
+        global: {
+            plugins: [i18n],
+            provide: {
+                [resourceServiceKey]: resourceService,
+                [settingsServiceKey]: settingsService,
+            },
+        },
     });
     await flushPromises();
     return wrapper;
@@ -40,7 +48,6 @@ async function mountView() {
 describe('SelectGamesView', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        localStorage.clear();
     });
 
     it('renders one item per game title once the list is loaded', async () => {
@@ -60,13 +67,13 @@ describe('SelectGamesView', () => {
         expect(first.classes()).not.toContain('selected');
     });
 
-    it('confirmSelection persists only the selected games and navigates away', async () => {
+    it('confirmSelection saves only the selected games and navigates away', async () => {
         const wrapper = await mountView();
         await wrapper.findAll('.list-item')[1]!.trigger('click'); // MHR
 
         await wrapper.find('button.btn-confirm').trigger('click');
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKeys.GAME_LIST)!)).toEqual(['MHR']);
+        expect(settingsService.setGameList).toHaveBeenCalledExactlyOnceWith(['MHR']);
         expect(pushMock).toHaveBeenCalled();
     });
 
@@ -75,14 +82,13 @@ describe('SelectGamesView', () => {
 
         await wrapper.find('button.btn-confirm').trigger('click');
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKeys.GAME_LIST)!)).toEqual(GAMES);
+        expect(settingsService.setGameList).toHaveBeenCalledExactlyOnceWith(GAMES);
     });
 });
 
 describe('SelectGamesView when the game list cannot be loaded', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        localStorage.clear();
     });
 
     it('saves an empty list (all games), leaves for the previous page and lets the error through', async () => {
@@ -94,13 +100,16 @@ describe('SelectGamesView when the game list cannot be loaded', () => {
         const wrapper = mount(SelectGamesView, {
             global: {
                 plugins: [i18n],
-                provide: { [resourceServiceKey]: resourceService },
+                provide: {
+                    [resourceServiceKey]: resourceService,
+                    [settingsServiceKey]: settingsService,
+                },
                 config: { errorHandler },
             },
         });
         await flushPromises();
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKeys.GAME_LIST)!)).toEqual([]);
+        expect(settingsService.setGameList).toHaveBeenCalledExactlyOnceWith([]);
         expect(pushMock).toHaveBeenCalledWith(paths.unlimited);
         expect(errorHandler).toHaveBeenCalledWith(error, expect.anything(), expect.any(String));
         expect(wrapper.text()).not.toContain('loading...');

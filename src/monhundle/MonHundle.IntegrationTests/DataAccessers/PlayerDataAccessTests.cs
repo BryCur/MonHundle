@@ -22,7 +22,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccess
             PlayerUid = playerUid,
             JsonPreferences = new PlayerPreferencesStruct
             {
-                enableTableAccessibility = true,
+                tableVisualAid = true,
                 gameList = ["MHWilds"]
             }
         });
@@ -32,7 +32,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccess
         stored.Should().NotBeNull();
         stored!.PlayerUid.Should().Be(playerUid);
         stored.JsonPreferences.Should().NotBeNull();
-        stored.JsonPreferences!.Value.enableTableAccessibility.Should().BeTrue();
+        stored.JsonPreferences!.Value.tableVisualAid.Should().BeTrue();
         stored.JsonPreferences.Value.gameList.Should().BeEquivalentTo(["MHWilds"]);
     }
 
@@ -59,7 +59,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccess
             Player player = new()
             {
                 PlayerUid = playerUid,
-                JsonPreferences = new PlayerPreferencesStruct { enableTableAccessibility = false, gameList = [] }
+                JsonPreferences = new PlayerPreferencesStruct { tableVisualAid = false, gameList = [] }
             };
             await dataAccess.InsertPlayer(player);
             playerId = player.Id!.Value;
@@ -74,7 +74,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccess
             {
                 Id = playerId,
                 PlayerUid = playerUid,
-                JsonPreferences = new PlayerPreferencesStruct { enableTableAccessibility = true, gameList = ["MHRS"] }
+                JsonPreferences = new PlayerPreferencesStruct { tableVisualAid = true, gameList = ["MHRS"] }
             });
         }
 
@@ -83,7 +83,7 @@ public class PlayerDataAccessTests(PostgresDatabaseFixture fixture) : DataAccess
             IPlayerDataAccess dataAccess = readScope.ServiceProvider.GetRequiredService<IPlayerDataAccess>();
             Player afterUpdate = (await dataAccess.GetPlayer(playerUid))!;
 
-            afterUpdate.JsonPreferences!.Value.enableTableAccessibility.Should()
+            afterUpdate.JsonPreferences!.Value.tableVisualAid.Should()
                 .BeTrue("the second-level cache is auto-invalidated by SaveChanges, so this should reflect the update");
         }
     }

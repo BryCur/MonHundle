@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MonHundle.domain.Entities.DAL.JsonStructs;
 using MonHundle.domain.Entities.DTO;
 
@@ -5,35 +6,30 @@ namespace MonHundle.Tests.Entities;
 
 public class PlayerPreferencesStructTests
 {
+    // AppDbContext (de)serializes the preferences column with JsonSerializerOptions.Default
     [Fact]
-    public void FromBody_copies_the_provided_values()
+    public void Deserialize_reads_a_row_written_before_versioning()
     {
-        UserPreferencesBody body = new(true, ["MHWilds", "MHW"]);
+        const string storedJson = """{"enableTableAccessibility":true,"gameList":["MHW"]}""";
 
-        PlayerPreferencesStruct result = PlayerPreferencesStruct.FromBody(body);
+        PlayerPreferencesStruct result =
+            JsonSerializer.Deserialize<PlayerPreferencesStruct>(storedJson, JsonSerializerOptions.Default);
 
-        Assert.True(result.enableTableAccessibility);
-        Assert.Equal(new[] { "MHWilds", "MHW" }, result.gameList);
+        Assert.True(result.tableVisualAid);
+        Assert.Equal(new[] { "MHW" }, result.gameList);
+        Assert.Equal(0, result.version);
+        Assert.Null(result.theme);
+        Assert.Null(result.preferredLanguage);
     }
 
     [Fact]
-    public void FromBody_defaults_a_null_flag_to_false()
+    public void Serialize_keeps_the_original_json_key_for_the_visual_aid_flag()
     {
-        UserPreferencesBody body = new(null, []);
+        PlayerPreferencesStruct preferences = new() { tableVisualAid = true, gameList = [] };
 
-        PlayerPreferencesStruct result = PlayerPreferencesStruct.FromBody(body);
+        string json = JsonSerializer.Serialize(preferences, JsonSerializerOptions.Default);
 
-        Assert.False(result.enableTableAccessibility);
-    }
-
-    [Fact]
-    public void FromBody_defaults_a_null_game_list_to_an_empty_array()
-    {
-        UserPreferencesBody body = new(false, null!);
-
-        PlayerPreferencesStruct result = PlayerPreferencesStruct.FromBody(body);
-
-        Assert.NotNull(result.gameList);
-        Assert.Empty(result.gameList);
+        Assert.Contains("\"enableTableAccessibility\":true", json);
+        Assert.DoesNotContain("tableVisualAid", json);
     }
 }

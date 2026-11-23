@@ -10,34 +10,66 @@ import {
 } from '@test-utils/vitest/fixtures';
 import { SettingsApi } from '@/services/ApiService/SettingApi';
 import { clearStoredUserId, getStoredUserId } from '@/services/LocalStorageService';
-import type { SettingsResponse, UserSettingsBody } from '@/domain/ApiModels';
+import type { SettingsResponse, UpdateSettingsBody } from '@/domain/ApiModels';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 
-describe('SettingsApi.saveSettings (integration)', () => {
-    it('sends a well-formed preference request', async () => {
-        let capturedMethod: string | null = null;
-        let capturedBody: UserSettingsBody | null = null;
+describe('SettingsApi.updateSettings (integration)', () => {
+    let capturedMethod: string | null;
+    let capturedUrl: string | null;
+    let capturedBody: UpdateSettingsBody | null;
+
+    beforeEach(() => {
+        capturedMethod = null;
+        capturedUrl = null;
+        capturedBody = null;
         server.use(
-            http.post('*/user/preference', async ({ request }) => {
+            http.patch('*/user/preference', async ({ request }) => {
                 capturedMethod = request.method;
-                capturedBody = (await request.json()) as UserSettingsBody;
+                capturedUrl = request.url;
+                capturedBody = (await request.json()) as UpdateSettingsBody;
                 return new HttpResponse(null, { status: 200 });
             }),
         );
+    });
 
-        await new SettingsApi().saveSettings(true, SAMPLE_GAME_TITLES);
+    it('sends a PATCH to /user/preference', async () => {
+        await new SettingsApi().updateSettings({ tableVisualAid: true });
 
-        expect(capturedMethod).toBe('POST');
+        expect(capturedMethod).toBe('PATCH');
+        expect(new URL(capturedUrl!).pathname).toBe('/user/preference');
+    });
+
+    it('sends every field, mapping the language to preferredLanguage', async () => {
+        await new SettingsApi().updateSettings({
+            language: 'fr',
+            theme: 'classic-dark',
+            gameList: SAMPLE_GAME_TITLES,
+            tableVisualAid: false,
+        });
+
         expect(capturedBody).toEqual({
-            enableTableVisualAid: true,
-            gameTitles: SAMPLE_GAME_TITLES,
-        } satisfies UserSettingsBody);
+            preferredLanguage: 'fr',
+            theme: 'classic-dark',
+            gameList: SAMPLE_GAME_TITLES,
+            tableVisualAid: false,
+        } satisfies UpdateSettingsBody);
+    });
+
+    it('sends null (unchanged) for the fields absent from a partial change', async () => {
+        await new SettingsApi().updateSettings({ gameList: [] });
+
+        expect(capturedBody).toEqual({
+            preferredLanguage: null,
+            theme: null,
+            gameList: [],
+            tableVisualAid: null,
+        } satisfies UpdateSettingsBody);
     });
 
     it('throws an UnexpectedApiError when the backend rejects the request', async () => {
-        server.use(http.post('*/user/preference', () => new HttpResponse(null, { status: 500 })));
+        server.use(http.patch('*/user/preference', () => new HttpResponse(null, { status: 500 })));
 
-        const request = new SettingsApi().saveSettings(true, []);
+        const request = new SettingsApi().updateSettings({ tableVisualAid: true });
 
         await expect(request).rejects.toBeInstanceOf(UnexpectedApiError);
         await expect(request).rejects.toMatchObject({ httpStatus: 500 });
@@ -64,8 +96,12 @@ describe('SettingsApi.getProfile (integration)', () => {
 
     it('returns the parsed profile on success', async () => {
         const expected: SettingsResponse = {
-            enableTableVisualAid: false,
-            gameList: [GAME_TITLE_MHW],
+            preferences: {
+                tableVisualAid: false,
+                gameList: [GAME_TITLE_MHW],
+                preferredLanguage: null,
+                theme: null,
+            },
             currentDailyGameUuid: null,
             currentUnlimitedGameUuid: null,
         };

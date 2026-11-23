@@ -26,7 +26,7 @@ describe('LocalStorageService', () => {
     });
 
     it('returns null instead of throwing when localStorage reads fail', () => {
-        vi.spyOn(window.localStorage, 'getItem').mockImplementation(() => {
+        vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
             throw new Error('storage disabled');
         });
 
@@ -35,10 +35,10 @@ describe('LocalStorageService', () => {
     });
 
     it('swallows errors when localStorage writes fail', () => {
-        vi.spyOn(window.localStorage, 'setItem').mockImplementation(() => {
+        vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
             throw new Error('quota exceeded');
         });
-        vi.spyOn(window.localStorage, 'removeItem').mockImplementation(() => {
+        vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
             throw new Error('storage disabled');
         });
 

@@ -879,6 +879,19 @@
             "sendguess": "Confirmer",
             "share": "Partager"
         },
+        "navigation": {
+            "unlimited": "Illimité",
+            "daily": "Défi du jour",
+            "about": "À propos",
+            "settings": "Paramètres"
+        },
+        "footer": {
+            "disclaimer": "Projet de fan non officiel - Monster Hunter est une marque déposée de Capcom Co., Ltd.",
+            "madeBy": "Fait avec ❤️ par {author}"
+        },
+        "theme": {
+            "classic-dark": "Classique sombre"
+        },
         "placeholder": {
             "monsterSelector": "Choisir un monstre..."
         },
@@ -963,6 +976,14 @@
                     "preferences": "Préférences",
                     "data": "Vos données"
                 },
+                "language": {
+                    "label": "Langue",
+                    "description": "Par défaut, l'application utilise la langue de votre navigateur."
+                },
+                "theme": {
+                    "label": "Thème",
+                    "description": "Modifie l'apparence de l'application."
+                },
                 "visualAccessibility": {
                     "label": "Activer l'accessibilité visuelle du tableau",
                     "description": "Modifie l'apparence du tableau de jeu. Ajoute une texture au fond des cellules pour mieux distinguer les résultats incorrects, partiels et corrects, et marque davantage la séparation entre les essais."
@@ -976,7 +997,7 @@
                 "savePreferences": {
                     "label": "Sauvegarder vos préférences",
                     "button": "Sauvegarder",
-                    "description": "Vos préférences sont stockées dans votre navigateur. Si vous jouez sur plusieurs appareils, vous pouvez les sauvegarder : elles seront associées à votre identifiant personnel."
+                    "description": "Vos préférences sont stockées dans votre navigateur et sauvegardées avec votre identifiant personnel lorsque vous quittez cette page, pour les retrouver sur vos autres appareils. Ce bouton permet de les sauvegarder immédiatement."
                 },
                 "copyUUID": {
                     "label": "Obtenir votre identifiant",

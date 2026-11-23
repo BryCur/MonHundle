@@ -215,8 +215,8 @@ watch(
         align-items: stretch;
         border-radius: 0.5rem;
         overflow: hidden;
-        border: 1px solid #444;
-        background: #222;
+        border: 1px solid var(--color-input-border);
+        background: var(--color-input-bg);
         width: 100%;
         height: 100%;
 
@@ -239,11 +239,11 @@ watch(
             flex: 1;
             border: none;
             background: transparent;
-            color: #f5f5f5;
+            color: var(--color-input-text);
             outline: none;
 
             &::placeholder {
-                color: #888;
+                color: var(--color-input-placeholder);
             }
         }
 
@@ -251,11 +251,11 @@ watch(
             border: none;
             width: 2.2rem;
             background: transparent;
-            color: #f5f5f5;
+            color: var(--color-input-text);
             cursor: pointer;
 
             :hover {
-                background: #3d3d3d;
+                background: var(--color-input-hover-bg);
             }
         }
     }
@@ -267,10 +267,10 @@ watch(
         left: 0;
         right: 0;
         max-height: 260px;
-        background: #181818;
+        background: var(--color-dropdown-bg);
         border-radius: 0.5rem;
-        border: 1px solid #444;
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--color-input-border);
+        box-shadow: var(--shadow-dropdown);
         overflow-y: auto;
         z-index: 20;
 
@@ -282,7 +282,7 @@ watch(
             gap: 0.6rem;
             border: none;
             background: transparent;
-            color: #f5f5f5;
+            color: var(--color-input-text);
             cursor: pointer;
             text-align: left;
 
@@ -302,16 +302,16 @@ watch(
         }
 
         .monster-select-option.is-highlighted {
-            background: #333;
+            background: var(--color-option-highlight-bg);
         }
 
         .monster-select-option.is-selected {
-            background: #2d3a5c;
+            background: var(--color-option-selected-bg);
         }
 
         .monster-select-empty {
             padding: 0.5rem 0.75rem;
-            color: #aaa;
+            color: var(--color-text-muted);
             font-size: 0.9rem;
         }
     }

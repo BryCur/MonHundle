@@ -62,14 +62,13 @@ public class PlayerService(
         GameSession? ongoingDaily = await gameDataAccess.GetDailyGameForPlayerAtDate(DateTime.UtcNow, player.Id!.Value);
 
         return new PlayerProfileResponse(
-            player.JsonPreferences?.enableTableAccessibility ?? false,
-            player.JsonPreferences?.gameList ?? [],
+            PlayerPreferencesDTO.FromStruct(player.JsonPreferences),
             ongoingDaily?.GameUid.ToString() ?? null,
             latestUnlimited?.GameUid.ToString() ?? null
         );
     }
 
-    public async Task SaveUserPreferences(Guid playerUid, PlayerPreferencesStruct updatedPreferences)
+    public async Task UpdateUserPreferences(Guid playerUid, UpdatePreferencesBody updatedPreferences)
     {
         Player? player = await playerDataAccess.GetPlayer(playerUid);
         if (player is null)
@@ -77,7 +76,23 @@ public class PlayerService(
             throw new DataNotFoundException($"Player {playerUid} not found");
         }
 
-        player.JsonPreferences = updatedPreferences;
+        PlayerPreferencesStruct reference;
+        if (player.JsonPreferences is null)
+        {
+            reference = new PlayerPreferencesStruct() { gameList = [] };
+        }
+        else
+        {
+            reference = player.JsonPreferences.Value;
+        }
+
+        reference.version = PlayerPreferencesStruct.CurrentVersion;
+        reference.tableVisualAid = updatedPreferences.tableVisualAid ?? reference.tableVisualAid;
+        reference.gameList = updatedPreferences.gameList ?? reference.gameList ?? [];
+        reference.theme = updatedPreferences.theme ?? reference.theme;
+        reference.preferredLanguage = updatedPreferences.preferredLanguage ?? reference.preferredLanguage;
+        
+        player.JsonPreferences = reference;
         await playerDataAccess.UpdatePlayer(player);
     }
 }

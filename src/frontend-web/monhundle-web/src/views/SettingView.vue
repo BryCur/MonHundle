@@ -1,43 +1,39 @@
 <script setup lang="ts">
+import LocaleSelector from '@/components/LocaleSelector.vue';
+import ThemeSelector from '@/components/ThemeSelector.vue';
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
+import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { NotificationTypes } from '@/domain/Notification';
-import { isUUID, msUntilMidnightUTC } from '@/domain/Utils';
-import { injectStrict, notificationEmitterKey, settingsApiKey } from '@/injectionKeyRegistry';
+import { THEME_IDS } from '@/domain/Theme';
+import { isUUID } from '@/domain/Utils';
+import { injectStrict, notificationEmitterKey, settingsServiceKey } from '@/injectionKeyRegistry';
 import { paths } from '@/router';
-import { CookieKeys, clearCookies, setCookie, deleteCookie } from '@/services/CookieService';
-import { LocalStorageKeys, getStoredUserId } from '@/services/LocalStorageService';
-import { onMounted, ref } from 'vue';
+import { clearCookies } from '@/services/CookieService';
+import { getStoredUserId } from '@/services/LocalStorageService';
+import { useSettingsStore } from '@/stores/SettingsStore';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 
 const router = useRouter();
 const { t } = useI18n();
-const settingsApi = injectStrict(settingsApiKey);
+const settingsStore = useSettingsStore();
+const settingsService = injectStrict(settingsServiceKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
 
-const gameList = ref<string[]>([]);
-const enableTableA11y = ref<boolean>(false);
+const enableTableA11y = computed({
+    get: () => settingsStore.tableVisualAid,
+    set: (enable) => settingsService.setTableVisualAid(enable),
+});
+
 let currentUUID: string;
 const inputUuid = ref<string | null>(null);
 const isWorking = ref<boolean>(false);
 const uuidErrorKey = ref<string | null>(null);
 
+let savedSnapshot = JSON.stringify(settingsStore.$state);
+
 onMounted(async () => {
-    // load game list
-    try {
-        const parsed: unknown = JSON.parse(
-            localStorage.getItem(LocalStorageKeys.GAME_LIST) ?? '[]',
-        );
-        gameList.value = Array.isArray(parsed) ? (parsed as string[]) : [];
-    } catch (err) {
-        console.warn('[settings] stored game list is corrupted, falling back to an empty one', err);
-        gameList.value = [];
-    }
-
-    // load current a11y conf
-    enableTableA11y.value =
-        localStorage.getItem(LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY)?.toLowerCase() === 'true';
-
     // get current UUID
     const storedId: string | null = getStoredUserId();
     if (!storedId) {
@@ -47,12 +43,11 @@ onMounted(async () => {
     }
 });
 
-function toggleA11y() {
-    localStorage.setItem(
-        LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-        String(enableTableA11y.value),
-    );
-}
+onBeforeRouteLeave(() => {
+    if (savedSnapshot !== JSON.stringify(settingsStore.$state)) {
+        settingsService.saveToProfile().catch((err) => console.error(err));
+    }
+});
 
 async function copyUUID() {
     try {
@@ -83,45 +78,8 @@ async function loadUuid() {
             return;
         }
 
-        const userProfile = await settingsApi.getProfile(cleanedInput);
-        if (!userProfile) {
-            console.warn('no profile found for provided identifier');
-            notificationEmitter.notify({
-                messageKey: 'ui.notification.warning.profileNotFound.message',
-                type: NotificationTypes.Warning,
-            });
-            isWorking.value = false;
-            return;
-        }
-        await settingsApi.loadUser(cleanedInput);
-
-        localStorage.setItem(
-            LocalStorageKeys.GAME_LIST,
-            JSON.stringify(userProfile.gameList ?? []),
-        );
-        gameList.value = userProfile.gameList ?? [];
-
-        localStorage.setItem(
-            LocalStorageKeys.TABLE_VISUAL_ACCESSIBILITY,
-            String(userProfile.enableTableVisualAid || false),
-        );
-        enableTableA11y.value = userProfile.enableTableVisualAid || false;
-
-        if (userProfile.currentDailyGameUuid) {
-            setCookie(
-                CookieKeys.CURRENT_DAILY_GAME,
-                userProfile.currentDailyGameUuid,
-                msUntilMidnightUTC(),
-            );
-        } else {
-            deleteCookie(CookieKeys.CURRENT_DAILY_GAME);
-        }
-
-        if (userProfile.currentUnlimitedGameUuid) {
-            setCookie(CookieKeys.CURRENT_UNLIMITED_GAME, userProfile.currentUnlimitedGameUuid);
-        } else {
-            deleteCookie(CookieKeys.CURRENT_UNLIMITED_GAME);
-        }
+        await settingsService.loadProfile(cleanedInput);
+        savedSnapshot = JSON.stringify(settingsStore.$state);
 
         // loadUser() has swapped the stored identity; reload so the app re-authenticates as the loaded user
         notificationEmitter.notify({
@@ -130,6 +88,17 @@ async function loadUuid() {
         });
         setTimeout(() => location.reload(), 1500);
     } catch (err) {
+        if (err instanceof LoadFailedError) {
+            console.warn('no profile found for provided identifier');
+            notificationEmitter.notify({
+                messageKey: 'ui.notification.warning.profileNotFound.message',
+                type: NotificationTypes.Warning,
+            });
+
+            isWorking.value = false;
+            return;
+        }
+
         isWorking.value = false;
         throw err;
     }
@@ -138,6 +107,7 @@ async function loadUuid() {
 function deleteStoredData() {
     isWorking.value = true;
     // delete local storage
+    settingsService.resetSettings();
     localStorage.clear();
     clearCookies();
 
@@ -151,7 +121,8 @@ function deleteStoredData() {
 async function savePreferenceToProfile() {
     isWorking.value = true;
     try {
-        await settingsApi.saveSettings(enableTableA11y.value, gameList.value);
+        await settingsService.saveToProfile();
+        savedSnapshot = JSON.stringify(settingsStore.$state);
         notificationEmitter.notify({
             messageKey: 'ui.notification.success.savedSettings.message',
             type: NotificationTypes.Success,
@@ -173,13 +144,15 @@ async function savePreferenceToProfile() {
 }
 
 function getGameListString() {
-    if (gameList.value.length < 4) {
-        return t('ui.page.settings.gameList.shortLabel', { gameList: gameList.value.join(', ') });
+    if (!settingsStore.gameList || settingsStore.gameList.length < 4) {
+        return t('ui.page.settings.gameList.shortLabel', {
+            gameList: settingsStore.gameList?.join(', ') ?? '',
+        });
     } else {
-        const displayedList = gameList.value.slice(0, 3);
+        const displayedList = settingsStore.gameList.slice(0, 3);
         return t('ui.page.settings.gameList.label', {
             gameList: displayedList.join(', '),
-            gameCount: gameList.value.length,
+            gameCount: settingsStore.gameList.length,
         });
     }
 }
@@ -193,13 +166,21 @@ function onUuidInput() {
     <div class="setting-list">
         <h2>{{ t('ui.page.settings.titles.preferences') }}</h2>
         <div class="setting-line">
+            <label for="language-select">{{ t('ui.page.settings.language.label') }}</label>
+            <LocaleSelector id="language-select" :disabled="isWorking"></LocaleSelector>
+            <span class="setting-description">{{
+                t('ui.page.settings.language.description')
+            }}</span>
+        </div>
+        <!-- hidden while there is nothing to choose from; shows up with the second theme -->
+        <div v-if="THEME_IDS.length > 1" class="setting-line">
+            <label for="theme-select">{{ t('ui.page.settings.theme.label') }}</label>
+            <ThemeSelector id="theme-select" :disabled="isWorking"></ThemeSelector>
+            <span class="setting-description">{{ t('ui.page.settings.theme.description') }}</span>
+        </div>
+        <div class="setting-line">
             <label>{{ t('ui.page.settings.visualAccessibility.label') }}</label>
-            <input
-                :disabled="isWorking"
-                @change="toggleA11y()"
-                v-model="enableTableA11y"
-                type="checkbox"
-            />
+            <input :disabled="isWorking" v-model="enableTableA11y" type="checkbox" />
             <span class="setting-description">{{
                 t('ui.page.settings.visualAccessibility.description')
             }}</span>
@@ -213,6 +194,9 @@ function onUuidInput() {
                 t('ui.page.settings.gameList.description')
             }}</span>
         </div>
+    </div>
+    <div class="setting-list">
+        <h2>{{ t('ui.page.settings.titles.data') }}</h2>
         <div class="setting-line">
             <label> {{ t('ui.page.settings.savePreferences.label') }}</label>
             <button :disabled="isWorking" @click="savePreferenceToProfile()">
@@ -222,9 +206,6 @@ function onUuidInput() {
                 t('ui.page.settings.savePreferences.description')
             }}</span>
         </div>
-    </div>
-    <div class="setting-list">
-        <h2>{{ t('ui.page.settings.titles.data') }}</h2>
         <div class="setting-line">
             <label>{{ t('ui.page.settings.copyUUID.label') }}</label>
             <button :disabled="isWorking" @click="copyUUID()">
@@ -302,7 +283,7 @@ function onUuidInput() {
         }
 
         .invalid {
-            border: 2px solid var(--error-red);
+            border: 2px solid var(--color-error);
         }
 
         .setting-description {
@@ -315,8 +296,8 @@ function onUuidInput() {
             grid-column: span 2;
             font-size: 0.9rem;
             padding: 0 1rem;
-            color: var(--error-red);
-            border-left: 3px solid var(--error-red);
+            color: var(--color-error);
+            border-left: 3px solid var(--color-error);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using MonHundle.domain.Entities.DAL;
 using MonHundle.domain.Entities.DAL.JsonStructs;
+using MonHundle.domain.Entities.DTO;
 using MonHundle.domain.Enums;
 using MonHundle.domain.Exceptions.DAL;
 using MonHundle.domain.Interfaces.DataAccess;
@@ -110,8 +111,10 @@ public class PlayerServiceTest
             PlayerUid = Guid.NewGuid(), 
             Id = 1, 
             JsonPreferences = new PlayerPreferencesStruct() {
-                    enableTableAccessibility = true,
-                    gameList = ["MHWilds", "MHR", "MHW"]
+                    tableVisualAid = true,
+                    gameList = ["MHWilds", "MHR", "MHW"],
+                    theme = "classic",
+                    preferredLanguage = "fr"
             }
         };
         
@@ -129,7 +132,12 @@ public class PlayerServiceTest
         var result = await service.GetPlayerProfile(player.PlayerUid);
 
         Assert.NotNull(result);
-
+        Assert.True(result.preferences.tableVisualAid);
+        Assert.Equal(new[] { "MHWilds", "MHR", "MHW" }, result.preferences.gameList);
+        Assert.Equal("classic", result.preferences.theme);
+        Assert.Equal("fr", result.preferences.preferredLanguage);
+        Assert.NotNull(result.currentDailyGameUuid);
+        Assert.NotNull(result.currentUnlimitedGameUuid);
     }
 
     [Fact]
@@ -144,8 +152,8 @@ public class PlayerServiceTest
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
         var result = await service.GetPlayerProfile(player.PlayerUid);
 
-        Assert.False(result.enableTableVisualAid);
-        Assert.Empty(result.gameList);
+        Assert.False(result.preferences.tableVisualAid);
+        Assert.Empty(result.preferences.gameList);
         Assert.Null(result.currentDailyGameUuid);
         Assert.Null(result.currentUnlimitedGameUuid);
     }
@@ -170,38 +178,108 @@ public class PlayerServiceTest
     }
 
     [Fact]
-    public async Task SaveUserPreferences_calls_update_method_if_guid_valid()
+    public async Task UpdateUserPreferences_only_changes_the_provided_fields()
     {
-        Guid callParam = Guid.NewGuid();
-        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { enableTableAccessibility = true, gameList = [] };
         Player player = new Player() {
-            PlayerUid = callParam,
-            Id = 1, 
-            JsonPreferences = preferences
+            PlayerUid = Guid.NewGuid(),
+            Id = 1,
+            JsonPreferences = new PlayerPreferencesStruct() {
+                version = PlayerPreferencesStruct.CurrentVersion,
+                tableVisualAid = true,
+                gameList = ["MHWilds"],
+                theme = "classic",
+                preferredLanguage = "en"
+            }
         };
-        
-        _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync(player);
-        
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        await service.SaveUserPreferences(callParam, preferences);
-        
-        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
+        await service.UpdateUserPreferences(player.PlayerUid, new UpdatePreferencesBody(null, null, "dark", null));
+
+        PlayerPreferencesStruct saved = player.JsonPreferences!.Value;
+        Assert.Equal("dark", saved.theme);
+        Assert.True(saved.tableVisualAid);
+        Assert.Equal(new[] { "MHWilds" }, saved.gameList);
+        Assert.Equal("en", saved.preferredLanguage);
         _playerDataAccess.Verify(pda => pda.UpdatePlayer(player), Times.Once);
     }
-    
+
     [Fact]
-    public async Task SaveUserPreferences_throws_DataNotFound_if_guid_not_found()
+    public async Task UpdateUserPreferences_replaces_every_provided_field()
+    {
+        Player player = new Player() {
+            PlayerUid = Guid.NewGuid(),
+            Id = 1,
+            JsonPreferences = new PlayerPreferencesStruct() {
+                tableVisualAid = true,
+                gameList = ["MHWilds"],
+                theme = "classic",
+                preferredLanguage = "en"
+            }
+        };
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        await service.UpdateUserPreferences(
+            player.PlayerUid,
+            new UpdatePreferencesBody(false, ["MHW", "MHR"], "dark", "fr"));
+
+        PlayerPreferencesStruct saved = player.JsonPreferences!.Value;
+        Assert.False(saved.tableVisualAid);
+        Assert.Equal(new[] { "MHW", "MHR" }, saved.gameList);
+        Assert.Equal("dark", saved.theme);
+        Assert.Equal("fr", saved.preferredLanguage);
+    }
+
+    [Fact]
+    public async Task UpdateUserPreferences_starts_from_defaults_when_no_preferences_are_stored()
+    {
+        Player player = new Player() { PlayerUid = Guid.NewGuid(), Id = 1, JsonPreferences = null };
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        await service.UpdateUserPreferences(player.PlayerUid, new UpdatePreferencesBody(null, null, null, "fr"));
+
+        Assert.NotNull(player.JsonPreferences);
+        PlayerPreferencesStruct saved = player.JsonPreferences.Value;
+        Assert.Equal(PlayerPreferencesStruct.CurrentVersion, saved.version);
+        Assert.False(saved.tableVisualAid);
+        Assert.Empty(saved.gameList);
+        Assert.Null(saved.theme);
+        Assert.Equal("fr", saved.preferredLanguage);
+        _playerDataAccess.Verify(pda => pda.UpdatePlayer(player), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateUserPreferences_upgrades_a_row_written_before_versioning()
+    {
+        // a row stored before versioning: version 0, and possibly no gameList key at all
+        Player player = new Player() {
+            PlayerUid = Guid.NewGuid(),
+            Id = 1,
+            JsonPreferences = new PlayerPreferencesStruct() { version = 0, tableVisualAid = true, gameList = null! }
+        };
+        _playerDataAccess.Setup(pda => pda.GetPlayer(player.PlayerUid)).ReturnsAsync(player);
+
+        PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
+        await service.UpdateUserPreferences(player.PlayerUid, new UpdatePreferencesBody(null, null, "classic", null));
+
+        PlayerPreferencesStruct saved = player.JsonPreferences!.Value;
+        Assert.Equal(PlayerPreferencesStruct.CurrentVersion, saved.version);
+        Assert.NotNull(saved.gameList);
+        Assert.Empty(saved.gameList);
+        Assert.True(saved.tableVisualAid);
+    }
+
+    [Fact]
+    public async Task UpdateUserPreferences_throws_DataNotFound_if_guid_not_found()
     {
         Guid callParam = Guid.NewGuid();
-        PlayerPreferencesStruct preferences = new PlayerPreferencesStruct()
-            { enableTableAccessibility = true, gameList = [] };
-        
         _playerDataAccess.Setup(pda => pda.GetPlayer(callParam)).ReturnsAsync((Player?) null);
         PlayerService service = new PlayerService(_logger, _playerDataAccess.Object, _gameDataAccess.Object);
-        
-        await Assert.ThrowsAsync<DataNotFoundException>(() => service.SaveUserPreferences(callParam, preferences));
-        _playerDataAccess.Verify(pda => pda.GetPlayer(callParam), Times.Once);
+
+        await Assert.ThrowsAsync<DataNotFoundException>(
+            () => service.UpdateUserPreferences(callParam, new UpdatePreferencesBody(true, null, null, null)));
         _playerDataAccess.Verify(pda => pda.UpdatePlayer(It.IsAny<Player>()), Times.Never);
     }
 

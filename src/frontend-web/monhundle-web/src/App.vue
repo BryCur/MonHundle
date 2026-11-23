@@ -3,8 +3,10 @@ import { RouterLink, RouterView, useRoute } from 'vue-router';
 import LocaleSelector from '@/components/LocaleSelector.vue';
 import { paths } from '@/router';
 import NotificationCanvas from '@/components/Notification/NotificationCanvas.vue';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
+const { t } = useI18n();
 </script>
 
 <template>
@@ -12,10 +14,10 @@ const route = useRoute();
     <header v-if="!route.meta.bare">
         <div class="wrapper">
             <nav class="navigation">
-                <RouterLink :to="paths.unlimited">Unlimited</RouterLink>
-                <RouterLink :to="paths.daily">Daily Challenge</RouterLink>
-                <RouterLink :to="paths.about">About</RouterLink>
-                <RouterLink :to="paths.settings">Settings</RouterLink>
+                <RouterLink :to="paths.unlimited">{{ t('ui.navigation.unlimited') }}</RouterLink>
+                <RouterLink :to="paths.daily">{{ t('ui.navigation.daily') }}</RouterLink>
+                <RouterLink :to="paths.about">{{ t('ui.navigation.about') }}</RouterLink>
+                <RouterLink :to="paths.settings">{{ t('ui.navigation.settings') }}</RouterLink>
             </nav>
             <div class="lang-select">
                 <LocaleSelector></LocaleSelector>
@@ -28,11 +30,13 @@ const route = useRoute();
     </div>
     <footer>
         <div class="footer-disclaimer">
-            Unofficial fan project - Monster Hunter is a trademark of Capcom Co., Ltd.
+            {{ t('ui.footer.disclaimer') }}
         </div>
 
         <div class="footer-main">
-            <span>Made with ❤️ by <a href="https://github.com/BryCur">Corbac</a></span>
+            <i18n-t keypath="ui.footer.madeBy" tag="span">
+                <template #author><a href="https://github.com/BryCur">Corbac</a></template>
+            </i18n-t>
         </div>
 
         <div class="game-version">

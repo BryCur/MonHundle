@@ -5,7 +5,7 @@ import type { MonsterComparisonResult } from '@/domain/generated/models/MonsterC
 import type { MonsterCriteriaDTO } from '@/domain/generated/models/MonsterCriteriaDTO';
 import type { MonsterGuessDTO } from '@/domain/generated/models/MonsterGuessDTO';
 import type { PlayerProfileResponse } from '@/domain/generated/response/objects/PlayerProfileResponse';
-import type { UserPreferencesBody } from '@/domain/generated/request-params/UserPreferencesBody';
+import type { UpdatePreferencesBody } from '@/domain/generated/request-params/UpdatePreferencesBody';
 
 // --- Enums (real runtime objects) and the registry of their names, used to build translation keys ---
 export { Afflictions } from '@/domain/generated/enum/Afflictions';
@@ -24,7 +24,7 @@ export type ComparisonResult = MonsterComparisonResult;
 
 // --- Request and response payloads, under their front-end names ---
 export type SettingsResponse = PlayerProfileResponse;
-export type UserSettingsBody = UserPreferencesBody;
+export type UpdateSettingsBody = UpdatePreferencesBody;
 export type { GameStateResponse } from '@/domain/generated/response/objects/GameStateResponse';
 export type { GuessResponse } from '@/domain/generated/response/objects/GuessResponse';
 export type { MakeGuessBody } from '@/domain/generated/request-params/MakeGuessBody';

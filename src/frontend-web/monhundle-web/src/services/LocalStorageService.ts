@@ -1,6 +1,5 @@
 export enum LocalStorageKeys {
-    GAME_LIST = 'gameList',
-    TABLE_VISUAL_ACCESSIBILITY = 'enableTableVisualA11y',
+    SETTINGS = 'monhundle_settings',
     USER_ID = 'user_id',
 }
 
