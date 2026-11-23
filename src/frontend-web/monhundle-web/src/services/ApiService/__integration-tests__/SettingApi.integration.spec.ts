@@ -42,14 +42,14 @@ describe('SettingsApi.updateSettings (integration)', () => {
     it('sends every field, mapping the language to preferredLanguage', async () => {
         await new SettingsApi().updateSettings({
             language: 'fr',
-            theme: 'classic',
+            theme: 'classic-dark',
             gameList: SAMPLE_GAME_TITLES,
             tableVisualAid: false,
         });
 
         expect(capturedBody).toEqual({
             preferredLanguage: 'fr',
-            theme: 'classic',
+            theme: 'classic-dark',
             gameList: SAMPLE_GAME_TITLES,
             tableVisualAid: false,
         } satisfies UpdateSettingsBody);

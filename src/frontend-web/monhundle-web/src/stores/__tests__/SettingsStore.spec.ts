@@ -7,7 +7,7 @@ import { useSettingsStore } from '@/stores/SettingsStore';
 
 const SETTINGS: Settings = {
     language: 'fr',
-    theme: 'classic',
+    theme: 'classic-dark',
     gameList: ['MHW', 'MHR'],
     tableVisualAid: true,
 };
@@ -47,7 +47,7 @@ describe('SettingsStore', () => {
 
             store.update({ theme: undefined });
 
-            expect(store.theme).toBe('classic');
+            expect(store.theme).toBe('classic-dark');
         });
 
         it('sets a field back to null', () => {

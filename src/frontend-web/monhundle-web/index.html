@@ -5,6 +5,19 @@
         <link rel="icon" href="unknown.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MonHundle</title>
+        <script>
+            // applies the stored theme before the first paint, to avoid a flash of the default one
+            // while the app starts.
+            // Key: LocalStorageKeys.SETTINGS.
+            try {
+                var storedSettings = JSON.parse(localStorage.getItem('monhundle_settings'));
+                if (storedSettings && typeof storedSettings.theme === 'string') {
+                    document.documentElement.dataset.theme = storedSettings.theme;
+                }
+            } catch (err) {
+                // unreadable storage or settings: the default theme applies
+            }
+        </script>
     </head>
     <body>
         <div id="app"></div>

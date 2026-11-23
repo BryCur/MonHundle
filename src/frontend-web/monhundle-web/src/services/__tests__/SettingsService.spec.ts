@@ -7,6 +7,7 @@ import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { UnexpectedApiError } from '@/domain/errors/UnexpectedApiError';
 import { CookieKeys, clearCookies, getCookie, setCookie } from '@/services/CookieService';
+import { DEFAULT_THEME } from '@/domain/Theme';
 import { SettingsService } from '@/services/SettingsService';
 import { useSettingsStore, type SettingsStore } from '@/stores/SettingsStore';
 
@@ -17,7 +18,7 @@ function createProfile(overrides: Partial<SettingsResponse> = {}): SettingsRespo
         preferences: {
             gameList: ['MHWilds'],
             tableVisualAid: true,
-            theme: 'classic',
+            theme: 'classic-dark',
             preferredLanguage: 'fr',
         },
         currentDailyGameUuid: null,
@@ -47,6 +48,7 @@ describe('SettingsService', () => {
         };
         locale = ref('');
         document.documentElement.lang = '';
+        delete document.documentElement.dataset.theme;
         clearCookies();
     });
 
@@ -60,13 +62,13 @@ describe('SettingsService', () => {
             const service = new SettingsService(store, api, locale);
 
             service.setLanguage('fr');
-            service.setTheme('classic');
+            service.setTheme('classic-dark');
             service.setGameList(['MHW', 'MHR']);
             service.setTableVisualAid(true);
 
             expect(store.$state).toEqual({
                 language: 'fr',
-                theme: 'classic',
+                theme: 'classic-dark',
                 gameList: ['MHW', 'MHR'],
                 tableVisualAid: true,
             });
@@ -74,7 +76,7 @@ describe('SettingsService', () => {
 
         it('can set the language and the theme back to no explicit choice', () => {
             const service = new SettingsService(store, api, locale);
-            store.update({ language: 'fr', theme: 'classic' });
+            store.update({ language: 'fr', theme: 'classic-dark' });
 
             service.setLanguage(null);
             service.setTheme(null);
@@ -231,7 +233,7 @@ describe('SettingsService', () => {
 
             expect(store.$state).toEqual({
                 language: 'fr',
-                theme: 'classic',
+                theme: 'classic-dark',
                 gameList: ['MHWilds'],
                 tableVisualAid: true,
             });
@@ -262,7 +264,7 @@ describe('SettingsService', () => {
                         },
                     }),
                 );
-                store.update({ language: 'en', theme: 'classic' });
+                store.update({ language: 'en', theme: 'classic-dark' });
                 const service = new SettingsService(store, api, locale);
 
                 await service.loadProfile(TARGET_UUID);
@@ -328,6 +330,34 @@ describe('SettingsService', () => {
             await service.loadProfile(TARGET_UUID);
 
             expect(api.updateSettings).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('theme', () => {
+        // with a single registered theme, a change of the *applied* theme can't be observed yet:
+        // only the application at creation and the resolution are covered for now
+        it('applies the default theme to the page as soon as the service is created', () => {
+            new SettingsService(store, api, locale);
+
+            expect(document.documentElement.dataset.theme).toBe(DEFAULT_THEME);
+        });
+
+        it('applies the chosen theme to the page', () => {
+            store.update({ theme: 'classic-dark' });
+
+            new SettingsService(store, api, locale);
+
+            expect(document.documentElement.dataset.theme).toBe('classic-dark');
+        });
+
+        it('getCurrentTheme returns the chosen theme, or the default one', () => {
+            const service = new SettingsService(store, api, locale);
+            expect(service.getCurrentTheme()).toBe(DEFAULT_THEME);
+
+            service.setTheme('classic-dark');
+
+            expect(service.getCurrentTheme()).toBe('classic-dark');
+            expect(store.theme).toBe('classic-dark');
         });
     });
 

@@ -1,6 +1,6 @@
 /*
- * palette: the raw colours shared by several tokens below.
- * Components never read these directly, only the semantic tokens.
+ * palette: the raw colours shared by the themes (see ./themes/).
+ * Components never read these directly, only the semantic tokens defined by the themes.
  */
 :root {
     --palette-brown-900: #3f2502;
@@ -15,69 +15,6 @@
     --palette-warning-yellow-highlight: #684d01;
     --palette-error-red: #a32020;
     --palette-error-red-highlight: #710303;
-}
-
-/*
- * semantic tokens: what the components read. A theme restyles the app by overriding them.
- */
-:root {
-    /* page */
-    --color-background: var(--palette-brown-900);
-    --color-text: var(--palette-grey-100);
-    --color-text-muted: #aaa;
-    --color-border: rgba(84, 84, 84, 0.48);
-    --color-error: var(--palette-error-red);
-
-    /* links */
-    --color-link: var(--palette-orange-400);
-    --color-link-hover-bg: hsla(34, 90%, 53%, 0.2);
-
-    /* game table: guess results */
-    --color-result-correct: #086b05;
-    --color-result-partial: #6d5b0a;
-    --color-result-incorrect: #6d0d0d;
-    --color-result-arrow: #2c0000;
-
-    /* game table: visual accessibility aid (textures and separators) */
-    --color-a11y-texture-light: rgba(255, 255, 255, 0.1);
-    --color-a11y-texture-dark: rgba(0, 0, 0, 0.2);
-    --color-a11y-separator: black;
-
-    /* text inputs and their dropdown (monster selector) */
-    --color-input-bg: #222;
-    --color-input-text: #f5f5f5;
-    --color-input-placeholder: #888;
-    --color-input-border: #444;
-    --color-input-hover-bg: #3d3d3d;
-    --color-dropdown-bg: #181818;
-    --color-option-highlight-bg: #333;
-    --color-option-selected-bg: #2d3a5c;
-    --shadow-dropdown: 0 8px 18px rgba(0, 0, 0, 0.6);
-
-    /* selectable cards (game selection) */
-    --color-card-list-bg: #1a1a1a;
-    --color-card-bg: #2a2a2a;
-    --color-card-hover-bg: #353535;
-    --color-card-text: #f0f0f0;
-    --color-card-selected-bg: #5a5a5a;
-    --color-card-selected-text: white;
-    --shadow-card-selected: 0 0 10px rgba(74, 140, 255, 0.5);
-
-    /* notifications: light text on saturated backgrounds */
-    --color-notification-text: var(--palette-grey-100);
-    --color-notification-success-bg: var(--palette-success-green);
-    --color-notification-success-highlight: var(--palette-success-green-highlight);
-    --color-notification-info-bg: var(--palette-info-blue);
-    --color-notification-info-highlight: var(--palette-info-blue-highlight);
-    --color-notification-warning-bg: var(--palette-warning-yellow);
-    --color-notification-warning-highlight: var(--palette-warning-yellow-highlight);
-    --color-notification-error-bg: var(--palette-error-red);
-    --color-notification-error-highlight: var(--palette-error-red-highlight);
-    --notification-radius: 6px;
-    --notification-shadow: 6px 6px 12px rgba(0, 0, 0, 0.333);
-
-    /* assets */
-    --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
 }
 
 *,

@@ -2,7 +2,7 @@ import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import type ISettingApi from '@/domain/interfaces/api-contracts/ISettingApi';
 import type ISettingsService from '@/domain/interfaces/services/ISettingsService';
 import { isSupportedLocale, resolveLocale, type SupportedLocale } from '@/domain/Settings';
-import { isThemeId, type ThemeId } from '@/domain/Theme';
+import { isThemeId, resolveTheme, type ThemeId } from '@/domain/Theme';
 import { msUntilMidnightUTC } from '@/domain/Utils';
 import { CookieKeys, deleteCookie, setCookie } from '@/services/CookieService';
 import { type SettingsStore } from '@/stores/SettingsStore';
@@ -23,6 +23,16 @@ export class SettingsService implements ISettingsService {
             (resolved) => {
                 this.i18nLocale.value = resolved;
                 document.documentElement.lang = resolved;
+            },
+            { immediate: true },
+        );
+
+        // the stylesheet of the theme applies through this attribute (see src/assets/themes/);
+        // index.html already sets it before the first paint, this keeps it in sync afterwards
+        watch(
+            () => this.getCurrentTheme(),
+            (resolved) => {
+                document.documentElement.dataset.theme = resolved;
             },
             { immediate: true },
         );
@@ -88,5 +98,9 @@ export class SettingsService implements ISettingsService {
 
     public getCurrentLanguage(): SupportedLocale {
         return resolveLocale(this.settingsStore.language, navigator.languages);
+    }
+
+    public getCurrentTheme(): ThemeId {
+        return resolveTheme(this.settingsStore.theme);
     }
 }

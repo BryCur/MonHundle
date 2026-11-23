@@ -10,4 +10,5 @@ export default interface ISettingsService {
     saveToProfile: () => Promise<void>;
     loadProfile: (targetUuid: string) => Promise<void>;
     getCurrentLanguage: () => SupportedLocale;
+    getCurrentTheme: () => ThemeId;
 }

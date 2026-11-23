@@ -8,7 +8,7 @@ const LEGACY_TABLE_VISUAL_AID_KEY = 'enableTableVisualA11y';
 
 const SETTINGS: Settings = {
     language: 'fr',
-    theme: 'classic',
+    theme: 'classic-dark',
     gameList: ['MHW', 'MHR'],
     tableVisualAid: true,
 };

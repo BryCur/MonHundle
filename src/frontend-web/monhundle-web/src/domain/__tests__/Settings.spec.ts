@@ -6,7 +6,7 @@ import {
     resolveLocale,
     SUPPORTED_LOCALES,
 } from '@/domain/Settings';
-import { isThemeId } from '@/domain/Theme';
+import { DEFAULT_THEME, isThemeId, resolveTheme, THEME_IDS } from '@/domain/Theme';
 
 describe('isSupportedLocale', () => {
     it.each(['en', 'fr'])('accepts a supported locale (%s)', (value) => {
@@ -23,10 +23,10 @@ describe('isSupportedLocale', () => {
 
 describe('isThemeId', () => {
     it('accepts a registered theme', () => {
-        expect(isThemeId('classic')).toBe(true);
+        expect(isThemeId('classic-dark')).toBe(true);
     });
 
-    it.each(['', 'dark', 'Classic', null, undefined, 1])(
+    it.each(['', 'dark', 'classic', 'Classic-Dark', null, undefined, 1])(
         'rejects an unknown value (%s)',
         (value) => {
             expect(isThemeId(value)).toBe(false);
@@ -89,5 +89,19 @@ describe('LOCALE_NATIVE_NAMES', () => {
         for (const locale of SUPPORTED_LOCALES) {
             expect(LOCALE_NATIVE_NAMES[locale]).toBeTruthy();
         }
+    });
+});
+
+describe('resolveTheme', () => {
+    it('keeps an explicit choice', () => {
+        expect(resolveTheme('classic-dark')).toBe('classic-dark');
+    });
+
+    it('falls back to the default theme without an explicit choice', () => {
+        expect(resolveTheme(null)).toBe(DEFAULT_THEME);
+    });
+
+    it('has a registered default theme', () => {
+        expect(THEME_IDS).toContain(DEFAULT_THEME);
     });
 });
