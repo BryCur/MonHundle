@@ -24,7 +24,10 @@ describe('Theme', () => {
     it('applies the stored theme before the app starts', () => {
         // the app never starts: only the inline script of index.html can set the attribute.
         // An id the app doesn't know is used, as the app would replace it with the default one.
-        cy.intercept('GET', '**/src/main.ts*', { statusCode: 404 }).as('appBundle');
+        // entry module: /src/main.ts on the dev server, /assets/index-<hash>.js in a production build
+        cy.intercept('GET', /\/(src\/main\.ts|assets\/index-[^/]+\.js)(\?.*)?$/, {
+            statusCode: 404,
+        }).as('appBundle');
 
         visitWithStoredTheme('some-future-theme');
 
