@@ -39,15 +39,6 @@ export class LocalSettingsStorage implements ISettingsStorage {
         }
     }
 
-    public clear(): void {
-        try {
-            localStorage.removeItem(LocalStorageKeys.SETTINGS);
-            this.removeLegacyKeys();
-        } catch (err) {
-            console.warn('could not clear the stored settings', err);
-        }
-    }
-
     private parseStored(stored: string): Settings {
         const parsed = this.parseJson(stored);
 

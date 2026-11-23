@@ -193,28 +193,4 @@ describe('LocalSettingsStorage', () => {
             );
         });
     });
-
-    describe('clear', () => {
-        it('removes the settings and the legacy keys but keeps the user id', () => {
-            storage.save(SETTINGS);
-            localStorage.setItem(LEGACY_GAME_LIST_KEY, JSON.stringify(['MHW']));
-            localStorage.setItem(LEGACY_TABLE_VISUAL_AID_KEY, 'true');
-            localStorage.setItem(LocalStorageKeys.USER_ID, 'user-1');
-
-            storage.clear();
-
-            expect(localStorage.getItem(LocalStorageKeys.SETTINGS)).toBeNull();
-            expect(localStorage.getItem(LEGACY_GAME_LIST_KEY)).toBeNull();
-            expect(localStorage.getItem(LEGACY_TABLE_VISUAL_AID_KEY)).toBeNull();
-            expect(localStorage.getItem(LocalStorageKeys.USER_ID)).toBe('user-1');
-        });
-
-        it('swallows errors when localStorage removals fail', () => {
-            vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
-                throw new Error('storage disabled');
-            });
-
-            expect(() => storage.clear()).not.toThrow();
-        });
-    });
 });

@@ -103,7 +103,6 @@ describe('SettingsStore', () => {
             storage = {
                 load: vi.fn(() => structuredClone(SETTINGS)),
                 save: vi.fn(),
-                clear: vi.fn(),
             };
         });
 

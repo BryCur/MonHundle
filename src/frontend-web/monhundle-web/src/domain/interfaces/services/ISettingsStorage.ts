@@ -12,9 +12,4 @@ export default interface ISettingsStorage {
      * @param settings settings to persist, replacing the stored ones
      */
     save: (settings: Settings) => void;
-
-    /**
-     * Removes every persisted setting.
-     */
-    clear: () => void;
 }
