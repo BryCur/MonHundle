@@ -12,7 +12,7 @@
 
 a {
     text-decoration: none;
-    color: var(--dark-link-color);
+    color: var(--color-link);
     transition: 0.4s;
     padding: 3px;
 }
@@ -24,7 +24,7 @@ a {
 
 @media (hover: hover) {
     a:hover {
-        background-color: hsla(34, 90%, 53%, 0.2);
+        background-color: var(--color-link-hover-bg);
     }
 }
 

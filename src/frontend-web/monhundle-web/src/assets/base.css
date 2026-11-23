@@ -1,95 +1,83 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/*
+ * palette: the raw colours shared by several tokens below.
+ * Components never read these directly, only the semantic tokens.
+ */
 :root {
-    --light-bg: #ffffff;
-    --light-bg-soft: #f8f8f8;
-    --light-bg-mute: #f2f2f2;
-    --light-text-color: rgb(39, 25, 0);
-    --light-link-color: #744911;
+    --palette-brown-900: #3f2502;
+    --palette-grey-100: rgb(231, 231, 231);
+    --palette-orange-400: #e49a38;
 
-    --dark-bg: #3f2502;
-    --dark-bg-soft: #472a05;
-    --dark-bg-mute: #3f2502;
-    --dark-text-color: rgb(231, 231, 231);
-    --dark-link-color: #e49a38;
-
-    --vt-c-indigo: #2c3e50;
-
-    --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-    --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-    --vt-c-txt-lighte-1: var(--vt-c-indigo);
-    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-    --vt-c-text-dark-1: var(--light-bg);
-    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-
-    --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
-
-    --bg-incorrect: #6d0d0d;
-    --bg-partial: #6d5b0a;
-    --bg-correct: #086b05;
-
-    --info-blue: #0b648a;
-    --info-blue-highlight: #0a4761;
-    --success-green: #0b7907;
-    --success-green-highlight: #075204;
-    --warning-yellow: #7d5c00;
-    --warning-yellow-highlight: #684d01;
-    --error-red: #a32020;
-    --error-red-highlight: #710303;
-}
-
-/* semantic color variables for this project */
-:root {
-    --color-background: var(--light-bg);
-    --color-background-soft: var(--light-bg-soft);
-    --color-background-mute: var(--light-bg-mute);
-
-    --color-border: var(--vt-c-divider-light-2);
-    --color-border-hover: var(--vt-c-divider-light-1);
-
-    --color-heading: var(--vt-c-text-light-1);
-    --color-text: var(--vt-c-text-light-1);
-
-    --section-gap: 160px;
-
-    --incorrect-arrow: #2c0000;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: var(--dark-bg);
-        --color-background-soft: var(--dark-bg-soft);
-        --color-background-mute: var(--dark-bg-mute);
-
-        --color-border: var(--vt-c-divider-dark-2);
-        --color-border-hover: var(--vt-c-divider-dark-1);
-
-        --color-heading: var(--vt-c-text-dark-1);
-        --color-text: var(--dark-text-color);
-    }
+    --palette-info-blue: #0b648a;
+    --palette-info-blue-highlight: #0a4761;
+    --palette-success-green: #0b7907;
+    --palette-success-green-highlight: #075204;
+    --palette-warning-yellow: #7d5c00;
+    --palette-warning-yellow-highlight: #684d01;
+    --palette-error-red: #a32020;
+    --palette-error-red-highlight: #710303;
 }
 
 /*
- * notification tokens: the notification components only read these variables,
- * a theme restyles the notifications by overriding them (no dark-mode block needed:
- * light text on saturated backgrounds stays readable on both light and dark pages)
+ * semantic tokens: what the components read. A theme restyles the app by overriding them.
  */
 :root {
-    --color-notification-text: var(--dark-text-color);
+    /* page */
+    --color-background: var(--palette-brown-900);
+    --color-text: var(--palette-grey-100);
+    --color-text-muted: #aaa;
+    --color-border: rgba(84, 84, 84, 0.48);
+    --color-error: var(--palette-error-red);
 
-    --color-notification-success-bg: var(--success-green);
-    --color-notification-success-highlight: var(--success-green-highlight);
-    --color-notification-info-bg: var(--info-blue);
-    --color-notification-info-highlight: var(--info-blue-highlight);
-    --color-notification-warning-bg: var(--warning-yellow);
-    --color-notification-warning-highlight: var(--warning-yellow-highlight);
-    --color-notification-error-bg: var(--error-red);
-    --color-notification-error-highlight: var(--error-red-highlight);
+    /* links */
+    --color-link: var(--palette-orange-400);
+    --color-link-hover-bg: hsla(34, 90%, 53%, 0.2);
 
+    /* game table: guess results */
+    --color-result-correct: #086b05;
+    --color-result-partial: #6d5b0a;
+    --color-result-incorrect: #6d0d0d;
+    --color-result-arrow: #2c0000;
+
+    /* game table: visual accessibility aid (textures and separators) */
+    --color-a11y-texture-light: rgba(255, 255, 255, 0.1);
+    --color-a11y-texture-dark: rgba(0, 0, 0, 0.2);
+    --color-a11y-separator: black;
+
+    /* text inputs and their dropdown (monster selector) */
+    --color-input-bg: #222;
+    --color-input-text: #f5f5f5;
+    --color-input-placeholder: #888;
+    --color-input-border: #444;
+    --color-input-hover-bg: #3d3d3d;
+    --color-dropdown-bg: #181818;
+    --color-option-highlight-bg: #333;
+    --color-option-selected-bg: #2d3a5c;
+    --shadow-dropdown: 0 8px 18px rgba(0, 0, 0, 0.6);
+
+    /* selectable cards (game selection) */
+    --color-card-list-bg: #1a1a1a;
+    --color-card-bg: #2a2a2a;
+    --color-card-hover-bg: #353535;
+    --color-card-text: #f0f0f0;
+    --color-card-selected-bg: #5a5a5a;
+    --color-card-selected-text: white;
+    --shadow-card-selected: 0 0 10px rgba(74, 140, 255, 0.5);
+
+    /* notifications: light text on saturated backgrounds */
+    --color-notification-text: var(--palette-grey-100);
+    --color-notification-success-bg: var(--palette-success-green);
+    --color-notification-success-highlight: var(--palette-success-green-highlight);
+    --color-notification-info-bg: var(--palette-info-blue);
+    --color-notification-info-highlight: var(--palette-info-blue-highlight);
+    --color-notification-warning-bg: var(--palette-warning-yellow);
+    --color-notification-warning-highlight: var(--palette-warning-yellow-highlight);
+    --color-notification-error-bg: var(--palette-error-red);
+    --color-notification-error-highlight: var(--palette-error-red-highlight);
     --notification-radius: 6px;
     --notification-shadow: 6px 6px 12px rgba(0, 0, 0, 0.333);
+
+    /* assets */
+    --icon-source: url('https://monhundlestorage.blob.core.windows.net/icon-sheets/26x26_afflictions_elem_sprites.png');
 }
 
 *,

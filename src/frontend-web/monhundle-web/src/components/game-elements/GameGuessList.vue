@@ -276,24 +276,24 @@ const hasGuesses = computed<boolean>(() => {
 }
 
 .result-correct {
-    background-color: var(--bg-correct);
+    background-color: var(--color-result-correct);
 }
 
 .result-partial {
-    background-color: var(--bg-partial);
+    background-color: var(--color-result-partial);
 }
 
 .result-incorrect,
 .result-higher,
 .result-lower {
-    background-color: var(--bg-incorrect);
+    background-color: var(--color-result-incorrect);
 }
 
 .accessibility-partial {
     background-image: radial-gradient(
         circle at center,
         transparent 3px,
-        rgba(255, 255, 255, 0.1) 1px
+        var(--color-a11y-texture-light) 1px
     );
     background-size: 10px 10px;
 }
@@ -302,8 +302,18 @@ const hasGuesses = computed<boolean>(() => {
 .accessibility-higher,
 .accessibility-lower {
     background-image:
-        repeating-linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.2), transparent 5px 33%),
-        repeating-linear-gradient(-45deg, transparent, rgba(0, 0, 0, 0.2), transparent 5px 33%);
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            var(--color-a11y-texture-dark),
+            transparent 5px 33%
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            var(--color-a11y-texture-dark),
+            transparent 5px 33%
+        );
 }
 
 .guess-table {
@@ -336,7 +346,7 @@ const hasGuesses = computed<boolean>(() => {
         overflow: hidden;
 
         &.accessibility-on {
-            border-left: 0.3rem black solid;
+            border-left: 0.3rem var(--color-a11y-separator) solid;
         }
 
         .guess-table-cell {
@@ -345,7 +355,7 @@ const hasGuesses = computed<boolean>(() => {
             overflow-wrap: break-word;
 
             &.accessibility-on {
-                border-top: 0.3rem black solid;
+                border-top: 0.3rem var(--color-a11y-separator) solid;
             }
 
             :first-child {
@@ -407,7 +417,7 @@ const hasGuesses = computed<boolean>(() => {
             display: block; /* assurer le rendu */
             pointer-events: none; /* ne pas capter les clics */
             z-index: 2;
-            background: var(--incorrect-arrow);
+            background: var(--color-result-arrow);
             opacity: 1; /*  pour ne pas gêner la lisibilité du texte */
             z-index: 0; /* derrière le texte */
         }
@@ -446,7 +456,7 @@ const hasGuesses = computed<boolean>(() => {
             grid-template-columns: minmax(120px, 2fr) repeat(6, minmax(60px, 2fr));
 
             &.accessibility-on {
-                border-top: 0.3rem black solid;
+                border-top: 0.3rem var(--color-a11y-separator) solid;
                 border-left: none;
             }
 
@@ -455,7 +465,7 @@ const hasGuesses = computed<boolean>(() => {
 
                 &.accessibility-on {
                     border-top: none;
-                    border-left: 0.3rem black solid;
+                    border-left: 0.3rem var(--color-a11y-separator) solid;
                 }
             }
 

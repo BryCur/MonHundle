@@ -275,7 +275,7 @@ function onUuidInput() {
         }
 
         .invalid {
-            border: 2px solid var(--error-red);
+            border: 2px solid var(--color-error);
         }
 
         .setting-description {
@@ -288,8 +288,8 @@ function onUuidInput() {
             grid-column: span 2;
             font-size: 0.9rem;
             padding: 0 1rem;
-            color: var(--error-red);
-            border-left: 3px solid var(--error-red);
+            color: var(--color-error);
+            border-left: 3px solid var(--color-error);
         }
     }
 }
