@@ -889,6 +889,9 @@
             "disclaimer": "Unofficial fan project - Monster Hunter is a trademark of Capcom Co., Ltd.",
             "madeBy": "Made with ❤️ by {author}"
         },
+        "theme": {
+            "classic-dark": "Classic dark"
+        },
         "placeholder": {
             "monsterSelector": "Select a monster..."
         },
@@ -976,6 +979,10 @@
                 "language": {
                     "label": "Language",
                     "description": "The application uses your browser language by default."
+                },
+                "theme": {
+                    "label": "Theme",
+                    "description": "Changes the appearance of the application."
                 },
                 "visualAccessibility": {
                     "label": "Enable table visual accessibility",

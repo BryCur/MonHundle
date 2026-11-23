@@ -153,6 +153,13 @@ describe('SettingView displayed settings', () => {
 
         expect(useSettingsStore().language).toBe('fr');
     });
+
+    it('hides the theme selector while a single theme is registered', async () => {
+        const wrapper = await mountView();
+
+        expect(wrapper.find('#theme-select').exists()).toBe(false);
+        expect(wrapper.text()).not.toContain('ui.page.settings.theme.label');
+    });
 });
 
 describe('SettingView actions', () => {

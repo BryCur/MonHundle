@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import LocaleSelector from '@/components/LocaleSelector.vue';
+import ThemeSelector from '@/components/ThemeSelector.vue';
 import { BaseBlockingError } from '@/domain/errors/BlockingError/BaseBlockingError';
 import { LoadFailedError } from '@/domain/errors/NotifiedError/LoadFailedError';
 import { NotificationTypes } from '@/domain/Notification';
+import { THEME_IDS } from '@/domain/Theme';
 import { isUUID } from '@/domain/Utils';
 import { injectStrict, notificationEmitterKey, settingsServiceKey } from '@/injectionKeyRegistry';
 import { paths } from '@/router';
@@ -169,6 +171,12 @@ function onUuidInput() {
             <span class="setting-description">{{
                 t('ui.page.settings.language.description')
             }}</span>
+        </div>
+        <!-- hidden while there is nothing to choose from; shows up with the second theme -->
+        <div v-if="THEME_IDS.length > 1" class="setting-line">
+            <label for="theme-select">{{ t('ui.page.settings.theme.label') }}</label>
+            <ThemeSelector id="theme-select" :disabled="isWorking"></ThemeSelector>
+            <span class="setting-description">{{ t('ui.page.settings.theme.description') }}</span>
         </div>
         <div class="setting-line">
             <label>{{ t('ui.page.settings.visualAccessibility.label') }}</label>
