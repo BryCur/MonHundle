@@ -15,6 +15,7 @@ const searchInput = ref<string | undefined>('');
 const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
+const monsterOptionDropdown = ref<HTMLElement | null>(null);
 
 const filteredItems = computed(() => {
     if (searchInput.value === undefined || !searchInput.value.trim()) {
@@ -27,6 +28,16 @@ const filteredItems = computed(() => {
         .filter((code) => getMonsterLabel(code).toLowerCase().includes(term))
         .sort((a, b) => (getMonsterLabel(a) > getMonsterLabel(b) ? 1 : -1));
 });
+
+// garde l'option en surbrillance visible dans la liste (navigation clavier, ouverture sur la sélection)
+watch(
+    highlightedIndex,
+    (index) => {
+        if (index < 0) return;
+        monsterOptionDropdown.value?.children[index]?.scrollIntoView({ block: 'nearest' });
+    },
+    { flush: 'post' },
+);
 
 function getMonsterLabel(code: string): string {
     return t(`game.monster.${code}.name`);
@@ -166,6 +177,7 @@ watch(
                     :placeholder="t('ui.placeholder.monsterSelector')"
                     @focus="onInputFocus"
                     @keydown="onKeydown"
+                    @input="highlightedIndex = filteredItems.length > 0 ? 0 : -1"
                 />
 
                 <button
@@ -181,12 +193,17 @@ watch(
         </div>
 
         <!-- dropdown -->
-        <div v-if="isDropdownOpen" class="monster-option-list">
+        <div v-if="isDropdownOpen" class="monster-option-list" ref="monsterOptionDropdown">
             <button
-                v-for="monsterCode in filteredItems"
+                v-for="(monsterCode, index) in filteredItems"
                 :key="monsterCode"
                 class="monster-option"
+                :class="{
+                    'is-highlighted': index === highlightedIndex,
+                    'is-selected': monsterCode === model,
+                }"
                 @click="selectValue(monsterCode)"
+                @mousemove="highlightedIndex = index"
             >
                 <img
                     class="monster-option-icon"
@@ -299,14 +316,15 @@ watch(
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-        }
 
-        .monster-select-option.is-highlighted {
-            background: var(--color-option-highlight-bg);
-        }
+            &.is-highlighted {
+                background: var(--color-option-highlight-bg);
+            }
 
-        .monster-select-option.is-selected {
-            background: var(--color-option-selected-bg);
+            &.is-selected {
+                box-shadow: inset 3px 0 0 var(--color-option-selected-accent);
+                font-weight: 600;
+            }
         }
 
         .monster-select-empty {

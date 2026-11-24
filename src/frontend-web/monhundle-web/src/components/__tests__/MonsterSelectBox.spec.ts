@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils';
-import { describe, expect, it, vi } from 'vitest';
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
 import { nextTick } from 'vue';
 
@@ -11,6 +11,19 @@ vi.mock('vue-i18n', () => ({
 }));
 
 const sampleMonsterList = ['nargacuga', 'zinogre', 'chatacabra'];
+
+// jsdom does not implement scrollIntoView, called by the component to keep the highlighted option visible
+const scrollIntoViewMock = vi.fn();
+
+beforeEach(() => {
+    Element.prototype.scrollIntoView = scrollIntoViewMock;
+});
+
+afterEach(() => {
+    scrollIntoViewMock.mockReset();
+    // @ts-expect-error restores jsdom's original state, where the method does not exist
+    delete Element.prototype.scrollIntoView;
+});
 
 describe('MonsterSelectBox', () => {
     it('should list monster of items prop', async () => {
@@ -211,5 +224,118 @@ describe('MonsterSelectBox', () => {
             'game.monster.nargacuga.name',
             'game.monster.zinogre.name',
         ]);
+    });
+
+    describe('highlight', () => {
+        function getSearchInput(wrapper: VueWrapper) {
+            return wrapper.find('input.monster-search-input');
+        }
+
+        function getHighlightedLabels(wrapper: VueWrapper): string[] {
+            return wrapper.findAll('.monster-option.is-highlighted').map((o) => o.text());
+        }
+
+        it('should highlight the first option when the dropdown opens without a selection', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' });
+            await flushPromises();
+
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.nargacuga.name']);
+        });
+
+        it('should move the highlight class along with the arrow keys', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // open, highlight -> 0
+            await flushPromises();
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // highlight -> 1
+
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.zinogre.name']);
+        });
+
+        it('should mark only the currently selected monster as selected', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList, modelValue: 'zinogre' },
+            });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('game.monster'); // matches every monster
+
+            const selectedLabels = wrapper
+                .findAll('.monster-option.is-selected')
+                .map((o) => o.text());
+            expect(selectedLabels).toEqual(['game.monster.zinogre.name']);
+        });
+
+        it('should reset the highlight to the first result when typing', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // open, highlight -> 0
+            await flushPromises();
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // highlight -> 1
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // highlight -> 2
+
+            await getSearchInput(wrapper).setValue('game.monster'); // sorted: chatacabra, nargacuga, zinogre
+
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.chatacabra.name']);
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+            expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
+        });
+
+        it('should highlight nothing, and select nothing on Enter, when the search matches nothing', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' });
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('does-not-exist');
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+
+            expect(getHighlightedLabels(wrapper)).toEqual([]);
+            expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        });
+
+        it('should move the highlight to the option under the mouse', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // open, highlight -> 0
+            await flushPromises();
+            await wrapper.findAll('.monster-option')[2]!.trigger('mousemove');
+
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.chatacabra.name']);
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+            expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
+        });
+
+        it('should scroll the highlighted option into view', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // open, highlight -> 0
+            await flushPromises();
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // highlight -> 1
+            await flushPromises();
+
+            const options = wrapper.findAll('.monster-option');
+            expect(scrollIntoViewMock.mock.contexts).toEqual([
+                options[0]!.element,
+                options[1]!.element,
+            ]);
+            expect(scrollIntoViewMock).toHaveBeenLastCalledWith({ block: 'nearest' });
+        });
     });
 });

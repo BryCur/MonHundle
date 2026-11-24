@@ -37,7 +37,7 @@
     --color-input-hover-bg: #3d3d3d;
     --color-dropdown-bg: #181818;
     --color-option-highlight-bg: #333;
-    --color-option-selected-bg: #2d3a5c;
+    --color-option-selected-accent: #036208;
     --shadow-dropdown: 0 8px 18px rgba(0, 0, 0, 0.6);
 
     /* selectable cards (game selection) */
