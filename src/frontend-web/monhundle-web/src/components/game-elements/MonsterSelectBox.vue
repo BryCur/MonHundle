@@ -80,7 +80,7 @@ function toggleOpen() {
     else open();
 }
 
-function onInputFocus() {
+function onInputClick() {
     if (!isDropdownOpen.value) {
         open();
     }
@@ -170,7 +170,7 @@ watch(
                     :placeholder="
                         model ? getMonsterLabel(model) : t('ui.placeholder.monsterSelector')
                     "
-                    @focus="onInputFocus"
+                    @click="onInputClick"
                     @keydown="onKeydown"
                     @input="
                         highlightedIndex = filteredItems.length > 0 ? 0 : -1;

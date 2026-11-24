@@ -495,5 +495,50 @@ describe('MonsterSelectBox', () => {
                 'game.monster.nargacuga.name',
             ]);
         });
+
+        it('should not open the list when the field only gets the focus', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            // e.g. Tab, or the focus given back by the game view after a guess
+            await getSearchInput(wrapper).trigger('focus');
+            await flushPromises();
+
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('game.monster.zinogre.name');
+        });
+
+        it('should open the list and empty the search when clicking the field with a selection', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await getSearchInput(wrapper).trigger('click');
+            await flushPromises();
+
+            expect(isListOpen(wrapper)).toBe(true);
+            expect(getSearchValue(wrapper)).toBe('');
+        });
+
+        it('should keep the typed search when clicking the field while the list is open', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await getSearchInput(wrapper).trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('narg');
+            // e.g. to move the caret within the typed text
+            await getSearchInput(wrapper).trigger('click');
+            await flushPromises();
+
+            expect(isListOpen(wrapper)).toBe(true);
+            expect(getSearchValue(wrapper)).toBe('narg');
+        });
+
+        it('should open the list and empty the search on ArrowDown with a selection', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' });
+            await flushPromises();
+
+            expect(isListOpen(wrapper)).toBe(true);
+            expect(getSearchValue(wrapper)).toBe('');
+        });
     });
 });
