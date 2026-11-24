@@ -338,4 +338,162 @@ describe('MonsterSelectBox', () => {
             expect(scrollIntoViewMock).toHaveBeenLastCalledWith({ block: 'nearest' });
         });
     });
+
+    describe('opening and closing', () => {
+        function getSearchInput(wrapper: VueWrapper) {
+            return wrapper.find('input.monster-search-input');
+        }
+
+        function getSearchValue(wrapper: VueWrapper): string {
+            return (getSearchInput(wrapper).element as HTMLInputElement).value;
+        }
+
+        function isListOpen(wrapper: VueWrapper): boolean {
+            return wrapper.find('.monster-option-list').exists();
+        }
+
+        // mimics a parent bound with v-model: the prop only changes once the parent sends it back
+        function mountWithVModel(modelValue?: string) {
+            const wrapper: VueWrapper = mount(MonsterSelectBox, {
+                props: {
+                    items: sampleMonsterList,
+                    modelValue,
+                    'onUpdate:modelValue': (value: string | undefined) =>
+                        wrapper.setProps({ modelValue: value }),
+                },
+            });
+            return wrapper;
+        }
+
+        it('should empty the search and list every monster when opening with a selection', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+
+            expect(getSearchValue(wrapper)).toBe('');
+            expect(wrapper.findAll('.monster-option').length).toBe(sampleMonsterList.length);
+        });
+
+        it('should highlight the selected monster and scroll to it when opening', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+
+            const highlighted = wrapper.find('.monster-option.is-highlighted');
+            expect(highlighted.text()).toBe('game.monster.zinogre.name');
+            expect(scrollIntoViewMock.mock.contexts.at(-1)).toBe(highlighted.element);
+        });
+
+        it('should show the selected monster as placeholder, or the default text without selection', () => {
+            const withSelection = mountWithVModel('zinogre');
+            const withoutSelection = mountWithVModel();
+
+            expect(getSearchInput(withSelection).attributes('placeholder')).toBe(
+                'game.monster.zinogre.name',
+            );
+            expect(getSearchInput(withoutSelection).attributes('placeholder')).toBe(
+                'ui.placeholder.monsterSelector',
+            );
+        });
+
+        it('should show the label of the picked monster with a v-model bound parent', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await wrapper.findAll('.monster-option')[0]!.trigger('click');
+            await flushPromises();
+
+            expect(wrapper.emitted('update:modelValue')).toEqual([['nargacuga']]);
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('game.monster.nargacuga.name');
+        });
+
+        it('should clear the typed search and close on Escape when nothing is selected', async () => {
+            const wrapper = mountWithVModel();
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('zino');
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Escape' });
+
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('');
+            expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        });
+
+        it('should restore the previous selection when the focus leaves the component', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('narg');
+            // click on a non-focusable area: the focus goes nowhere
+            await getSearchInput(wrapper).trigger('focusout', { relatedTarget: null });
+
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('game.monster.zinogre.name');
+            expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        });
+
+        it('should clear the typed search when the focus leaves the component without selection', async () => {
+            const wrapper = mountWithVModel();
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).setValue('zino');
+            // Tab: the focus goes to the next focusable element of the page
+            await getSearchInput(wrapper).trigger('focusout', {
+                relatedTarget: document.createElement('button'),
+            });
+
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('');
+        });
+
+        it('should stay open when the focus moves inside the component', async () => {
+            const wrapper = mountWithVModel();
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+            await getSearchInput(wrapper).trigger('focusout', {
+                relatedTarget: wrapper.find('.monster-option-list').element,
+            });
+
+            expect(isListOpen(wrapper)).toBe(true);
+        });
+
+        it('should keep the focus in the field when pressing an option or the toggle', async () => {
+            const wrapper = mountWithVModel();
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await flushPromises();
+
+            const pressedElements = [
+                wrapper.find('.monster-select-toggle').element,
+                wrapper.find('.monster-option').element,
+            ];
+            for (const element of pressedElements) {
+                // dispatchEvent returns false when a listener called preventDefault
+                const notPrevented = element.dispatchEvent(
+                    new MouseEvent('mousedown', { bubbles: true, cancelable: true }),
+                );
+                expect(notPrevented).toBe(false);
+            }
+        });
+
+        it('should reopen the list on the typed search when editing a selection', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            // closed, the field shows the selection: the player edits it without reopening first
+            await getSearchInput(wrapper).setValue('narg');
+
+            expect(isListOpen(wrapper)).toBe(true);
+            expect(wrapper.findAll('.monster-option.is-highlighted').map((o) => o.text())).toEqual([
+                'game.monster.nargacuga.name',
+            ]);
+        });
+    });
 });

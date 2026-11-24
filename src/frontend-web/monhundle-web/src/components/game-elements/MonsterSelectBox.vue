@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -11,14 +11,14 @@ const props = defineProps<{
 
 const model = defineModel<string>(); // v-model value
 const isDropdownOpen = ref(false);
-const searchInput = ref<string | undefined>('');
+const searchInput = ref<string>('');
 const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 const monsterOptionDropdown = ref<HTMLElement | null>(null);
 
 const filteredItems = computed(() => {
-    if (searchInput.value === undefined || !searchInput.value.trim()) {
+    if (!searchInput.value.trim()) {
         return props.items;
     }
 
@@ -45,6 +45,7 @@ function getMonsterLabel(code: string): string {
 
 function open() {
     isDropdownOpen.value = true;
+    searchInput.value = '';
 
     // Met le highlight sur l’élément sélectionné ou le premier résultat
     nextTick(() => {
@@ -63,14 +64,15 @@ function open() {
     });
 }
 
-function close() {
+function close(selectedCode: string | undefined = model.value) {
     isDropdownOpen.value = false;
+    highlightedIndex.value = -1;
+    searchInput.value = selectedCode ? getMonsterLabel(selectedCode) : '';
 }
 
 function selectValue(monsterCode: string) {
     model.value = monsterCode;
-    searchInput.value = getMonsterLabel(monsterCode);
-    close();
+    close(monsterCode);
 }
 
 function toggleOpen() {
@@ -84,14 +86,14 @@ function onInputFocus() {
     }
 }
 
-function onClickOutside(event: MouseEvent) {
-    if (!containerRef.value) return;
-    if (!containerRef.value.contains(event.target as Node)) {
-        if (model.value !== undefined) {
-            selectValue(model.value);
-        } else {
-            close();
-        }
+function onFocusOut(event: FocusEvent) {
+    // le focus reste dans le composant (ex : la liste) : rien à faire
+    if (containerRef.value?.contains(event.relatedTarget as Node)) {
+        return;
+    }
+
+    if (isDropdownOpen.value) {
+        close();
     }
 }
 
@@ -107,9 +109,7 @@ function onKeydown(e: KeyboardEvent) {
     switch (e.key) {
         case 'Escape':
             e.preventDefault();
-            if (model.value !== undefined) {
-                selectValue(model.value);
-            }
+            close();
             break;
 
         case 'ArrowDown':
@@ -137,19 +137,12 @@ function onKeydown(e: KeyboardEvent) {
             break;
     }
 }
-onMounted(() => {
-    document.addEventListener('click', onClickOutside);
-});
-
-onBeforeUnmount(() => {
-    document.removeEventListener('click', onClickOutside);
-});
 
 watch(
     model,
     (newval) => {
         if (newval == undefined) {
-            searchInput.value = undefined;
+            searchInput.value = '';
         } else {
             searchInput.value = getMonsterLabel(newval);
         }
@@ -159,7 +152,7 @@ watch(
 </script>
 
 <template>
-    <div class="monster-selector-container" ref="containerRef">
+    <div class="monster-selector-container" ref="containerRef" @focusout="onFocusOut">
         <div class="monster-selector-control">
             <div class="monster-selector-wrapper">
                 <img
@@ -174,16 +167,22 @@ watch(
                     type="text"
                     ref="monsterSearchInputRef"
                     class="monster-search-input"
-                    :placeholder="t('ui.placeholder.monsterSelector')"
+                    :placeholder="
+                        model ? getMonsterLabel(model) : t('ui.placeholder.monsterSelector')
+                    "
                     @focus="onInputFocus"
                     @keydown="onKeydown"
-                    @input="highlightedIndex = filteredItems.length > 0 ? 0 : -1"
+                    @input="
+                        highlightedIndex = filteredItems.length > 0 ? 0 : -1;
+                        isDropdownOpen = true;
+                    "
                 />
 
                 <button
                     type="button"
                     class="monster-select-toggle"
                     @click="toggleOpen"
+                    @mousedown.prevent
                     :aria-expanded="isDropdownOpen"
                     aria-haspopup="listbox"
                 >
@@ -204,6 +203,7 @@ watch(
                 }"
                 @click="selectValue(monsterCode)"
                 @mousemove="highlightedIndex = index"
+                @mousedown.prevent
             >
                 <img
                     class="monster-option-icon"
