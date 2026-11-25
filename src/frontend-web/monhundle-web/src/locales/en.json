@@ -1018,6 +1018,11 @@
                     "button": "Delete",
                     "description": "This will delete data <b>on the current device</b>. In practice, ongoing games, your history and setting will be lost, and a new ID will be attributed to the device."
                 }
+            },
+            "game": {
+                "search": {
+                    "notFound": "No Monster Found"
+                }
             }
         }
     }

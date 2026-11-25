@@ -1018,6 +1018,11 @@
                     "button": "Supprimer",
                     "description": "Cette action supprime les données <b>de l'appareil actuel</b>. En pratique, les parties en cours, votre historique et vos préférences seront perdus, et un nouvel identifiant sera attribué à l'appareil."
                 }
+            },
+            "game": {
+                "search": {
+                    "notFound": "Aucun monstre trouvé"
+                }
             }
         }
     }

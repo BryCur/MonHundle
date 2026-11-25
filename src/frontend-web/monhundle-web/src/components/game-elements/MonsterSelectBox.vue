@@ -3,7 +3,7 @@ import { getLatestIconForMonster } from '@/services/MonsterIconService';
 import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const props = defineProps<{
     items: string[];
@@ -17,19 +17,25 @@ const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 const monsterOptionDropdown = ref<HTMLElement | null>(null);
 
-const filteredItems = computed(() => {
-    if (!searchInput.value.trim()) {
-        return props.items;
-    }
-
-    const term = searchInput.value.toLowerCase();
-
-    return props.items
-        .filter((code) => getMonsterLabel(code).toLowerCase().includes(term))
-        .sort((a, b) => (getMonsterLabel(a) > getMonsterLabel(b) ? 1 : -1));
+// sorted items is only recomputed if the reference list or the language changes.
+const sortedItems = computed(() => {
+    const comparator = new Intl.Collator(locale.value);
+    return [...props.items].sort((a, b) =>
+        comparator.compare(getMonsterLabel(a), getMonsterLabel(b)),
+    );
 });
 
-// garde l'option en surbrillance visible dans la liste (navigation clavier, ouverture sur la sélection)
+const filteredItems = computed(() => {
+    const term = searchInput.value.trim().toLowerCase();
+
+    if (!term) {
+        return sortedItems.value;
+    }
+
+    return sortedItems.value.filter((code) => getMonsterLabel(code).toLowerCase().includes(term));
+});
+
+// keep the current index visible
 watch(
     highlightedIndex,
     (index) => {
@@ -47,7 +53,6 @@ function open() {
     isDropdownOpen.value = true;
     searchInput.value = '';
 
-    // Met le highlight sur l’élément sélectionné ou le premier résultat
     nextTick(() => {
         if (filteredItems.value.length === 0) {
             highlightedIndex.value = -1;
@@ -87,7 +92,6 @@ function onInputClick() {
 }
 
 function onFocusOut(event: FocusEvent) {
-    // le focus reste dans le composant (ex : la liste) : rien à faire
     if (containerRef.value?.contains(event.relatedTarget as Node)) {
         return;
     }
@@ -213,6 +217,10 @@ watch(
                 />
                 <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
             </button>
+
+            <div v-if="filteredItems.length === 0" class="monster-select-empty">
+                {{ t('ui.page.game.search.notFound') }}
+            </div>
         </div>
     </div>
 </template>
@@ -226,7 +234,6 @@ watch(
     align-content: center;
     position: relative;
 
-    /* Ligne principale input + bouton flèche */
     .monster-selector-control {
         display: flex;
         align-items: stretch;

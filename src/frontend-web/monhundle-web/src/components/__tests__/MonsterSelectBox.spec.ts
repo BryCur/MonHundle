@@ -47,9 +47,11 @@ describe('MonsterSelectBox', () => {
         await nextTick();
 
         const monsterTranslations = wrapper.findAll('.monster-option').map((e) => e.text());
-        expect(monsterTranslations).toStrictEqual(
-            sampleMonsterList.map((e) => `game.monster.${e}.name`),
-        );
+        expect(monsterTranslations).toStrictEqual([
+            'game.monster.chatacabra.name',
+            'game.monster.nargacuga.name',
+            'game.monster.zinogre.name',
+        ]);
     });
 
     it('should close the dropdown and show the selected label after picking an option', async () => {
@@ -65,7 +67,7 @@ describe('MonsterSelectBox', () => {
 
         expect(wrapper.find('.monster-option-list').exists()).toBe(false);
         expect((wrapper.find('input.monster-search-input').element as HTMLInputElement).value).toBe(
-            'game.monster.nargacuga.name',
+            'game.monster.chatacabra.name',
         );
     });
 
@@ -90,8 +92,8 @@ describe('MonsterSelectBox', () => {
         const emitted = wrapper.emitted('update:modelValue');
 
         expect(emitted).toBeTruthy();
-        expect(emitted![0]).toEqual(['nargacuga']);
-        expect(output).toBe('nargacuga');
+        expect(emitted![0]).toEqual(['chatacabra']);
+        expect(output).toBe('chatacabra');
     });
 
     it('should filter options when textbox gets filled', async () => {
@@ -158,7 +160,7 @@ describe('MonsterSelectBox', () => {
         await wrapper.find('input.monster-search-input').trigger('keydown', { key: 'Enter' });
         await nextTick();
 
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['nargacuga']);
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
     });
 
     it('should move the highlight forward with ArrowDown', async () => {
@@ -172,7 +174,7 @@ describe('MonsterSelectBox', () => {
         await wrapper.find('input.monster-search-input').trigger('keydown', { key: 'Enter' });
         await nextTick();
 
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['zinogre']);
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['nargacuga']);
     });
 
     it('should wrap the highlight to the last option when pressing ArrowUp on the first', async () => {
@@ -186,7 +188,7 @@ describe('MonsterSelectBox', () => {
         await wrapper.find('input.monster-search-input').trigger('keydown', { key: 'Enter' });
         await nextTick();
 
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['zinogre']);
     });
 
     it('should restore the current model value on Escape', async () => {
@@ -207,7 +209,7 @@ describe('MonsterSelectBox', () => {
         );
     });
 
-    it('sorts filtered options in descending label order', async () => {
+    it('should keep the alphabetical order when filtering', async () => {
         const wrapper = mount(MonsterSelectBox, {
             props: { items: sampleMonsterList },
         });
@@ -243,7 +245,7 @@ describe('MonsterSelectBox', () => {
             await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' });
             await flushPromises();
 
-            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.nargacuga.name']);
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.chatacabra.name']);
         });
 
         it('should move the highlight class along with the arrow keys', async () => {
@@ -255,7 +257,7 @@ describe('MonsterSelectBox', () => {
             await flushPromises();
             await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // highlight -> 1
 
-            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.zinogre.name']);
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.nargacuga.name']);
         });
 
         it('should mark only the currently selected monster as selected', async () => {
@@ -314,10 +316,10 @@ describe('MonsterSelectBox', () => {
             await flushPromises();
             await wrapper.findAll('.monster-option')[2]!.trigger('mousemove');
 
-            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.chatacabra.name']);
+            expect(getHighlightedLabels(wrapper)).toEqual(['game.monster.zinogre.name']);
 
             await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
-            expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
+            expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['zinogre']);
         });
 
         it('should scroll the highlighted option into view', async () => {
@@ -406,9 +408,9 @@ describe('MonsterSelectBox', () => {
             await wrapper.findAll('.monster-option')[0]!.trigger('click');
             await flushPromises();
 
-            expect(wrapper.emitted('update:modelValue')).toEqual([['nargacuga']]);
+            expect(wrapper.emitted('update:modelValue')).toEqual([['chatacabra']]);
             expect(isListOpen(wrapper)).toBe(false);
-            expect(getSearchValue(wrapper)).toBe('game.monster.nargacuga.name');
+            expect(getSearchValue(wrapper)).toBe('game.monster.chatacabra.name');
         });
 
         it('should clear the typed search and close on Escape when nothing is selected', async () => {
@@ -539,6 +541,77 @@ describe('MonsterSelectBox', () => {
 
             expect(isListOpen(wrapper)).toBe(true);
             expect(getSearchValue(wrapper)).toBe('');
+        });
+    });
+
+    describe('sorting and empty result', () => {
+        function getLabels(wrapper: VueWrapper): string[] {
+            return wrapper.findAll('.monster-option').map((o) => o.text());
+        }
+
+        it('should sort the options alphabetically even without search', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+
+            expect(getLabels(wrapper)).toEqual([
+                'game.monster.chatacabra.name',
+                'game.monster.nargacuga.name',
+                'game.monster.zinogre.name',
+            ]);
+        });
+
+        it('should sort accented names with their base letter', async () => {
+            // artificial code: the mocked t() returns the key, so the accent ends up in the label
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: ['zinogre', 'éclat', 'rathalos'] },
+            });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+
+            // a raw `>` comparison would put 'é' after 'z'
+            expect(getLabels(wrapper)).toEqual([
+                'game.monster.éclat.name',
+                'game.monster.rathalos.name',
+                'game.monster.zinogre.name',
+            ]);
+        });
+
+        it('should not sort the items prop of the parent in place', async () => {
+            const items = [...sampleMonsterList];
+            const wrapper = mount(MonsterSelectBox, { props: { items } });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+
+            expect(items).toEqual(sampleMonsterList);
+        });
+
+        it('should ignore the spaces around the search term', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            await wrapper.find('input.monster-search-input').setValue('  zino ');
+
+            expect(getLabels(wrapper)).toEqual(['game.monster.zinogre.name']);
+        });
+
+        it('should show a message when the search matches nothing', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await wrapper.find('.monster-select-toggle').trigger('click');
+            expect(wrapper.find('.monster-select-empty').exists()).toBe(false);
+
+            await wrapper.find('input.monster-search-input').setValue('does-not-exist');
+
+            expect(wrapper.find('.monster-select-empty').text()).toBe(
+                'ui.page.game.search.notFound',
+            );
         });
     });
 });
