@@ -18,6 +18,7 @@ import GameStatus from '@/domain/GameStatus';
 import { GameModes, GameStates } from '@/domain/ApiModels';
 import { NotificationTypes } from '@/domain/Notification';
 import { useGameStore } from '@/stores/GameStore';
+import { createMonsterSelectBoxStub } from '@test-utils/vitest/MonsterSelectBoxStub';
 
 // real (empty) i18n so `t()` resolves to the key path
 const i18n = createI18n({
@@ -50,6 +51,7 @@ async function mountView(gameService = fakeGameService(), resourceService = fake
     // the global error handler receives whatever escapes the async mounted hook
     const errorHandler = vi.fn();
     const notificationEmitter = { notify: vi.fn() };
+    const selectBox = createMonsterSelectBoxStub();
 
     const wrapper = mount(DailyGameView, {
         global: {
@@ -59,13 +61,13 @@ async function mountView(gameService = fakeGameService(), resourceService = fake
                 [resourceServiceKey]: resourceService,
                 [notificationEmitterKey]: notificationEmitter,
             },
-            stubs: { GameGuessList: true, MonsterSelectBox: true },
+            stubs: { GameGuessList: true, MonsterSelectBox: selectBox.stub },
             config: { errorHandler },
         },
     });
     await flushPromises();
 
-    return { wrapper, gameService, resourceService, errorHandler, notificationEmitter };
+    return { wrapper, selectBox, gameService, resourceService, errorHandler, notificationEmitter };
 }
 
 function isReady(wrapper: Awaited<ReturnType<typeof mountView>>['wrapper']): boolean {
@@ -232,5 +234,130 @@ describe('DailyGameView share action', () => {
             messageKey: 'ui.notification.error.gameShareCopyFailed.message',
         });
         expect(errorHandler).not.toHaveBeenCalled();
+    });
+});
+
+describe('DailyGameView guess sending', () => {
+    beforeEach(() => {
+        setActivePinia(createPinia());
+        localStorage.clear();
+        clearCookies();
+    });
+
+    type Mounted = Awaited<ReturnType<typeof mountView>>;
+
+    function getSendButton(wrapper: Mounted['wrapper']) {
+        return wrapper.find('.option-selector-container button');
+    }
+
+    function getSelectBox({ wrapper, selectBox }: Mounted) {
+        return wrapper.findComponent(selectBox.stub);
+    }
+
+    async function selectMonster(mounted: Mounted, monsterCode: string) {
+        getSelectBox(mounted).vm.$emit('update:modelValue', monsterCode);
+        await flushPromises();
+    }
+
+    it('disables the send button until a monster is selected', async () => {
+        const mounted = await mountView();
+
+        expect(getSendButton(mounted.wrapper).attributes('disabled')).toBeDefined();
+
+        await selectMonster(mounted, 'rathalos');
+
+        expect(getSendButton(mounted.wrapper).attributes('disabled')).toBeUndefined();
+    });
+
+    it('sends the selected monster, then clears the selection and gives the focus back', async () => {
+        const mounted = await mountView();
+        await selectMonster(mounted, 'rathalos');
+
+        await getSendButton(mounted.wrapper).trigger('click');
+        await flushPromises();
+
+        expect(mounted.gameService.makeGuess).toHaveBeenCalledTimes(1);
+        expect(mounted.gameService.makeGuess).toHaveBeenCalledWith('rathalos');
+        expect(getSelectBox(mounted).props('modelValue')).toBeUndefined();
+        expect(mounted.selectBox.focus).toHaveBeenCalledTimes(1);
+        expect(mounted.errorHandler).not.toHaveBeenCalled();
+    });
+
+    it('sends the guess when the select box asks for it (Enter)', async () => {
+        const mounted = await mountView();
+        await selectMonster(mounted, 'rathalos');
+
+        getSelectBox(mounted).vm.$emit('submit');
+        await flushPromises();
+
+        expect(mounted.gameService.makeGuess).toHaveBeenCalledWith('rathalos');
+    });
+
+    it('sends nothing when asked to without a selected monster', async () => {
+        const mounted = await mountView();
+
+        getSelectBox(mounted).vm.$emit('submit');
+        await flushPromises();
+
+        expect(mounted.gameService.makeGuess).not.toHaveBeenCalled();
+    });
+
+    it('sends a single guess while the previous one is still pending', async () => {
+        let answerGuess!: () => void;
+        const gameService = fakeGameService();
+        gameService.makeGuess.mockReturnValue(
+            new Promise<void>((resolve) => (answerGuess = resolve)),
+        );
+        const mounted = await mountView(gameService);
+        await selectMonster(mounted, 'rathalos');
+
+        await getSendButton(mounted.wrapper).trigger('click');
+        getSelectBox(mounted).vm.$emit('submit');
+        await flushPromises();
+
+        expect(gameService.makeGuess).toHaveBeenCalledTimes(1);
+        expect(getSendButton(mounted.wrapper).attributes('disabled')).toBeDefined();
+
+        answerGuess();
+        await flushPromises();
+        await selectMonster(mounted, 'nargacuga');
+
+        expect(getSendButton(mounted.wrapper).attributes('disabled')).toBeUndefined();
+    });
+
+    it('keeps the selection and lets the player retry when the guess fails', async () => {
+        const failure = new UnexpectedApiError('boom', 500);
+        const gameService = fakeGameService();
+        gameService.makeGuess.mockRejectedValue(failure);
+        const mounted = await mountView(gameService);
+        await selectMonster(mounted, 'rathalos');
+
+        await getSendButton(mounted.wrapper).trigger('click');
+        await flushPromises();
+
+        // the failure still reaches the global error handling
+        expect(mounted.errorHandler).toHaveBeenCalledTimes(1);
+        expect(mounted.errorHandler.mock.calls[0]![0]).toBe(failure);
+        expect(getSelectBox(mounted).props('modelValue')).toBe('rathalos');
+        expect(getSendButton(mounted.wrapper).attributes('disabled')).toBeUndefined();
+        expect(mounted.selectBox.focus).not.toHaveBeenCalled();
+    });
+
+    it('does not fail when the guess ends the game and removes the select box', async () => {
+        const gameService = fakeGameService();
+        gameService.makeGuess.mockImplementation(async () => {
+            useGameStore().setGame(
+                new GameStatus('finished-game', GameModes.Daily, [], GameStates.Win),
+            );
+        });
+        const mounted = await mountView(gameService);
+        await selectMonster(mounted, 'rathalos');
+
+        await getSendButton(mounted.wrapper).trigger('click');
+        await flushPromises();
+
+        expect(mounted.wrapper.findComponent(mounted.selectBox.stub).exists()).toBe(false);
+        expect(mounted.selectBox.focus).not.toHaveBeenCalled();
+        expect(mounted.errorHandler).not.toHaveBeenCalled();
     });
 });

@@ -17,6 +17,11 @@ const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 const monsterOptionDropdown = ref<HTMLElement | null>(null);
 
+const emit = defineEmits<{ submit: [] }>();
+defineExpose({
+    focus: () => monsterSearchInputRef.value?.focus(),
+});
+
 // sorted items is only recomputed if the reference list or the language changes.
 const sortedItems = computed(() => {
     const comparator = new Intl.Collator(locale.value);
@@ -102,9 +107,14 @@ function onFocusOut(event: FocusEvent) {
 }
 
 function onKeydown(e: KeyboardEvent) {
-    if (!isDropdownOpen.value && (e.key === 'ArrowDown' || e.key === 'Enter')) {
-        e.preventDefault();
-        open();
+    if (!isDropdownOpen.value) {
+        if (e.key === 'Enter' && model.value) {
+            e.preventDefault();
+            emit('submit');
+        } else if (e.key === 'ArrowDown' || e.key === 'Enter') {
+            e.preventDefault();
+            open();
+        }
         return;
     }
 

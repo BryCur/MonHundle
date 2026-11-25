@@ -614,4 +614,60 @@ describe('MonsterSelectBox', () => {
             );
         });
     });
+
+    describe('submit and focus', () => {
+        function getSearchInput(wrapper: VueWrapper) {
+            return wrapper.find('input.monster-search-input');
+        }
+
+        it('should ask to submit on Enter when the list is closed and a monster is selected', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList, modelValue: 'zinogre' },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+
+            expect(wrapper.emitted('submit')).toHaveLength(1);
+            expect(wrapper.find('.monster-option-list').exists()).toBe(false);
+        });
+
+        it('should open the list on Enter when the list is closed and nothing is selected', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+
+            expect(wrapper.emitted('submit')).toBeUndefined();
+            expect(wrapper.find('.monster-option-list').exists()).toBe(true);
+        });
+
+        it('should only select the highlighted option on Enter when the list is open', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList, modelValue: 'zinogre' },
+            });
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // open on zinogre (last)
+            await flushPromises();
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' }); // wrap to chatacabra
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Enter' });
+
+            expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['chatacabra']);
+            expect(wrapper.emitted('submit')).toBeUndefined();
+        });
+
+        it('should expose a focus() that gives the focus to the field without opening the list', async () => {
+            const wrapper = mount(MonsterSelectBox, {
+                props: { items: sampleMonsterList, modelValue: 'zinogre' },
+                attachTo: document.body, // focus only works on an element of the document
+            });
+
+            (wrapper.vm as unknown as { focus: () => void }).focus();
+            await flushPromises();
+
+            expect(document.activeElement).toBe(getSearchInput(wrapper).element);
+            expect(wrapper.find('.monster-option-list').exists()).toBe(false);
+            wrapper.unmount();
+        });
+    });
 });

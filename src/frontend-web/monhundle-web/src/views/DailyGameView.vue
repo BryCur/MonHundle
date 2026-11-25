@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import { CookieKeys, getCookie } from '@/services/CookieService';
 import GameGuessList from '@/components/game-elements/GameGuessList.vue';
 import { useGameStore } from '@/stores/GameStore';
@@ -25,8 +25,10 @@ const resourceService = injectStrict(resourceServiceKey);
 const notificationEmitter = injectStrict(notificationEmitterKey);
 
 const ready = ref(false);
+const isSendingGuess = ref(false);
 const monsterList = ref<string[]>([]);
 const selectedMonster = ref<string | undefined>(undefined);
+const monsterSelectBox = ref<InstanceType<typeof MonsterSelectBox> | null>(null);
 
 onMounted(async () => {
     ready.value = false;
@@ -55,8 +57,20 @@ onMounted(async () => {
 });
 
 async function sendGuess() {
-    gameService.makeGuess(selectedMonster.value!);
-    selectedMonster.value = undefined;
+    if (!selectedMonster.value || isSendingGuess.value) {
+        return;
+    }
+
+    isSendingGuess.value = true;
+    try {
+        await gameService.makeGuess(selectedMonster.value!);
+        selectedMonster.value = undefined;
+    } finally {
+        isSendingGuess.value = false;
+    }
+
+    await nextTick();
+    monsterSelectBox.value?.focus();
 }
 
 function getLastGuessIcon() {
@@ -108,8 +122,13 @@ async function shareGame(): Promise<void> {
             <div v-html="t('ui.game.rules.daily')" class="introduction-content"></div>
         </div>
         <div v-if="!gameStore.isGameOver" class="option-selector-container fit-screen">
-            <MonsterSelectBox :items="monsterList" v-model="selectedMonster"></MonsterSelectBox>
-            <button @click="sendGuess()">
+            <MonsterSelectBox
+                ref="monsterSelectBox"
+                :items="monsterList"
+                v-model="selectedMonster"
+                @submit="sendGuess()"
+            ></MonsterSelectBox>
+            <button @click="sendGuess()" :disabled="!selectedMonster || isSendingGuess">
                 <span>{{ t('ui.generic.sendguess') }}</span>
             </button>
         </div>
