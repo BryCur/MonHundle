@@ -152,6 +152,14 @@ function onKeydown(e: KeyboardEvent) {
     }
 }
 
+function clearSelection() {
+    model.value = undefined;
+    isDropdownOpen.value = false;
+    highlightedIndex.value = -1;
+    searchInput.value = '';
+    monsterSearchInputRef.value?.focus();
+}
+
 watch(
     model,
     (newval) => {
@@ -193,14 +201,31 @@ watch(
                 />
 
                 <button
+                    v-if="model"
                     type="button"
-                    class="monster-select-toggle"
+                    class="monster-select-icon-button monster-select-clear"
+                    tabindex="-1"
+                    :aria-label="t('accessibility.monsterSelector.clear')"
+                    @mousedown.prevent
+                    @click="clearSelection"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 7l10 10M17 7L7 17" />
+                    </svg>
+                </button>
+
+                <button
+                    type="button"
+                    class="monster-select-icon-button monster-select-toggle"
+                    :aria-label="t('accessibility.monsterSelector.toggle')"
                     @click="toggleOpen"
                     @mousedown.prevent
                     :aria-expanded="isDropdownOpen"
                     aria-haspopup="listbox"
                 >
-                    v
+                    <svg class="monster-select-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -239,7 +264,7 @@ watch(
 .monster-selector-container {
     width: 80vw;
     max-width: 512px;
-    min-height: 36px;
+    min-height: 42px;
     display: flex;
     align-content: center;
     position: relative;
@@ -281,16 +306,51 @@ watch(
             }
         }
 
-        .monster-select-toggle {
+        .monster-select-icon-button {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            padding: 0;
             border: none;
-            width: 2.2rem;
+            border-radius: 0.375rem;
             background: transparent;
-            color: var(--color-input-text);
+            color: var(--color-input-placeholder);
             cursor: pointer;
+            transition:
+                background-color 0.15s,
+                color 0.15s;
 
-            :hover {
+            &:hover {
                 background: var(--color-input-hover-bg);
+                color: var(--color-input-text);
             }
+
+            svg {
+                width: 1rem;
+                height: 1rem;
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 3;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+        }
+
+        .monster-select-toggle {
+            .monster-select-chevron {
+                transition: transform 0.15s;
+            }
+
+            &[aria-expanded='true'] .monster-select-chevron {
+                transform: rotate(-180deg);
+            }
+        }
+
+        .monster-select-clear {
+            margin-right: -0.25rem;
         }
     }
 

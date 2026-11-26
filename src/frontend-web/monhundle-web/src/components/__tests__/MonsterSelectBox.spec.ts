@@ -25,6 +25,32 @@ afterEach(() => {
     delete Element.prototype.scrollIntoView;
 });
 
+function getSearchInput(wrapper: VueWrapper) {
+    return wrapper.find('input.monster-search-input');
+}
+
+function getSearchValue(wrapper: VueWrapper): string {
+    return (getSearchInput(wrapper).element as HTMLInputElement).value;
+}
+
+function isListOpen(wrapper: VueWrapper): boolean {
+    return wrapper.find('.monster-option-list').exists();
+}
+
+// mimics a parent bound with v-model: the prop only changes once the parent sends it back
+function mountWithVModel(modelValue?: string, options: { attachTo?: HTMLElement } = {}) {
+    const wrapper: VueWrapper = mount(MonsterSelectBox, {
+        props: {
+            items: sampleMonsterList,
+            modelValue,
+            'onUpdate:modelValue': (value: string | undefined) =>
+                wrapper.setProps({ modelValue: value }),
+        },
+        ...options,
+    });
+    return wrapper;
+}
+
 describe('MonsterSelectBox', () => {
     it('should list monster of items prop', async () => {
         const wrapper = mount(MonsterSelectBox, {
@@ -229,10 +255,6 @@ describe('MonsterSelectBox', () => {
     });
 
     describe('highlight', () => {
-        function getSearchInput(wrapper: VueWrapper) {
-            return wrapper.find('input.monster-search-input');
-        }
-
         function getHighlightedLabels(wrapper: VueWrapper): string[] {
             return wrapper.findAll('.monster-option.is-highlighted').map((o) => o.text());
         }
@@ -342,31 +364,6 @@ describe('MonsterSelectBox', () => {
     });
 
     describe('opening and closing', () => {
-        function getSearchInput(wrapper: VueWrapper) {
-            return wrapper.find('input.monster-search-input');
-        }
-
-        function getSearchValue(wrapper: VueWrapper): string {
-            return (getSearchInput(wrapper).element as HTMLInputElement).value;
-        }
-
-        function isListOpen(wrapper: VueWrapper): boolean {
-            return wrapper.find('.monster-option-list').exists();
-        }
-
-        // mimics a parent bound with v-model: the prop only changes once the parent sends it back
-        function mountWithVModel(modelValue?: string) {
-            const wrapper: VueWrapper = mount(MonsterSelectBox, {
-                props: {
-                    items: sampleMonsterList,
-                    modelValue,
-                    'onUpdate:modelValue': (value: string | undefined) =>
-                        wrapper.setProps({ modelValue: value }),
-                },
-            });
-            return wrapper;
-        }
-
         it('should empty the search and list every monster when opening with a selection', async () => {
             const wrapper = mountWithVModel('zinogre');
 
@@ -616,10 +613,6 @@ describe('MonsterSelectBox', () => {
     });
 
     describe('submit and focus', () => {
-        function getSearchInput(wrapper: VueWrapper) {
-            return wrapper.find('input.monster-search-input');
-        }
-
         it('should ask to submit on Enter when the list is closed and a monster is selected', async () => {
             const wrapper = mount(MonsterSelectBox, {
                 props: { items: sampleMonsterList, modelValue: 'zinogre' },
@@ -668,6 +661,75 @@ describe('MonsterSelectBox', () => {
             expect(document.activeElement).toBe(getSearchInput(wrapper).element);
             expect(wrapper.find('.monster-option-list').exists()).toBe(false);
             wrapper.unmount();
+        });
+    });
+
+    describe('clear and toggle buttons', () => {
+        function getClearButton(wrapper: VueWrapper) {
+            return wrapper.find('.monster-select-clear');
+        }
+
+        it('should give the toggle a translated label and expose whether the list is open', async () => {
+            const wrapper = mountWithVModel();
+            const toggle = wrapper.find('.monster-select-toggle');
+
+            expect(toggle.attributes('aria-label')).toBe('accessibility.monsterSelector.toggle');
+            expect(toggle.attributes('aria-expanded')).toBe('false');
+
+            await toggle.trigger('click');
+
+            // the chevron rotation is driven by this attribute
+            expect(toggle.attributes('aria-expanded')).toBe('true');
+        });
+
+        it('should only show the clear button when a monster is selected', () => {
+            expect(getClearButton(mountWithVModel()).exists()).toBe(false);
+
+            const clearButton = getClearButton(mountWithVModel('zinogre'));
+            expect(clearButton.exists()).toBe(true);
+            expect(clearButton.attributes('aria-label')).toBe(
+                'accessibility.monsterSelector.clear',
+            );
+        });
+
+        it('should clear the selection and give the focus back without opening the list', async () => {
+            const wrapper = mountWithVModel('zinogre', { attachTo: document.body });
+
+            await getClearButton(wrapper).trigger('click');
+            await flushPromises();
+
+            expect(wrapper.emitted('update:modelValue')).toEqual([[undefined]]);
+            // with a v-model parent, the old monster must not come back in the field
+            expect(getSearchValue(wrapper)).toBe('');
+            expect(getSearchInput(wrapper).attributes('placeholder')).toBe(
+                'ui.placeholder.monsterSelector',
+            );
+            expect(getClearButton(wrapper).exists()).toBe(false);
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(document.activeElement).toBe(getSearchInput(wrapper).element);
+            wrapper.unmount();
+        });
+
+        it('should close the list when clearing while it is open', async () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            await getSearchInput(wrapper).trigger('click');
+            await flushPromises();
+            await getClearButton(wrapper).trigger('click');
+            await flushPromises();
+
+            expect(isListOpen(wrapper)).toBe(false);
+            expect(getSearchValue(wrapper)).toBe('');
+        });
+
+        it('should keep the focus in the field when pressing the clear button', () => {
+            const wrapper = mountWithVModel('zinogre');
+
+            // dispatchEvent returns false when a listener called preventDefault
+            const notPrevented = getClearButton(wrapper).element.dispatchEvent(
+                new MouseEvent('mousedown', { bubbles: true, cancelable: true }),
+            );
+            expect(notPrevented).toBe(false);
         });
     });
 });

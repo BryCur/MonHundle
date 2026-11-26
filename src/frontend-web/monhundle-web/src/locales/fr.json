@@ -10,6 +10,10 @@
         "notification": {
             "close": "Fermer la notification",
             "region": "Notifications"
+        },
+        "monsterSelector": {
+            "clear": "Retirer le monstre choisi",
+            "toggle": "Afficher la liste des monstres"
         }
     },
     "game": {
