@@ -13,6 +13,8 @@
         },
         "monsterSelector": {
             "clear": "Retirer le monstre choisi",
+            "input": "Rechercher un monstre",
+            "list": "Monstres",
             "toggle": "Afficher la liste des monstres"
         }
     },

@@ -13,6 +13,8 @@
         },
         "monsterSelector": {
             "clear": "Clear the selected monster",
+            "input": "Search for a monster",
+            "list": "Monsters",
             "toggle": "Show the monster list"
         }
     },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getLatestIconForMonster } from '@/services/MonsterIconService';
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, useId, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n();
@@ -16,6 +16,17 @@ const highlightedIndex = ref(-1);
 const containerRef = ref<HTMLElement | null>(null);
 const monsterSearchInputRef = ref<HTMLInputElement | null>(null);
 const monsterOptionDropdown = ref<HTMLElement | null>(null);
+
+// ARIA links elements by id: useId keeps them unique when several select boxes are rendered
+const listboxId = useId();
+const optionId = (index: number) => `${listboxId}-option-${index}`;
+
+// the option announced by screen readers while the focus stays in the input
+const activeDescendant = computed(() =>
+    isDropdownOpen.value && highlightedIndex.value >= 0
+        ? optionId(highlightedIndex.value)
+        : undefined,
+);
 
 const emit = defineEmits<{ submit: [] }>();
 defineExpose({
@@ -180,7 +191,7 @@ watch(
                 <img
                     v-if="!isDropdownOpen && model !== undefined && model !== ''"
                     :src="model ? getLatestIconForMonster(model) : ''"
-                    :alt="model"
+                    alt=""
                     class="monster-select-input-icon"
                 />
 
@@ -189,6 +200,12 @@ watch(
                     type="text"
                     ref="monsterSearchInputRef"
                     class="monster-search-input"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    :aria-label="t('accessibility.monsterSelector.input')"
+                    :aria-expanded="isDropdownOpen"
+                    :aria-controls="isDropdownOpen ? listboxId : undefined"
+                    :aria-activedescendant="activeDescendant"
                     :placeholder="
                         model ? getMonsterLabel(model) : t('ui.placeholder.monsterSelector')
                     "
@@ -217,11 +234,13 @@ watch(
                 <button
                     type="button"
                     class="monster-select-icon-button monster-select-toggle"
+                    tabindex="-1"
                     :aria-label="t('accessibility.monsterSelector.toggle')"
+                    :aria-expanded="isDropdownOpen"
+                    :aria-controls="isDropdownOpen ? listboxId : undefined"
+                    aria-haspopup="listbox"
                     @click="toggleOpen"
                     @mousedown.prevent
-                    :aria-expanded="isDropdownOpen"
-                    aria-haspopup="listbox"
                 >
                     <svg class="monster-select-chevron" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M6 9l6 6 6-6" />
@@ -231,30 +250,42 @@ watch(
         </div>
 
         <!-- dropdown -->
-        <div v-if="isDropdownOpen" class="monster-option-list" ref="monsterOptionDropdown">
-            <button
-                v-for="(monsterCode, index) in filteredItems"
-                :key="monsterCode"
-                class="monster-option"
-                :class="{
-                    'is-highlighted': index === highlightedIndex,
-                    'is-selected': monsterCode === model,
-                }"
-                @click="selectValue(monsterCode)"
-                @mousemove="highlightedIndex = index"
-                @mousedown.prevent
+        <div v-if="isDropdownOpen" class="monster-option-list">
+            <div
+                :id="listboxId"
+                ref="monsterOptionDropdown"
+                role="listbox"
+                :aria-label="t('accessibility.monsterSelector.list')"
             >
-                <img
-                    class="monster-option-icon"
-                    loading="lazy"
-                    :src="getLatestIconForMonster(monsterCode)"
-                    :alt="monsterCode"
-                />
-                <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
-            </button>
+                <div
+                    v-for="(monsterCode, index) in filteredItems"
+                    :id="optionId(index)"
+                    :key="monsterCode"
+                    role="option"
+                    :aria-selected="index === highlightedIndex"
+                    :data-monster-code="monsterCode"
+                    class="monster-option"
+                    :class="{
+                        'is-highlighted': index === highlightedIndex,
+                        'is-selected': monsterCode === model,
+                    }"
+                    @click="selectValue(monsterCode)"
+                    @mousemove="highlightedIndex = index"
+                    @mousedown.prevent
+                >
+                    <img
+                        class="monster-option-icon"
+                        loading="lazy"
+                        :src="getLatestIconForMonster(monsterCode)"
+                        alt=""
+                    />
+                    <span class="monster-option-label"> {{ getMonsterLabel(monsterCode) }}</span>
+                </div>
+            </div>
 
-            <div v-if="filteredItems.length === 0" class="monster-select-empty">
-                {{ t('ui.page.game.search.notFound') }}
+            <!-- always rendered while open: a live region is only reliably announced if it exists before its text changes -->
+            <div role="status" :class="{ 'monster-select-empty': filteredItems.length === 0 }">
+                {{ filteredItems.length === 0 ? t('ui.page.game.search.notFound') : '' }}
             </div>
         </div>
     </div>
@@ -299,6 +330,8 @@ watch(
             border: none;
             background: transparent;
             color: var(--color-input-text);
+            // form controls don't inherit the page font by default
+            font: inherit;
             outline: none;
 
             &::placeholder {
@@ -374,11 +407,8 @@ watch(
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            border: none;
-            background: transparent;
             color: var(--color-input-text);
             cursor: pointer;
-            text-align: left;
 
             .monster-option-icon {
                 width: 1.75rem;

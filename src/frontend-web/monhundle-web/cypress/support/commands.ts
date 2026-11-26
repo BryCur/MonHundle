@@ -69,10 +69,10 @@ Cypress.Commands.add('startDailyGame', () => {
 });
 
 // Opens the monster selector and picks the option whose code matches `monsterCode`. The option's
-// <img alt="..."> carries the raw (untranslated) monster code, so this is locale-independent.
+// data-monster-code attribute carries the raw (untranslated) monster code, so this is locale-independent.
 Cypress.Commands.add('pickMonster', (monsterCode: string) => {
     cy.get('.monster-select-toggle').click();
-    cy.get(`.monster-option:has(img[alt="${monsterCode}"])`).click();
+    cy.get(`.monster-option[data-monster-code="${monsterCode}"]`).click();
 });
 
 Cypress.Commands.add('sendGuess', (monsterCode: string) => {

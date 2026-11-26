@@ -1,7 +1,7 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import MonsterSelectBox from '@/components/game-elements/MonsterSelectBox.vue';
-import { nextTick } from 'vue';
+import { defineComponent, h, nextTick } from 'vue';
 
 vi.mock('vue-i18n', () => ({
     useI18n: () => ({
@@ -730,6 +730,145 @@ describe('MonsterSelectBox', () => {
                 new MouseEvent('mousedown', { bubbles: true, cancelable: true }),
             );
             expect(notPrevented).toBe(false);
+        });
+    });
+    describe('accessibility', () => {
+        function getListbox(wrapper: VueWrapper) {
+            return wrapper.find('[role="listbox"]');
+        }
+
+        function getOptions(wrapper: VueWrapper) {
+            return wrapper.findAll('[role="option"]');
+        }
+
+        async function openList(wrapper: VueWrapper) {
+            await getSearchInput(wrapper).trigger('click');
+            await flushPromises();
+        }
+
+        it('should expose the input as a closed combobox', () => {
+            const input = getSearchInput(mountWithVModel());
+
+            expect(input.attributes('role')).toBe('combobox');
+            expect(input.attributes('aria-autocomplete')).toBe('list');
+            expect(input.attributes('aria-label')).toBe('accessibility.monsterSelector.input');
+            expect(input.attributes('aria-expanded')).toBe('false');
+            // the listbox is not rendered while closed, nothing to point to
+            expect(input.attributes('aria-controls')).toBeUndefined();
+            expect(input.attributes('aria-activedescendant')).toBeUndefined();
+        });
+
+        it('should link the open combobox and the toggle to a labelled listbox', async () => {
+            const wrapper = mountWithVModel();
+            await openList(wrapper);
+
+            const listbox = getListbox(wrapper);
+            expect(listbox.exists()).toBe(true);
+            expect(listbox.attributes('aria-label')).toBe('accessibility.monsterSelector.list');
+
+            const listboxId = listbox.attributes('id');
+            expect(listboxId).toBeTruthy();
+            expect(getSearchInput(wrapper).attributes('aria-expanded')).toBe('true');
+            expect(getSearchInput(wrapper).attributes('aria-controls')).toBe(listboxId);
+            expect(wrapper.find('.monster-select-toggle').attributes('aria-controls')).toBe(
+                listboxId,
+            );
+        });
+
+        it('should point the active descendant to the highlighted option', async () => {
+            const wrapper = mountWithVModel();
+            await openList(wrapper);
+
+            const options = getOptions(wrapper);
+            const ids = options.map((o) => o.attributes('id'));
+            expect(new Set(ids).size).toBe(sampleMonsterList.length);
+            expect(getSearchInput(wrapper).attributes('aria-activedescendant')).toBe(ids[0]);
+            expect(options.map((o) => o.attributes('aria-selected'))).toEqual([
+                'true',
+                'false',
+                'false',
+            ]);
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'ArrowDown' });
+
+            expect(getSearchInput(wrapper).attributes('aria-activedescendant')).toBe(ids[1]);
+            expect(getOptions(wrapper).map((o) => o.attributes('aria-selected'))).toEqual([
+                'false',
+                'true',
+                'false',
+            ]);
+        });
+
+        it('should drop the active descendant and the controls link once closed', async () => {
+            const wrapper = mountWithVModel();
+            await openList(wrapper);
+
+            await getSearchInput(wrapper).trigger('keydown', { key: 'Escape' });
+
+            expect(getSearchInput(wrapper).attributes('aria-expanded')).toBe('false');
+            expect(getSearchInput(wrapper).attributes('aria-controls')).toBeUndefined();
+            expect(getSearchInput(wrapper).attributes('aria-activedescendant')).toBeUndefined();
+        });
+
+        it('should announce the empty result outside of the listbox', async () => {
+            const wrapper = mountWithVModel();
+            await openList(wrapper);
+
+            // the live region already exists, silent, before the result becomes empty
+            const status = wrapper.find('[role="status"]');
+            expect(status.exists()).toBe(true);
+            expect(status.text()).toBe('');
+            expect(status.classes()).not.toContain('monster-select-empty');
+
+            await getSearchInput(wrapper).setValue('xyz');
+
+            expect(wrapper.find('[role="status"]').text()).toBe('ui.page.game.search.notFound');
+            expect(getListbox(wrapper).element.children.length).toBe(0);
+            expect(getSearchInput(wrapper).attributes('aria-activedescendant')).toBeUndefined();
+        });
+
+        it('should keep only the input in the tab order', async () => {
+            const wrapper = mountWithVModel('zinogre');
+            await openList(wrapper);
+
+            expect(wrapper.find('.monster-option-list button').exists()).toBe(false);
+            expect(wrapper.find('.monster-select-toggle').attributes('tabindex')).toBe('-1');
+            expect(wrapper.find('.monster-select-clear').attributes('tabindex')).toBe('-1');
+        });
+
+        it('should hide the decorative icons and expose the raw code as data', async () => {
+            const wrapper = mountWithVModel('zinogre');
+            // the icon next to the input repeats the label already in the field
+            expect(wrapper.find('.monster-select-input-icon').attributes('alt')).toBe('');
+
+            await openList(wrapper);
+
+            const options = getOptions(wrapper);
+            expect(options.map((o) => o.find('img').attributes('alt'))).toEqual(['', '', '']);
+            expect(options.map((o) => o.attributes('data-monster-code'))).toEqual([
+                'chatacabra',
+                'nargacuga',
+                'zinogre',
+            ]);
+        });
+
+        it('should give each instance of the same app its own ids', async () => {
+            // useId is unique per app: both select boxes must live in the same mounted tree
+            const wrapper = mount(
+                defineComponent({
+                    render: () => [
+                        h(MonsterSelectBox, { items: sampleMonsterList }),
+                        h(MonsterSelectBox, { items: sampleMonsterList }),
+                    ],
+                }),
+            );
+            const [first, second] = wrapper.findAllComponents(MonsterSelectBox);
+            await openList(first!);
+            await openList(second!);
+
+            expect(getListbox(first!).attributes('id')).not.toBe(
+                getListbox(second!).attributes('id'),
+            );
         });
     });
 });
